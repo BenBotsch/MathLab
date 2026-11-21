@@ -42,6 +42,45 @@ Kein Versuch wird gelöscht. Ein ProofAttempt ohne Pflichtfelder wird nicht gesp
 - [ ] Ein Versuch ist aus Ereignissen ab `proof.attempt.started` vollständig rekonstruierbar.
 - [ ] Die Kette über `parent_attempt_id` ist abfragbar.
 
+Referenzbeispiel aus ARCH §9.1, unverändert zitiert. Bei Abweichung gilt die Quelle.
+
+```yaml
+proof_attempt:
+  id: ATTEMPT-00851
+  problem_id: PROBLEM-00042
+  parent_attempt_id: ATTEMPT-00849
+  agent:
+    id: induction_agent
+    version: 1.2.0
+  model:
+    name: local_prover
+    version: 0.4.2
+  strategy:
+    id: proof.induction.natural_numbers
+    parameters:
+      max_depth: 20
+  search:
+    state_before: STATE-552
+    state_after: STATE-553
+    generated_lemmas: [LEMMA-202]
+  verification:
+    status: PARTIAL
+    valid_steps: 4
+    invalid_steps: 1
+    unresolved_goals: 2
+  resources:
+    duration_ms: 1420
+    input_tokens: 1200
+    output_tokens: 480
+  evaluation:
+    terminal_success: false
+    verified_progress: 0.42
+    novelty: 0.18
+    estimated_solvability: 0.65
+  next_actions:
+    - investigate_remaining_goal
+```
+
 ### F-09.02 Pflichtfelder pro Versuch
 
 - Status: `todo` · Priorität: P0 · Meilenstein: M1

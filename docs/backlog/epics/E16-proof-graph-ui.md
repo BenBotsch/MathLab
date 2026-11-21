@@ -43,6 +43,28 @@ Abbildung der Knoten und der Kanten `OR`, `AND`, `DEPENDS_ON`, `REUSES` und `REF
 
 - [ ] Alle fünf Kantentypen sind visuell unterscheidbar und beschriftet.
 
+Referenzbeispiel aus UI §4.1, unverändert zitiert. Bei Abweichung gilt die Quelle.
+
+```mermaid
+flowchart TD
+    P["Haupttheorem"]
+    A["Algebraischer Beweis"]
+    B["Induktionsbeweis"]
+    C["Geometrischer Beweis"]
+    D["Lemma: Summenformel"]
+    E["Induktionsanfang"]
+    F["Induktionsschritt"]
+    G["Quadratische Identität"]
+
+    P --> A
+    P --> B
+    P --> C
+    A --> D
+    B --> E
+    B --> F
+    F --> G
+```
+
 ### F-16.02 Custom Nodes mit Status
 
 - Status: `todo` · Priorität: P0 · Meilenstein: M1

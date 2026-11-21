@@ -97,6 +97,31 @@ End-to-End-Abnahmetest mit dem Ziel Σ(2k−1) = n². M1 verlangt einen verifizi
 - [ ] M2: Algebraischer und induktiver Beweis sind getrennt verifiziert, die Tabelle aus ARCH §15.1 ist als `NUMERICALLY_SUPPORTED` gespeichert.
 - [ ] M5: Alle acht Schritte aus ARCH §15.5 sind im Ereignisverlauf eines Runs nachvollziehbar.
 
+Formeln aus ARCH §15, §15.2 und §15.3, unverändert zitiert. Bei Abweichung gilt die Quelle.
+
+```latex
+\[
+\sum_{k=1}^{n}(2k-1)=n^2\qquad (n\in\mathbb{N},\ n\ge 1).
+\]
+
+\[
+\begin{aligned}
+\sum_{k=1}^{n}(2k-1)
+&=2\sum_{k=1}^{n}k-n\\
+&=2\cdot\frac{n(n+1)}2-n\\
+&=n^2.
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+\sum_{k=1}^{n+1}(2k-1)
+&=n^2+(2n+1)\\
+&=(n+1)^2.
+\end{aligned}
+\]
+```
+
 ### F-11.05 Spezialtests
 
 - Status: `todo` · Priorität: P1 · Meilenstein: M2

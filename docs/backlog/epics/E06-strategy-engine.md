@@ -38,8 +38,44 @@ Eine Methode wird nur angewendet, wenn ihre Voraussetzungen geprüft sind. Stati
 
 YAML-Schema für `ProofMethod` mit den Feldern aus dem Beispiel in ARCH §5.2: `id`, `version`, `category`, `applicable_to`, `preconditions`, `strategy`, `tools`, `failure_types` und `feedback`.
 
+Im Beispiel `proof.induction.natural_numbers` (Version 1.0, Kategorie `induction`) gilt die Methode für allquantifizierte Aussagen, natürlichzahlige Parameter und rekursive Strukturen. Vorbedingungen sind eine identifizierte Induktionsvariable und eine fundierte Ordnung. Die Strategie besteht aus Induktionsanfang, Induktionsannahme, Aufbau des Nachfolgerziels und Induktionsschritt. Werkzeuge sind `lean4`, `sympy` und `lemma_retrieval`. Die Fehlertypen unterscheiden gescheiterten Anfang, unzureichende Annahme und gescheiterten Schritt. Als Rückmeldung liefert die Methode verifizierte Teilziele, offene Verpflichtungen, Beweistiefe und Rechenkosten.
+
 - [ ] Das Beispiel „Vollständige Induktion“ aus ARCH §5.2 validiert gegen das Schema.
 - [ ] Ungültige Definitionen werden mit Fehlermeldung abgelehnt.
+
+Referenzbeispiel aus ARCH §5.2, unverändert zitiert. Bei Abweichung gilt die Quelle.
+
+```yaml
+method:
+  id: proof.induction.natural_numbers
+  version: 1.0
+  category: induction
+  applicable_to:
+    - universally_quantified_statements
+    - natural_number_parameters
+    - recursive_structures
+  preconditions:
+    - induction_variable_identified
+    - well_founded_order_available
+  strategy:
+    - prove_base_case
+    - assume_induction_hypothesis
+    - construct_successor_goal
+    - prove_induction_step
+  tools:
+    - lean4
+    - sympy
+    - lemma_retrieval
+  failure_types:
+    - base_case_failed
+    - induction_hypothesis_insufficient
+    - induction_step_failed
+  feedback:
+    - verified_subgoals
+    - remaining_obligations
+    - proof_depth
+    - computational_cost
+```
 
 ### F-06.02 Methodenregistry
 

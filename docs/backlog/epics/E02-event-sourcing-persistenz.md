@@ -44,6 +44,29 @@ Einheitlicher Umschlag mit den Pflichtfeldern `event_id`, `sequence`, `timestamp
 - [ ] Pydantic-Modell und JSON-Schema sind vorhanden.
 - [ ] Ein Event ohne Pflichtfeld wird abgelehnt.
 
+Referenzbeispiel aus UI §16.1, unverändert zitiert. Bei Abweichung gilt die Quelle.
+
+```json
+{
+  "event_id": "evt-008421",
+  "sequence": 142,
+  "timestamp": "2026-11-21T14:32:16Z",
+  "type": "proof.step.verified",
+  "run_id": "run-0042",
+  "problem_id": "problem-0007",
+  "agent_id": "induction-agent-01",
+  "trace_id": "trace-8021",
+  "parent_event_id": "evt-008419",
+  "payload": {
+    "proof_node_id": "node-0045",
+    "method": "mathematical_induction",
+    "verification_engine": "lean4",
+    "verification_status": "VERIFIED",
+    "duration_ms": 127
+  }
+}
+```
+
 ### F-02.02 Eventtyp-Katalog
 
 - Status: `todo` · Priorität: P0 · Meilenstein: M1

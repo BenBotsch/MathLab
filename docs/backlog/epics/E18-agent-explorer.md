@@ -66,6 +66,25 @@ Graph aus `GET /runs/{id}/agent-graph`. Kanten zeigen Auftrag, Ergebnis, Datenfl
 
 - [ ] Kantentypen sind beschriftet, keine Kante heißt `DEPENDS_ON` im mathematischen Sinn.
 
+Referenzbeispiel aus UI §5.1, unverändert zitiert. Bei Abweichung gilt die Quelle.
+
+```mermaid
+flowchart TD
+    O["Research Orchestrator"]
+    P["Proof Planner"]
+    I["Induction Agent"]
+    S["Symbolic Agent"]
+    V["Verification Agent"]
+    K["Knowledge Agent"]
+
+    O --> P
+    P --> I
+    P --> S
+    I --> V
+    S --> V
+    V --> K
+```
+
 ### F-18.04 Toolaufrufe, Latenzen und Kosten
 
 - Status: `todo` · Priorität: P1 · Meilenstein: M1

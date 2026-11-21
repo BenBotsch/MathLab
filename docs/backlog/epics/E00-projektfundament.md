@@ -57,6 +57,59 @@ Verzeichnisstruktur nach dem gewählten Layout anlegen, nur mit den Teilen, die 
 - [ ] Ein leerer Test läuft lokal mit einem dokumentierten Befehl.
 - [ ] `.gitignore` deckt Build-Artefakte, Umgebungen und lokale Daten ab.
 
+Referenzbeispiel aus ARCH §18.3, unverändert zitiert. Bei Abweichung gilt die Quelle. Der Baum ist das Zielbild. Maßgeblich ist das ADR zu OD-05, und in M1 entstehen nur die benötigten Teile.
+
+```text
+math-research-system/
+├── apps/
+│   ├── desktop/
+│   ├── web/
+│   └── cli/
+├── services/
+│   ├── api/
+│   ├── orchestration/
+│   ├── verification/
+│   ├── experiment-tracking/
+│   └── knowledge/
+├── packages/
+│   ├── core/
+│   │   ├── problems/
+│   │   ├── statements/
+│   │   ├── proofs/
+│   │   └── contracts/
+│   ├── agents/
+│   ├── strategies/
+│   ├── search/
+│   ├── metrics/
+│   └── model-adapters/
+├── engines/
+│   ├── lean4/
+│   ├── symbolic/
+│   ├── numerical/
+│   ├── smt/
+│   └── simulation/
+├── knowledge/
+│   ├── graph/
+│   ├── retrieval/
+│   ├── embeddings/
+│   └── memory/
+├── ml/
+│   ├── datasets/
+│   ├── training/
+│   ├── evaluation/
+│   └── models/
+├── benchmarks/
+│   ├── golden/
+│   ├── minif2f/
+│   ├── proofnet/
+│   └── custom/
+├── experiments/
+├── docs/
+├── configs/
+├── scripts/
+└── .github/
+```
+
 ### F-00.03 Toolchain-Pinning und Environment-Fingerprint
 
 - Status: `todo` · Priorität: P0 · Meilenstein: M1

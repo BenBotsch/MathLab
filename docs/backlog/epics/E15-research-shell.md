@@ -105,8 +105,12 @@ Statuskarten für aktive Agenten, Suchversuche, verifizierte Lemmata, offene Tei
 
 Tokens Primary (Blau, aktiv und ausgewählt), Success (Grün, formal verifiziert), Warning (Gelb oder Orange, wartend), Danger (Rot, Fehlschlag und Widerlegung), Discovery (Violett, Vermutung) und Neutral (Grau, Archiv). Dazu Statuskomponenten mit Label und Icon für die Knotenstatus aus UI §4.3.
 
+Die visuelle Richtung folgt UI §14.1. Die Oberfläche ist ein wissenschaftliches Desktop-Werkzeug mit reduziertem, professionellem Interface. Sie bietet Hell- und Dunkelmodus, eine große zentrale Arbeitsfläche, wenig dekorative Animation und eine konsistente Typografie.
+
 - [ ] Beide Modi erfüllen WCAG-AA-Kontrast für Text und Statuselemente. Die Wahl von WCAG AA ist eine Ergänzung des Backlogs.
 - [ ] Jeder Status ist ohne Farbe allein über Label und Icon unterscheidbar.
+- [ ] Schriften, Schriftgrößen und Abstände kommen ausschließlich aus Tokens.
+- [ ] Die zentrale Arbeitsfläche nimmt im Standardlayout den größten Teil des Fensters ein.
 
 ### F-15.07 Responsives Layout
 

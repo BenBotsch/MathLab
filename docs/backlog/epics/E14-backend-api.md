@@ -83,6 +83,24 @@ SSE-Endpunkt pro Run mit der Sequenznummer als Event-ID und ein Endpunkt zum Nac
 - [ ] Jedes angenommene oder abgelehnte Kommando ist als Audit-Event im Log.
 - [ ] Ein Kommando, das `VERIFIED` setzen soll, existiert nicht und wird abgelehnt (Test).
 
+Referenzbeispiel aus UI §16.3, unverändert zitiert. Bei Abweichung gilt die Quelle.
+
+```json
+{
+  "command_id": "cmd-00119",
+  "type": "branch.investigate",
+  "run_id": "run-0042",
+  "branch_id": "branch-induction-03",
+  "requested_by": "user",
+  "expected_state_version": 35,
+  "parameters": {
+    "strategy": "algebraic_lemmas",
+    "max_runtime_seconds": 900,
+    "model_profile": "local_prover"
+  }
+}
+```
+
 ### F-14.05 Erkennung konkurrierender Kommandos
 
 - Status: `todo` · Priorität: P0 · Meilenstein: M1
@@ -160,3 +178,25 @@ WebSockets werden erst eingeführt, wenn eine konkrete Interaktion wie Kollabora
 Agenten, CAS und Solver veröffentlichen Ergebnisse über einen Bus oder eine Queue. Der Bus schreibt in den Event Store und speist den Live-Stream, der Orchestrator abonniert ihn. Die Wahl der Technik folgt OD-04.
 
 - [ ] Ein Event wird genau einmal persistiert, auch wenn der Bus es mehrfach zustellt.
+
+Referenzbeispiel aus UI §15.1, unverändert zitiert. Bei Abweichung gilt die Quelle.
+
+```mermaid
+flowchart TD
+    A["Proof Agents / CAS / Solver"]
+    B["Research Event Bus"]
+    C["Event Store / PostgreSQL"]
+    D["Live Stream API"]
+    E["Research UI"]
+    F["Control API"]
+    G["Research Orchestrator"]
+
+    A --> B
+    B --> C
+    B --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> A
+    G --> B
+```

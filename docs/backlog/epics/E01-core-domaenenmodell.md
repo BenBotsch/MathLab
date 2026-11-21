@@ -79,6 +79,28 @@ Protocols für `ProofEngine`, `VerificationEngine`, `MathematicalRetriever`, `Se
 - [ ] Jeder Contract hat eine Fake-Implementierung für Tests.
 - [ ] Fehler sind typisiert und auf den Fehlerkatalog (F-09.03) abbildbar.
 
+Referenzbeispiel aus ARCH §18.2, unverändert zitiert. Bei Abweichung gilt die Quelle. ARCH nennt die Schnittstellen illustrativ. Die Ergänzungen aus der Beschreibung oben sind verbindlich.
+
+```python
+from typing import Protocol
+
+
+class ProofEngine(Protocol):
+    def prove(self, problem, context, budget): ...
+
+
+class VerificationEngine(Protocol):
+    def verify(self, statement, proof): ...
+
+
+class MathematicalRetriever(Protocol):
+    def retrieve(self, goal, constraints): ...
+
+
+class SearchPolicy(Protocol):
+    def select_actions(self, state, budget): ...
+```
+
 ### F-01.05 Provenienzmodell
 
 - Status: `todo` · Priorität: P0 · Meilenstein: M1

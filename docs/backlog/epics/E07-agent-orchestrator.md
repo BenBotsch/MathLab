@@ -75,6 +75,25 @@ Ergebnisnachrichten folgen dem Schema aus ARCH §6.3 mit `task_id`, `agent`, `st
 - [ ] Ein Feld `verification` mit Wert `VERIFIED` wird nur übernommen, wenn eine passende Verifikation aus E04 vorliegt.
 - [ ] Jede Nachricht erscheint als Ereignis mit Trace-ID.
 
+Referenzbeispiel aus ARCH §6.3, unverändert zitiert. Bei Abweichung gilt die Quelle.
+
+```json
+{
+  "task_id": "TASK-1042",
+  "agent": "induction_prover",
+  "status": "PARTIAL_SUCCESS",
+  "method": "mathematical_induction",
+  "verification": {
+    "base_case": "VERIFIED",
+    "induction_step": "UNRESOLVED"
+  },
+  "evidence_ids": ["EVIDENCE-881"],
+  "generated_lemmas": ["LEMMA-202"],
+  "remaining_goals": 1,
+  "recommended_next_action": "retrieve_algebraic_lemmas"
+}
+```
+
 ### F-07.03 Orchestrator-Kern
 
 - Status: `todo` · Priorität: P0 · Meilenstein: M1
@@ -87,6 +106,42 @@ Startet, überwacht, pausiert und beendet Agenten pro Run und führt Workflow B 
 - [ ] Pause und Stop wirken innerhalb einer definierten Frist auf alle Agenten.
 - [ ] Ein abgestürzter Agent wird als `FAILED` markiert, der Run läuft weiter oder endet kontrolliert.
 - [ ] Die sechs Schritte aus ARCH §7.2 sind im Ereignisverlauf eines Runs nachvollziehbar.
+
+Referenzbeispiel aus ARCH §4, unverändert zitiert. Bei Abweichung gilt die Quelle. Das Diagramm zeigt die Gesamtarchitektur, in der der Orchestrator arbeitet.
+
+```mermaid
+flowchart TB
+    P["Mathematisches Problem"] --> N["Normalisierung und Formalisierung"]
+    N --> O["Research Orchestrator"]
+    O --> A["KI- und Strategieagenten"]
+    O --> E["Symbolik, SMT und Simulation"]
+    A --> S["Proof Search"]
+    E --> S
+    S --> V["Formaler Verifier"]
+    V --> M["Experiment- und Wissensspeicher"]
+    M --> O
+    V --> U["Erklärung und Visualisierung"]
+    M --> U
+```
+
+Referenzbeispiel aus ARCH §7, unverändert zitiert. Bei Abweichung gilt die Quelle. Das Diagramm zeigt den End-to-End-Workflow, den der Orchestrator steuert.
+
+```mermaid
+flowchart TD
+    A["Problem importieren"] --> B["Aussage formalisieren"]
+    B --> C["Problem klassifizieren"]
+    C --> D["Strategien auswählen"]
+    D --> E["Beweisversuch"]
+    E --> F{"Ergebnis?"}
+    F -->|"Formal gültig"| G["Unabhängig überprüfen"]
+    F -->|"Teilfortschritt"| H["Zwischenergebnis speichern"]
+    F -->|"Fehler"| I["Fehler klassifizieren"]
+    H --> J["Suchstrategie aktualisieren"]
+    I --> J
+    J --> E
+    G --> K["Erklären und visualisieren"]
+    K --> L["Wissen dauerhaft speichern"]
+```
 
 ### F-07.04 Tactic Generator
 

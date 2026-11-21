@@ -75,7 +75,7 @@ Priorität eines Suchzweigs erhöhen oder senken. Der Search Budget Controller v
 - Quelle: UI §10.1 (Neue Methode hinzufügen), §10.3, §20 (Stufe 2, Kriterium 4)
 - Bearbeiter: offen · Nachweise: offen
 
-Kommando `branch.investigate` mit Parametern wie zusätzlichen Hilfssätzen, Methode, Modell und Budget. Es entsteht eine neue `branch_id` mit eigenem ProofAttempt, verknüpft mit dem Ausgangsknoten.
+Kommando `branch.investigate` aus UI §16.3. Die `parameters` sind `strategy` für die Methode oder die zusätzlichen Hilfssätze, `max_runtime_seconds` für das Zeitbudget und `model_profile` für das Modell. Im Beispiel aus UI §10.3 entsprechen zusätzliche algebraische Hilfssätze `strategy: algebraic_lemmas`, 15 Minuten `max_runtime_seconds: 900` und das neue Modell `model_profile: local_prover`. Das vollständige Kommando steht in F-14.04. Es entsteht eine neue `branch_id` mit eigenem ProofAttempt, verknüpft mit dem Ausgangsknoten.
 
 - [ ] Das Beispiel aus UI §10.3 (Induktionsschritt, neues Modell, 15 Minuten) erzeugt einen neuen, auditierbaren Attempt.
 - [ ] Der vorhandene Beweisverlauf bleibt unverändert.
