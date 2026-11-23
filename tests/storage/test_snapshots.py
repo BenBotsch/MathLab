@@ -20,6 +20,7 @@ from mathlab.storage.snapshots import (
     SnapshottingRunner,
     replay,
 )
+from mathlab.testing.events import step_proposed, step_rejected, step_verified
 
 T0 = datetime(2026, 11, 23, tzinfo=UTC)
 FAILURES = ["TYPE_ERROR", "INVALID_INFERENCE", None]
@@ -71,19 +72,19 @@ def event_logs(draw: st.DrawFn, max_size: int = 40) -> list[EventEnvelope]:
             steps.append(str(uuid4()))
             event = (
                 "proof.step.proposed",
-                {"step_id": steps[-1], "attempt_id": attempt, "tactic": "simp"},
+                step_proposed(UUID(steps[-1]), UUID(attempt)),
             )
         elif kind == "accept":
             event = ("proof.step.accepted", {"step_id": step})
         elif kind == "verify":
             event = (
                 "proof.step.verified",
-                {"step_id": step, "verification_result_id": str(uuid4())},
+                step_verified(UUID(step), uuid4()),
             )
         elif kind == "reject":
             event = (
                 "proof.step.rejected",
-                {"step_id": step, "failure_code": draw(st.sampled_from(FAILURES))},
+                step_rejected(UUID(step), failure_code=draw(st.sampled_from(FAILURES))),
             )
         elif kind == "agent":
             name = draw(st.sampled_from(["a", "b"]))

@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 from typing import Any
+from uuid import UUID
 
 import pytest
 from pydantic import ValidationError
@@ -18,6 +19,13 @@ from mathlab.core.event_types import (
     validate_payload,
 )
 from mathlab.core.run import RunStatus
+from mathlab.testing.events import (
+    attempt_finished,
+    attempt_started,
+    step_proposed,
+    step_rejected,
+    step_verified,
+)
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 U = "00000000-0000-4000-8000-0000000000"
@@ -64,18 +72,16 @@ EXAMPLES: dict[str, dict[str, Any]] = {
         "statement_hash": "sha256:" + "0" * 64,
     },
     "strategy.selected": {"method": "proof.induction.natural_numbers"},
-    "proof.attempt.started": {
-        "attempt_id": U + "03",
-        "formal_statement_id": U + "02",
-        "agent_id": "induction-agent-01",
-    },
-    "proof.attempt.finished": {"attempt_id": U + "03", "duration_ms": 1420},
+    "proof.attempt.started": attempt_started(
+        UUID(U + "03"), problem_id=U + "01", formal_statement_id=U + "02"
+    ),
+    "proof.attempt.finished": attempt_finished(UUID(U + "03")),
     "proof.branch.created": {"branch_id": U + "04"},
     "proof.goal.created": {"proof_node_id": U + "05", "goal": "n + 0 = n"},
-    "proof.step.proposed": {"step_id": U + "06", "attempt_id": U + "03", "tactic": "simp"},
+    "proof.step.proposed": step_proposed(UUID(U + "06"), UUID(U + "03")),
     "proof.step.accepted": {"step_id": U + "06"},
-    "proof.step.verified": {"step_id": U + "06", "verification_result_id": U + "07"},
-    "proof.step.rejected": {"step_id": U + "06", "failure_code": "TYPE_ERROR", "message": "x"},
+    "proof.step.verified": step_verified(UUID(U + "06"), UUID(U + "07")),
+    "proof.step.rejected": step_rejected(UUID(U + "06"), failure_code="TYPE_ERROR"),
     "lemma.discovered": {"lemma_id": U + "08", "name": "aux"},
     "lemma.verified": {"lemma_id": U + "08", "verification_result_id": U + "07"},
     "hypothesis.created": {"hypothesis_id": U + "09", "statement": "n^2 is a sum of odds"},

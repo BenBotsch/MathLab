@@ -10,14 +10,14 @@ Felder mit `?` sind optional.
 | `problem.created` | `ProblemCreated` | `problem_id`, `title` | A problem was registered. |
 | `problem.formalized` | `ProblemFormalized` | `problem_id`, `formal_statement_id`, `statement_hash` | A formal statement was produced for a problem. |
 | `strategy.selected` | `StrategySelected` | `method`, `attempt_id`? | A proof method was chosen. |
-| `proof.attempt.started` | `ProofAttemptStarted` | `attempt_id`, `formal_statement_id`, `agent_id`, `problem_id`?, `parent_attempt_id`?, `agent_version`?, `model_name`?, `model_version`?, `strategy_id`?, `strategy_parameters`? | An agent began a proof attempt; optional fields follow ARCH §9.1 (F-09.01). |
-| `proof.attempt.finished` | `ProofAttemptFinished` | `attempt_id`, `state_before_id`?, `state_after_id`?, `generated_lemma_ids`?, `unresolved_goals`?, `duration_ms`, `input_tokens`?, `output_tokens`?, `verified_progress`?, `novelty`?, `estimated_solvability`?, `next_actions`? | An attempt ended; search, resources and self-assessment from ARCH §9.1 (F-09.01). |
+| `proof.attempt.started` | `ProofAttemptStarted` | `attempt_id`, `problem_id`, `formal_statement_id`, `parent_attempt_id`, `agent_id`, `agent_version`, `strategy_id`, `strategy_parameters`, `setup` | An agent began a proof attempt (ARCH §9.1); ``setup`` holds the ARCH §9.2 fields. |
+| `proof.attempt.finished` | `ProofAttemptFinished` | `attempt_id`, `state_before_id`?, `state_after_id`?, `generated_lemma_ids`?, `unresolved_goals`?, `duration_ms`, `model_calls`, `input_tokens`, `output_tokens`, `peak_memory_bytes`, `retries`, `stop_reason`, `remaining_budget`, `recommended_next_experiment`, `verified_progress`?, `novelty`?, `estimated_solvability`?, `next_actions`? | An attempt ended; search, resources, stop reason and estimates (ARCH §9.1, §9.2). |
 | `proof.branch.created` | `ProofBranchCreated` | `branch_id`, `parent_branch_id`? | The search branched. |
 | `proof.goal.created` | `ProofGoalCreated` | `proof_node_id`, `goal`, `parent_node_id`? | A new (sub)goal appeared in the proof graph. |
-| `proof.step.proposed` | `ProofStepProposed` | `step_id`, `attempt_id`, `tactic` | A tactic candidate was proposed. Not yet checked. |
+| `proof.step.proposed` | `ProofStepProposed` | `step_id`, `attempt_id`, `tactic`, `state_before_fingerprint`, `raw_response`, `sources`, `library_references` | A tactic or tool call was proposed. Not yet checked. |
 | `proof.step.accepted` | `ProofStepAccepted` | `step_id` | Search accepted a proposed step into the attempt; no formal check implied (ARCH §9.4). |
-| `proof.step.verified` | `ProofStepVerified` | `step_id`, `verification_result_id` | The trusted checker confirmed a step; needs a verification result (UI §8.1). |
-| `proof.step.rejected` | `ProofStepRejected` | `step_id`, `failure_code`?, `message`? | A step was rejected; ``failure_code`` follows ARCH §9.3 when classified. |
+| `proof.step.verified` | `ProofStepVerified` | `step_id`, `verification_result_id`, `state_after_fingerprint` | The trusted checker confirmed a step; needs a verification result (UI §8.1). |
+| `proof.step.rejected` | `ProofStepRejected` | `step_id`, `failure_code`?, `message`, `state_after_fingerprint` | A step was rejected; ``failure_code`` follows ARCH §9.3 when classified. |
 | `lemma.discovered` | `LemmaDiscovered` | `lemma_id`, `name` | A candidate lemma was found. |
 | `lemma.verified` | `LemmaVerified` | `lemma_id`, `verification_result_id` | The checker confirmed a lemma. |
 | `hypothesis.created` | `HypothesisCreated` | `hypothesis_id`, `statement` | A hypothesis was formulated. |

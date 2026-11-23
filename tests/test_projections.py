@@ -10,7 +10,13 @@ from mathlab.core.run import RunStatus
 from mathlab.core.status import AgentStatus, ProofNodeStatus, VerificationStatus
 from mathlab.projections import ResearchProjection, rebuild
 from mathlab.storage.projection import ProjectionRunner
-from mathlab.testing.events import Log
+from mathlab.testing.events import (
+    Log,
+    attempt_started,
+    step_proposed,
+    step_rejected,
+    step_verified,
+)
 
 
 def scenario(log: Log) -> dict[str, UUID]:
@@ -24,22 +30,22 @@ def scenario(log: Log) -> dict[str, UUID]:
     )
     log.add(
         "proof.attempt.started",
-        {"attempt_id": s["attempt"], "formal_statement_id": s["stmt"], "agent_id": "prover"},
+        attempt_started(ids["attempt"], formal_statement_id=s["stmt"], agent_id="prover"),
     )
     log.add("proof.goal.created", {"proof_node_id": s["node"], "goal": "n^2 = sum"})
     for step, tactic in (("s1", "simp"), ("s2", "induction n")):
         log.add(
             "proof.step.proposed",
-            {"step_id": s[step], "attempt_id": s["attempt"], "tactic": tactic},
+            step_proposed(ids[step], ids["attempt"], tactic=tactic),
             proof_node_id=ids["node"],
         )
     log.add(
         "proof.step.rejected",
-        {"step_id": s["s1"], "failure_code": "INVALID_INFERENCE", "message": "no progress"},
+        step_rejected(ids["s1"], failure_code="INVALID_INFERENCE", message="no progress"),
     )
     log.add("run.paused", {"reason": "review"})
     log.add("proof.step.accepted", {"step_id": s["s2"]})
-    log.add("proof.step.verified", {"step_id": s["s2"], "verification_result_id": s["vr"]})
+    log.add("proof.step.verified", step_verified(ids["s2"], ids["vr"]))
     log.add(
         "budget.updated",
         {"model_calls_used": 7, "tokens_used": 1200, "runtime_seconds_used": 3.5},
@@ -117,9 +123,7 @@ def test_failed_verification_does_not_verify() -> None:
 
 def test_steps_without_proposal_are_ignored() -> None:
     log = Log()
-    log.add(
-        "proof.step.verified", {"step_id": str(uuid4()), "verification_result_id": str(uuid4())}
-    )
+    log.add("proof.step.verified", step_verified(uuid4(), uuid4()))
     state = rebuild(log.events)
     assert state.proof_graphs.get(log.run_id) is None
     assert state.metrics[log.run_id].steps_verified == 1

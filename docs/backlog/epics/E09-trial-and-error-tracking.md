@@ -21,7 +21,7 @@ Kein Versuch wird gelöscht. Ein ProofAttempt ohne Pflichtfelder wird nicht gesp
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
 | F-09.01 | ProofAttempt-Modell | `done` | P0 | M1 |
-| F-09.02 | Pflichtfelder pro Versuch | `ready` | P0 | M1 |
+| F-09.02 | Pflichtfelder pro Versuch | `done` | P0 | M1 |
 | F-09.03 | Fehlerkatalog und Klassifizierer | `ready` | P0 | M1 |
 | F-09.04 | Kontextuelle negative Evidenz | `todo` | P1 | M2 |
 | F-09.05 | Run-Metriken | `ready` | P0 | M1 |
@@ -83,10 +83,10 @@ proof_attempt:
 
 ### F-09.02 Pflichtfelder pro Versuch
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-09.01, F-00.03
 - Quelle: ARCH §9.2
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat: require ARCH 9.2 protocol fields for proof attempts` auf `develop`. Am 2026-11-24 gelaufen: `uv run ruff format --check .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` mit PostgreSQL (604 passed) und ohne (584 passed, 20 übersprungen). Pflichtfelder in `src/mathlab/core/attempt_protocol.py` (`AttemptSetup`: Environment samt Fingerprint, Modell mit Gewichten, Promptversion, Quantisierung und Parametern, Datensatz- und Benchmarkversion, Seed, Hardware, Budget) und als Pflichtfelder der Payloads von `proof.attempt.started`, `proof.attempt.finished`, `proof.step.proposed`, `proof.step.verified` und `proof.step.rejected`; die Zuordnung jedes ARCH-§9.2-Punkts steht im Moduldocstring. `tests/test_attempts.py` entfernt jedes Pflichtfeld einzeln und erwartet die Ablehnung, der Event Store speichert einen solchen Versuch nicht. `repeat_setup` liefert die gespeicherte Konfiguration nur bei identischem Environment und nennt sonst die abweichenden Felder, belegt auch nach Speicherung in PostgreSQL. Annahmen: Nicht anwendbare oder nicht gemessene Werte (Benchmark, Quantisierung, Tokens, Speicher) sind Pflichtschlüssel mit explizitem `null`. Kosten werden nach ADR-0003 als Modellaufrufe und Tokens geführt, nicht in Währung. Child-Verknüpfungen werden aus `parent_attempt_id` abgeleitet (`children`). `failure_code` bleibt optional bis F-09.03.
 
 Zusätzlich zu F-09.01 werden die Felder aus ARCH §9.2 protokolliert.
 
@@ -103,8 +103,8 @@ Zusätzlich zu F-09.01 werden die Felder aus ARCH §9.2 protokolliert.
 - Ausführungszeit, Speicherbedarf, Retry-Anzahl
 - Stoppgrund, verbleibendes Budget und empfohlenes Folgeexperiment
 
-- [ ] Fehlt ein Pflichtfeld, wird der Versuch abgelehnt.
-- [ ] Ein gespeicherter Versuch lässt sich mit denselben Versionen wiederholen.
+- [x] Fehlt ein Pflichtfeld, wird der Versuch abgelehnt.
+- [x] Ein gespeicherter Versuch lässt sich mit denselben Versionen wiederholen.
 
 ### F-09.03 Fehlerkatalog und Klassifizierer
 

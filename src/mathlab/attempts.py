@@ -23,6 +23,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict
 
+from mathlab.core.attempt_protocol import AttemptBudget, AttemptSetup, ensure_repeatable
 from mathlab.core.event import EventEnvelope
 from mathlab.core.event_types import (
     ProofAttemptFinished,
@@ -37,6 +38,7 @@ from mathlab.core.event_types import (
 )
 from mathlab.core.primitives import JsonObject
 from mathlab.core.status import VerificationStatus
+from mathlab.environment import EnvironmentInfo
 
 
 class _Part(BaseModel):
@@ -75,8 +77,19 @@ class VerificationInfo(_Part):
 
 class Resources(_Part):
     duration_ms: int | None = None
+    model_calls: int | None = None
     input_tokens: int | None = None
     output_tokens: int | None = None
+    peak_memory_bytes: int | None = None
+    retries: int | None = None
+
+
+class Outcome(_Part):
+    """Why the attempt stopped and what to try next (ARCH §9.2)."""
+
+    stop_reason: str
+    remaining_budget: AttemptBudget
+    recommended_next_experiment: str | None
 
 
 class Evaluation(_Part):
@@ -90,17 +103,19 @@ class ProofAttemptRecord(_Part):
 
     id: UUID
     run_id: UUID
-    problem_id: UUID | None
+    problem_id: UUID
     formal_statement_id: UUID
     parent_attempt_id: UUID | None
     agent: AgentRef
     model: ModelRef
     strategy: StrategyRef
+    setup: AttemptSetup
     search: SearchInfo = SearchInfo()
     verification: VerificationInfo = VerificationInfo()
     resources: Resources = Resources()
     evaluation: Evaluation = Evaluation()
     next_actions: tuple[str, ...] = ()
+    outcome: Outcome | None = None
     finished: bool = False
     step_ids: tuple[UUID, ...] = ()
 
@@ -176,8 +191,16 @@ class ProofAttemptProjection:
             verification=a.verification.model_copy(update={"unresolved_goals": p.unresolved_goals}),
             resources=Resources(
                 duration_ms=p.duration_ms,
+                model_calls=p.model_calls,
                 input_tokens=p.input_tokens,
                 output_tokens=p.output_tokens,
+                peak_memory_bytes=p.peak_memory_bytes,
+                retries=p.retries,
+            ),
+            outcome=Outcome(
+                stop_reason=p.stop_reason,
+                remaining_budget=p.remaining_budget,
+                recommended_next_experiment=p.recommended_next_experiment,
             ),
             evaluation=Evaluation(
                 verified_progress=p.verified_progress,
@@ -227,9 +250,19 @@ def _started(run_id: UUID, p: ProofAttemptStarted) -> ProofAttemptRecord:
         formal_statement_id=p.formal_statement_id,
         parent_attempt_id=p.parent_attempt_id,
         agent=AgentRef(id=p.agent_id, version=p.agent_version),
-        model=ModelRef(name=p.model_name, version=p.model_version),
+        model=ModelRef(name=p.setup.model.name, version=p.setup.model.version),
         strategy=StrategyRef(id=p.strategy_id, parameters=p.strategy_parameters),
+        setup=p.setup,
     )
+
+
+def repeat_setup(record: ProofAttemptRecord, current: EnvironmentInfo) -> AttemptSetup:
+    """Setup for repeating ``record`` under the same versions (F-09.02).
+
+    Raises:
+        EnvironmentMismatchError: If ``current`` differs from the recorded environment.
+    """
+    return ensure_repeatable(record.setup, current)
 
 
 def rebuild_attempts(events: Iterable[EventEnvelope]) -> ProofAttemptProjection:
@@ -245,6 +278,7 @@ __all__ = [
     "AttemptChainError",
     "Evaluation",
     "ModelRef",
+    "Outcome",
     "ProofAttemptProjection",
     "ProofAttemptRecord",
     "Resources",
@@ -252,4 +286,5 @@ __all__ = [
     "StrategyRef",
     "VerificationInfo",
     "rebuild_attempts",
+    "repeat_setup",
 ]

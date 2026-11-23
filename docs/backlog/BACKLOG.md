@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-261 Features in 26 Epics. Erledigt sind 20 von 261.
+261 Features in 26 Epics. Erledigt sind 21 von 261.
 
 | Status | Anzahl |
 | --- | --- |
 | `todo` | 221 |
-| `ready` | 19 |
+| `ready` | 18 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 20 |
+| `done` | 21 |
 | `blocked` | 1 |
 | `dropped` | 0 |
 
@@ -31,7 +31,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E06 | [Strategy Engine und Beweismethodenkatalog](epics/E06-strategy-engine.md) | M2, Ausbau M3 und M4 | 3 | 3 | 0 | `todo` | 0/6 |
 | E07 | [Agent Orchestrator und Multiagentensystem](epics/E07-agent-orchestrator.md) | M1, Ausbau M2 bis M6 | 6 | 8 | 2 | `todo` | 0/16 |
 | E08 | [Proof Search Engine](epics/E08-proof-search.md) | M1, Ausbau M2, M4 und M6 | 5 | 5 | 1 | `todo` | 0/11 |
-| E09 | [Trial-and-Error und Experiment Tracking](epics/E09-trial-and-error-tracking.md) | M1, Ausbau M2 und M4 | 4 | 3 | 0 | `in-progress` | 1/7 |
+| E09 | [Trial-and-Error und Experiment Tracking](epics/E09-trial-and-error-tracking.md) | M1, Ausbau M2 und M4 | 4 | 3 | 0 | `in-progress` | 2/7 |
 | E10 | [Wissensgraph und mathematisches Langzeitgedächtnis](epics/E10-wissensgraph.md) | M3, Vorstufe M2, Ausbau M6 | 7 | 4 | 1 | `todo` | 0/12 |
 | E11 | [Benchmarks, Betriebsmodi und Evaluation](epics/E11-benchmarks-evaluation.md) | M1, Ausbau M2 bis M6 | 7 | 6 | 1 | `todo` | 0/14 |
 | E12 | [Metriken, Reward und Lernverfahren](epics/E12-metriken-lernen.md) | M4, Vorstufen M1 und M2, Ausbau M6 | 2 | 10 | 1 | `todo` | 0/13 |
@@ -58,7 +58,6 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | Feature | Titel | Priorität | Meilenstein |
 | --- | --- | --- | --- |
 | [F-09.05](epics/E09-trial-and-error-tracking.md#f-0905-run-metriken) | Run-Metriken | P0 | M1 |
-| [F-09.02](epics/E09-trial-and-error-tracking.md#f-0902-pflichtfelder-pro-versuch) | Pflichtfelder pro Versuch | P0 | M1 |
 | [F-09.03](epics/E09-trial-and-error-tracking.md#f-0903-fehlerkatalog-und-klassifizierer) | Fehlerkatalog und Klassifizierer | P0 | M1 |
 | [F-04.01](epics/E04-formal-verification.md#f-0401-lean-4-und-mathlib-einrichten) | Lean 4 und Mathlib einrichten | P0 | M1 |
 | [F-24.01](epics/E24-sicherheit-sandbox.md#f-2401-container-sandbox-für-generierten-code) | Container-Sandbox für generierten Code | P0 | M1 |

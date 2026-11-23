@@ -26,9 +26,11 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from mathlab.core.attempt_protocol import AttemptBudget, AttemptSetup
 from mathlab.core.contracts import FailureCode
 from mathlab.core.event import EventEnvelope
 from mathlab.core.primitives import JsonObject
+from mathlab.core.provenance import LibraryReference, SourceRef
 from mathlab.core.run import RunStatus
 
 
@@ -61,25 +63,28 @@ class StrategySelected(Payload):
 
 
 class ProofAttemptStarted(Payload):
-    """An agent began a proof attempt; optional fields follow ARCH §9.1 (F-09.01)."""
+    """An agent began a proof attempt (ARCH §9.1); ``setup`` holds the ARCH §9.2 fields.
+
+    ``parent_attempt_id`` is a required key; ``None`` marks a root attempt (F-09.02).
+    """
 
     attempt_id: UUID
+    problem_id: UUID
     formal_statement_id: UUID
+    parent_attempt_id: UUID | None
     agent_id: str = Field(min_length=1)
-    problem_id: UUID | None = None
-    parent_attempt_id: UUID | None = None
-    agent_version: str | None = Field(default=None, min_length=1)
-    model_name: str | None = Field(default=None, min_length=1)
-    model_version: str | None = Field(default=None, min_length=1)
-    strategy_id: str | None = Field(default=None, min_length=1)
-    strategy_parameters: JsonObject = Field(default_factory=dict)
+    agent_version: str = Field(min_length=1)
+    strategy_id: str = Field(min_length=1)
+    strategy_parameters: JsonObject
+    setup: AttemptSetup
 
 
 class ProofAttemptFinished(Payload):
-    """An attempt ended; search, resources and self-assessment from ARCH §9.1 (F-09.01).
+    """An attempt ended; search, resources, stop reason and estimates (ARCH §9.1, §9.2).
 
     Carries no verification claim: verification comes only from step and proof events that point
-    at checker results. ``evaluation`` scores are estimates, not evidence.
+    at checker results. ``evaluation`` scores are estimates, not evidence. ``None`` tokens or
+    memory mean "not measured" (ADR-0003), never 0.
     """
 
     attempt_id: UUID
@@ -88,8 +93,14 @@ class ProofAttemptFinished(Payload):
     generated_lemma_ids: tuple[UUID, ...] = ()
     unresolved_goals: int = Field(default=0, ge=0)
     duration_ms: int = Field(ge=0)
-    input_tokens: int | None = Field(default=None, ge=0)
-    output_tokens: int | None = Field(default=None, ge=0)
+    model_calls: int = Field(ge=0)
+    input_tokens: int | None = Field(ge=0)
+    output_tokens: int | None = Field(ge=0)
+    peak_memory_bytes: int | None = Field(ge=0)
+    retries: int = Field(ge=0)
+    stop_reason: str = Field(min_length=1)
+    remaining_budget: AttemptBudget
+    recommended_next_experiment: str | None
     verified_progress: float | None = Field(default=None, ge=0, le=1)
     novelty: float | None = Field(default=None, ge=0, le=1)
     estimated_solvability: float | None = Field(default=None, ge=0, le=1)
@@ -112,11 +123,19 @@ class ProofGoalCreated(Payload):
 
 
 class ProofStepProposed(Payload):
-    """A tactic candidate was proposed. Not yet checked."""
+    """A tactic or tool call was proposed. Not yet checked.
+
+    Records the state fingerprint before the step, the raw model response and the provenance of
+    every theorem and datum the step relies on (ARCH §9.2); empty tuples mean "none used".
+    """
 
     step_id: UUID
     attempt_id: UUID
     tactic: str = Field(min_length=1)
+    state_before_fingerprint: str = Field(min_length=1)
+    raw_response: str
+    sources: tuple[SourceRef, ...]
+    library_references: tuple[LibraryReference, ...]
 
 
 class ProofStepAccepted(Payload):
@@ -130,6 +149,7 @@ class ProofStepVerified(Payload):
 
     step_id: UUID
     verification_result_id: UUID
+    state_after_fingerprint: str | None = Field(min_length=1)
 
 
 class ProofStepRejected(Payload):
@@ -137,7 +157,8 @@ class ProofStepRejected(Payload):
 
     step_id: UUID
     failure_code: FailureCode | None = None
-    message: str = ""
+    message: str = Field(min_length=1)
+    state_after_fingerprint: str | None = Field(min_length=1)
 
 
 class LemmaDiscovered(Payload):
