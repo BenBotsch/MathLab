@@ -5,7 +5,7 @@ one; the old instance stays untouched, matching the append-only event model of E
 access rules are declared here as data; enforcing them is the job of F-11.02.
 """
 
-from enum import StrEnum
+from enum import Enum
 from typing import Self
 from uuid import UUID
 
@@ -14,7 +14,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from mathlab.core.entities import Entity, JsonObject
 
 
-class OperatingMode(StrEnum):
+class OperatingMode(Enum):
     """The five operating modes of a run (ARCH §3.3)."""
 
     BLIND_REDISCOVERY = "BLIND_REDISCOVERY"
@@ -67,7 +67,7 @@ MODE_RULES: dict[OperatingMode, ModeRules] = {
 """Access rules per mode. Only blind and assisted rediscovery hide the reference solution."""
 
 
-class RunStatus(StrEnum):
+class RunStatus(Enum):
     """Lifecycle status of a run (UI §3.2). Unrelated to agent or verification status."""
 
     RUNNING = "RUNNING"

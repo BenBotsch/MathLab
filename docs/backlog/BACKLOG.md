@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-260 Features in 26 Epics. Erledigt sind 4 von 260.
+260 Features in 26 Epics. Erledigt sind 5 von 260.
 
 | Status | Anzahl |
 | --- | --- |
 | `todo` | 241 |
-| `ready` | 14 |
+| `ready` | 13 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 4 |
+| `done` | 5 |
 | `blocked` | 1 |
 | `dropped` | 0 |
 
@@ -23,7 +23,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | Epic | Titel | Meilenstein | P0 | P1 | P2 | Status | Fortschritt |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | E00 | [Projektfundament](epics/E00-projektfundament.md) | M1, Ausbau M2 | 5 | 4 | 0 | `in-progress` | 1/9 |
-| E01 | [Core-Domänenmodell und Contracts](epics/E01-core-domaenenmodell.md) | M1 | 7 | 0 | 0 | `in-progress` | 3/7 |
+| E01 | [Core-Domänenmodell und Contracts](epics/E01-core-domaenenmodell.md) | M1 | 7 | 0 | 0 | `in-progress` | 4/7 |
 | E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 1 | 0 | `todo` | 0/9 |
 | E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 3 | 5 | 1 | `todo` | 0/9 |
 | E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 3 | 0 | `todo` | 0/11 |
@@ -59,7 +59,6 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | --- | --- | --- | --- |
 | [F-00.03](epics/E00-projektfundament.md#f-0003-toolchain-pinning-und-environment-fingerprint) | Toolchain-Pinning und Environment-Fingerprint | P0 | M1 |
 | [F-00.05](epics/E00-projektfundament.md#f-0005-ci-grundgates) | CI-Grundgates | P0 | M1 |
-| [F-01.07](epics/E01-core-domaenenmodell.md#f-0107-getrennte-statusräume) | Getrennte Statusräume | P0 | M1 |
 | [F-01.03](epics/E01-core-domaenenmodell.md#f-0103-unveränderliche-zielaussage-mit-hash) | Unveränderliche Zielaussage mit Hash | P0 | M1 |
 | [F-01.04](epics/E01-core-domaenenmodell.md#f-0104-engine-contracts) | Engine-Contracts | P0 | M1 |
 | [F-01.05](epics/E01-core-domaenenmodell.md#f-0105-provenienzmodell) | Provenienzmodell | P0 | M1 |

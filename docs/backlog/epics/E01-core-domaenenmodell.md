@@ -26,7 +26,7 @@ Persistenz und Events liegen in E02. Konkrete Engine-Implementierungen liegen in
 | F-01.04 | Engine-Contracts | `ready` | P0 | M1 |
 | F-01.05 | Provenienzmodell | `ready` | P0 | M1 |
 | F-01.06 | Run- und Betriebsmodusmodell | `done` | P0 | M1 |
-| F-01.07 | Getrennte Statusräume | `ready` | P0 | M1 |
+| F-01.07 | Getrennte Statusräume | `done` | P0 | M1 |
 
 ## Features
 
@@ -129,12 +129,12 @@ Ein Run hat Problem, Modus, Konfiguration, Budget, Status und Zustandsversion. D
 
 ### F-01.07 Getrennte Statusräume
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.01
 - Quelle: UI §1.3, §4.3; ARCH §6.3
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat(core): add separate status types` auf `develop`. Am 2026-11-23 gelaufen: `uv run ruff format .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` (248 passed), alle ohne Befund.
 
 Agentenstatus, Erkenntnisstufe, Verifikationsstatus, Run-Status und Proof-Knotenstatus sind getrennte Typen, wie in [glossary.md](../../glossary.md) beschrieben.
 
-- [ ] Kein Typ lässt sich implizit in einen anderen umwandeln.
-- [ ] Der Proof-Knotenstatus `VERIFIED` leitet sich nur aus einem `VerificationResult` ab.
+- [x] Kein Typ lässt sich implizit in einen anderen umwandeln (`src/mathlab/core/status.py`, `tests/core/test_status.py`). Alle Statustypen sind einfache `Enum`-Klassen statt `StrEnum`, damit gleichnamige Werte verschiedener Typen weder einander noch einem String gleichen. `RunStatus` und `EpistemicLevel` wurden dafür umgestellt.
+- [x] Der Proof-Knotenstatus `VERIFIED` leitet sich nur aus einem `VerificationResult` ab (`node_status` verlangt ein vollständiges Ergebnis).

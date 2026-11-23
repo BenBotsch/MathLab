@@ -13,13 +13,13 @@ backend for formal results) is enforced by the callers in E04 and F-11.02, not h
 """
 
 from dataclasses import dataclass
-from enum import StrEnum
+from enum import Enum
 from uuid import UUID
 
 from mathlab.core.entities import Counterexample, Evidence, VerificationResult
 
 
-class EpistemicLevel(StrEnum):
+class EpistemicLevel(Enum):
     """The seven epistemic levels of ARCH §1.2."""
 
     CONJECTURED = "CONJECTURED"
@@ -94,7 +94,8 @@ class InvalidEpistemicTransitionError(ValueError):
     """Raised when a level change is not permitted or not adequately justified."""
 
 
-def _is_complete(result: VerificationResult) -> bool:
+def is_complete(result: VerificationResult) -> bool:
+    """Whether the checker accepted the artifact: valid steps, no invalid steps, no open goals."""
     return result.valid_steps > 0 and result.invalid_steps == 0 and result.unresolved_goals == 0
 
 
@@ -117,7 +118,7 @@ def _check_justification(
                 raise InvalidEpistemicTransitionError(
                     "VerificationResult refers to another statement"
                 )
-            complete = _is_complete(justification)
+            complete = is_complete(justification)
             if target is _L.FORMALLY_VERIFIED and not complete:
                 raise InvalidEpistemicTransitionError(
                     "FORMALLY_VERIFIED requires no invalid steps and no unresolved goals"
@@ -130,7 +131,7 @@ def _check_justification(
             if isinstance(justification, Counterexample):
                 ok = justification.formal_statement_id == statement_id
             elif isinstance(justification, FormalRefutation):
-                ok = justification.refuted_statement_id == statement_id and _is_complete(
+                ok = justification.refuted_statement_id == statement_id and is_complete(
                     justification.negation_result
                 )
             else:
@@ -176,5 +177,6 @@ __all__ = [
     "FormalRefutation",
     "InvalidEpistemicTransitionError",
     "Justification",
+    "is_complete",
     "transition",
 ]
