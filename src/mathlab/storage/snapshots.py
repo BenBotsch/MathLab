@@ -132,11 +132,25 @@ class PostgresSnapshotStore:
 class SnapshottingRunner:
     """Live projection that stores a snapshot of a run every ``interval`` events."""
 
-    def __init__(self, snapshots: SnapshotStore, interval: int) -> None:
+    def __init__(
+        self, snapshots: SnapshotStore, interval: int, start: "ReplayedState | None" = None
+    ) -> None:
+        """Args:
+        snapshots: Receives the snapshots.
+        interval: Events per run between two snapshots.
+        start: Replayed state to continue from after a restart (UI §18.2); its run is
+            treated as processed up to ``start.sequence``.
+        """
         if interval < 1:
             raise ValueError("interval must be positive")
-        self.projection = ResearchProjection()
-        self._runner = ProjectionRunner(self.projection)
+        if start is None:
+            self.projection = ResearchProjection()
+            self._runner = ProjectionRunner(self.projection)
+        else:
+            self.projection = ResearchProjection.restore(start.state)
+            self._runner = ProjectionRunner(
+                self.projection, {run: start.sequence for run in start.state.runs}
+            )
         self._snapshots = snapshots
         self._interval = interval
 
@@ -152,6 +166,22 @@ class SnapshottingRunner:
                 )
             )
         return applied
+
+    def last_sequence(self, run_id: UUID) -> int:
+        """Last event of ``run_id`` contained in the live state."""
+        return self._runner.last_sequence(run_id)
+
+
+def resume(
+    run_id: UUID, *, events: EventReader, snapshots: SnapshotStore, interval: int
+) -> SnapshottingRunner:
+    """Live runner for ``run_id`` after a restart: latest snapshot plus all later events."""
+    start = replay(run_id, _ALL, events=events, snapshots=snapshots)
+    return SnapshottingRunner(snapshots, interval, start if start.sequence else None)
+
+
+_ALL = 2**63 - 1
+"""Upper bound for ``until`` that covers every stored sequence (``bigint``)."""
 
 
 def replay(
@@ -188,4 +218,5 @@ __all__ = [
     "SnapshotStore",
     "SnapshottingRunner",
     "replay",
+    "resume",
 ]

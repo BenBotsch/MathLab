@@ -27,7 +27,7 @@ Ereignisse werden nie geändert oder gelöscht. Die Reihenfolge pro Run vergibt 
 | F-02.05 | Projektionen | `done` | P0 | M1 |
 | F-02.06 | Snapshots und deterministisches Replay | `done` | P0 | M1 |
 | F-02.07 | Artefaktspeicher | `done` | P0 | M1 |
-| F-02.08 | Integrationstests für Reconnect und Absturz | `ready` | P0 | M1 |
+| F-02.08 | Integrationstests für Reconnect und Absturz | `done` | P0 | M1 |
 | F-02.09 | Schema-Versionierung und Migration | `ready` | P1 | M2 |
 | F-02.10 | Ereignisse für Fortsetzen und Agentenende | `todo` | P1 | M2 |
 
@@ -143,15 +143,15 @@ Ablage für Lean-Dateien, Solver- und Toollogs, Simulationsdaten und Grafiken, a
 
 ### F-02.08 Integrationstests für Reconnect und Absturz
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.06
 - Quelle: UI §18.2, §20 (Kriterium 4), §21 (Epic UI-01)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `test(storage): add crash, restart and reconnect integration tests` auf `develop`. Am 2026-11-23 gelaufen: `uv run ruff format .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` gegen PostgreSQL 17.6 im Container (522 passed, die Recovery-Tests zusätzlich dreimal hintereinander grün) und ohne Datenbank (504 passed, 18 übersprungen), alle ohne Befund. Tests in `tests/storage/test_recovery.py`, Schreibprozess in `tests/storage/crash_writer.py`. Belege: Ein Unterprozess schreibt Ereignisse und wird mitten im Run hart beendet (`kill`). Jedes bestätigte Ereignis ist danach gespeichert, die Sequenz hat keine Lücke. Ein zweiter Prozess setzt denselben Run mit `resume` aus dem letzten Snapshot und den folgenden Ereignissen fort, die Sequenz läuft lückenlos weiter, und der Zustand stimmt mit dem Neuaufbau überein. Eine mit `pg_terminate_backend` getrennte Verbindung mitten in `append` hinterlässt keine Lücke, ein Leser lädt verpasste Ereignisse ab der letzten Sequenz nach. Neu im Code: `resume` und der Parameter `start` von `SnapshottingRunner` in `src/mathlab/storage/snapshots.py`. Der Reconnect über SSE folgt in F-14.07.
 
 Tests für Backend-Neustart mitten im Run, verlorene Verbindungen und Wiederaufnahme ab der letzten Sequenz.
 
-- [ ] Nach einem simulierten Absturz fehlt kein abgeschlossenes Ereignis.
-- [ ] Ein Run wird nach Neustart aus Snapshot und Ereignissen fortgesetzt.
+- [x] Nach einem simulierten Absturz fehlt kein abgeschlossenes Ereignis.
+- [x] Ein Run wird nach Neustart aus Snapshot und Ereignissen fortgesetzt.
 
 ### F-02.09 Schema-Versionierung und Migration
 
