@@ -23,7 +23,7 @@ Numerische Evidenz ist kein Beweis und hebt eine Aussage höchstens auf `NUMERIC
 | F-05.01 | SymPy-Adapter | `todo` | P0 | M1 |
 | F-05.02 | Symbolische Schrittpipeline | `todo` | P0 | M1 |
 | F-05.03 | SMT-Adapter für Z3 und cvc5 | `todo` | P1 | M2 |
-| F-05.04 | Simulationsworkflow mit Seed und Präzision | `todo` | P1 | M2 |
+| F-05.04 | Simulationsworkflow mit Seed und Präzision | `ready` | P1 | M2 |
 | F-05.05 | Parameterstudien | `todo` | P1 | M2 |
 | F-05.06 | Workflow E Widerlegungen | `todo` | P1 | M2 |
 | F-05.07 | Gegenbeispiel-Objekt | `ready` | P0 | M1 |
@@ -70,7 +70,7 @@ Z3 dient der Modell- und Gegenbeispielsuche, cvc5 ist alternatives Backend mit P
 
 ### F-05.04 Simulationsworkflow mit Seed und Präzision
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-01.04, F-02.07
 - Quelle: ARCH §12.2, §12.1 (NumPy, SciPy); UI §11.2
 - Bearbeiter: offen · Nachweise: offen

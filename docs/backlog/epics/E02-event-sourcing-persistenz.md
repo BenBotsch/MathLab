@@ -26,7 +26,7 @@ Ereignisse werden nie geändert oder gelöscht. Die Reihenfolge pro Run vergibt 
 | F-02.04 | Idempotenz und Deduplizierung | `todo` | P0 | M1 |
 | F-02.05 | Projektionen | `todo` | P0 | M1 |
 | F-02.06 | Snapshots und deterministisches Replay | `todo` | P0 | M1 |
-| F-02.07 | Artefaktspeicher | `ready` | P0 | M1 |
+| F-02.07 | Artefaktspeicher | `done` | P0 | M1 |
 | F-02.08 | Integrationstests für Reconnect und Absturz | `todo` | P0 | M1 |
 | F-02.09 | Schema-Versionierung und Migration | `ready` | P1 | M2 |
 
@@ -130,15 +130,15 @@ Regelmäßige konsistente Snapshots pro Run. Der Zustand zu einem beliebigen Zei
 
 ### F-02.07 Artefaktspeicher
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.01 (OD-06), F-01.02
 - Quelle: ARCH §17.1, §17.2; UI §16.4, §17.2, §18.2
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat(storage): add content-addressed artifact store` auf `develop`. Am 2026-11-23 gelaufen: `uv run ruff format .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` (465 passed), alle ohne Befund. Speicher in `src/mathlab/storage/artifacts.py`, Tests in `tests/storage/test_artifacts.py`. Die Größengrenze prüft `enforce_inline_limit` (Standard 16 KiB, konfigurierbar). Annahme: Der Medientyp wird geprüft, aber erst mit F-02.03 in der Datenbank gespeichert.
 
 Ablage für Lean-Dateien, Solver- und Toollogs, Simulationsdaten und Grafiken, adressiert über Content-Hash. Ereignisse enthalten nur Artefakt-IDs.
 
-- [ ] Gleiches Artefakt wird nur einmal gespeichert.
-- [ ] Ein Ereignis mit großem Inhalt wird abgewiesen, wenn es keine Artefakt-ID verwendet (Größengrenze konfigurierbar).
+- [x] Gleiches Artefakt wird nur einmal gespeichert.
+- [x] Ein Ereignis mit großem Inhalt wird abgewiesen, wenn es keine Artefakt-ID verwendet (Größengrenze konfigurierbar).
 
 ### F-02.08 Integrationstests für Reconnect und Absturz
 

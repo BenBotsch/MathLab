@@ -28,7 +28,7 @@ Versionen von Python, Lean, Mathlib, Solvern und Bibliotheken sind gepinnt (ARCH
 | F-00.06 | Fachliche CI-Gates | `todo` | P1 | M2 |
 | F-00.07 | Lizenzinventar | `todo` | P1 | M1 |
 | F-00.08 | Entwickler-Setup dokumentieren | `todo` | P1 | M1 |
-| F-00.09 | Sicherung des Datenordners | `todo` | P1 | M1 |
+| F-00.09 | Sicherung des Datenordners | `ready` | P1 | M1 |
 
 ## Features
 
@@ -191,7 +191,7 @@ Root-README mit Zweck, Setup unter Windows und Linux, Teststart und Verweis auf 
 
 ### F-00.09 Sicherung des Datenordners
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M1
+- Status: `ready` · Priorität: P1 · Meilenstein: M1
 - Abhängigkeiten: F-02.07
 - Quelle: ADR-0006
 - Bearbeiter: offen · Nachweise: offen
