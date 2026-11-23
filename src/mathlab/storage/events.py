@@ -9,8 +9,12 @@ Triggers on ``events`` reject ``UPDATE``, ``DELETE`` and ``TRUNCATE`` at databas
 (WORKFLOW invariant "append-only events"); corrections are new events.
 
 Every payload is validated against its event type schema (F-02.02) and the inline size
-limit (ADR-0006) before it is stored. Deduplication by ``event_id`` follows in F-02.04;
-until then a repeated ``event_id`` fails with a unique violation.
+limit (ADR-0006) before it is stored.
+
+``append`` is idempotent per ``event_id`` (ARCH §18.4, UI §17.2; F-02.04): resubmitting an
+identical draft returns the stored event and stores nothing. Reusing an ``event_id`` with
+different content raises ``EventIdConflictError``. A rejected duplicate rolls its transaction
+back, so it consumes no sequence number either.
 """
 
 import os
@@ -68,6 +72,10 @@ RETURNING last_sequence
 """
 
 
+class EventIdConflictError(Exception):
+    """An ``event_id`` was resubmitted with content that differs from the stored event."""
+
+
 class EventDraft(BaseModel):
     """An event as submitted by a writer; the store assigns ``sequence``."""
 
@@ -117,9 +125,30 @@ class PostgresEventStore:
             UnknownEventTypeError: If the type is not catalogued.
             pydantic.ValidationError: If the payload does not match its schema.
             InlineContentTooLargeError: If the payload exceeds the inline limit.
-            psycopg.errors.UniqueViolation: If ``event_id`` is already stored.
+            EventIdConflictError: If ``event_id`` is stored with different content.
         """
         enforce_inline_limit(draft.payload, self._max_inline_bytes)
+        try:
+            return self._insert(draft)
+        except psycopg.errors.UniqueViolation:
+            existing = self.get(draft.event_id)
+            if existing is None:  # pragma: no cover - the conflicting row cannot vanish
+                raise
+        if existing.model_dump(exclude={"sequence"}) != draft.model_dump():
+            raise EventIdConflictError(
+                f"event {draft.event_id} is already stored with different content"
+            )
+        return existing
+
+    def get(self, event_id: UUID) -> EventEnvelope | None:
+        """The stored event with ``event_id``, or ``None``."""
+        with psycopg.connect(self._conninfo) as conn:
+            row = conn.execute(
+                "SELECT envelope::text FROM events WHERE event_id = %s", (event_id,)
+            ).fetchone()
+        return None if row is None else EventEnvelope.model_validate_json(row[0])
+
+    def _insert(self, draft: EventDraft) -> EventEnvelope:
         with psycopg.connect(self._conninfo) as conn, conn.transaction():
             row = conn.execute(NEXT_SEQUENCE_SQL, (draft.run_id,)).fetchone()
             assert row is not None
@@ -154,6 +183,7 @@ __all__ = [
     "DATABASE_URL_ENV",
     "SCHEMA_SQL",
     "EventDraft",
+    "EventIdConflictError",
     "PostgresEventStore",
     "database_url",
 ]

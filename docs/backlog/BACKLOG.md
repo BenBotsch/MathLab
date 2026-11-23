@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-260 Features in 26 Epics. Erledigt sind 14 von 260.
+260 Features in 26 Epics. Erledigt sind 15 von 260.
 
 | Status | Anzahl |
 | --- | --- |
 | `todo` | 226 |
-| `ready` | 19 |
+| `ready` | 18 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 14 |
+| `done` | 15 |
 | `blocked` | 1 |
 | `dropped` | 0 |
 
@@ -24,7 +24,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | E00 | [Projektfundament](epics/E00-projektfundament.md) | M1, Ausbau M2 | 5 | 4 | 0 | `in-progress` | 3/9 |
 | E01 | [Core-Domänenmodell und Contracts](epics/E01-core-domaenenmodell.md) | M1 | 7 | 0 | 0 | `done` | 7/7 |
-| E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 1 | 0 | `in-progress` | 4/9 |
+| E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 1 | 0 | `in-progress` | 5/9 |
 | E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 3 | 5 | 1 | `todo` | 0/9 |
 | E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 3 | 0 | `todo` | 0/11 |
 | E05 | [Symbolik, SMT, Numerik und Widerlegung](epics/E05-symbolik-smt-numerik.md) | M1, Ausbau M2, M5 und M6 | 3 | 4 | 2 | `todo` | 0/9 |
@@ -57,7 +57,6 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 
 | Feature | Titel | Priorität | Meilenstein |
 | --- | --- | --- | --- |
-| [F-02.04](epics/E02-event-sourcing-persistenz.md#f-0204-idempotenz-und-deduplizierung) | Idempotenz und Deduplizierung | P0 | M1 |
 | [F-02.05](epics/E02-event-sourcing-persistenz.md#f-0205-projektionen) | Projektionen | P0 | M1 |
 | [F-09.01](epics/E09-trial-and-error-tracking.md#f-0901-proofattempt-modell) | ProofAttempt-Modell | P0 | M1 |
 | [F-04.01](epics/E04-formal-verification.md#f-0401-lean-4-und-mathlib-einrichten) | Lean 4 und Mathlib einrichten | P0 | M1 |

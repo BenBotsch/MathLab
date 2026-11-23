@@ -23,7 +23,7 @@ Ereignisse werden nie geändert oder gelöscht. Die Reihenfolge pro Run vergibt 
 | F-02.01 | Event-Envelope-Schema | `done` | P0 | M1 |
 | F-02.02 | Eventtyp-Katalog | `done` | P0 | M1 |
 | F-02.03 | Append-only Event Store | `done` | P0 | M1 |
-| F-02.04 | Idempotenz und Deduplizierung | `ready` | P0 | M1 |
+| F-02.04 | Idempotenz und Deduplizierung | `done` | P0 | M1 |
 | F-02.05 | Projektionen | `ready` | P0 | M1 |
 | F-02.06 | Snapshots und deterministisches Replay | `todo` | P0 | M1 |
 | F-02.07 | Artefaktspeicher | `done` | P0 | M1 |
@@ -95,15 +95,15 @@ PostgreSQL-Tabelle für Ereignisse mit monotoner Sequenznummer pro Run, vergeben
 
 ### F-02.04 Idempotenz und Deduplizierung
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.03
 - Quelle: ARCH §18.4; UI §17.2
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat(storage): deduplicate events and apply projections idempotently` auf `develop`. Am 2026-11-23 gelaufen: `uv run ruff format .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` gegen PostgreSQL 17.6 im Container (507 passed) und ohne Datenbank (494 passed, 13 übersprungen), alle ohne Befund. Belege: Ein erneut eingereichtes Ereignis liefert das gespeicherte zurück und steht einmal im Store, auch bei 8 gleichzeitigen Einreichungen. Ein `event_id` mit anderem Inhalt löst `EventIdConflictError` aus. Ein Duplikat verbraucht keine Sequenznummer. `ProjectionRunner` (`src/mathlab/storage/projection.py`) wendet jedes Ereignis pro `(run_id, sequence)` genau einmal an, dreifaches Nachlesen des Logs lässt die Projektion unverändert, eine Lücke löst `SequenceGapError` aus. Abgrenzung: Die Deduplizierung über `command_id` gehört zur Command API und ist in F-14.04 als Akzeptanzkriterium belegt. Der Fortschritt des Runners liegt im Speicher, die dauerhafte Ablage folgt mit den Projektionen (F-02.05).
 
 Doppelt eingereichte Ereignisse und Commands werden über `event_id` bzw. `command_id` erkannt und nur einmal angewendet.
 
-- [ ] Ein doppelt gesendetes Ereignis erscheint einmal im Store.
-- [ ] Projektionen bleiben bei erneuter Verarbeitung unverändert.
+- [x] Ein doppelt gesendetes Ereignis erscheint einmal im Store.
+- [x] Projektionen bleiben bei erneuter Verarbeitung unverändert.
 
 ### F-02.05 Projektionen
 

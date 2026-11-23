@@ -14,9 +14,16 @@ import psycopg
 import pytest
 from pydantic import ValidationError
 
+from mathlab.core.event import EventEnvelope
 from mathlab.core.event_types import UnknownEventTypeError
 from mathlab.storage.artifacts import InlineContentTooLargeError
-from mathlab.storage.events import EventDraft, PostgresEventStore, database_url
+from mathlab.storage.events import (
+    EventDraft,
+    EventIdConflictError,
+    PostgresEventStore,
+    database_url,
+)
+from mathlab.storage.projection import ProjectionRunner
 
 URL = os.environ.get("MATHLAB_TEST_DATABASE_URL")
 needs_db = pytest.mark.skipif(URL is None, reason="MATHLAB_TEST_DATABASE_URL not set")
@@ -111,13 +118,59 @@ def test_rejected_append_leaves_no_gap(
 
 
 @needs_db
-def test_duplicate_event_id_is_rejected(store: PostgresEventStore) -> None:
+def test_duplicate_event_is_stored_once(store: PostgresEventStore) -> None:
+    run_id = uuid4()
+    first = draft(run_id)
+    stored = store.append(first)
+    assert store.append(first) == stored
+    assert store.append(draft(run_id)).sequence == 2
+    assert [e.event_id for e in store.read(run_id)].count(first.event_id) == 1
+
+
+@needs_db
+def test_concurrent_duplicates_are_stored_once(store: PostgresEventStore) -> None:
+    run_id = uuid4()
+    same = draft(run_id)
+    results: list[EventEnvelope] = []
+    threads = [
+        threading.Thread(target=lambda: results.append(store.append(same))) for _ in range(8)
+    ]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert len(results) == 8
+    assert {r.sequence for r in results} == {1}
+    assert len(store.read(run_id)) == 1
+
+
+@needs_db
+def test_reused_event_id_with_other_content_conflicts(store: PostgresEventStore) -> None:
     run_id = uuid4()
     first = draft(run_id)
     store.append(first)
-    with pytest.raises(psycopg.errors.UniqueViolation):
-        store.append(first)
+    changed = first.model_copy(update={"schema_version": 2})
+    with pytest.raises(EventIdConflictError):
+        store.append(changed)
     assert store.append(draft(run_id)).sequence == 2
+
+
+@needs_db
+def test_reprocessing_the_log_leaves_projection_unchanged(store: PostgresEventStore) -> None:
+    run_id = uuid4()
+    for _ in range(4):
+        store.append(draft(run_id))
+    seen: list[int] = []
+
+    class Counter:
+        def apply(self, event: EventEnvelope) -> None:
+            seen.append(event.sequence)
+
+    runner = ProjectionRunner(Counter())
+    for _ in range(3):
+        for event in store.read(run_id):
+            runner.process(event)
+    assert seen == [1, 2, 3, 4]
 
 
 @needs_db
