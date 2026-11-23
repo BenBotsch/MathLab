@@ -30,6 +30,7 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 | F-04.08 | Prüfung einzelner Beweispflichten | `todo` | P0 | M1 |
 | F-04.09 | Verifikations-Cache und Revalidierung | `todo` | P1 | M2 |
 | F-04.10 | Rekonstruktion externer Ergebnisse | `todo` | P1 | M2 |
+| F-04.11 | Spike Lean-Interaktionsschicht | `todo` | P0 | M1 |
 
 ## Features
 
@@ -48,7 +49,7 @@ Lean-Projekt mit gepinnter Toolchain und Mathlib-Version, vorkompiliertem Cache 
 ### F-04.02 Lean-Interaktionsadapter
 
 - Status: `todo` · Priorität: P0 · Meilenstein: M1
-- Abhängigkeiten: F-04.01, F-01.04, F-00.01 (OD-02)
+- Abhängigkeiten: F-04.01, F-01.04, F-04.11, F-00.01 (OD-02)
 - Quelle: ARCH §17.1 (LeanDojo, Pantograph); LeanDojo in ARCH §2.1
 - Bearbeiter: offen · Nachweise: offen
 
@@ -153,3 +154,18 @@ Ergebnisse aus SymPy, SMT oder Numerik werden erst nach Rekonstruktion in Lean o
 
 - [ ] Eine SymPy-Identität wird als Lean-Ziel rekonstruiert und geprüft.
 - [ ] Ohne Rekonstruktion bleibt die Erkenntnisstufe `SYMBOLICALLY_DERIVED`.
+
+### F-04.11 Spike Lean-Interaktionsschicht
+
+- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Abhängigkeiten: F-00.03, F-11.01
+- Quelle: ARCH §13.1, §17.1; ADR-0002
+- Bearbeiter: offen · Nachweise: offen
+
+Ein zeitlich begrenzter Spike prüft Pantograph (PyPantograph) und als Rückfall die Lean REPL gegen die gepinnte Lean- und Mathlib-Version. Das Ergebnis entscheidet OD-02.
+
+- [ ] Beide Werkzeuge starten mit der gepinnten Version im Linux-Container.
+- [ ] Ein Golden-Theorem aus F-11.01 wird geladen, die Goals werden ausgelesen.
+- [ ] Taktikausführung, Verzweigung und Rückkehr zu einem früheren Zustand sind demonstriert.
+- [ ] Startzeit, Zeit pro Taktik und Speicherbedarf sind gemessen.
+- [ ] Lizenz und letzte Releases sind festgehalten. ADR-0002 ist mit dem Ergebnis aktualisiert und dem Benutzer vorgelegt.

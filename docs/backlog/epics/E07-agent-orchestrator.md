@@ -47,6 +47,7 @@ Kein Agent setzt einen Verifikationsstatus, `VERIFIED` stammt nur aus dem verifi
 | F-07.13 | Conjecture Generator und Counterexample Generator | `todo` | P1 | M2 |
 | F-07.14 | Geometry Agent | `todo` | P2 | M5 |
 | F-07.15 | Versionierte Agenten- und Modellprofile | `todo` | P1 | M2 |
+| F-07.16 | Bedienung aus Claude Code über MCP und CLI | `todo` | P1 | M1 |
 
 ## Features
 
@@ -287,3 +288,16 @@ Spezialisierter Agent für den geometrischen Beweisweg, also die Darstellung von
 Backend für Provider, Modelle, Prompts, Methoden, Budgets und Rechte als versionierte Profile. Jeder Run referenziert die verwendete Profilversion.
 
 - [ ] Eine Profiländerung erzeugt eine neue Version, alte Runs zeigen weiter ihre ursprüngliche Version.
+
+### F-07.16 Bedienung aus Claude Code über MCP und CLI
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M1
+- Abhängigkeiten: F-14.01, F-01.04
+- Quelle: ADR-0003
+- Bearbeiter: offen · Nachweise: offen
+
+MathLab stellt Runs, Problemimport, Taktikvorschlag und Ergebnisabfrage als MCP-Server und CLI bereit, sodass Claude Code Desktop das System lokal bedienen kann. Claude Code ist ein Agent ohne Sonderrechte.
+
+- [ ] Claude Code startet über MCP einen Run und liest dessen Events.
+- [ ] Ein Vorschlag aus Claude Code erzeugt ein Event mit Provenienz `claude-code` und geht an das Verifikations-Backend.
+- [ ] Ein Test belegt, dass über MCP weder `VERIFIED` gesetzt noch die Zielaussage geändert werden kann.

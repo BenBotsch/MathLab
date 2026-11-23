@@ -20,33 +20,36 @@ Versionen von Python, Lean, Mathlib, Solvern und Bibliotheken sind gepinnt (ARCH
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-00.01 | Architekturentscheidungen für M1 vorbereiten | `ready` | P0 | M1 |
-| F-00.02 | Repository-Grundgerüst | `todo` | P0 | M1 |
+| F-00.01 | Architekturentscheidungen für M1 vorbereiten | `blocked` | P0 | M1 |
+| F-00.02 | Repository-Grundgerüst | `ready` | P0 | M1 |
 | F-00.03 | Toolchain-Pinning und Environment-Fingerprint | `todo` | P0 | M1 |
 | F-00.04 | Container-Umgebung | `todo` | P0 | M1 |
 | F-00.05 | CI-Grundgates | `todo` | P0 | M1 |
 | F-00.06 | Fachliche CI-Gates | `todo` | P1 | M2 |
 | F-00.07 | Lizenzinventar | `todo` | P1 | M1 |
 | F-00.08 | Entwickler-Setup dokumentieren | `todo` | P1 | M1 |
+| F-00.09 | Sicherung des Datenordners | `todo` | P1 | M1 |
 
 ## Features
 
 ### F-00.01 Architekturentscheidungen für M1 vorbereiten
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `blocked` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: keine
 - Quelle: ARCH §17.1, §17.3, §18.3; UI §19
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: ADR-0001 bis ADR-0006 in docs/decisions/. ADR-0001, 0003, 0004, 0005 und 0006 sind am 2026-11-23 vom Benutzer angenommen.
 
 Für OD-01 bis OD-06 werden Optionen recherchiert, verglichen und als ADR-Entwurf mit Empfehlung vorgelegt. Die Entscheidung trifft der Benutzer.
 
-- [ ] Für jede OD-01 bis OD-06 liegt ein ADR-Entwurf mit Optionen, Empfehlung und Begründung vor.
-- [ ] Der Widerspruch Flutter gegen React (OD-01) ist mit beiden Quellen belegt dargestellt.
-- [ ] Nach Freigabe durch den Benutzer sind die ADRs `accepted` und die OD-Einträge `decided`.
+- [x] Für jede OD-01 bis OD-06 liegt ein ADR-Entwurf mit Optionen, Empfehlung und Begründung vor.
+- [x] Der Widerspruch Flutter gegen React (OD-01) ist mit beiden Quellen belegt dargestellt.
+- [ ] Nach Freigabe durch den Benutzer sind die ADRs `accepted` und die OD-Einträge `decided`. Fünf von sechs sind erledigt, OD-02 fehlt noch.
+
+Blockiert: OD-02 wird erst nach dem Spike F-04.11 entschieden. Das hat der Benutzer am 2026-11-23 so festgelegt.
 
 ### F-00.02 Repository-Grundgerüst
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.01 (OD-05)
 - Quelle: ARCH §18.3
 - Bearbeiter: offen · Nachweise: offen
@@ -183,3 +186,15 @@ Inventar der Lizenzen aller eingesetzten Werkzeuge, Bibliotheken, Modellgewichte
 Root-README mit Zweck, Setup unter Windows und Linux, Teststart und Verweis auf die Docs.
 
 - [ ] Ein frisches Klonen und Befolgen der README führt zu grünen Tests.
+
+### F-00.09 Sicherung des Datenordners
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M1
+- Abhängigkeiten: F-02.07
+- Quelle: ADR-0006
+- Bearbeiter: offen · Nachweise: offen
+
+Der Datenordner `D:\MathLabData` (überschreibbar über `MATHLAB_DATA_DIR`) wird nach `D:\Sicherungen\MathLab` gesichert. Die Sicherung ist konsistent mit dem Event Store und verändert keine bestehenden Artefakte.
+
+- [ ] Ein dokumentierter Befehl erzeugt eine zeitgestempelte Sicherung unter `D:\Sicherungen\MathLab`.
+- [ ] Eine Wiederherstellung in ein leeres Verzeichnis ist getestet, und die Content-Hashes der Artefakte stimmen überein.

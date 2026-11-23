@@ -8,7 +8,7 @@ Die Feature-Tabellen dieser Datei spiegeln die Epic-Dateien. Bei Abweichungen gi
 
 | Meilenstein | Inhalt | Quelle | Features |
 | --- | --- | --- | --- |
-| [M1](#m1) | Proof Engine MVP und Live Research Workspace | ARCH Phase 1, UI Stufe 1 | 114 |
+| [M1](#m1) | Proof Engine MVP und Live Research Workspace | ARCH Phase 1, UI Stufe 1 | 117 |
 | [M2](#m2) | Mehrere Agenten und Methoden, Research Intelligence | ARCH Phase 2, UI Stufe 2 | 74 |
 | [M3](#m3) | Wissensgraph und Langzeitgedächtnis | ARCH Phase 3 | 14 |
 | [M4](#m4) | ML und RL | ARCH Phase 4 | 13 |
@@ -45,13 +45,13 @@ Exit-Kriterien aus UI §20, Stufe 1:
 
 | Epic | P0 | P1 | P2 |
 | --- | --- | --- | --- |
-| [E00](epics/E00-projektfundament.md) | F-00.01, F-00.02, F-00.03, F-00.04, F-00.05 | F-00.07, F-00.08 | keine |
+| [E00](epics/E00-projektfundament.md) | F-00.01, F-00.02, F-00.03, F-00.04, F-00.05 | F-00.07, F-00.08, F-00.09 | keine |
 | [E01](epics/E01-core-domaenenmodell.md) | F-01.01, F-01.02, F-01.03, F-01.04, F-01.05, F-01.06, F-01.07 | keine | keine |
 | [E02](epics/E02-event-sourcing-persistenz.md) | F-02.01, F-02.02, F-02.03, F-02.04, F-02.05, F-02.06, F-02.07, F-02.08 | keine | keine |
 | [E03](epics/E03-problem-engine.md) | F-03.01, F-03.02, F-03.05 | F-03.03 | keine |
-| [E04](epics/E04-formal-verification.md) | F-04.01, F-04.02, F-04.03, F-04.04, F-04.05, F-04.07, F-04.08 | F-04.06 | keine |
+| [E04](epics/E04-formal-verification.md) | F-04.01, F-04.02, F-04.03, F-04.04, F-04.05, F-04.07, F-04.08, F-04.11 | F-04.06 | keine |
 | [E05](epics/E05-symbolik-smt-numerik.md) | F-05.01, F-05.02, F-05.07 | keine | keine |
-| [E07](epics/E07-agent-orchestrator.md) | F-07.01, F-07.02, F-07.03, F-07.04, F-07.05, F-07.09 | keine | keine |
+| [E07](epics/E07-agent-orchestrator.md) | F-07.01, F-07.02, F-07.03, F-07.04, F-07.05, F-07.09 | F-07.16 | keine |
 | [E08](epics/E08-proof-search.md) | F-08.01, F-08.02, F-08.03, F-08.04, F-08.05 | keine | keine |
 | [E09](epics/E09-trial-and-error-tracking.md) | F-09.01, F-09.02, F-09.03, F-09.05 | keine | keine |
 | [E11](epics/E11-benchmarks-evaluation.md) | F-11.01, F-11.02, F-11.03, F-11.04, F-11.09 | keine | keine |
@@ -75,8 +75,8 @@ Die Stufen ergeben sich aus den Feature-Abhängigkeiten. Ein Feature einer Stufe
 | 0 | F-00.01, F-00.07, F-11.01, F-24.09 |
 | 1 | F-00.02 |
 | 2 | F-00.03, F-00.05, F-01.01, F-01.02, F-15.01 |
-| 3 | F-00.04, F-01.03, F-01.04, F-01.05, F-01.06, F-01.07, F-02.01, F-02.07, F-03.01, F-05.07, F-14.01, F-15.02, F-15.03, F-15.06 |
-| 4 | F-00.08, F-02.02, F-02.03, F-03.02, F-04.01, F-07.01, F-15.07, F-15.10, F-23.01, F-24.01, F-24.02, F-24.03, F-24.04 |
+| 3 | F-00.04, F-01.03, F-01.04, F-01.05, F-01.06, F-01.07, F-02.01, F-02.07, F-03.01, F-04.11, F-05.07, F-14.01, F-15.02, F-15.03, F-15.06 |
+| 4 | F-00.08, F-00.09, F-02.02, F-02.03, F-03.02, F-04.01, F-07.01, F-07.16, F-15.07, F-15.10, F-23.01, F-24.01, F-24.02, F-24.03, F-24.04 |
 | 5 | F-02.04, F-02.05, F-03.03, F-03.05, F-04.02, F-05.01, F-07.02, F-09.01, F-12.10, F-14.03, F-14.11, F-23.05 |
 | 6 | F-02.06, F-04.03, F-05.02, F-07.03, F-08.01, F-09.02, F-09.03, F-09.05, F-14.06, F-15.09, F-19.01 |
 | 7 | F-02.08, F-04.04, F-04.05, F-07.04, F-07.05, F-08.02, F-11.09, F-14.02, F-14.04, F-18.01, F-19.02, F-19.05, F-19.06 |

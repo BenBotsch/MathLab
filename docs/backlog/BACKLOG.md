@@ -4,16 +4,16 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-257 Features in 26 Epics. Erledigt sind 0 von 257.
+260 Features in 26 Epics. Erledigt sind 0 von 260.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 254 |
+| `todo` | 256 |
 | `ready` | 3 |
 | `in-progress` | 0 |
 | `review` | 0 |
 | `done` | 0 |
-| `blocked` | 0 |
+| `blocked` | 1 |
 | `dropped` | 0 |
 
 ## Epics
@@ -22,14 +22,14 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 
 | Epic | Titel | Meilenstein | P0 | P1 | P2 | Status | Fortschritt |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| E00 | [Projektfundament](epics/E00-projektfundament.md) | M1, Ausbau M2 | 5 | 3 | 0 | `todo` | 0/8 |
+| E00 | [Projektfundament](epics/E00-projektfundament.md) | M1, Ausbau M2 | 5 | 4 | 0 | `in-progress` | 0/9 |
 | E01 | [Core-Domänenmodell und Contracts](epics/E01-core-domaenenmodell.md) | M1 | 7 | 0 | 0 | `todo` | 0/7 |
 | E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 1 | 0 | `todo` | 0/9 |
 | E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 3 | 5 | 1 | `todo` | 0/9 |
-| E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 7 | 3 | 0 | `todo` | 0/10 |
+| E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 3 | 0 | `todo` | 0/11 |
 | E05 | [Symbolik, SMT, Numerik und Widerlegung](epics/E05-symbolik-smt-numerik.md) | M1, Ausbau M2, M5 und M6 | 3 | 4 | 2 | `todo` | 0/9 |
 | E06 | [Strategy Engine und Beweismethodenkatalog](epics/E06-strategy-engine.md) | M2, Ausbau M3 und M4 | 3 | 3 | 0 | `todo` | 0/6 |
-| E07 | [Agent Orchestrator und Multiagentensystem](epics/E07-agent-orchestrator.md) | M1, Ausbau M2 bis M6 | 6 | 7 | 2 | `todo` | 0/15 |
+| E07 | [Agent Orchestrator und Multiagentensystem](epics/E07-agent-orchestrator.md) | M1, Ausbau M2 bis M6 | 6 | 8 | 2 | `todo` | 0/16 |
 | E08 | [Proof Search Engine](epics/E08-proof-search.md) | M1, Ausbau M2, M4 und M6 | 5 | 5 | 1 | `todo` | 0/11 |
 | E09 | [Trial-and-Error und Experiment Tracking](epics/E09-trial-and-error-tracking.md) | M1, Ausbau M2 und M4 | 4 | 3 | 0 | `todo` | 0/7 |
 | E10 | [Wissensgraph und mathematisches Langzeitgedächtnis](epics/E10-wissensgraph.md) | M3, Vorstufe M2, Ausbau M6 | 7 | 4 | 1 | `todo` | 0/12 |
@@ -51,11 +51,13 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 
 ## Now
 
+Blockiert: [F-00.01](epics/E00-projektfundament.md#f-0001-architekturentscheidungen-für-m1-vorbereiten) Architekturentscheidungen für M1 vorbereiten (P0, M1). Fünf von sechs ADRs sind angenommen, OD-02 wartet auf den Spike F-04.11.
+
 Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen gezogen werden.
 
 | Feature | Titel | Priorität | Meilenstein |
 | --- | --- | --- | --- |
-| [F-00.01](epics/E00-projektfundament.md#f-0001-architekturentscheidungen-für-m1-vorbereiten) | Architekturentscheidungen für M1 vorbereiten | P0 | M1 |
+| [F-00.02](epics/E00-projektfundament.md#f-0002-repository-grundgerüst) | Repository-Grundgerüst | P0 | M1 |
 | [F-11.01](epics/E11-benchmarks-evaluation.md#f-1101-golden-problemliste-für-m1-ausarbeiten) | Golden-Problemliste für M1 ausarbeiten | P0 | M1 |
 | [F-24.09](epics/E24-sicherheit-sandbox.md#f-2409-risikoregister) | Risikoregister | P0 | M1 |
 
@@ -65,7 +67,6 @@ M1-Features, die als Nächstes `ready` werden können. Es sind die Stufen 1 bis 
 
 | Feature | Titel | Priorität | Abhängigkeiten |
 | --- | --- | --- | --- |
-| [F-00.02](epics/E00-projektfundament.md#f-0002-repository-grundgerüst) | Repository-Grundgerüst | P0 | F-00.01, OD-05 |
 | [F-00.03](epics/E00-projektfundament.md#f-0003-toolchain-pinning-und-environment-fingerprint) | Toolchain-Pinning und Environment-Fingerprint | P0 | F-00.02 |
 | [F-00.05](epics/E00-projektfundament.md#f-0005-ci-grundgates) | CI-Grundgates | P0 | F-00.02 |
 | [F-01.01](epics/E01-core-domaenenmodell.md#f-0101-statusmaschine-der-erkenntnisstufen) | Statusmaschine der Erkenntnisstufen | P0 | F-00.02 |
@@ -81,6 +82,7 @@ M1-Features, die als Nächstes `ready` werden können. Es sind die Stufen 1 bis 
 | [F-02.07](epics/E02-event-sourcing-persistenz.md#f-0207-artefaktspeicher) | Artefaktspeicher | P0 | F-00.01, OD-06, F-01.02 |
 | [F-03.01](epics/E03-problem-engine.md#f-0301-import-von-text-latex-und-lean) | Import von Text, LaTeX und Lean | P0 | F-01.02 |
 | [F-05.07](epics/E05-symbolik-smt-numerik.md#f-0507-gegenbeispiel-objekt) | Gegenbeispiel-Objekt | P0 | F-01.02 |
+| [F-04.11](epics/E04-formal-verification.md#f-0411-spike-lean-interaktionsschicht) | Spike Lean-Interaktionsschicht | P0 | F-00.03, F-11.01 |
 | [F-14.01](epics/E14-backend-api.md#f-1401-fastapi-grundgerüst-und-versioniertes-api-schema) | FastAPI-Grundgerüst und versioniertes API-Schema | P0 | F-00.02, F-01.02 |
 | [F-15.02](epics/E15-research-shell.md#f-1502-globale-navigation) | Globale Navigation | P0 | F-15.01 |
 | [F-15.03](epics/E15-research-shell.md#f-1503-workspace-layout-und-panelverwaltung) | Workspace-Layout und Panelverwaltung | P0 | F-15.01 |
@@ -92,7 +94,7 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
-| [M1](ROADMAP.md#m1) | 91 | 75 | 16 | 0 |
+| [M1](ROADMAP.md#m1) | 93 | 75 | 18 | 0 |
 | [M2](ROADMAP.md#m2) | 74 | 11 | 61 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |
