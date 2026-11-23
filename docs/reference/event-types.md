@@ -14,8 +14,8 @@ Felder mit `?` sind optional.
 | `proof.branch.created` | `ProofBranchCreated` | `branch_id`, `parent_branch_id`? | The search branched. |
 | `proof.goal.created` | `ProofGoalCreated` | `proof_node_id`, `goal`, `parent_node_id`? | A new (sub)goal appeared in the proof graph. |
 | `proof.step.proposed` | `ProofStepProposed` | `step_id`, `attempt_id`, `tactic` | A tactic candidate was proposed. Not yet checked. |
-| `proof.step.accepted` | `ProofStepAccepted` | `step_id` | A proposed step was accepted into the attempt. |
-| `proof.step.verified` | `ProofStepVerified` | `step_id`, `verification_result_id` | The checker confirmed a step. |
+| `proof.step.accepted` | `ProofStepAccepted` | `step_id` | Search accepted a proposed step into the attempt; no formal check implied (ARCH §9.4). |
+| `proof.step.verified` | `ProofStepVerified` | `step_id`, `verification_result_id` | The trusted checker confirmed a step; needs a verification result (UI §8.1). |
 | `proof.step.rejected` | `ProofStepRejected` | `step_id`, `failure_code`?, `message`? | A step was rejected; ``failure_code`` follows ARCH §9.3 when classified. |
 | `lemma.discovered` | `LemmaDiscovered` | `lemma_id`, `name` | A candidate lemma was found. |
 | `lemma.verified` | `LemmaVerified` | `lemma_id`, `verification_result_id` | The checker confirmed a lemma. |

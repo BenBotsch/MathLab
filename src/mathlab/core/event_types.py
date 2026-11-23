@@ -9,6 +9,11 @@ the domain model plus the few values the UI needs. Large content stays in entiti
 (WORKFLOW invariant "no VERIFIED without proof evidence"). Budgets follow ADR-0003 (calls, tokens,
 runtime; no currency).
 
+``proof.step.accepted`` (ARCH §9.4) and ``proof.step.verified`` (UI §8.1) differ: *accepted* means
+the search kept the step in its attempt, which is an agent decision and says nothing about
+correctness; *verified* means the checker confirmed it. A step can be accepted and later
+rejected by the checker.
+
 Run ``uv run python -m mathlab.core.event_types`` to regenerate ``docs/reference/event-types.md``.
 """
 
@@ -85,13 +90,13 @@ class ProofStepProposed(Payload):
 
 
 class ProofStepAccepted(Payload):
-    """A proposed step was accepted into the attempt."""
+    """Search accepted a proposed step into the attempt; no formal check implied (ARCH §9.4)."""
 
     step_id: UUID
 
 
 class ProofStepVerified(Payload):
-    """The checker confirmed a step."""
+    """The trusted checker confirmed a step; needs a verification result (UI §8.1)."""
 
     step_id: UUID
     verification_result_id: UUID

@@ -185,3 +185,13 @@ def test_budget_has_no_currency() -> None:
 def test_reference_doc_matches_catalogue() -> None:
     on_disk = (REPO_ROOT / "docs" / "reference" / "event-types.md").read_text(encoding="utf-8")
     assert on_disk == render_reference(), "run `uv run python -m mathlab.core.event_types`"
+
+
+def test_accepted_step_carries_no_verification_claim() -> None:
+    with pytest.raises(ValidationError):
+        validate_payload(
+            envelope(
+                "proof.step.accepted",
+                {**EXAMPLES["proof.step.accepted"], "verification_result_id": U + "07"},
+            )
+        )
