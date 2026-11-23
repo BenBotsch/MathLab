@@ -22,8 +22,8 @@ Versionen von Python, Lean, Mathlib, Solvern und Bibliotheken sind gepinnt (ARCH
 | --- | --- | --- | --- | --- |
 | F-00.01 | Architekturentscheidungen für M1 vorbereiten | `blocked` | P0 | M1 |
 | F-00.02 | Repository-Grundgerüst | `done` | P0 | M1 |
-| F-00.03 | Toolchain-Pinning und Environment-Fingerprint | `ready` | P0 | M1 |
-| F-00.04 | Container-Umgebung | `todo` | P0 | M1 |
+| F-00.03 | Toolchain-Pinning und Environment-Fingerprint | `done` | P0 | M1 |
+| F-00.04 | Container-Umgebung | `ready` | P0 | M1 |
 | F-00.05 | CI-Grundgates | `ready` | P0 | M1 |
 | F-00.06 | Fachliche CI-Gates | `todo` | P1 | M2 |
 | F-00.07 | Lizenzinventar | `todo` | P1 | M1 |
@@ -117,20 +117,20 @@ math-research-system/
 
 ### F-00.03 Toolchain-Pinning und Environment-Fingerprint
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.02
 - Quelle: ARCH §3.2, §9.2, §21 (Toolversionen); UI §19.2
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat: add environment fingerprint` auf `develop`. Am 2026-11-23 gelaufen: `uv lock --check`, `uv run ruff format .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` (485 passed), alle ohne Befund. Fixierung über `.python-version` und `uv.lock` (beide eingecheckt, Test prüft das), ein Frontend gibt es noch nicht. Fingerprint in `src/mathlab/environment.py` (`uv run python -m mathlab.environment`), Tests in `tests/test_environment.py`, darunter Stabilität über Prozesse mit verschiedenem `PYTHONHASHSEED`. Lean, Mathlib und Solver sind noch nicht installiert und werden als `None` erfasst.
 
 Alle Versionen werden fixiert, und eine Funktion erzeugt einen Fingerprint aus Python-, Lean-, Mathlib-, Solver- und Bibliotheksversionen sowie Git-Commit. Der Fingerprint wird später in jedem ProofAttempt gespeichert (F-09.02).
 
-- [ ] Lockfiles für Python und, falls vorhanden, Frontend sind eingecheckt.
-- [ ] Der Fingerprint ist deterministisch und ändert sich bei jeder Versionsänderung.
-- [ ] Ein Test belegt beide Eigenschaften.
+- [x] Lockfiles für Python und, falls vorhanden, Frontend sind eingecheckt.
+- [x] Der Fingerprint ist deterministisch und ändert sich bei jeder Versionsänderung.
+- [x] Ein Test belegt beide Eigenschaften.
 
 ### F-00.04 Container-Umgebung
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.03
 - Quelle: ARCH §3.2 (Portabilität), §17.1 (Docker)
 - Bearbeiter: offen · Nachweise: offen

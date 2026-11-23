@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-260 Features in 26 Epics. Erledigt sind 11 von 260.
+260 Features in 26 Epics. Erledigt sind 12 von 260.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 234 |
+| `todo` | 233 |
 | `ready` | 14 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 11 |
+| `done` | 12 |
 | `blocked` | 1 |
 | `dropped` | 0 |
 
@@ -22,7 +22,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 
 | Epic | Titel | Meilenstein | P0 | P1 | P2 | Status | Fortschritt |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| E00 | [Projektfundament](epics/E00-projektfundament.md) | M1, Ausbau M2 | 5 | 4 | 0 | `in-progress` | 1/9 |
+| E00 | [Projektfundament](epics/E00-projektfundament.md) | M1, Ausbau M2 | 5 | 4 | 0 | `in-progress` | 2/9 |
 | E01 | [Core-Domänenmodell und Contracts](epics/E01-core-domaenenmodell.md) | M1 | 7 | 0 | 0 | `done` | 7/7 |
 | E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 1 | 0 | `in-progress` | 3/9 |
 | E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 3 | 5 | 1 | `todo` | 0/9 |
@@ -57,7 +57,7 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 
 | Feature | Titel | Priorität | Meilenstein |
 | --- | --- | --- | --- |
-| [F-00.03](epics/E00-projektfundament.md#f-0003-toolchain-pinning-und-environment-fingerprint) | Toolchain-Pinning und Environment-Fingerprint | P0 | M1 |
+| [F-00.04](epics/E00-projektfundament.md#f-0004-container-umgebung) | Container-Umgebung | P0 | M1 |
 | [F-00.05](epics/E00-projektfundament.md#f-0005-ci-grundgates) | CI-Grundgates | P0 | M1 |
 | [F-07.02](epics/E07-agent-orchestrator.md#f-0702-typisierte-agentennachrichten) | Typisierte Agentennachrichten | P0 | M1 |
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
