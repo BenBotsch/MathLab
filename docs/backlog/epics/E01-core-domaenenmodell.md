@@ -25,7 +25,7 @@ Persistenz und Events liegen in E02. Konkrete Engine-Implementierungen liegen in
 | F-01.03 | Unveränderliche Zielaussage mit Hash | `ready` | P0 | M1 |
 | F-01.04 | Engine-Contracts | `ready` | P0 | M1 |
 | F-01.05 | Provenienzmodell | `ready` | P0 | M1 |
-| F-01.06 | Run- und Betriebsmodusmodell | `ready` | P0 | M1 |
+| F-01.06 | Run- und Betriebsmodusmodell | `done` | P0 | M1 |
 | F-01.07 | Getrennte Statusräume | `todo` | P0 | M1 |
 
 ## Features
@@ -117,15 +117,15 @@ Jede Behauptung trägt Quelle, Bedingungen, Prüfstatus, Artefakt-ID und Version
 
 ### F-01.06 Run- und Betriebsmodusmodell
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02
 - Quelle: ARCH §3.3; UI §3.2
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat(core): add run model with operating modes and status transitions` auf `develop`. Am 2026-11-23 gelaufen: `uv run ruff format .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` (138 passed), alle ohne Befund.
 
 Ein Run hat Problem, Modus, Konfiguration, Budget, Status und Zustandsversion. Die fünf Betriebsmodi sind als Enum mit den zugehörigen Zugriffsregeln definiert, deren Durchsetzung F-11.02 übernimmt.
 
-- [ ] Run-Status-Übergänge `RUNNING`, `PAUSED`, `COMPLETED`, `FAILED`, `CANCELLED` sind definiert und getestet.
-- [ ] Jede Statusänderung erhöht die Zustandsversion.
+- [x] Run-Status-Übergänge `RUNNING`, `PAUSED`, `COMPLETED`, `FAILED`, `CANCELLED` sind definiert und getestet (`src/mathlab/core/run.py`, `tests/core/test_run.py`). Endzustände haben keinen Ausgang, ein neuer Versuch ist ein neuer Run.
+- [x] Jede Statusänderung erhöht die Zustandsversion. `Run.transition` liefert eine neue Instanz mit `state_version + 1`.
 
 ### F-01.07 Getrennte Statusräume
 

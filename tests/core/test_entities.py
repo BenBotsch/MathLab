@@ -9,7 +9,7 @@ import pytest
 from pydantic import ValidationError
 
 from mathlab.core import entities as e
-from mathlab.core.schema import render_schemas
+from mathlab.core.schema import SCHEMA_TYPES, render_schemas
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 NOW = datetime(2026, 11, 23, 12, 0, tzinfo=UTC)
@@ -142,4 +142,4 @@ def test_write_schemas_removes_stale_files(tmp_path: Path) -> None:
     (tmp_path / "Old.schema.json").write_text("{}", encoding="utf-8")
     written = write_schemas(tmp_path)
     assert not (tmp_path / "Old.schema.json").exists()
-    assert len(written) == len(e.ENTITY_TYPES)
+    assert len(written) == len(SCHEMA_TYPES)

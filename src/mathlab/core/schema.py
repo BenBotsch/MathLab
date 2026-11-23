@@ -8,7 +8,13 @@ import json
 import sys
 from pathlib import Path
 
+from pydantic import BaseModel
+
 from mathlab.core.entities import ENTITY_TYPES
+from mathlab.core.run import Run
+
+SCHEMA_TYPES: tuple[type[BaseModel], ...] = (*ENTITY_TYPES, Run)
+"""Every model with a checked-in schema: the ARCH §18.1 entities plus ``Run``."""
 
 DEFAULT_OUTPUT_DIR = Path("schemas/core")
 
@@ -24,7 +30,7 @@ def render_schemas() -> dict[str, str]:
             entity.model_json_schema(), indent=2, sort_keys=True, ensure_ascii=False
         )
         + "\n"
-        for entity in ENTITY_TYPES
+        for entity in SCHEMA_TYPES
     }
 
 

@@ -1,0 +1,121 @@
+{
+  "$defs": {
+    "JsonValue": {},
+    "OperatingMode": {
+      "description": "The five operating modes of a run (ARCH §3.3).",
+      "enum": [
+        "BLIND_REDISCOVERY",
+        "ASSISTED_REDISCOVERY",
+        "ALTERNATIVE_PROOF",
+        "CONJECTURE_RESEARCH",
+        "MATHEMATICAL_EXPLORATION"
+      ],
+      "title": "OperatingMode",
+      "type": "string"
+    },
+    "RunBudget": {
+      "additionalProperties": false,
+      "description": "Hard limits of a run (ADR-0003): model calls, tokens and wall-clock time, no USD budget.",
+      "properties": {
+        "max_model_calls": {
+          "minimum": 0,
+          "title": "Max Model Calls",
+          "type": "integer"
+        },
+        "max_runtime_seconds": {
+          "minimum": 1,
+          "title": "Max Runtime Seconds",
+          "type": "integer"
+        },
+        "max_tokens": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Tokens"
+        }
+      },
+      "required": [
+        "max_model_calls",
+        "max_runtime_seconds"
+      ],
+      "title": "RunBudget",
+      "type": "object"
+    },
+    "RunStatus": {
+      "description": "Lifecycle status of a run (UI §3.2). Unrelated to agent or verification status.",
+      "enum": [
+        "RUNNING",
+        "PAUSED",
+        "COMPLETED",
+        "FAILED",
+        "CANCELLED"
+      ],
+      "title": "RunStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A research run on one problem in one operating mode.",
+  "properties": {
+    "budget": {
+      "$ref": "#/$defs/RunBudget"
+    },
+    "configuration": {
+      "additionalProperties": {
+        "$ref": "#/$defs/JsonValue"
+      },
+      "title": "Configuration",
+      "type": "object"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "mode": {
+      "$ref": "#/$defs/OperatingMode"
+    },
+    "problem_id": {
+      "format": "uuid",
+      "title": "Problem Id",
+      "type": "string"
+    },
+    "state_version": {
+      "default": 1,
+      "minimum": 1,
+      "title": "State Version",
+      "type": "integer"
+    },
+    "status": {
+      "$ref": "#/$defs/RunStatus",
+      "default": "RUNNING"
+    },
+    "version": {
+      "minimum": 1,
+      "title": "Version",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "created_at",
+    "problem_id",
+    "mode",
+    "budget"
+  ],
+  "title": "Run",
+  "type": "object"
+}
