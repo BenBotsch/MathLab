@@ -1,0 +1,97 @@
+{
+  "additionalProperties": false,
+  "description": "Raw outcome reported by a trusted checker for one artifact.\n\nThe verification status derived from it is a separate type (F-01.07); this DTO only records\nwhat the checker reported.",
+  "properties": {
+    "attempt_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Attempt Id"
+    },
+    "checker": {
+      "minLength": 1,
+      "title": "Checker",
+      "type": "string"
+    },
+    "checker_version": {
+      "minLength": 1,
+      "title": "Checker Version",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "formal_statement_id": {
+      "format": "uuid",
+      "title": "Formal Statement Id",
+      "type": "string"
+    },
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "invalid_steps": {
+      "minimum": 0,
+      "title": "Invalid Steps",
+      "type": "integer"
+    },
+    "messages": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Messages",
+      "type": "array"
+    },
+    "proof_artifact": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Proof Artifact"
+    },
+    "unresolved_goals": {
+      "minimum": 0,
+      "title": "Unresolved Goals",
+      "type": "integer"
+    },
+    "valid_steps": {
+      "minimum": 0,
+      "title": "Valid Steps",
+      "type": "integer"
+    },
+    "version": {
+      "minimum": 1,
+      "title": "Version",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "created_at",
+    "formal_statement_id",
+    "checker",
+    "checker_version",
+    "valid_steps",
+    "invalid_steps",
+    "unresolved_goals"
+  ],
+  "title": "VerificationResult",
+  "type": "object"
+}

@@ -4,7 +4,9 @@ version = "0.1.0"
 description = "Agentic system for mathematical research and formally verified proofs."
 readme = "docs/README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "pydantic>=2.9",
+]
 
 [dependency-groups]
 dev = [
@@ -29,6 +31,7 @@ src = ["src", "tests"]
 select = ["E", "F", "W", "I", "B", "UP", "N", "SIM", "RUF"]
 
 [tool.mypy]
+plugins = ["pydantic.mypy"]
 python_version = "3.12"
 strict = true
 files = ["src", "tests"]

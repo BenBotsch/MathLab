@@ -1,0 +1,52 @@
+{
+  "additionalProperties": false,
+  "description": "A named theorem, e.g. a library result or a proved target.",
+  "properties": {
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "formal_statement_id": {
+      "format": "uuid",
+      "title": "Formal Statement Id",
+      "type": "string"
+    },
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "library_reference": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Library Reference"
+    },
+    "name": {
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "version": {
+      "minimum": 1,
+      "title": "Version",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "created_at",
+    "formal_statement_id",
+    "name"
+  ],
+  "title": "Theorem",
+  "type": "object"
+}

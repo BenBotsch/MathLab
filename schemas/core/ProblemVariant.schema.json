@@ -1,0 +1,45 @@
+{
+  "additionalProperties": false,
+  "description": "A reformulation, specialisation or generalisation of a problem.",
+  "properties": {
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "informal_statement": {
+      "minLength": 1,
+      "title": "Informal Statement",
+      "type": "string"
+    },
+    "problem_id": {
+      "format": "uuid",
+      "title": "Problem Id",
+      "type": "string"
+    },
+    "version": {
+      "minimum": 1,
+      "title": "Version",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "created_at",
+    "problem_id",
+    "description",
+    "informal_statement"
+  ],
+  "title": "ProblemVariant",
+  "type": "object"
+}

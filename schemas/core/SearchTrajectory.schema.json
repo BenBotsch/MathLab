@@ -1,0 +1,43 @@
+{
+  "additionalProperties": false,
+  "description": "An ordered sequence of attempts that forms one search branch.",
+  "properties": {
+    "attempt_ids": {
+      "items": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "title": "Attempt Ids",
+      "type": "array"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "problem_id": {
+      "format": "uuid",
+      "title": "Problem Id",
+      "type": "string"
+    },
+    "version": {
+      "minimum": 1,
+      "title": "Version",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "created_at",
+    "problem_id",
+    "attempt_ids"
+  ],
+  "title": "SearchTrajectory",
+  "type": "object"
+}

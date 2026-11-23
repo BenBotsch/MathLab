@@ -1,0 +1,71 @@
+{
+  "additionalProperties": false,
+  "description": "One tactic or tool call applied to a proof state within an attempt.",
+  "properties": {
+    "attempt_id": {
+      "format": "uuid",
+      "title": "Attempt Id",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "raw_output": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Raw Output"
+    },
+    "state_after_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "State After Id"
+    },
+    "state_before_id": {
+      "format": "uuid",
+      "title": "State Before Id",
+      "type": "string"
+    },
+    "tactic": {
+      "minLength": 1,
+      "title": "Tactic",
+      "type": "string"
+    },
+    "version": {
+      "minimum": 1,
+      "title": "Version",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "created_at",
+    "attempt_id",
+    "state_before_id",
+    "tactic"
+  ],
+  "title": "ProofStep",
+  "type": "object"
+}

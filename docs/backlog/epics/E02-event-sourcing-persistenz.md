@@ -20,13 +20,13 @@ Ereignisse werden nie geändert oder gelöscht. Die Reihenfolge pro Run vergibt 
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-02.01 | Event-Envelope-Schema | `todo` | P0 | M1 |
+| F-02.01 | Event-Envelope-Schema | `ready` | P0 | M1 |
 | F-02.02 | Eventtyp-Katalog | `todo` | P0 | M1 |
 | F-02.03 | Append-only Event Store | `todo` | P0 | M1 |
 | F-02.04 | Idempotenz und Deduplizierung | `todo` | P0 | M1 |
 | F-02.05 | Projektionen | `todo` | P0 | M1 |
 | F-02.06 | Snapshots und deterministisches Replay | `todo` | P0 | M1 |
-| F-02.07 | Artefaktspeicher | `todo` | P0 | M1 |
+| F-02.07 | Artefaktspeicher | `ready` | P0 | M1 |
 | F-02.08 | Integrationstests für Reconnect und Absturz | `todo` | P0 | M1 |
 | F-02.09 | Schema-Versionierung und Migration | `todo` | P1 | M2 |
 
@@ -34,7 +34,7 @@ Ereignisse werden nie geändert oder gelöscht. Die Reihenfolge pro Run vergibt 
 
 ### F-02.01 Event-Envelope-Schema
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02
 - Quelle: UI §16.1, §16.2
 - Bearbeiter: offen · Nachweise: offen
@@ -130,7 +130,7 @@ Regelmäßige konsistente Snapshots pro Run. Der Zustand zu einem beliebigen Zei
 
 ### F-02.07 Artefaktspeicher
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.01 (OD-06), F-01.02
 - Quelle: ARCH §17.1, §17.2; UI §16.4, §17.2, §18.2
 - Bearbeiter: offen · Nachweise: offen

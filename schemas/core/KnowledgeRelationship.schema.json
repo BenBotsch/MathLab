@@ -1,0 +1,46 @@
+{
+  "additionalProperties": false,
+  "description": "A typed edge between two entities in the knowledge graph (ARCH §11.2).",
+  "properties": {
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "relation": {
+      "minLength": 1,
+      "title": "Relation",
+      "type": "string"
+    },
+    "source_id": {
+      "format": "uuid",
+      "title": "Source Id",
+      "type": "string"
+    },
+    "target_id": {
+      "format": "uuid",
+      "title": "Target Id",
+      "type": "string"
+    },
+    "version": {
+      "minimum": 1,
+      "title": "Version",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "created_at",
+    "source_id",
+    "target_id",
+    "relation"
+  ],
+  "title": "KnowledgeRelationship",
+  "type": "object"
+}

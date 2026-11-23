@@ -26,7 +26,7 @@ Numerische Evidenz ist kein Beweis und hebt eine Aussage höchstens auf `NUMERIC
 | F-05.04 | Simulationsworkflow mit Seed und Präzision | `todo` | P1 | M2 |
 | F-05.05 | Parameterstudien | `todo` | P1 | M2 |
 | F-05.06 | Workflow E Widerlegungen | `todo` | P1 | M2 |
-| F-05.07 | Gegenbeispiel-Objekt | `todo` | P0 | M1 |
+| F-05.07 | Gegenbeispiel-Objekt | `ready` | P0 | M1 |
 | F-05.08 | SageMath-Adapter | `todo` | P2 | M5 |
 | F-05.09 | ATP-Adapter für Vampire | `todo` | P2 | M6 |
 
@@ -122,7 +122,7 @@ Die fünf Schritte aus ARCH §7.5 als ausführbarer Workflow.
 
 ### F-05.07 Gegenbeispiel-Objekt
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02
 - Quelle: ARCH §7.5, §12.3, §18.1 (Counterexample)
 - Bearbeiter: offen · Nachweise: offen

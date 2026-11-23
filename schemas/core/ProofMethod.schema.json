@@ -1,0 +1,46 @@
+{
+  "additionalProperties": false,
+  "description": "A proof method from the method catalogue (ARCH §5).",
+  "properties": {
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "description": {
+      "default": "",
+      "title": "Description",
+      "type": "string"
+    },
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "key": {
+      "description": "Stable key, e.g. proof.induction.natural_numbers",
+      "minLength": 1,
+      "title": "Key",
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "version": {
+      "minimum": 1,
+      "title": "Version",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "created_at",
+    "key",
+    "name"
+  ],
+  "title": "ProofMethod",
+  "type": "object"
+}

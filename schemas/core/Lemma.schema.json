@@ -1,0 +1,40 @@
+{
+  "additionalProperties": false,
+  "description": "An auxiliary statement used or produced while proving.",
+  "properties": {
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "formal_statement_id": {
+      "format": "uuid",
+      "title": "Formal Statement Id",
+      "type": "string"
+    },
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "name": {
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "version": {
+      "minimum": 1,
+      "title": "Version",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "created_at",
+    "formal_statement_id",
+    "name"
+  ],
+  "title": "Lemma",
+  "type": "object"
+}

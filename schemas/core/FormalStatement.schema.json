@@ -1,0 +1,48 @@
+{
+  "additionalProperties": false,
+  "description": "A formal Lean statement of a problem. Hashing and immutability follow in F-01.03.",
+  "properties": {
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "id": {
+      "format": "uuid",
+      "title": "Id",
+      "type": "string"
+    },
+    "imports": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Imports",
+      "type": "array"
+    },
+    "lean_code": {
+      "minLength": 1,
+      "title": "Lean Code",
+      "type": "string"
+    },
+    "problem_id": {
+      "format": "uuid",
+      "title": "Problem Id",
+      "type": "string"
+    },
+    "version": {
+      "minimum": 1,
+      "title": "Version",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "created_at",
+    "problem_id",
+    "lean_code"
+  ],
+  "title": "FormalStatement",
+  "type": "object"
+}

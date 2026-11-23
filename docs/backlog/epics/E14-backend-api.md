@@ -20,7 +20,7 @@ Der Server ist für mathematische und operative Fakten maßgeblich (UI §15.3). 
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-14.01 | FastAPI-Grundgerüst und versioniertes API-Schema | `todo` | P0 | M1 |
+| F-14.01 | FastAPI-Grundgerüst und versioniertes API-Schema | `ready` | P0 | M1 |
 | F-14.02 | Lese-Endpunkte | `todo` | P0 | M1 |
 | F-14.03 | SSE-Live-Stream und Event-Nachladung | `todo` | P0 | M1 |
 | F-14.04 | Command API mit Serverbestätigung | `todo` | P0 | M1 |
@@ -36,7 +36,7 @@ Der Server ist für mathematische und operative Fakten maßgeblich (UI §15.3). 
 
 ### F-14.01 FastAPI-Grundgerüst und versioniertes API-Schema
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.02, F-01.02
 - Quelle: UI §16.4 (letzter Absatz), §19 (Backend); ARCH §18.2 (Versionierung, Fehlertypen, Trace-IDs)
 - Bearbeiter: offen · Nachweise: offen

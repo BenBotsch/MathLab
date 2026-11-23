@@ -1,6 +1,6 @@
 # E01 Core-Domänenmodell und Contracts
 
-- Status: `todo` · Meilenstein: M1
+- Status: `in-progress` · Meilenstein: M1
 - Quellen: ARCH §1.2, §3.2, §3.3, §4.2, §18.1, §18.2, §18.4; UI §1.3, §3.2, §4.3
 - Abhängige Epics: E00
 
@@ -21,11 +21,11 @@ Persistenz und Events liegen in E02. Konkrete Engine-Implementierungen liegen in
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
 | F-01.01 | Statusmaschine der Erkenntnisstufen | `ready` | P0 | M1 |
-| F-01.02 | Kernentitäten als typisierte DTOs | `ready` | P0 | M1 |
-| F-01.03 | Unveränderliche Zielaussage mit Hash | `todo` | P0 | M1 |
-| F-01.04 | Engine-Contracts | `todo` | P0 | M1 |
-| F-01.05 | Provenienzmodell | `todo` | P0 | M1 |
-| F-01.06 | Run- und Betriebsmodusmodell | `todo` | P0 | M1 |
+| F-01.02 | Kernentitäten als typisierte DTOs | `done` | P0 | M1 |
+| F-01.03 | Unveränderliche Zielaussage mit Hash | `ready` | P0 | M1 |
+| F-01.04 | Engine-Contracts | `ready` | P0 | M1 |
+| F-01.05 | Provenienzmodell | `ready` | P0 | M1 |
+| F-01.06 | Run- und Betriebsmodusmodell | `ready` | P0 | M1 |
 | F-01.07 | Getrennte Statusräume | `todo` | P0 | M1 |
 
 ## Features
@@ -45,19 +45,21 @@ Die sieben Erkenntnisstufen mit erlaubten Übergängen und der jeweils nötigen 
 
 ### F-01.02 Kernentitäten als typisierte DTOs
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.02
 - Quelle: ARCH §18.1
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat(core): add core entity DTOs with JSON schema export` auf `develop`. Am 2026-11-23 gelaufen: `uv run ruff format --check .`, `uv run ruff check .`, `uv run mypy` (strict, pydantic-Plugin), `uv run pytest` (104 passed), alle ohne Befund.
 
 Pydantic-Modelle für `Problem`, `ProblemVariant`, `FormalStatement`, `ProofState`, `ProofStep`, `ProofAttempt`, `SearchTrajectory`, `ProofMethod`, `VerificationResult`, `Lemma`, `Theorem`, `Counterexample`, `SimulationRun`, `Evidence`, `KnowledgeRelationship`, `AgentExecution`, `ModelVersion`, `EvaluationRun` und `PublicationSource`. Für M1 genügen die Felder, die E02, E04 und E09 brauchen. Weitere Felder kommen mit den jeweiligen Features.
 
-- [ ] Alle genannten Entitäten existieren mit ID, Version und Zeitstempel.
-- [ ] JSON-Schema-Export funktioniert und ist im Repo eingecheckt.
+- [x] Alle genannten Entitäten existieren mit ID, Version und Zeitstempel (`src/mathlab/core/entities.py`).
+- [x] JSON-Schema-Export funktioniert und ist im Repo eingecheckt (`schemas/core/`, erzeugt mit `uv run python -m mathlab.core.schema`, ein Test erkennt Abweichungen).
+
+Statusfelder fehlen bewusst. Sie kommen mit F-01.01, F-01.06 und F-01.07, die Provenienz mit F-01.05.
 
 ### F-01.03 Unveränderliche Zielaussage mit Hash
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02
 - Quelle: ARCH §4.2 (Immutable Target), §13.2, §18.4
 - Bearbeiter: offen · Nachweise: offen
@@ -69,7 +71,7 @@ Die Originalaussage wird unveränderlich archiviert. Die bestätigte formale Aus
 
 ### F-01.04 Engine-Contracts
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02
 - Quelle: ARCH §18.2, §4.2 (Tool-Agnostic Contracts)
 - Bearbeiter: offen · Nachweise: offen
@@ -103,7 +105,7 @@ class SearchPolicy(Protocol):
 
 ### F-01.05 Provenienzmodell
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02
 - Quelle: ARCH §3.2 (Nachvollziehbarkeit), §4.2 (Verified Reuse, Versioned Knowledge), §9.2
 - Bearbeiter: offen · Nachweise: offen
@@ -115,7 +117,7 @@ Jede Behauptung trägt Quelle, Bedingungen, Prüfstatus, Artefakt-ID und Version
 
 ### F-01.06 Run- und Betriebsmodusmodell
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02
 - Quelle: ARCH §3.3; UI §3.2
 - Bearbeiter: offen · Nachweise: offen

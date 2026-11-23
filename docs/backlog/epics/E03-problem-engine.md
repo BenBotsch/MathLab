@@ -20,7 +20,7 @@ Die Originalaussage wird unverändert archiviert. Eine Formalisierung gilt erst 
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-03.01 | Import von Text, LaTeX und Lean | `todo` | P0 | M1 |
+| F-03.01 | Import von Text, LaTeX und Lean | `ready` | P0 | M1 |
 | F-03.02 | Kanonische Darstellung | `todo` | P0 | M1 |
 | F-03.03 | Mehrdeutigkeit protokollieren | `todo` | P1 | M1 |
 | F-03.04 | Autoformalisierung | `todo` | P1 | M2 |
@@ -34,7 +34,7 @@ Die Originalaussage wird unverändert archiviert. Eine Formalisierung gilt erst 
 
 ### F-03.01 Import von Text, LaTeX und Lean
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02
 - Quelle: ARCH §3.1, §7.1 (Schritt 1)
 - Bearbeiter: offen · Nachweise: offen
