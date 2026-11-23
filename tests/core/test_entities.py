@@ -9,6 +9,8 @@ import pytest
 from pydantic import ValidationError
 
 from mathlab.core import entities as e
+from mathlab.core.levels import EpistemicLevel
+from mathlab.core.provenance import Provenance, SourceKind, SourceRef, VersionContext
 from mathlab.core.schema import SCHEMA_TYPES, render_schemas
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -37,6 +39,12 @@ ARCH_18_1_NAMES = [
     "PublicationSource",
 ]
 
+PROVENANCE = Provenance(
+    source=SourceRef(kind=SourceKind.AGENT, identifier="tactic_agent"),
+    epistemic_level=EpistemicLevel.CONJECTURED,
+    version_context=VersionContext(toolchain="leanprover/lean4:v4.15.0"),
+)
+
 REQUIRED: dict[type[e.Entity], dict[str, Any]] = {
     e.Problem: {"title": "Odd sums", "informal_statement": "1 + 3 + ... + (2n-1) = n^2"},
     e.ProblemVariant: {"problem_id": REF, "description": "n >= 1", "informal_statement": "x"},
@@ -59,7 +67,7 @@ REQUIRED: dict[type[e.Entity], dict[str, Any]] = {
         "invalid_steps": 0,
         "unresolved_goals": 0,
     },
-    e.Lemma: {"formal_statement_id": REF, "name": "aux"},
+    e.Lemma: {"formal_statement_id": REF, "name": "aux", "provenance": PROVENANCE},
     e.Theorem: {"formal_statement_id": REF, "name": "Nat.add_comm"},
     e.Counterexample: {"formal_statement_id": REF, "assignment": {"n": 0}},
     e.SimulationRun: {"problem_id": REF, "seed": 7},

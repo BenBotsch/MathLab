@@ -24,7 +24,7 @@ Persistenz und Events liegen in E02. Konkrete Engine-Implementierungen liegen in
 | F-01.02 | Kernentitäten als typisierte DTOs | `done` | P0 | M1 |
 | F-01.03 | Unveränderliche Zielaussage mit Hash | `done` | P0 | M1 |
 | F-01.04 | Engine-Contracts | `ready` | P0 | M1 |
-| F-01.05 | Provenienzmodell | `ready` | P0 | M1 |
+| F-01.05 | Provenienzmodell | `done` | P0 | M1 |
 | F-01.06 | Run- und Betriebsmodusmodell | `done` | P0 | M1 |
 | F-01.07 | Getrennte Statusräume | `done` | P0 | M1 |
 
@@ -105,15 +105,15 @@ class SearchPolicy(Protocol):
 
 ### F-01.05 Provenienzmodell
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02
 - Quelle: ARCH §3.2 (Nachvollziehbarkeit), §4.2 (Verified Reuse, Versioned Knowledge), §9.2
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat(core): add provenance model and require it on lemmas` auf `develop`. Am 2026-11-23 gelaufen: `uv run ruff format .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` (280 passed), alle ohne Befund.
 
 Jede Behauptung trägt Quelle, Bedingungen, Prüfstatus, Artefakt-ID und Versionskontext. Herangezogene Theoreme werden mit exakter Bibliotheksreferenz geführt.
 
-- [ ] Ein Lemma ohne Provenienz kann nicht gespeichert werden.
-- [ ] Die Provenienz eines Lemmas ist bis zum Verifikationsartefakt rückverfolgbar.
+- [x] Ein Lemma ohne Provenienz kann nicht gespeichert werden: `Lemma.provenance` ist Pflicht (`src/mathlab/core/provenance.py`, `tests/core/test_provenance.py`). Formale Stufen verlangen `verification_result_id` und Artefakt, eine Bibliotheksquelle verlangt eine exakte `LibraryReference`.
+- [x] Die Provenienz eines Lemmas ist bis zum Verifikationsartefakt rückverfolgbar: `trace_to_artifact` prüft, dass das Prüfergebnis existiert, dieselbe Aussage betrifft und dasselbe Artefakt nennt. Gespeichert wird erst mit E02, bis dahin gilt die Validierung beim Erzeugen.
 
 ### F-01.06 Run- und Betriebsmodusmodell
 

@@ -5,18 +5,17 @@ required, so callers inject identity and time; nothing here reads the clock or a
 
 The models hold only the fields M1 needs for persistence (E02), verification (E04) and attempt
 tracking (E09). Status fields are deliberately absent: epistemic level, verification status, run
-status and agent status are separate types introduced by F-01.01, F-01.06 and F-01.07, and
-provenance is added by F-01.05. References between entities are plain IDs, never embedded objects.
+status and agent status are separate types introduced by F-01.01, F-01.06 and F-01.07.
+``Lemma`` requires a ``Provenance`` (F-01.05), the only embedded value object. References between
+entities are plain IDs, never embedded entities.
 """
 
 from uuid import UUID
 
-from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, JsonValue
+from pydantic import AwareDatetime, BaseModel, ConfigDict, Field
 
-ArtifactRef = str
-"""Content hash of an artifact in the artifact store (ADR-0006), e.g. ``sha256:<hex>``."""
-
-JsonObject = dict[str, JsonValue]
+from mathlab.core.primitives import ArtifactRef, JsonObject
+from mathlab.core.provenance import Provenance
 
 
 class Entity(BaseModel):
@@ -118,10 +117,11 @@ class VerificationResult(Entity):
 
 
 class Lemma(Entity):
-    """An auxiliary statement used or produced while proving."""
+    """An auxiliary statement used or produced while proving. It cannot exist without provenance."""
 
     formal_statement_id: UUID
     name: str = Field(min_length=1)
+    provenance: Provenance
 
 
 class Theorem(Entity):

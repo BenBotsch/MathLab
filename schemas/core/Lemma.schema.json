@@ -1,6 +1,186 @@
 {
+  "$defs": {
+    "EpistemicLevel": {
+      "description": "The seven epistemic levels of ARCH §1.2.",
+      "enum": [
+        "CONJECTURED",
+        "NUMERICALLY_SUPPORTED",
+        "SYMBOLICALLY_DERIVED",
+        "PARTIALLY_PROVEN",
+        "FORMALLY_VERIFIED",
+        "REFUTED",
+        "UNRESOLVED"
+      ],
+      "title": "EpistemicLevel",
+      "type": "string"
+    },
+    "LibraryReference": {
+      "additionalProperties": false,
+      "description": "Exact reference to a theorem in a versioned library (ARCH §21: no hallucinated lemmas).",
+      "properties": {
+        "library": {
+          "description": "e.g. Mathlib",
+          "minLength": 1,
+          "title": "Library",
+          "type": "string"
+        },
+        "library_version": {
+          "description": "commit or release tag",
+          "minLength": 1,
+          "title": "Library Version",
+          "type": "string"
+        },
+        "name": {
+          "description": "fully qualified name, e.g. Nat.add_comm",
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "library",
+        "library_version",
+        "name"
+      ],
+      "title": "LibraryReference",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "description": "Source, conditions, check status, artifact and version context of one claim.",
+      "properties": {
+        "artifact": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Artifact"
+        },
+        "conditions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Conditions",
+          "type": "array"
+        },
+        "epistemic_level": {
+          "$ref": "#/$defs/EpistemicLevel"
+        },
+        "library_references": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/LibraryReference"
+          },
+          "title": "Library References",
+          "type": "array"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "verification_result_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verification Result Id"
+        },
+        "version_context": {
+          "$ref": "#/$defs/VersionContext"
+        }
+      },
+      "required": [
+        "source",
+        "epistemic_level",
+        "version_context"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "SourceKind": {
+      "description": "Where a claim comes from.",
+      "enum": [
+        "AGENT",
+        "VERIFIER",
+        "LIBRARY",
+        "PUBLICATION",
+        "HUMAN",
+        "SIMULATION",
+        "SYMBOLIC_ENGINE"
+      ],
+      "title": "SourceKind",
+      "type": "string"
+    },
+    "SourceRef": {
+      "additionalProperties": false,
+      "description": "The origin of a claim: a kind plus an identifier within that kind.",
+      "properties": {
+        "identifier": {
+          "description": "e.g. agent id, entity UUID, Mathlib name",
+          "minLength": 1,
+          "title": "Identifier",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/SourceKind"
+        }
+      },
+      "required": [
+        "kind",
+        "identifier"
+      ],
+      "title": "SourceRef",
+      "type": "object"
+    },
+    "VersionContext": {
+      "additionalProperties": false,
+      "description": "Versions under which a claim was produced or checked (ARCH §9.2).",
+      "properties": {
+        "git_commit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Git Commit"
+        },
+        "library_versions": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Library Versions",
+          "type": "object"
+        },
+        "toolchain": {
+          "minLength": 1,
+          "title": "Toolchain",
+          "type": "string"
+        }
+      },
+      "required": [
+        "toolchain"
+      ],
+      "title": "VersionContext",
+      "type": "object"
+    }
+  },
   "additionalProperties": false,
-  "description": "An auxiliary statement used or produced while proving.",
+  "description": "An auxiliary statement used or produced while proving. It cannot exist without provenance.",
   "properties": {
     "created_at": {
       "format": "date-time",
@@ -22,6 +202,9 @@
       "title": "Name",
       "type": "string"
     },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
     "version": {
       "minimum": 1,
       "title": "Version",
@@ -33,7 +216,8 @@
     "version",
     "created_at",
     "formal_statement_id",
-    "name"
+    "name",
+    "provenance"
   ],
   "title": "Lemma",
   "type": "object"

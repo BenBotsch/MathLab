@@ -13,22 +13,10 @@ backend for formal results) is enforced by the callers in E04 and F-11.02, not h
 """
 
 from dataclasses import dataclass
-from enum import Enum
 from uuid import UUID
 
 from mathlab.core.entities import Counterexample, Evidence, VerificationResult
-
-
-class EpistemicLevel(Enum):
-    """The seven epistemic levels of ARCH §1.2."""
-
-    CONJECTURED = "CONJECTURED"
-    NUMERICALLY_SUPPORTED = "NUMERICALLY_SUPPORTED"
-    SYMBOLICALLY_DERIVED = "SYMBOLICALLY_DERIVED"
-    PARTIALLY_PROVEN = "PARTIALLY_PROVEN"
-    FORMALLY_VERIFIED = "FORMALLY_VERIFIED"
-    REFUTED = "REFUTED"
-    UNRESOLVED = "UNRESOLVED"
+from mathlab.core.levels import EpistemicLevel
 
 
 @dataclass(frozen=True)
