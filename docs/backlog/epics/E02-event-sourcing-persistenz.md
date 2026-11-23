@@ -21,14 +21,14 @@ Ereignisse werden nie geändert oder gelöscht. Die Reihenfolge pro Run vergibt 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
 | F-02.01 | Event-Envelope-Schema | `done` | P0 | M1 |
-| F-02.02 | Eventtyp-Katalog | `ready` | P0 | M1 |
+| F-02.02 | Eventtyp-Katalog | `done` | P0 | M1 |
 | F-02.03 | Append-only Event Store | `todo` | P0 | M1 |
 | F-02.04 | Idempotenz und Deduplizierung | `todo` | P0 | M1 |
 | F-02.05 | Projektionen | `todo` | P0 | M1 |
 | F-02.06 | Snapshots und deterministisches Replay | `todo` | P0 | M1 |
 | F-02.07 | Artefaktspeicher | `ready` | P0 | M1 |
 | F-02.08 | Integrationstests für Reconnect und Absturz | `todo` | P0 | M1 |
-| F-02.09 | Schema-Versionierung und Migration | `todo` | P1 | M2 |
+| F-02.09 | Schema-Versionierung und Migration | `ready` | P1 | M2 |
 
 ## Features
 
@@ -69,16 +69,16 @@ Referenzbeispiel aus UI §16.1, unverändert zitiert. Bei Abweichung gilt die Qu
 
 ### F-02.02 Eventtyp-Katalog
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.01
 - Quelle: ARCH §9.4; UI §8.1
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat(core): add event type catalogue with payload schemas` auf `develop`. Am 2026-11-23 gelaufen: `uv run ruff format .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` (444 passed), alle ohne Befund. Katalog in `src/mathlab/core/event_types.py`, generierte Referenz in [docs/reference/event-types.md](../../reference/event-types.md) mit Drift-Test, Tests in `tests/core/test_event_types.py`. Annahme: Die Quellen nennen keine Payloads; die Schemas sind minimal und enthalten vor allem IDs. Verifikationsereignisse verlangen eine `verification_result_id`.
 
 Vereinigung der Eventtypen beider Quellen mit Payload-Schema je Typ, darunter `problem.created`, `problem.formalized`, `strategy.selected`, `proof.attempt.started`, `proof.branch.created`, `proof.goal.created`, `proof.step.proposed`, `proof.step.accepted`, `proof.step.verified`, `proof.step.rejected`, `lemma.discovered`, `lemma.verified`, `hypothesis.created`, `counterexample.found`, `symbolic.calculation.completed`, `simulation.sample.received`, `proof.completed`, `proof.verification.failed`, `experiment.completed`, `knowledge.updated`, `model.trained`, `agent.started`, `budget.updated`, `run.paused` und `run.completed`.
 
-- [ ] Jeder Typ hat ein Payload-Schema und einen Beispieltest.
-- [ ] Die Liste ist in `docs/` als Referenz generiert oder gepflegt.
-- [ ] `proof.step.accepted` (ARCH) und `proof.step.verified` (UI) sind in ihrer Bedeutung voneinander abgegrenzt dokumentiert.
+- [x] Jeder Typ hat ein Payload-Schema und einen Beispieltest.
+- [x] Die Liste ist in `docs/` als Referenz generiert oder gepflegt.
+- [x] `proof.step.accepted` (ARCH) und `proof.step.verified` (UI) sind in ihrer Bedeutung voneinander abgegrenzt dokumentiert.
 
 ### F-02.03 Append-only Event Store
 
@@ -154,7 +154,7 @@ Tests für Backend-Neustart mitten im Run, verlorene Verbindungen und Wiederaufn
 
 ### F-02.09 Schema-Versionierung und Migration
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-02.02
 - Quelle: UI §16.2, §16.4 (API-Schema versionieren)
 - Bearbeiter: offen · Nachweise: offen

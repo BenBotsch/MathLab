@@ -33,7 +33,7 @@ Kein Agent setzt einen Verifikationsstatus, `VERIFIED` stammt nur aus dem verifi
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
 | F-07.01 | Model Adapter | `todo` | P0 | M1 |
-| F-07.02 | Typisierte Agentennachrichten | `todo` | P0 | M1 |
+| F-07.02 | Typisierte Agentennachrichten | `ready` | P0 | M1 |
 | F-07.03 | Orchestrator-Kern | `todo` | P0 | M1 |
 | F-07.04 | Tactic Generator | `todo` | P0 | M1 |
 | F-07.05 | Koordination und Isolation | `todo` | P0 | M1 |
@@ -65,7 +65,7 @@ Einheitliche Schnittstelle für externe API-Modelle und lokale Modelle mit Model
 
 ### F-07.02 Typisierte Agentennachrichten
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02, F-02.02
 - Quelle: ARCH §6.3
 - Bearbeiter: offen · Nachweise: offen

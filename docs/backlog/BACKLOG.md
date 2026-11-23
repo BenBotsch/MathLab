@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-260 Features in 26 Epics. Erledigt sind 9 von 260.
+260 Features in 26 Epics. Erledigt sind 10 von 260.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 238 |
-| `ready` | 12 |
+| `todo` | 236 |
+| `ready` | 13 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 9 |
+| `done` | 10 |
 | `blocked` | 1 |
 | `dropped` | 0 |
 
@@ -24,7 +24,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | E00 | [Projektfundament](epics/E00-projektfundament.md) | M1, Ausbau M2 | 5 | 4 | 0 | `in-progress` | 1/9 |
 | E01 | [Core-Domänenmodell und Contracts](epics/E01-core-domaenenmodell.md) | M1 | 7 | 0 | 0 | `done` | 7/7 |
-| E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 1 | 0 | `in-progress` | 1/9 |
+| E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 1 | 0 | `in-progress` | 2/9 |
 | E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 3 | 5 | 1 | `todo` | 0/9 |
 | E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 3 | 0 | `todo` | 0/11 |
 | E05 | [Symbolik, SMT, Numerik und Widerlegung](epics/E05-symbolik-smt-numerik.md) | M1, Ausbau M2, M5 und M6 | 3 | 4 | 2 | `todo` | 0/9 |
@@ -59,7 +59,7 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | --- | --- | --- | --- |
 | [F-00.03](epics/E00-projektfundament.md#f-0003-toolchain-pinning-und-environment-fingerprint) | Toolchain-Pinning und Environment-Fingerprint | P0 | M1 |
 | [F-00.05](epics/E00-projektfundament.md#f-0005-ci-grundgates) | CI-Grundgates | P0 | M1 |
-| [F-02.02](epics/E02-event-sourcing-persistenz.md#f-0202-eventtyp-katalog) | Eventtyp-Katalog | P0 | M1 |
+| [F-07.02](epics/E07-agent-orchestrator.md#f-0702-typisierte-agentennachrichten) | Typisierte Agentennachrichten | P0 | M1 |
 | [F-02.07](epics/E02-event-sourcing-persistenz.md#f-0207-artefaktspeicher) | Artefaktspeicher | P0 | M1 |
 | [F-03.01](epics/E03-problem-engine.md#f-0301-import-von-text-latex-und-lean) | Import von Text, LaTeX und Lean | P0 | M1 |
 | [F-05.07](epics/E05-symbolik-smt-numerik.md#f-0507-gegenbeispiel-objekt) | Gegenbeispiel-Objekt | P0 | M1 |
@@ -69,6 +69,7 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-24.02](epics/E24-sicherheit-sandbox.md#f-2402-toolrechte-pro-agentenrolle) | Toolrechte pro Agentenrolle | P0 | M1 |
 | [F-24.04](epics/E24-sicherheit-sandbox.md#f-2404-secrets-und-privacy_classification) | Secrets und `privacy_classification` | P0 | M1 |
 | [F-24.09](epics/E24-sicherheit-sandbox.md#f-2409-risikoregister) | Risikoregister | P0 | M1 |
+| [F-02.09](epics/E02-event-sourcing-persistenz.md#f-0209-schema-versionierung-und-migration) | Schema-Versionierung und Migration | P1 | M2 |
 
 ## Next
 
