@@ -24,11 +24,12 @@ Ereignisse werden nie geändert oder gelöscht. Die Reihenfolge pro Run vergibt 
 | F-02.02 | Eventtyp-Katalog | `done` | P0 | M1 |
 | F-02.03 | Append-only Event Store | `done` | P0 | M1 |
 | F-02.04 | Idempotenz und Deduplizierung | `done` | P0 | M1 |
-| F-02.05 | Projektionen | `ready` | P0 | M1 |
-| F-02.06 | Snapshots und deterministisches Replay | `todo` | P0 | M1 |
+| F-02.05 | Projektionen | `done` | P0 | M1 |
+| F-02.06 | Snapshots und deterministisches Replay | `ready` | P0 | M1 |
 | F-02.07 | Artefaktspeicher | `done` | P0 | M1 |
 | F-02.08 | Integrationstests für Reconnect und Absturz | `todo` | P0 | M1 |
 | F-02.09 | Schema-Versionierung und Migration | `ready` | P1 | M2 |
+| F-02.10 | Ereignisse für Fortsetzen und Agentenende | `todo` | P1 | M2 |
 
 ## Features
 
@@ -107,18 +108,18 @@ Doppelt eingereichte Ereignisse und Commands werden über `event_id` bzw. `comma
 
 ### F-02.05 Projektionen
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.02, F-02.03
 - Quelle: ARCH §9.4; UI §15.3
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat: add projections for run state, proof graph, agents and metrics` auf `develop`. Am 2026-11-23 gelaufen: `uv run ruff format .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` gegen PostgreSQL 17.6 im Container (514 passed) und ohne Datenbank (500 passed, 14 übersprungen), alle ohne Befund. Projektionen in `src/mathlab/projections.py`, Tests in `tests/test_projections.py`. Beleg: Zwei verschränkte Runs werden nach jedem Ereignis mit erneuter Zustellung aller bisherigen Ereignisse live projiziert. Der Zustand stimmt nach jedem Schritt mit `rebuild` aus dem Log überein, auch beim Nachladen aus dem PostgreSQL-Store. Annahmen: Die Projektionen liegen im Speicher, dauerhafte Snapshots folgen mit F-02.06. Ein Knoten wird nur über `proof.step.verified` mit `verification_result_id` zu `VERIFIED`. Weil `run.resumed` und ein Ende-Ereignis für Agenten fehlen, setzt ein späteres Ereignis einen pausierten Run fort, und Agenten übernehmen ihren Endstatus aus `run.completed`. Die Lücke ist als F-02.10 erfasst.
 
 Materialisierte Ansichten für Run-Zustand, Proof-Graph, Agentenzustände und Metriken, berechnet aus Ereignissen.
 
-- [ ] Neuaufbau aller Projektionen aus dem Event-Log ergibt denselben Zustand wie die laufende Projektion.
+- [x] Neuaufbau aller Projektionen aus dem Event-Log ergibt denselben Zustand wie die laufende Projektion.
 
 ### F-02.06 Snapshots und deterministisches Replay
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.05
 - Quelle: UI §9.3, §17.2, §20 (Kriterium 5)
 - Bearbeiter: offen · Nachweise: offen
@@ -162,3 +163,15 @@ Tests für Backend-Neustart mitten im Run, verlorene Verbindungen und Wiederaufn
 Regeln für kompatible und inkompatible Änderungen an Eventschemas. Alte Ereignisse bleiben lesbar.
 
 - [ ] Ein Ereignis mit älterer `schema_version` wird korrekt projiziert.
+
+### F-02.10 Ereignisse für Fortsetzen und Agentenende
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Abhängigkeiten: F-02.05
+- Quelle: ARCH §9.4; UI §10.1 (Start / Pause / Resume / Stop)
+- Bearbeiter: offen · Nachweise: offen
+
+Beim Umsetzen von F-02.05 aufgefallen: Der Katalog kennt `run.paused`, aber kein `run.resumed`, und `agent.started`, aber kein Ende-Ereignis für Agenten. Die Projektionen leiten Fortsetzen und Agentenende deshalb ab. Die fehlenden Ereignistypen werden ergänzt und die Projektionen auf sie umgestellt.
+
+- [ ] `run.resumed` und ein Ende-Ereignis für Agenten mit Endstatus stehen im Katalog und in der Referenz.
+- [ ] Run- und Agentenprojektion verwenden die neuen Ereignisse statt der Ableitung.

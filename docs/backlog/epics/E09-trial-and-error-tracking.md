@@ -24,7 +24,7 @@ Kein Versuch wird gelöscht. Ein ProofAttempt ohne Pflichtfelder wird nicht gesp
 | F-09.02 | Pflichtfelder pro Versuch | `todo` | P0 | M1 |
 | F-09.03 | Fehlerkatalog und Klassifizierer | `todo` | P0 | M1 |
 | F-09.04 | Kontextuelle negative Evidenz | `todo` | P1 | M2 |
-| F-09.05 | Run-Metriken | `todo` | P0 | M1 |
+| F-09.05 | Run-Metriken | `ready` | P0 | M1 |
 | F-09.06 | Workflow D Nachbearbeitung und Lernen | `todo` | P1 | M2 |
 | F-09.07 | Metrik für verifizierten Fortschritt | `todo` | P1 | M4 |
 
@@ -143,7 +143,7 @@ Ein Fehlschlag wird mit Kontext gespeichert, also Problemklasse, Methode, Voraus
 
 ### F-09.05 Run-Metriken
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.05
 - Quelle: ARCH §10.1; UI §12.1
 - Bearbeiter: offen · Nachweise: offen
