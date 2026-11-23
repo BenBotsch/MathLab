@@ -20,28 +20,28 @@ Persistenz und Events liegen in E02. Konkrete Engine-Implementierungen liegen in
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-01.01 | Statusmaschine der Erkenntnisstufen | `ready` | P0 | M1 |
+| F-01.01 | Statusmaschine der Erkenntnisstufen | `done` | P0 | M1 |
 | F-01.02 | Kernentitäten als typisierte DTOs | `done` | P0 | M1 |
 | F-01.03 | Unveränderliche Zielaussage mit Hash | `ready` | P0 | M1 |
 | F-01.04 | Engine-Contracts | `ready` | P0 | M1 |
 | F-01.05 | Provenienzmodell | `ready` | P0 | M1 |
 | F-01.06 | Run- und Betriebsmodusmodell | `done` | P0 | M1 |
-| F-01.07 | Getrennte Statusräume | `todo` | P0 | M1 |
+| F-01.07 | Getrennte Statusräume | `ready` | P0 | M1 |
 
 ## Features
 
 ### F-01.01 Statusmaschine der Erkenntnisstufen
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.02
 - Quelle: ARCH §1.2, §21 (strikte Statusmaschine)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat(core): add epistemic level state machine` auf `develop`. Am 2026-11-23 gelaufen: `uv run ruff format .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` (211 passed), alle ohne Befund.
 
 Die sieben Erkenntnisstufen mit erlaubten Übergängen und der jeweils nötigen Evidenz. Numerische Tests können eine Aussage höchstens auf `NUMERICALLY_SUPPORTED` heben.
 
-- [ ] Übergänge sind als Tabelle im Code definiert und getestet.
-- [ ] Ein Übergang zu `FORMALLY_VERIFIED` ohne `VerificationResult` wirft einen Fehler.
-- [ ] Ein Übergang zu `REFUTED` verlangt ein Gegenbeispiel oder eine formale Widerlegung.
+- [x] Übergänge sind als Tabelle im Code definiert und getestet (`ALLOWED_TRANSITIONS` in `src/mathlab/core/epistemic.py`, `tests/core/test_epistemic.py`). Numerische Evidenz hebt höchstens auf `NUMERICALLY_SUPPORTED`, `FORMALLY_VERIFIED` und `REFUTED` sind Endzustände.
+- [x] Ein Übergang zu `FORMALLY_VERIFIED` ohne `VerificationResult` wirft einen Fehler. Das Ergebnis muss vollständig sein und dieselbe Aussage betreffen.
+- [x] Ein Übergang zu `REFUTED` verlangt ein Gegenbeispiel oder eine formale Widerlegung.
 
 ### F-01.02 Kernentitäten als typisierte DTOs
 
@@ -129,7 +129,7 @@ Ein Run hat Problem, Modus, Konfiguration, Budget, Status und Zustandsversion. D
 
 ### F-01.07 Getrennte Statusräume
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.01
 - Quelle: UI §1.3, §4.3; ARCH §6.3
 - Bearbeiter: offen · Nachweise: offen
