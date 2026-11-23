@@ -38,6 +38,8 @@ docker compose up -d --build
 
 Das Backend ist bis F-14.01 ein Platzhalter. Es prüft die Datenbankverbindung und gibt den Environment-Fingerprint aus (`docker compose logs backend`). Die Lean-Engine mit Mathlib baut `docker compose --profile engines build lean`. Der erste Build lädt den Mathlib-Cache von mehreren GB. Die Lean-Version steht in `lean/lean-toolchain`, die Mathlib-Version in `lean/lakefile.toml` und `lean/lake-manifest.json`. Es wird kein Port zum Host freigegeben.
 
+Die Tests des Event Store brauchen PostgreSQL und laufen nur, wenn `MATHLAB_TEST_DATABASE_URL` gesetzt ist. Eine Wegwerf-Datenbank startet `docker run --rm -d -p 127.0.0.1:55432:5432 -e POSTGRES_HOST_AUTH_METHOD=trust postgres:17.6-bookworm`, die Adresse ist dann `postgresql://postgres@127.0.0.1:55432/postgres`. Die Anwendung liest ihre Datenbank aus `MATHLAB_DATABASE_URL`.
+
 ## Leseweg
 
 Für einen Überblick genügen die Abschnitte 1, 4 und 19 von ARCH und die Abschnitte 1 und 20 von UI. Danach zeigen [ROADMAP.md](backlog/ROADMAP.md) und [BACKLOG.md](backlog/BACKLOG.md), was in welcher Reihenfolge entsteht.

@@ -22,9 +22,9 @@ Ereignisse werden nie geändert oder gelöscht. Die Reihenfolge pro Run vergibt 
 | --- | --- | --- | --- | --- |
 | F-02.01 | Event-Envelope-Schema | `done` | P0 | M1 |
 | F-02.02 | Eventtyp-Katalog | `done` | P0 | M1 |
-| F-02.03 | Append-only Event Store | `ready` | P0 | M1 |
-| F-02.04 | Idempotenz und Deduplizierung | `todo` | P0 | M1 |
-| F-02.05 | Projektionen | `todo` | P0 | M1 |
+| F-02.03 | Append-only Event Store | `done` | P0 | M1 |
+| F-02.04 | Idempotenz und Deduplizierung | `ready` | P0 | M1 |
+| F-02.05 | Projektionen | `ready` | P0 | M1 |
 | F-02.06 | Snapshots und deterministisches Replay | `todo` | P0 | M1 |
 | F-02.07 | Artefaktspeicher | `done` | P0 | M1 |
 | F-02.08 | Integrationstests für Reconnect und Absturz | `todo` | P0 | M1 |
@@ -82,20 +82,20 @@ Vereinigung der Eventtypen beider Quellen mit Payload-Schema je Typ, darunter `p
 
 ### F-02.03 Append-only Event Store
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.01, F-00.04
 - Quelle: ARCH §9.4, §17.2; UI §9.3, §17.2
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat(storage): add append-only event store` auf `develop`. Am 2026-11-23 gelaufen: `uv run ruff format .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` gegen PostgreSQL 17.6 im Container (`MATHLAB_TEST_DATABASE_URL` gesetzt, 501 passed) und ohne Datenbank (491 passed, 10 übersprungen), alle ohne Befund. Store in `src/mathlab/storage/events.py`, Tests in `tests/storage/test_events.py`. Belege: 8 parallele Schreiber mit je 25 Ereignissen erhalten die Sequenzen 1 bis 200 ohne Lücke und ohne Doppelung. Ein abgelehntes Ereignis verbraucht keine Nummer. `UPDATE`, `DELETE` und `TRUNCATE` scheitern an Triggern mit `insufficient_privilege`. `read(run_id, after_sequence)` liefert die späteren Ereignisse geordnet. Annahmen: Die Sequenz vergibt eine Zählerzeile pro Run im selben Transaktionsschritt, nicht eine PostgreSQL-Sequence, weil diese Lücken erzeugt. Payloads werden beim Schreiben gegen F-02.02 und die Inline-Grenze aus ADR-0006 geprüft. Ein doppeltes `event_id` schlägt bis F-02.04 mit `UniqueViolation` fehl. Die Datenbanktests laufen nur mit gesetzter Variable, die CI braucht dafür einen PostgreSQL-Dienst (F-00.05).
 
 PostgreSQL-Tabelle für Ereignisse mit monotoner Sequenznummer pro Run, vergeben durch den Server. Update und Delete sind auf Datenbankebene verhindert.
 
-- [ ] Parallele Schreiber erzeugen lückenlose, eindeutige Sequenzen pro Run.
-- [ ] `UPDATE` und `DELETE` auf der Tabelle schlagen fehl.
-- [ ] Nachladen ab einer Sequenznummer liefert alle späteren Ereignisse in Reihenfolge.
+- [x] Parallele Schreiber erzeugen lückenlose, eindeutige Sequenzen pro Run.
+- [x] `UPDATE` und `DELETE` auf der Tabelle schlagen fehl.
+- [x] Nachladen ab einer Sequenznummer liefert alle späteren Ereignisse in Reihenfolge.
 
 ### F-02.04 Idempotenz und Deduplizierung
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.03
 - Quelle: ARCH §18.4; UI §17.2
 - Bearbeiter: offen · Nachweise: offen
@@ -107,7 +107,7 @@ Doppelt eingereichte Ereignisse und Commands werden über `event_id` bzw. `comma
 
 ### F-02.05 Projektionen
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.02, F-02.03
 - Quelle: ARCH §9.4; UI §15.3
 - Bearbeiter: offen · Nachweise: offen

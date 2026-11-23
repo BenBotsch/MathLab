@@ -20,7 +20,7 @@ Statistische Ähnlichkeit wird nie automatisch als mathematische Äquivalenz int
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-10.01 | Objektklassen und Speicherschema | `todo` | P0 | M2 |
+| F-10.01 | Objektklassen und Speicherschema | `ready` | P0 | M2 |
 | F-10.02 | Typisierte Relationen mit Kantenattributen | `todo` | P0 | M2 |
 | F-10.03 | Aufnahme verifizierter Ergebnisse | `todo` | P0 | M2 |
 | F-10.04 | Vertrauensebenen und Quarantäne | `todo` | P0 | M3 |
@@ -37,7 +37,7 @@ Statistische Ähnlichkeit wird nie automatisch als mathematische Äquivalenz int
 
 ### F-10.01 Objektklassen und Speicherschema
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M2
+- Status: `ready` · Priorität: P0 · Meilenstein: M2
 - Abhängigkeiten: F-01.02, F-02.03
 - Quelle: ARCH §11.1, §17.2, §22 (Schritt 8); UI §6.1
 - Bearbeiter: offen · Nachweise: offen

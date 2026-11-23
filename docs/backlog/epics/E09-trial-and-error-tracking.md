@@ -20,7 +20,7 @@ Kein Versuch wird gelöscht. Ein ProofAttempt ohne Pflichtfelder wird nicht gesp
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-09.01 | ProofAttempt-Modell | `todo` | P0 | M1 |
+| F-09.01 | ProofAttempt-Modell | `ready` | P0 | M1 |
 | F-09.02 | Pflichtfelder pro Versuch | `todo` | P0 | M1 |
 | F-09.03 | Fehlerkatalog und Klassifizierer | `todo` | P0 | M1 |
 | F-09.04 | Kontextuelle negative Evidenz | `todo` | P1 | M2 |
@@ -32,7 +32,7 @@ Kein Versuch wird gelöscht. Ein ProofAttempt ohne Pflichtfelder wird nicht gesp
 
 ### F-09.01 ProofAttempt-Modell
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02, F-02.03
 - Quelle: ARCH §9.1
 - Bearbeiter: offen · Nachweise: offen

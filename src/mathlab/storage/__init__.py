@@ -1,1 +1,1 @@
-"""Persistence: artifact store and, later, the event store."""
+"""Persistence: artifact store and append-only event store."""

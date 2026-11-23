@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-260 Features in 26 Epics. Erledigt sind 13 von 260.
+260 Features in 26 Epics. Erledigt sind 14 von 260.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 230 |
-| `ready` | 16 |
+| `todo` | 226 |
+| `ready` | 19 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 13 |
+| `done` | 14 |
 | `blocked` | 1 |
 | `dropped` | 0 |
 
@@ -24,7 +24,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | E00 | [Projektfundament](epics/E00-projektfundament.md) | M1, Ausbau M2 | 5 | 4 | 0 | `in-progress` | 3/9 |
 | E01 | [Core-Domänenmodell und Contracts](epics/E01-core-domaenenmodell.md) | M1 | 7 | 0 | 0 | `done` | 7/7 |
-| E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 1 | 0 | `in-progress` | 3/9 |
+| E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 1 | 0 | `in-progress` | 4/9 |
 | E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 3 | 5 | 1 | `todo` | 0/9 |
 | E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 3 | 0 | `todo` | 0/11 |
 | E05 | [Symbolik, SMT, Numerik und Widerlegung](epics/E05-symbolik-smt-numerik.md) | M1, Ausbau M2, M5 und M6 | 3 | 4 | 2 | `todo` | 0/9 |
@@ -57,7 +57,9 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 
 | Feature | Titel | Priorität | Meilenstein |
 | --- | --- | --- | --- |
-| [F-02.03](epics/E02-event-sourcing-persistenz.md#f-0203-append-only-event-store) | Append-only Event Store | P0 | M1 |
+| [F-02.04](epics/E02-event-sourcing-persistenz.md#f-0204-idempotenz-und-deduplizierung) | Idempotenz und Deduplizierung | P0 | M1 |
+| [F-02.05](epics/E02-event-sourcing-persistenz.md#f-0205-projektionen) | Projektionen | P0 | M1 |
+| [F-09.01](epics/E09-trial-and-error-tracking.md#f-0901-proofattempt-modell) | ProofAttempt-Modell | P0 | M1 |
 | [F-04.01](epics/E04-formal-verification.md#f-0401-lean-4-und-mathlib-einrichten) | Lean 4 und Mathlib einrichten | P0 | M1 |
 | [F-24.01](epics/E24-sicherheit-sandbox.md#f-2401-container-sandbox-für-generierten-code) | Container-Sandbox für generierten Code | P0 | M1 |
 | [F-00.05](epics/E00-projektfundament.md#f-0005-ci-grundgates) | CI-Grundgates | P0 | M1 |
@@ -71,6 +73,7 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-24.02](epics/E24-sicherheit-sandbox.md#f-2402-toolrechte-pro-agentenrolle) | Toolrechte pro Agentenrolle | P0 | M1 |
 | [F-24.04](epics/E24-sicherheit-sandbox.md#f-2404-secrets-und-privacy_classification) | Secrets und `privacy_classification` | P0 | M1 |
 | [F-24.09](epics/E24-sicherheit-sandbox.md#f-2409-risikoregister) | Risikoregister | P0 | M1 |
+| [F-10.01](epics/E10-wissensgraph.md#f-1001-objektklassen-und-speicherschema) | Objektklassen und Speicherschema | P0 | M2 |
 | [F-02.09](epics/E02-event-sourcing-persistenz.md#f-0209-schema-versionierung-und-migration) | Schema-Versionierung und Migration | P1 | M2 |
 | [F-05.04](epics/E05-symbolik-smt-numerik.md#f-0504-simulationsworkflow-mit-seed-und-präzision) | Simulationsworkflow mit Seed und Präzision | P1 | M2 |
 
@@ -91,8 +94,8 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
-| [M1](ROADMAP.md#m1) | 90 | 72 | 18 | 0 |
-| [M2](ROADMAP.md#m2) | 74 | 11 | 61 | 2 |
+| [M1](ROADMAP.md#m1) | 87 | 69 | 18 | 0 |
+| [M2](ROADMAP.md#m2) | 73 | 10 | 61 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |
 | [M5](ROADMAP.md#m5) | 17 | 1 | 7 | 9 |
