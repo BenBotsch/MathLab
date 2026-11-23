@@ -22,7 +22,7 @@ Persistenz und Events liegen in E02. Konkrete Engine-Implementierungen liegen in
 | --- | --- | --- | --- | --- |
 | F-01.01 | Statusmaschine der Erkenntnisstufen | `done` | P0 | M1 |
 | F-01.02 | Kernentitäten als typisierte DTOs | `done` | P0 | M1 |
-| F-01.03 | Unveränderliche Zielaussage mit Hash | `ready` | P0 | M1 |
+| F-01.03 | Unveränderliche Zielaussage mit Hash | `done` | P0 | M1 |
 | F-01.04 | Engine-Contracts | `ready` | P0 | M1 |
 | F-01.05 | Provenienzmodell | `ready` | P0 | M1 |
 | F-01.06 | Run- und Betriebsmodusmodell | `done` | P0 | M1 |
@@ -59,15 +59,15 @@ Statusfelder fehlen bewusst. Sie kommen mit F-01.01, F-01.06 und F-01.07, die Pr
 
 ### F-01.03 Unveränderliche Zielaussage mit Hash
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02
 - Quelle: ARCH §4.2 (Immutable Target), §13.2, §18.4
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat(core): add immutable confirmed statement with reproducible hash` auf `develop`. Am 2026-11-23 gelaufen: `uv run ruff format .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` (266 passed), alle ohne Befund.
 
 Die Originalaussage wird unveränderlich archiviert. Die bestätigte formale Aussage erhält einen Hash über normalisierten Lean-Text, Imports und Toolchain. Änderungen erzeugen eine neue Version mit neuem Hash und Provenienz.
 
-- [ ] Ein Versuch, eine bestätigte Aussage zu ändern, scheitert.
-- [ ] Der Hash ist reproduzierbar über Prozessgrenzen hinweg.
+- [x] Ein Versuch, eine bestätigte Aussage zu ändern, scheitert (`ConfirmedStatement` in `src/mathlab/core/target.py`, `tests/core/test_target.py`). Zuweisung und `model_copy(update=...)` werfen `ImmutableStatementError`, ein Hash, der nicht zum Inhalt passt, scheitert schon bei der Validierung. Änderungen laufen über `revise` und erzeugen eine neue Version mit Verweis auf die Vorgängerin.
+- [x] Der Hash ist reproduzierbar über Prozessgrenzen hinweg: SHA-256 über kanonisches JSON, getestet in Subprozessen mit verschiedenem `PYTHONHASHSEED` und gegen einen festen Referenzwert.
 
 ### F-01.04 Engine-Contracts
 
