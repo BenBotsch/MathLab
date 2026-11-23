@@ -69,6 +69,7 @@ EXAMPLES: dict[str, dict[str, Any]] = {
         "formal_statement_id": U + "02",
         "agent_id": "induction-agent-01",
     },
+    "proof.attempt.finished": {"attempt_id": U + "03", "duration_ms": 1420},
     "proof.branch.created": {"branch_id": U + "04"},
     "proof.goal.created": {"proof_node_id": U + "05", "goal": "n + 0 = n"},
     "proof.step.proposed": {"step_id": U + "06", "attempt_id": U + "03", "tactic": "simp"},
@@ -119,8 +120,11 @@ def envelope(event_type: str, payload: dict[str, Any]) -> EventEnvelope:
     return EventEnvelope.model_validate_json(json.dumps(data))
 
 
-def test_catalogue_is_union_of_both_sources() -> None:
-    assert set(EVENT_PAYLOADS) == set(ARCH_9_4) | set(UI_8_1)
+EXTENSIONS = ["proof.attempt.finished"]  # F-09.01, rebuilds an ARCH §9.1 attempt
+
+
+def test_catalogue_is_union_of_both_sources_plus_extensions() -> None:
+    assert set(EVENT_PAYLOADS) == set(ARCH_9_4) | set(UI_8_1) | set(EXTENSIONS)
 
 
 def test_every_type_has_an_example() -> None:

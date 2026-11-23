@@ -1,8 +1,10 @@
 """Event type catalogue with one payload schema per type (ARCH §9.4, UI §8.1; F-02.02).
 
-The catalogue is the union of the event types named in both sources. Neither source defines
-payloads, so the schemas below are minimal: they carry the IDs that link an event to entities of
-the domain model plus the few values the UI needs. Large content stays in entities or artifacts.
+The catalogue is the union of the event types named in both sources plus
+``proof.attempt.finished``, which F-09.01 adds so an ARCH §9.1 attempt can be rebuilt from
+events. Neither source defines payloads, so the schemas below are minimal: they carry the IDs
+that link an event to entities of the domain model plus the few values the UI needs.
+Large content stays in entities or artifacts.
 
 ``proof.step.verified``, ``lemma.verified`` and ``proof.completed`` require a
 ``verification_result_id``: an event can only claim verification by pointing at a checker result
@@ -59,11 +61,39 @@ class StrategySelected(Payload):
 
 
 class ProofAttemptStarted(Payload):
-    """An agent began a proof attempt."""
+    """An agent began a proof attempt; optional fields follow ARCH §9.1 (F-09.01)."""
 
     attempt_id: UUID
     formal_statement_id: UUID
     agent_id: str = Field(min_length=1)
+    problem_id: UUID | None = None
+    parent_attempt_id: UUID | None = None
+    agent_version: str | None = Field(default=None, min_length=1)
+    model_name: str | None = Field(default=None, min_length=1)
+    model_version: str | None = Field(default=None, min_length=1)
+    strategy_id: str | None = Field(default=None, min_length=1)
+    strategy_parameters: JsonObject = Field(default_factory=dict)
+
+
+class ProofAttemptFinished(Payload):
+    """An attempt ended; search, resources and self-assessment from ARCH §9.1 (F-09.01).
+
+    Carries no verification claim: verification comes only from step and proof events that point
+    at checker results. ``evaluation`` scores are estimates, not evidence.
+    """
+
+    attempt_id: UUID
+    state_before_id: UUID | None = None
+    state_after_id: UUID | None = None
+    generated_lemma_ids: tuple[UUID, ...] = ()
+    unresolved_goals: int = Field(default=0, ge=0)
+    duration_ms: int = Field(ge=0)
+    input_tokens: int | None = Field(default=None, ge=0)
+    output_tokens: int | None = Field(default=None, ge=0)
+    verified_progress: float | None = Field(default=None, ge=0, le=1)
+    novelty: float | None = Field(default=None, ge=0, le=1)
+    estimated_solvability: float | None = Field(default=None, ge=0, le=1)
+    next_actions: tuple[str, ...] = ()
 
 
 class ProofBranchCreated(Payload):
@@ -233,6 +263,7 @@ EVENT_PAYLOADS: dict[str, type[Payload]] = {
     "problem.formalized": ProblemFormalized,
     "strategy.selected": StrategySelected,
     "proof.attempt.started": ProofAttemptStarted,
+    "proof.attempt.finished": ProofAttemptFinished,
     "proof.branch.created": ProofBranchCreated,
     "proof.goal.created": ProofGoalCreated,
     "proof.step.proposed": ProofStepProposed,

@@ -27,7 +27,7 @@ Ungeprüfte neue Erkenntnisse verändern nie direkt Modellgewichte (ARCH §10.4)
 | F-12.05 | Reward-Ablationen | `todo` | P1 | M4 |
 | F-12.06 | Taktikbasierte Lernsignale | `todo` | P1 | M4 |
 | F-12.07 | Replay Buffer | `todo` | P1 | M4 |
-| F-12.08 | Replay-Daten markieren | `todo` | P1 | M2 |
+| F-12.08 | Replay-Daten markieren | `ready` | P1 | M2 |
 | F-12.09 | Lernstufen SFT, Preference Learning und RL | `todo` | P1 | M4 |
 | F-12.10 | Benchmark für lokale Modelle, Quantisierung und Kontext | `todo` | P1 | M1 |
 | F-12.11 | Continual Learning und Forgetting-Tests | `todo` | P1 | M4 |
@@ -128,7 +128,7 @@ Versionierter Datensatz aus markierten Versuchen mit DVC, getrennt nach Problemf
 
 ### F-12.08 Replay-Daten markieren
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-09.01
 - Quelle: ARCH §7.4 (Schritt 5)
 - Bearbeiter: offen · Nachweise: offen

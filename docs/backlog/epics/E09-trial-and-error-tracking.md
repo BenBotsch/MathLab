@@ -1,6 +1,6 @@
 # E09 Trial-and-Error und Experiment Tracking
 
-- Status: `todo` · Meilenstein: M1, Ausbau M2 und M4
+- Status: `in-progress` · Meilenstein: M1, Ausbau M2 und M4
 - Quellen: ARCH §7.4, §9.1 bis §9.3, §10.1, §11.5; UI §12.1
 - Abhängige Epics: E01, E02
 
@@ -20,9 +20,9 @@ Kein Versuch wird gelöscht. Ein ProofAttempt ohne Pflichtfelder wird nicht gesp
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-09.01 | ProofAttempt-Modell | `ready` | P0 | M1 |
-| F-09.02 | Pflichtfelder pro Versuch | `todo` | P0 | M1 |
-| F-09.03 | Fehlerkatalog und Klassifizierer | `todo` | P0 | M1 |
+| F-09.01 | ProofAttempt-Modell | `done` | P0 | M1 |
+| F-09.02 | Pflichtfelder pro Versuch | `ready` | P0 | M1 |
+| F-09.03 | Fehlerkatalog und Klassifizierer | `ready` | P0 | M1 |
 | F-09.04 | Kontextuelle negative Evidenz | `todo` | P1 | M2 |
 | F-09.05 | Run-Metriken | `ready` | P0 | M1 |
 | F-09.06 | Workflow D Nachbearbeitung und Lernen | `todo` | P1 | M2 |
@@ -32,15 +32,15 @@ Kein Versuch wird gelöscht. Ein ProofAttempt ohne Pflichtfelder wird nicht gesp
 
 ### F-09.01 ProofAttempt-Modell
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02, F-02.03
 - Quelle: ARCH §9.1
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat: rebuild proof attempts from events` auf `develop`. Am 2026-11-23 gelaufen: `uv run ruff format --check .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` mit PostgreSQL (537 passed) und ohne (518 passed, 19 übersprungen). `ProofAttemptProjection` und `rebuild_attempts` in `src/mathlab/attempts.py`, Tests in `tests/test_attempts.py`: Das Quellbeispiel wird aus Ereignissen ab `proof.attempt.started` vollständig rekonstruiert, auch nach Speicherung im Event Store; `lineage` und `children` fragen die Kette über `parent_attempt_id` ab, auch über Runs hinweg, Zyklen werden gemeldet. Entscheidung des Benutzers am 2026-11-23: neuer Eventtyp `proof.attempt.finished` (Suche, Ressourcen, Schätzwerte, `next_actions`) und optionale Felder an `proof.attempt.started`, dokumentiert in `docs/reference/event-types.md`. Abweichungen von der Quelle: `PARTIAL` erscheint als `OPEN` mit `valid_steps > 0`, weil Verifikationsstatus und Fortschritt getrennt sind; `terminal_success` wird aus `proof.completed` abgeleitet und kann nicht vom Agenten gesetzt werden; gültige und ungültige Schritte werden aus den Schrittereignissen gezählt. IDs sind UUIDs statt `ATTEMPT-…`.
 
 `ProofAttempt` mit den Feldern aus ARCH §9.1: `id`, `problem_id`, `parent_attempt_id`, `agent` (`id`, `version`), `model` (`name`, `version`), `strategy` (`id`, `parameters`), `search` (`state_before`, `state_after`, `generated_lemmas`), `verification` (`status`, `valid_steps`, `invalid_steps`, `unresolved_goals`), `resources` (`duration_ms`, `input_tokens`, `output_tokens`), `evaluation` (`terminal_success`, `verified_progress`, `novelty`, `estimated_solvability`) und `next_actions`. Die Zahlenwerte im Quellbeispiel sind reine Beispieldaten.
 
-- [ ] Ein Versuch ist aus Ereignissen ab `proof.attempt.started` vollständig rekonstruierbar.
-- [ ] Die Kette über `parent_attempt_id` ist abfragbar.
+- [x] Ein Versuch ist aus Ereignissen ab `proof.attempt.started` vollständig rekonstruierbar.
+- [x] Die Kette über `parent_attempt_id` ist abfragbar.
 
 Referenzbeispiel aus ARCH §9.1, unverändert zitiert. Bei Abweichung gilt die Quelle.
 
@@ -83,7 +83,7 @@ proof_attempt:
 
 ### F-09.02 Pflichtfelder pro Versuch
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-09.01, F-00.03
 - Quelle: ARCH §9.2
 - Bearbeiter: offen · Nachweise: offen
@@ -108,7 +108,7 @@ Zusätzlich zu F-09.01 werden die Felder aus ARCH §9.2 protokolliert.
 
 ### F-09.03 Fehlerkatalog und Klassifizierer
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-09.01
 - Quelle: ARCH §9.3
 - Bearbeiter: offen · Nachweise: offen
