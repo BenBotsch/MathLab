@@ -12,7 +12,7 @@ through ``proof.step.verified`` or ``proof.completed``, whose payloads require a
 Assumptions until the event catalogue grows (F-02.10): there is no ``run.resumed`` event,
 so a later event of a paused run sets it back to ``RUNNING``. There is no agent end event,
 so agents take their final status from ``run.completed``. Projections live in memory;
-persistent snapshots follow in F-02.06.
+``mathlab.storage.snapshots`` persists them per run (F-02.06).
 """
 
 from collections import Counter
@@ -100,6 +100,15 @@ class ResearchState(_State):
     proof_graphs: dict[UUID, ProofGraphView]
     agents: dict[UUID, dict[str, AgentView]]
     metrics: dict[UUID, MetricsView]
+
+    def for_run(self, run_id: UUID) -> "ResearchState":
+        """The part of this state that belongs to ``run_id``."""
+        return ResearchState(
+            runs={k: v for k, v in self.runs.items() if k == run_id},
+            proof_graphs={k: v for k, v in self.proof_graphs.items() if k == run_id},
+            agents={k: v for k, v in self.agents.items() if k == run_id},
+            metrics={k: v for k, v in self.metrics.items() if k == run_id},
+        )
 
 
 _FINAL_AGENT_STATUS = {
@@ -272,6 +281,16 @@ class ResearchProjection:
         self.proof_graphs = ProofGraphProjection()
         self.agents = AgentStateProjection()
         self.metrics = MetricsProjection()
+
+    @classmethod
+    def restore(cls, state: ResearchState) -> "ResearchProjection":
+        """A projection that continues from ``state``, e.g. a snapshot (F-02.06)."""
+        projection = cls()
+        projection.runs._runs = dict(state.runs)
+        projection.proof_graphs._graphs = dict(state.proof_graphs)
+        projection.agents._agents = {run: dict(a) for run, a in state.agents.items()}
+        projection.metrics._metrics = dict(state.metrics)
+        return projection
 
     def apply(self, event: EventEnvelope) -> None:
         for view in (self.runs, self.proof_graphs, self.agents, self.metrics):

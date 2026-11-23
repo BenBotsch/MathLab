@@ -25,9 +25,9 @@ Ereignisse werden nie geändert oder gelöscht. Die Reihenfolge pro Run vergibt 
 | F-02.03 | Append-only Event Store | `done` | P0 | M1 |
 | F-02.04 | Idempotenz und Deduplizierung | `done` | P0 | M1 |
 | F-02.05 | Projektionen | `done` | P0 | M1 |
-| F-02.06 | Snapshots und deterministisches Replay | `ready` | P0 | M1 |
+| F-02.06 | Snapshots und deterministisches Replay | `done` | P0 | M1 |
 | F-02.07 | Artefaktspeicher | `done` | P0 | M1 |
-| F-02.08 | Integrationstests für Reconnect und Absturz | `todo` | P0 | M1 |
+| F-02.08 | Integrationstests für Reconnect und Absturz | `ready` | P0 | M1 |
 | F-02.09 | Schema-Versionierung und Migration | `ready` | P1 | M2 |
 | F-02.10 | Ereignisse für Fortsetzen und Agentenende | `todo` | P1 | M2 |
 
@@ -119,15 +119,15 @@ Materialisierte Ansichten für Run-Zustand, Proof-Graph, Agentenzustände und Me
 
 ### F-02.06 Snapshots und deterministisches Replay
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.05
 - Quelle: UI §9.3, §17.2, §20 (Kriterium 5)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat(storage): add snapshots and deterministic replay` auf `develop`. Am 2026-11-23 gelaufen: `uv run ruff format .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` gegen PostgreSQL 17.6 im Container (519 passed) und ohne Datenbank (504 passed, 15 übersprungen), alle ohne Befund. Snapshots in `src/mathlab/storage/snapshots.py`, Tests in `tests/storage/test_snapshots.py`. Belege: Ein Property-Test mit Hypothesis (neue Entwicklungsabhängigkeit) erzeugt 150 zufällige gültige Ereignisfolgen über alle vier Projektionen, Snapshot-Intervalle von 1 bis 7 und ein zufälliges n. `replay` bis n ergibt jeweils denselben Zustand wie `rebuild` der ersten n Ereignisse. Derselbe Vergleich läuft mit Snapshots aus PostgreSQL für jedes n. `ReplayedState` nennt `sequence`, `snapshot_version` und `snapshot_sequence`. Annahmen: `SnapshottingRunner` legt alle `interval` Ereignisse pro Run einen Snapshot an. Ein Snapshot mit anderer Formatversion wird ignoriert und durch volles Replay ersetzt. Snapshots sind abgeleitete Daten, erneutes Speichern derselben Sequenz ändert nichts.
 
 Regelmäßige konsistente Snapshots pro Run. Der Zustand zu einem beliebigen Zeitpunkt entsteht aus dem letzten Snapshot davor und den folgenden Ereignissen.
 
-- [ ] Replay bis Sequenz n ergibt denselben Zustand wie Live-Verarbeitung bis n (Property-Test).
-- [ ] Snapshot-Version und Sequenz sind im Zustand ablesbar.
+- [x] Replay bis Sequenz n ergibt denselben Zustand wie Live-Verarbeitung bis n (Property-Test).
+- [x] Snapshot-Version und Sequenz sind im Zustand ablesbar.
 
 ### F-02.07 Artefaktspeicher
 
@@ -143,7 +143,7 @@ Ablage für Lean-Dateien, Solver- und Toollogs, Simulationsdaten und Grafiken, a
 
 ### F-02.08 Integrationstests für Reconnect und Absturz
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.06
 - Quelle: UI §18.2, §20 (Kriterium 4), §21 (Epic UI-01)
 - Bearbeiter: offen · Nachweise: offen

@@ -6,6 +6,7 @@ that sequence is skipped. An event that would leave a gap is rejected, because a
 built over a gap would silently differ from one rebuilt from the full log.
 """
 
+from collections.abc import Mapping
 from typing import Protocol
 from uuid import UUID
 
@@ -25,9 +26,14 @@ class SequenceGapError(Exception):
 class ProjectionRunner:
     """Feeds events to one projection exactly once per ``(run_id, sequence)``."""
 
-    def __init__(self, projection: Projection) -> None:
+    def __init__(self, projection: Projection, applied: Mapping[UUID, int] | None = None) -> None:
+        """Args:
+        projection: Receives the events.
+        applied: Last sequence per run already contained in ``projection``, e.g. from a
+            snapshot (F-02.06).
+        """
         self.projection = projection
-        self._applied: dict[UUID, int] = {}
+        self._applied: dict[UUID, int] = dict(applied or {})
 
     def last_sequence(self, run_id: UUID) -> int:
         """Last applied sequence of ``run_id``; 0 if none."""
