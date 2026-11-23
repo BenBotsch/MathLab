@@ -1,6 +1,6 @@
 # E01 Core-Domänenmodell und Contracts
 
-- Status: `in-progress` · Meilenstein: M1
+- Status: `done` · Meilenstein: M1
 - Quellen: ARCH §1.2, §3.2, §3.3, §4.2, §18.1, §18.2, §18.4; UI §1.3, §3.2, §4.3
 - Abhängige Epics: E00
 
@@ -23,7 +23,7 @@ Persistenz und Events liegen in E02. Konkrete Engine-Implementierungen liegen in
 | F-01.01 | Statusmaschine der Erkenntnisstufen | `done` | P0 | M1 |
 | F-01.02 | Kernentitäten als typisierte DTOs | `done` | P0 | M1 |
 | F-01.03 | Unveränderliche Zielaussage mit Hash | `done` | P0 | M1 |
-| F-01.04 | Engine-Contracts | `ready` | P0 | M1 |
+| F-01.04 | Engine-Contracts | `done` | P0 | M1 |
 | F-01.05 | Provenienzmodell | `done` | P0 | M1 |
 | F-01.06 | Run- und Betriebsmodusmodell | `done` | P0 | M1 |
 | F-01.07 | Getrennte Statusräume | `done` | P0 | M1 |
@@ -71,15 +71,15 @@ Die Originalaussage wird unveränderlich archiviert. Die bestätigte formale Aus
 
 ### F-01.04 Engine-Contracts
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02
 - Quelle: ARCH §18.2, §4.2 (Tool-Agnostic Contracts)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat(core): add engine contracts with fakes` auf `develop`. Am 2026-11-23 gelaufen: `uv run ruff format .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` (338 passed), alle ohne Befund. Contracts in `src/mathlab/core/contracts.py`, Fakes in `src/mathlab/testing/fakes.py`, Tests in `tests/core/test_contracts.py`.
 
 Protocols für `ProofEngine`, `VerificationEngine`, `MathematicalRetriever`, `SearchPolicy`, `SymbolicEngine` und `SimulationEngine` mit typisierten DTOs, Timeout, Cancellation, Idempotenzschlüssel, Trace-ID, Fehlertypen und Versionsangabe.
 
-- [ ] Jeder Contract hat eine Fake-Implementierung für Tests.
-- [ ] Fehler sind typisiert und auf den Fehlerkatalog (F-09.03) abbildbar.
+- [x] Jeder Contract hat eine Fake-Implementierung für Tests.
+- [x] Fehler sind typisiert und auf den Fehlerkatalog (F-09.03) abbildbar.
 
 Referenzbeispiel aus ARCH §18.2, unverändert zitiert. Bei Abweichung gilt die Quelle. ARCH nennt die Schnittstellen illustrativ. Die Ergänzungen aus der Beschreibung oben sind verbindlich.
 
