@@ -1,0 +1,45 @@
+# Local environment (F-00.04).
+#   docker compose up -d --build            backend and database
+#   docker compose --profile engines build  additionally the Lean/Mathlib engine (several GB)
+#
+# No port is published to the host. The database therefore runs with trust authentication on the
+# internal network only, and no password lives in the repository.
+name: mathlab
+
+services:
+  db:
+    image: postgres:17.6-bookworm
+    environment:
+      POSTGRES_USER: mathlab
+      POSTGRES_DB: mathlab
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "mathlab"]
+      interval: 5s
+      retries: 12
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    environment:
+      MATHLAB_DB_HOST: db
+      MATHLAB_DB_PORT: "5432"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-m", "mathlab.placeholder_service", "--check"]
+      interval: 10s
+      retries: 6
+
+  lean:
+    profiles: ["engines"]
+    build:
+      context: .
+      dockerfile: docker/lean.Dockerfile
+
+volumes:
+  db-data:

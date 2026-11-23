@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-260 Features in 26 Epics. Erledigt sind 12 von 260.
+260 Features in 26 Epics. Erledigt sind 13 von 260.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 233 |
-| `ready` | 14 |
+| `todo` | 230 |
+| `ready` | 16 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 12 |
+| `done` | 13 |
 | `blocked` | 1 |
 | `dropped` | 0 |
 
@@ -22,7 +22,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 
 | Epic | Titel | Meilenstein | P0 | P1 | P2 | Status | Fortschritt |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| E00 | [Projektfundament](epics/E00-projektfundament.md) | M1, Ausbau M2 | 5 | 4 | 0 | `in-progress` | 2/9 |
+| E00 | [Projektfundament](epics/E00-projektfundament.md) | M1, Ausbau M2 | 5 | 4 | 0 | `in-progress` | 3/9 |
 | E01 | [Core-Domänenmodell und Contracts](epics/E01-core-domaenenmodell.md) | M1 | 7 | 0 | 0 | `done` | 7/7 |
 | E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 1 | 0 | `in-progress` | 3/9 |
 | E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 3 | 5 | 1 | `todo` | 0/9 |
@@ -57,7 +57,9 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 
 | Feature | Titel | Priorität | Meilenstein |
 | --- | --- | --- | --- |
-| [F-00.04](epics/E00-projektfundament.md#f-0004-container-umgebung) | Container-Umgebung | P0 | M1 |
+| [F-02.03](epics/E02-event-sourcing-persistenz.md#f-0203-append-only-event-store) | Append-only Event Store | P0 | M1 |
+| [F-04.01](epics/E04-formal-verification.md#f-0401-lean-4-und-mathlib-einrichten) | Lean 4 und Mathlib einrichten | P0 | M1 |
+| [F-24.01](epics/E24-sicherheit-sandbox.md#f-2401-container-sandbox-für-generierten-code) | Container-Sandbox für generierten Code | P0 | M1 |
 | [F-00.05](epics/E00-projektfundament.md#f-0005-ci-grundgates) | CI-Grundgates | P0 | M1 |
 | [F-07.02](epics/E07-agent-orchestrator.md#f-0702-typisierte-agentennachrichten) | Typisierte Agentennachrichten | P0 | M1 |
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
@@ -78,7 +80,6 @@ M1-Features, die als Nächstes `ready` werden können. Es sind die Stufen 1 bis 
 
 | Feature | Titel | Priorität | Abhängigkeiten |
 | --- | --- | --- | --- |
-| [F-00.04](epics/E00-projektfundament.md#f-0004-container-umgebung) | Container-Umgebung | P0 | F-00.03 |
 | [F-04.11](epics/E04-formal-verification.md#f-0411-spike-lean-interaktionsschicht) | Spike Lean-Interaktionsschicht | P0 | F-00.03, F-11.01 |
 | [F-15.02](epics/E15-research-shell.md#f-1502-globale-navigation) | Globale Navigation | P0 | F-15.01 |
 | [F-15.03](epics/E15-research-shell.md#f-1503-workspace-layout-und-panelverwaltung) | Workspace-Layout und Panelverwaltung | P0 | F-15.01 |
@@ -90,7 +91,7 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
-| [M1](ROADMAP.md#m1) | 93 | 75 | 18 | 0 |
+| [M1](ROADMAP.md#m1) | 90 | 72 | 18 | 0 |
 | [M2](ROADMAP.md#m2) | 74 | 11 | 61 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |

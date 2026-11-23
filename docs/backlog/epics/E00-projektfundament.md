@@ -23,7 +23,7 @@ Versionen von Python, Lean, Mathlib, Solvern und Bibliotheken sind gepinnt (ARCH
 | F-00.01 | Architekturentscheidungen für M1 vorbereiten | `blocked` | P0 | M1 |
 | F-00.02 | Repository-Grundgerüst | `done` | P0 | M1 |
 | F-00.03 | Toolchain-Pinning und Environment-Fingerprint | `done` | P0 | M1 |
-| F-00.04 | Container-Umgebung | `ready` | P0 | M1 |
+| F-00.04 | Container-Umgebung | `done` | P0 | M1 |
 | F-00.05 | CI-Grundgates | `ready` | P0 | M1 |
 | F-00.06 | Fachliche CI-Gates | `todo` | P1 | M2 |
 | F-00.07 | Lizenzinventar | `todo` | P1 | M1 |
@@ -130,16 +130,16 @@ Alle Versionen werden fixiert, und eine Funktion erzeugt einen Fingerprint aus P
 
 ### F-00.04 Container-Umgebung
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.03
 - Quelle: ARCH §3.2 (Portabilität), §17.1 (Docker)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat: add container environment for backend, database and lean` auf `develop`. Am 2026-11-23 unter Windows 11 mit Docker Desktop: `docker compose up -d --build` startet `db` (PostgreSQL 17.6) und `backend`, beide `healthy`, das Backend meldet die erreichbare Datenbank und den Fingerprint. `docker compose --profile engines build lean` baut Lean v4.36.0 mit Mathlib v4.36.0 (Commit `fc4f59e5`, festgehalten in `lean/lake-manifest.json`), `lake env lean MathlabLean.lean` prüft den Beispielbeweis mit `import Mathlib.Tactic` ohne Fehler. `uv run ruff format --check .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` (490 passed). Hinweise: Das Backend ist bis F-14.01 ein Platzhalter (`src/mathlab/placeholder_service.py`). Eine SymPy-Engine braucht keinen eigenen Container, SymPy kommt mit E05 als Python-Abhängigkeit ins Backend. Linux ist nicht separat belegt.
 
 Container für Backend, PostgreSQL und Engines (Lean, SymPy). Lokal unter Windows und Linux startbar.
 
-- [ ] Ein Befehl startet Backend und Datenbank.
-- [ ] Lean und Mathlib laufen im Container mit der gepinnten Version.
-- [ ] Start unter Windows ist belegt.
+- [x] Ein Befehl startet Backend und Datenbank.
+- [x] Lean und Mathlib laufen im Container mit der gepinnten Version.
+- [x] Start unter Windows ist belegt.
 
 ### F-00.05 CI-Grundgates
 

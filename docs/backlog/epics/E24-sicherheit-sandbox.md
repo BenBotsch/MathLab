@@ -20,7 +20,7 @@ Die UI mutiert die Datenbank nie direkt. Externe Paper- und Tooldaten sind nicht
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-24.01 | Container-Sandbox für generierten Code | `todo` | P0 | M1 |
+| F-24.01 | Container-Sandbox für generierten Code | `ready` | P0 | M1 |
 | F-24.02 | Toolrechte pro Agentenrolle | `ready` | P0 | M1 |
 | F-24.03 | Rollen und Berechtigungen | `todo` | P0 | M1 |
 | F-24.04 | Secrets und `privacy_classification` | `ready` | P0 | M1 |
@@ -34,7 +34,7 @@ Die UI mutiert die Datenbank nie direkt. Externe Paper- und Tooldaten sind nicht
 
 ### F-24.01 Container-Sandbox für generierten Code
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.04
 - Quelle: ARCH §21 (gefährlicher generierter Code), §6.4; UI §18.3
 - Bearbeiter: offen · Nachweise: offen

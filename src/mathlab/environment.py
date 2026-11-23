@@ -99,7 +99,7 @@ def collect_environment(
     """Record the current environment.
 
     Args:
-        repo_root: Repository root; Git and ``lake-manifest.json`` are read there.
+        repo_root: Repository root; Git is read there, Mathlib from ``lean/lake-manifest.json``.
         runner: Executes external commands.
         libraries: Python distributions; defaults to everything installed.
         solvers: Solver name to version command; defaults to ``SOLVER_COMMANDS``.
@@ -111,7 +111,7 @@ def collect_environment(
         python=platform.python_version(),
         platform=f"{sys.platform}-{platform.machine()}",
         lean=runner(("lean", "--version")),
-        mathlib=mathlib_version(repo_root / "lake-manifest.json"),
+        mathlib=mathlib_version(repo_root / "lean" / "lake-manifest.json"),
         solvers={name: runner(cmd) for name, cmd in sorted(solver_commands.items())},
         libraries=dict(sorted(libs.items())),
         git_commit=runner(("git", "-C", str(repo_root), "rev-parse", "HEAD")),

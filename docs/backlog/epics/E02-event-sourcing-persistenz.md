@@ -22,7 +22,7 @@ Ereignisse werden nie geändert oder gelöscht. Die Reihenfolge pro Run vergibt 
 | --- | --- | --- | --- | --- |
 | F-02.01 | Event-Envelope-Schema | `done` | P0 | M1 |
 | F-02.02 | Eventtyp-Katalog | `done` | P0 | M1 |
-| F-02.03 | Append-only Event Store | `todo` | P0 | M1 |
+| F-02.03 | Append-only Event Store | `ready` | P0 | M1 |
 | F-02.04 | Idempotenz und Deduplizierung | `todo` | P0 | M1 |
 | F-02.05 | Projektionen | `todo` | P0 | M1 |
 | F-02.06 | Snapshots und deterministisches Replay | `todo` | P0 | M1 |
@@ -82,7 +82,7 @@ Vereinigung der Eventtypen beider Quellen mit Payload-Schema je Typ, darunter `p
 
 ### F-02.03 Append-only Event Store
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.01, F-00.04
 - Quelle: ARCH §9.4, §17.2; UI §9.3, §17.2
 - Bearbeiter: offen · Nachweise: offen

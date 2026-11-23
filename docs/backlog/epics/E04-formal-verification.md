@@ -20,7 +20,7 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-04.01 | Lean 4 und Mathlib einrichten | `todo` | P0 | M1 |
+| F-04.01 | Lean 4 und Mathlib einrichten | `ready` | P0 | M1 |
 | F-04.02 | Lean-Interaktionsadapter | `todo` | P0 | M1 |
 | F-04.03 | Isolierte Beweisprüfung | `todo` | P0 | M1 |
 | F-04.04 | Zielabgleich | `todo` | P0 | M1 |
@@ -36,7 +36,7 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 
 ### F-04.01 Lean 4 und Mathlib einrichten
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.03, F-00.04
 - Quelle: ARCH §17.1, §22 (Schritt 1), §7.3 (Schritt 3)
 - Bearbeiter: offen · Nachweise: offen

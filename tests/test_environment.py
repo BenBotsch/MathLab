@@ -94,7 +94,8 @@ def fake_runner(outputs: dict[str, str | None]) -> Any:
 
 
 def test_collect_uses_runner_and_manifest(tmp_path: Path) -> None:
-    (tmp_path / "lake-manifest.json").write_text(
+    (tmp_path / "lean").mkdir()
+    (tmp_path / "lean" / "lake-manifest.json").write_text(
         json.dumps({"packages": [{"name": "mathlib", "rev": "abc123"}]}), encoding="utf-8"
     )
     runner = fake_runner(
