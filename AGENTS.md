@@ -4,7 +4,7 @@ Diese Datei gilt für jeden Agenten, der in diesem Repository arbeitet. Die voll
 
 ## Projekt
 
-MathLab ist ein agentisches System für mathematische Forschung und Beweisführung. Sprachmodelle schlagen vor, der formale Prüfer entscheidet. Das Repository enthält bisher nur Dokumentation. Den Einstieg beschreibt [docs/README.md](docs/README.md).
+MathLab ist ein agentisches System für mathematische Forschung und Beweisführung. Sprachmodelle schlagen vor, der formale Prüfer entscheidet. Das Repository enthält die Dokumentation und ein Python-Grundgerüst unter `src/mathlab/`. Den Einstieg beschreibt [docs/README.md](docs/README.md).
 
 ## Einstieg
 

@@ -20,7 +20,7 @@ Agentenstatus, mathematischer Befund und formale Verifikation werden nie vermisc
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-15.01 | Client-Grundgerüst | `todo` | P0 | M1 |
+| F-15.01 | Client-Grundgerüst | `ready` | P0 | M1 |
 | F-15.02 | Globale Navigation | `todo` | P0 | M1 |
 | F-15.03 | Workspace-Layout und Panelverwaltung | `todo` | P0 | M1 |
 | F-15.04 | Run-Auswahl und Run-Header | `todo` | P0 | M1 |
@@ -39,14 +39,14 @@ Agentenstatus, mathematischer Befund und formale Verifikation werden nie vermisc
 
 ### F-15.01 Client-Grundgerüst
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.01 (OD-01), F-00.02
 - Quelle: UI §19, §19.1, §19.2; ARCH §17.1, §18.3 (`apps/web`, `apps/desktop`)
 - Bearbeiter: offen · Nachweise: offen
 
 Lauffähiger Client mit Build, Tests, gepinnten Bibliotheksversionen und Anbindung an die API. UI §19.1 empfiehlt zuerst React mit TypeScript, ARCH §17.1 nennt Flutter-Desktop mit optionaler React-Web-UI. Die Entscheidung fällt in OD-01.
 
-- [ ] OD-01 ist als ADR entschieden.
+- [x] OD-01 ist als ADR entschieden ([ADR-0001](../../decisions/adr-0001-client-plattform.md)).
 - [ ] Alle UI-Bibliotheken sind auf exakte Versionen gepinnt.
 - [ ] Der Client lädt die Run-Liste aus `GET /runs`.
 

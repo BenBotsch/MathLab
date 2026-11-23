@@ -20,8 +20,8 @@ Persistenz und Events liegen in E02. Konkrete Engine-Implementierungen liegen in
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-01.01 | Statusmaschine der Erkenntnisstufen | `todo` | P0 | M1 |
-| F-01.02 | Kernentitäten als typisierte DTOs | `todo` | P0 | M1 |
+| F-01.01 | Statusmaschine der Erkenntnisstufen | `ready` | P0 | M1 |
+| F-01.02 | Kernentitäten als typisierte DTOs | `ready` | P0 | M1 |
 | F-01.03 | Unveränderliche Zielaussage mit Hash | `todo` | P0 | M1 |
 | F-01.04 | Engine-Contracts | `todo` | P0 | M1 |
 | F-01.05 | Provenienzmodell | `todo` | P0 | M1 |
@@ -32,7 +32,7 @@ Persistenz und Events liegen in E02. Konkrete Engine-Implementierungen liegen in
 
 ### F-01.01 Statusmaschine der Erkenntnisstufen
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.02
 - Quelle: ARCH §1.2, §21 (strikte Statusmaschine)
 - Bearbeiter: offen · Nachweise: offen
@@ -45,7 +45,7 @@ Die sieben Erkenntnisstufen mit erlaubten Übergängen und der jeweils nötigen 
 
 ### F-01.02 Kernentitäten als typisierte DTOs
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.02
 - Quelle: ARCH §18.1
 - Bearbeiter: offen · Nachweise: offen

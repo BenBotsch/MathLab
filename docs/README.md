@@ -1,6 +1,6 @@
 # Dokumentation
 
-MathLab ist ein agentisches System für mathematische Forschung und Beweisführung. Sprachmodelle schlagen Beweisschritte, Strategien und Vermutungen vor. Über ihre Gültigkeit entscheidet ein formaler Prüfer wie Lean 4. Das Projekt steht vor der Implementierung. Dieses Verzeichnis enthält die Konzepte, das Backlog und die Entscheidungen.
+MathLab ist ein agentisches System für mathematische Forschung und Beweisführung. Sprachmodelle schlagen Beweisschritte, Strategien und Vermutungen vor. Über ihre Gültigkeit entscheidet ein formaler Prüfer wie Lean 4. Die Implementierung hat mit dem Python-Grundgerüst begonnen. Dieses Verzeichnis enthält die Konzepte, das Backlog und die Entscheidungen.
 
 ## Inhalt
 
@@ -15,6 +15,18 @@ MathLab ist ein agentisches System für mathematische Forschung und Beweisführu
 | [backlog/epics/](backlog/epics/) | Ein Dokument pro Epic, die Features stehen als Abschnitte darin |
 | [backlog/templates/](backlog/templates/) | Vorlage für neue Epics |
 | [decisions/](decisions/) | ADR-Verfahren, ADR-Vorlage und [offene Entscheidungen](decisions/OPEN_DECISIONS.md) |
+
+## Entwicklung
+
+Voraussetzung ist [uv](https://docs.astral.sh/uv/). Die Python-Version steht in `.python-version`, die Werkzeuge legt [ADR-0005](decisions/adr-0005-repository-layout.md) fest. Im Repository-Wurzelverzeichnis:
+
+```text
+uv sync
+uv run ruff format --check .
+uv run ruff check .
+uv run mypy
+uv run pytest
+```
 
 ## Leseweg
 

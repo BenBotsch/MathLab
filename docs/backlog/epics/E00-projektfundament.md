@@ -21,10 +21,10 @@ Versionen von Python, Lean, Mathlib, Solvern und Bibliotheken sind gepinnt (ARCH
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
 | F-00.01 | Architekturentscheidungen für M1 vorbereiten | `blocked` | P0 | M1 |
-| F-00.02 | Repository-Grundgerüst | `ready` | P0 | M1 |
-| F-00.03 | Toolchain-Pinning und Environment-Fingerprint | `todo` | P0 | M1 |
+| F-00.02 | Repository-Grundgerüst | `done` | P0 | M1 |
+| F-00.03 | Toolchain-Pinning und Environment-Fingerprint | `ready` | P0 | M1 |
 | F-00.04 | Container-Umgebung | `todo` | P0 | M1 |
-| F-00.05 | CI-Grundgates | `todo` | P0 | M1 |
+| F-00.05 | CI-Grundgates | `ready` | P0 | M1 |
 | F-00.06 | Fachliche CI-Gates | `todo` | P1 | M2 |
 | F-00.07 | Lizenzinventar | `todo` | P1 | M1 |
 | F-00.08 | Entwickler-Setup dokumentieren | `todo` | P1 | M1 |
@@ -49,16 +49,18 @@ Blockiert: OD-02 wird erst nach dem Spike F-04.11 entschieden. Das hat der Benut
 
 ### F-00.02 Repository-Grundgerüst
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.01 (OD-05)
 - Quelle: ARCH §18.3
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat: add Python repository skeleton` auf `develop`. Am 2026-11-23 gelaufen: `uv sync`, `uv run ruff format --check .`, `uv run ruff check .`, `uv run mypy`, `uv run pytest` (1 passed), alle ohne Befund.
 
 Verzeichnisstruktur nach dem gewählten Layout anlegen, nur mit den Teilen, die M1 braucht. Python-Paket mit Paketverwaltung, Lockfile und Testgerüst.
 
-- [ ] Struktur entspricht dem ADR zu OD-05.
-- [ ] Ein leerer Test läuft lokal mit einem dokumentierten Befehl.
-- [ ] `.gitignore` deckt Build-Artefakte, Umgebungen und lokale Daten ab.
+- [x] Struktur entspricht dem ADR zu OD-05.
+- [x] Ein leerer Test läuft lokal mit einem dokumentierten Befehl.
+- [x] `.gitignore` deckt Build-Artefakte, Umgebungen und lokale Daten ab.
+
+In M1 angelegt sind nur `src/mathlab/` und `tests/`. `lean/`, `web/`, `benchmarks/golden/` und `configs/` entstehen mit den Features, die sie brauchen (ADR-0005).
 
 Referenzbeispiel aus ARCH §18.3, unverändert zitiert. Bei Abweichung gilt die Quelle. Der Baum ist das Zielbild. Maßgeblich ist das ADR zu OD-05, und in M1 entstehen nur die benötigten Teile.
 
@@ -115,7 +117,7 @@ math-research-system/
 
 ### F-00.03 Toolchain-Pinning und Environment-Fingerprint
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.02
 - Quelle: ARCH §3.2, §9.2, §21 (Toolversionen); UI §19.2
 - Bearbeiter: offen · Nachweise: offen
@@ -141,7 +143,7 @@ Container für Backend, PostgreSQL und Engines (Lean, SymPy). Lokal unter Window
 
 ### F-00.05 CI-Grundgates
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.02
 - Quelle: ARCH §21.1, §17.1 (GitHub Actions)
 - Bearbeiter: offen · Nachweise: offen

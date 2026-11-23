@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Environments
+.venv/
+.env
+.env.*
+
+# Tool caches
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Frontend (web/, ADR-0001)
+node_modules/
+
+# Lean build output (lean/, ADR-0002)
+.lake/
+
+# Local data; the default data directory lives outside the repo (ADR-0006)
+data/
+*.log
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
