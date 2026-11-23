@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-261 Features in 26 Epics. Erledigt sind 18 von 261.
+261 Features in 26 Epics. Erledigt sind 19 von 261.
 
 | Status | Anzahl |
 | --- | --- |
 | `todo` | 224 |
-| `ready` | 18 |
+| `ready` | 17 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 18 |
+| `done` | 19 |
 | `blocked` | 1 |
 | `dropped` | 0 |
 
@@ -22,7 +22,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 
 | Epic | Titel | Meilenstein | P0 | P1 | P2 | Status | Fortschritt |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| E00 | [Projektfundament](epics/E00-projektfundament.md) | M1, Ausbau M2 | 5 | 4 | 0 | `in-progress` | 3/9 |
+| E00 | [Projektfundament](epics/E00-projektfundament.md) | M1, Ausbau M2 | 5 | 4 | 0 | `in-progress` | 4/9 |
 | E01 | [Core-Domänenmodell und Contracts](epics/E01-core-domaenenmodell.md) | M1 | 7 | 0 | 0 | `done` | 7/7 |
 | E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 2 | 0 | `in-progress` | 8/10 |
 | E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 3 | 5 | 1 | `todo` | 0/9 |
@@ -61,7 +61,6 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-09.01](epics/E09-trial-and-error-tracking.md#f-0901-proofattempt-modell) | ProofAttempt-Modell | P0 | M1 |
 | [F-04.01](epics/E04-formal-verification.md#f-0401-lean-4-und-mathlib-einrichten) | Lean 4 und Mathlib einrichten | P0 | M1 |
 | [F-24.01](epics/E24-sicherheit-sandbox.md#f-2401-container-sandbox-für-generierten-code) | Container-Sandbox für generierten Code | P0 | M1 |
-| [F-00.05](epics/E00-projektfundament.md#f-0005-ci-grundgates) | CI-Grundgates | P0 | M1 |
 | [F-07.02](epics/E07-agent-orchestrator.md#f-0702-typisierte-agentennachrichten) | Typisierte Agentennachrichten | P0 | M1 |
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
 | [F-03.01](epics/E03-problem-engine.md#f-0301-import-von-text-latex-und-lean) | Import von Text, LaTeX und Lean | P0 | M1 |

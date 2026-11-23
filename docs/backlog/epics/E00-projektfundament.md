@@ -24,7 +24,7 @@ Versionen von Python, Lean, Mathlib, Solvern und Bibliotheken sind gepinnt (ARCH
 | F-00.02 | Repository-Grundgerüst | `done` | P0 | M1 |
 | F-00.03 | Toolchain-Pinning und Environment-Fingerprint | `done` | P0 | M1 |
 | F-00.04 | Container-Umgebung | `done` | P0 | M1 |
-| F-00.05 | CI-Grundgates | `ready` | P0 | M1 |
+| F-00.05 | CI-Grundgates | `done` | P0 | M1 |
 | F-00.06 | Fachliche CI-Gates | `todo` | P1 | M2 |
 | F-00.07 | Lizenzinventar | `todo` | P1 | M1 |
 | F-00.08 | Entwickler-Setup dokumentieren | `todo` | P1 | M1 |
@@ -143,15 +143,15 @@ Container für Backend, PostgreSQL und Engines (Lean, SymPy). Lokal unter Window
 
 ### F-00.05 CI-Grundgates
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.02
 - Quelle: ARCH §21.1, §17.1 (GitHub Actions)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `ci: add format, lint, strict type check and test gates` auf `develop`, Workflow `.github/workflows/ci.yml` (Actions per Commit-SHA gepinnt, `contents: read`, PostgreSQL-17.6-Service, damit die DB-Tests laufen). `actionlint` ohne Befund. Am 2026-11-23 auf GitHub: Lauf 45278286920 für `8aece2b` grün in allen Schritten. Probe-Commit `cdeafa1` mit absichtlichem Formatfehler: Lauf 45278439045 schlägt im Schritt `Format` fehl, die folgenden Schritte werden übersprungen. Rücknahme `4eb0f95`: Lauf 45278601906 grün. Lokal `uv run ruff format --check .`, `uv run ruff check .`, `uv run mypy` (strict, `src` und `tests`), `uv run pytest` (504 passed, 18 ohne DB übersprungen).
 
 CI prüft Formatierung, Linting, statische Typprüfung und Tests bei jedem Push.
 
-- [ ] Workflow läuft und schlägt bei einem absichtlichen Formatfehler fehl.
-- [ ] Typprüfung ist für das Core-Paket im strikten Modus aktiv.
+- [x] Workflow läuft und schlägt bei einem absichtlichen Formatfehler fehl.
+- [x] Typprüfung ist für das Core-Paket im strikten Modus aktiv.
 
 ### F-00.06 Fachliche CI-Gates
 
