@@ -11,11 +11,17 @@ from pathlib import Path
 from pydantic import BaseModel
 
 from mathlab.core.entities import ENTITY_TYPES
+from mathlab.core.event import EventEnvelope
 from mathlab.core.run import Run
 from mathlab.core.target import ConfirmedStatement
 
-SCHEMA_TYPES: tuple[type[BaseModel], ...] = (*ENTITY_TYPES, Run, ConfirmedStatement)
-"""Every model with a checked-in schema: ARCH §18.1 entities, ``Run`` and ``ConfirmedStatement``."""
+SCHEMA_TYPES: tuple[type[BaseModel], ...] = (
+    *ENTITY_TYPES,
+    Run,
+    ConfirmedStatement,
+    EventEnvelope,
+)
+"""Every model with a checked-in schema: ARCH §18.1 entities, run, statement, event."""
 
 DEFAULT_OUTPUT_DIR = Path("schemas/core")
 

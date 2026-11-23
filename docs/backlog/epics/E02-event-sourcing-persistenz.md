@@ -1,6 +1,6 @@
 # E02 Event Sourcing und Persistenz
 
-- Status: `todo` · Meilenstein: M1
+- Status: `in-progress` · Meilenstein: M1
 - Quellen: ARCH §4.2 (Event Sourcing), §9.4, §17.2, §18.4; UI §8.1, §9.3, §15, §16.1, §16.2, §17.2, §18.2 (Epic UI-01)
 - Abhängige Epics: E00, E01
 
@@ -20,8 +20,8 @@ Ereignisse werden nie geändert oder gelöscht. Die Reihenfolge pro Run vergibt 
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-02.01 | Event-Envelope-Schema | `ready` | P0 | M1 |
-| F-02.02 | Eventtyp-Katalog | `todo` | P0 | M1 |
+| F-02.01 | Event-Envelope-Schema | `done` | P0 | M1 |
+| F-02.02 | Eventtyp-Katalog | `ready` | P0 | M1 |
 | F-02.03 | Append-only Event Store | `todo` | P0 | M1 |
 | F-02.04 | Idempotenz und Deduplizierung | `todo` | P0 | M1 |
 | F-02.05 | Projektionen | `todo` | P0 | M1 |
@@ -34,15 +34,15 @@ Ereignisse werden nie geändert oder gelöscht. Die Reihenfolge pro Run vergibt 
 
 ### F-02.01 Event-Envelope-Schema
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02
 - Quelle: UI §16.1, §16.2
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat(core): add event envelope schema` auf `develop`. Am 2026-11-23 gelaufen: `uv run ruff format .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` (359 passed), alle ohne Befund. Modell in `src/mathlab/core/event.py`, Schema in `schemas/core/EventEnvelope.schema.json`, Tests in `tests/core/test_event.py`. Annahme: IDs sind UUIDs wie im übrigen Domänenmodell, die String-IDs aus UI §16.1 gelten als illustrativ.
 
 Einheitlicher Umschlag mit den Pflichtfeldern `event_id`, `sequence`, `timestamp`, `type`, `schema_version`, `run_id`, `trace_id` und `payload` sowie den optionalen Feldern `problem_id`, `agent_id`, `proof_node_id`, `parent_event_id`, `verification_artifact_id` und `privacy_classification`.
 
-- [ ] Pydantic-Modell und JSON-Schema sind vorhanden.
-- [ ] Ein Event ohne Pflichtfeld wird abgelehnt.
+- [x] Pydantic-Modell und JSON-Schema sind vorhanden.
+- [x] Ein Event ohne Pflichtfeld wird abgelehnt.
 
 Referenzbeispiel aus UI §16.1, unverändert zitiert. Bei Abweichung gilt die Quelle.
 
@@ -69,7 +69,7 @@ Referenzbeispiel aus UI §16.1, unverändert zitiert. Bei Abweichung gilt die Qu
 
 ### F-02.02 Eventtyp-Katalog
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.01
 - Quelle: ARCH §9.4; UI §8.1
 - Bearbeiter: offen · Nachweise: offen

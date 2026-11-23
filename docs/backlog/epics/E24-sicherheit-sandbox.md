@@ -23,7 +23,7 @@ Die UI mutiert die Datenbank nie direkt. Externe Paper- und Tooldaten sind nicht
 | F-24.01 | Container-Sandbox für generierten Code | `todo` | P0 | M1 |
 | F-24.02 | Toolrechte pro Agentenrolle | `ready` | P0 | M1 |
 | F-24.03 | Rollen und Berechtigungen | `todo` | P0 | M1 |
-| F-24.04 | Secrets und `privacy_classification` | `todo` | P0 | M1 |
+| F-24.04 | Secrets und `privacy_classification` | `ready` | P0 | M1 |
 | F-24.05 | Externe Daten als nicht vertrauenswürdig | `todo` | P1 | M3 |
 | F-24.06 | Ressourcenquoten und Early Stopping | `todo` | P0 | M1 |
 | F-24.07 | Keine direkte Datenbankmutation durch die UI | `todo` | P0 | M1 |
@@ -68,7 +68,7 @@ Rollenmodell für Menschen mit Rechten für Start, Stop, Budgetänderung, Toolre
 
 ### F-24.04 Secrets und `privacy_classification`
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.01
 - Quelle: UI §16.2, §18.3
 - Bearbeiter: offen · Nachweise: offen
