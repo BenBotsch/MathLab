@@ -22,7 +22,7 @@ Felder mit `?` sind optional.
 | `lemma.verified` | `LemmaVerified` | `lemma_id`, `verification_result_id` | The checker confirmed a lemma. |
 | `hypothesis.created` | `HypothesisCreated` | `hypothesis_id`, `statement` | A hypothesis was formulated. |
 | `counterexample.found` | `CounterexampleFound` | `counterexample_id`, `formal_statement_id` | A counterexample to a formal statement was found. |
-| `symbolic.calculation.completed` | `SymbolicCalculationCompleted` | `operation`, `expression`, `result` | A symbolic computation finished. Evidence only. |
+| `symbolic.calculation.completed` | `SymbolicCalculationCompleted` | `operation`, `expression`, `result`, `steps`?, `source`?, `source_version`?, `assumptions`?, `formal_statement_id`?, `evidence_id`?, `epistemic_level`? | A symbolic computation finished. Evidence only, never a proof (ARCH §13.2). |
 | `simulation.sample.received` | `SimulationSampleReceived` | `simulation_run_id`, `sample_index`, `values` | A simulation delivered one sample. Evidence only. |
 | `proof.completed` | `ProofCompleted` | `attempt_id`, `verification_result_id` | A complete proof was checked. |
 | `proof.verification.failed` | `ProofVerificationFailed` | `attempt_id`, `failure_code`, `message`? | Checking a proof failed. |

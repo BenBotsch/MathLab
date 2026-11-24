@@ -23,6 +23,7 @@ Run ``uv run python -m mathlab.core.event_types`` to regenerate ``docs/reference
 import json
 import sys
 from pathlib import Path
+from typing import Literal
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -195,12 +196,40 @@ class CounterexampleFound(Payload):
     formal_statement_id: UUID
 
 
+class SymbolicAssumption(Payload):
+    """Type, domain or precondition of one variable, e.g. ``n`` in ``integer, n >= 1``."""
+
+    symbol: str = Field(min_length=1)
+    domain: str = Field(min_length=1)
+    condition: str | None = None
+
+
+class SymbolicStep(Payload):
+    """One intermediate result of a symbolic pipeline."""
+
+    operation: str = Field(min_length=1)
+    input: str = Field(min_length=1)
+    output: str
+
+
 class SymbolicCalculationCompleted(Payload):
-    """A symbolic computation finished. Evidence only."""
+    """A symbolic computation finished. Evidence only, never a proof (ARCH §13.2).
+
+    F-05.02 adds intermediate steps, transformation source and version, assumptions, the
+    statement and evidence it belongs to, and the fixed level ``SYMBOLICALLY_DERIVED``. All
+    additions have defaults, so earlier payloads stay valid.
+    """
 
     operation: str = Field(min_length=1)
     expression: str = Field(min_length=1)
     result: str
+    steps: tuple[SymbolicStep, ...] = ()
+    source: str | None = Field(default=None, min_length=1)
+    source_version: str | None = Field(default=None, min_length=1)
+    assumptions: tuple[SymbolicAssumption, ...] = ()
+    formal_statement_id: UUID | None = None
+    evidence_id: UUID | None = None
+    epistemic_level: Literal["SYMBOLICALLY_DERIVED"] = "SYMBOLICALLY_DERIVED"
 
 
 class SimulationSampleReceived(Payload):

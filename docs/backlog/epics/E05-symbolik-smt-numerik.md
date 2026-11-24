@@ -21,7 +21,7 @@ Numerische Evidenz ist kein Beweis und hebt eine Aussage höchstens auf `NUMERIC
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
 | F-05.01 | SymPy-Adapter | `done` | P0 | M1 |
-| F-05.02 | Symbolische Schrittpipeline | `ready` | P0 | M1 |
+| F-05.02 | Symbolische Schrittpipeline | `done` | P0 | M1 |
 | F-05.03 | SMT-Adapter für Z3 und cvc5 | `ready` | P1 | M2 |
 | F-05.04 | Simulationsworkflow mit Seed und Präzision | `ready` | P1 | M2 |
 | F-05.05 | Parameterstudien | `todo` | P1 | M2 |
@@ -46,15 +46,15 @@ Implementiert den `SymbolicEngine`-Contract für Vereinfachung, Umformung, Gleic
 
 ### F-05.02 Symbolische Schrittpipeline
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-05.01, F-01.01
 - Quelle: ARCH §12.1, §13.2; UI §11.1
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: `src/mathlab/symbolic_pipeline.py` (`run_pipeline`): Operationen laufen nacheinander über einen `SymbolicEngine`, jeder Schritt erhält das Ergebnis des vorigen. Das Payload `symbolic.calculation.completed` ist um `steps`, `source`, `source_version`, `assumptions` (Variable, Definitionsbereich, Bedingung), `formal_statement_id`, `evidence_id` und das feste `epistemic_level` `SYMBOLICALLY_DERIVED` ergänzt; alle Ergänzungen haben Standardwerte, frühere Payloads bleiben gültig. Die Stufe entsteht über `transition` mit `Evidence` der Art `symbolic`; `FORMALLY_VERIFIED` und `PARTIALLY_PROVEN` verweigert die Statusmaschine ohne `VerificationResult`, und das Payload lässt keine andere Stufe zu. `tests/test_symbolic_pipeline.py` (5 Tests, einer mit `MATHLAB_TEST_SYMPY_IMAGE` gegen SymPy), `tests/core/test_event_types.py`, Referenzdoku neu erzeugt. `ruff format`, `ruff check` und `mypy` (strict) ohne Befund; `pytest` ohne DB und Images 634 bestanden, 31 übersprungen, mit DB und allen Images 663 bestanden, 2 übersprungen. Annahmen werden gespeichert, aber nicht an SymPy übergeben.
 
 Symbolische Ergebnisse werden als Ereignis `symbolic.calculation.completed` mit Eingabe, Ausgabe, Zwischenergebnissen, Transformationsquelle und Version gespeichert und erhalten die Stufe `SYMBOLICALLY_DERIVED`.
 
-- [ ] Kein symbolisches Ergebnis erreicht ohne F-04.10 die Stufe `FORMALLY_VERIFIED`.
-- [ ] Voraussetzungen und Definitionsbereiche der Variablen werden mitgespeichert.
+- [x] Kein symbolisches Ergebnis erreicht ohne F-04.10 die Stufe `FORMALLY_VERIFIED`.
+- [x] Voraussetzungen und Definitionsbereiche der Variablen werden mitgespeichert.
 
 ### F-05.03 SMT-Adapter für Z3 und cvc5
 
