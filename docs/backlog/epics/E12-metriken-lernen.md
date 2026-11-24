@@ -20,7 +20,7 @@ Ungeprüfte neue Erkenntnisse verändern nie direkt Modellgewichte (ARCH §10.4)
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-12.01 | Metrikebenen | `todo` | P0 | M2 |
+| F-12.01 | Metrikebenen | `ready` | P0 | M2 |
 | F-12.02 | Policy-Baseline | `todo` | P1 | M4 |
 | F-12.03 | Value Model V(s,b) | `todo` | P1 | M4 |
 | F-12.04 | Reward-Funktion und Potential-Based Shaping | `todo` | P1 | M4 |
@@ -38,7 +38,7 @@ Ungeprüfte neue Erkenntnisse verändern nie direkt Modellgewichte (ARCH §10.4)
 
 ### F-12.01 Metrikebenen
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M2
+- Status: `ready` · Priorität: P0 · Meilenstein: M2
 - Abhängigkeiten: F-09.05
 - Quelle: ARCH §10.1
 - Bearbeiter: offen · Nachweise: offen

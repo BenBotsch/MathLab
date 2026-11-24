@@ -21,7 +21,7 @@ class Log:
         event = EventEnvelope(
             event_id=uuid4(),
             sequence=len(self.events) + 1,
-            timestamp=T0,
+            timestamp=envelope.pop("timestamp", T0),
             type=type_,
             schema_version=1,
             run_id=self.run_id,

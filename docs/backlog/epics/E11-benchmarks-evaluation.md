@@ -28,7 +28,7 @@ Vergleiche laufen immer mit denselben Ressourcenbudgets, Toolchains und Solverli
 | F-11.06 | Externe Benchmarks miniF2F, ProofNet und PutnamBench | `todo` | P1 | M2 |
 | F-11.07 | Discover-and-Prove-Trennung | `todo` | P1 | M2 |
 | F-11.08 | Kontaminations- und Leakage-Kontrollen | `todo` | P0 | M2 |
-| F-11.09 | Benchmarkmetriken | `todo` | P0 | M1 |
+| F-11.09 | Benchmarkmetriken | `ready` | P0 | M1 |
 | F-11.10 | Strategievergleich bei festem Budget | `todo` | P0 | M2 |
 | F-11.11 | Ablationsstudien | `todo` | P1 | M4 |
 | F-11.12 | Seeds, Streuung und Konfidenzintervalle | `todo` | P1 | M2 |
@@ -171,7 +171,7 @@ Datensätze werden nach Problemfamilien und gegebenenfalls Veröffentlichungszei
 
 ### F-11.09 Benchmarkmetriken
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1, Ausbau M2 bis M5
+- Status: `ready` · Priorität: P0 · Meilenstein: M1, Ausbau M2 bis M5
 - Abhängigkeiten: F-09.05
 - Quelle: ARCH §16.3, §10.1; UI §12.2
 - Bearbeiter: offen · Nachweise: offen

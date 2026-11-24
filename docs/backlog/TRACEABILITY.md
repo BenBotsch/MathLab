@@ -49,7 +49,7 @@ Ein Abschnitt ohne Feature trägt einen Vermerk. „Referenz“ bedeutet Literat
 | §9.3 | Fehlerkatalog | F-08.07, F-09.03, F-09.04, F-10.08 |  |
 | §9.4 | Eventtypen | F-02.02, F-02.03, F-02.05, F-02.10 |  |
 | §10 | Metriken, Reward und Lernverfahren | keine | Oberabschnitt, siehe Unterabschnitte |
-| §10.1 | Harte und weiche Metriken getrennt halten | F-09.05, F-09.07, F-11.09, F-11.14, F-12.01, F-13.11 |  |
+| §10.1 | Harte und weiche Metriken getrennt halten | F-09.05, F-09.07, F-09.08, F-11.09, F-11.14, F-12.01, F-13.11 |  |
 | §10.2 | Value-Modell | F-12.03 |  |
 | §10.3 | Reward-Vorschlag | F-12.04, F-12.05 |  |
 | §10.4 | Vier Lernstufen | F-12.06, F-12.07, F-12.09, F-12.11, F-12.13 |  |

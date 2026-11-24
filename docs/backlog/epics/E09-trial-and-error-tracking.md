@@ -16,6 +16,18 @@ Lernverfahren auf diesen Daten liegen in E12, die Metrik-Dashboards in E21, der 
 
 Kein Versuch wird gelöscht. Ein ProofAttempt ohne Pflichtfelder wird nicht gespeichert. Negative Evidenz gilt nur im Kontext, in dem sie entstand (ARCH §9.3). Training und Produktivbetrieb sind entkoppelt (ARCH §7.4).
 
+### F-09.08 CPU- und GPU-Verbrauch erfassen
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Abhängigkeiten: F-09.05
+- Quelle: ARCH §10.1 (Kosten); UI §12.1
+- Bearbeiter: offen · Nachweise: offen
+
+Ergänzung des Backlogs aus F-09.05. Kein Event trägt bisher CPU- oder GPU-Zeit, deshalb liefern die Run-Metriken dafür `None`. Ein Versuch oder Engine-Aufruf meldet CPU- und GPU-Sekunden, und `RunMetrics` summiert sie.
+
+- [ ] CPU- und GPU-Sekunden stehen in den Run-Metriken und stimmen mit einer Neuberechnung aus dem Event-Log überein.
+- [ ] Nicht gemessene Werte bleiben `None` und werden nicht als 0 gezählt (Test).
+
 ## Übersicht
 
 | Feature | Titel | Status | Priorität | Meilenstein |
@@ -24,9 +36,10 @@ Kein Versuch wird gelöscht. Ein ProofAttempt ohne Pflichtfelder wird nicht gesp
 | F-09.02 | Pflichtfelder pro Versuch | `done` | P0 | M1 |
 | F-09.03 | Fehlerkatalog und Klassifizierer | `done` | P0 | M1 |
 | F-09.04 | Kontextuelle negative Evidenz | `ready` | P1 | M2 |
-| F-09.05 | Run-Metriken | `ready` | P0 | M1 |
+| F-09.05 | Run-Metriken | `done` | P0 | M1 |
 | F-09.06 | Workflow D Nachbearbeitung und Lernen | `todo` | P1 | M2 |
 | F-09.07 | Metrik für verifizierten Fortschritt | `todo` | P1 | M4 |
+| F-09.08 | CPU- und GPU-Verbrauch erfassen | `todo` | P1 | M2 |
 
 ## Features
 
@@ -143,15 +156,15 @@ Ein Fehlschlag wird mit Kontext gespeichert, also Problemklasse, Methode, Voraus
 
 ### F-09.05 Run-Metriken
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.05
 - Quelle: ARCH §10.1; UI §12.1
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat: derive UI 12.1 run metrics from the event log` auf `develop`. Am 2026-11-24 gelaufen: `uv run ruff format --check .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` mit PostgreSQL (624 passed) und ohne (603 passed, 21 übersprungen). `src/mathlab/run_metrics.py` enthält `RunMetricsProjection` mit `RunMetrics` pro Run: aktive und abgeschlossene Agenten, Proof Attempts, Suchzweige, verifizierte Lemmata und Beweise, offene Beweispflichten, Tokens, Spitzenspeicher, Time to First Valid Lemma, Time to Proof, Solver-Fehlerrate, Fehler und Fehlerquote pro Klasse aus F-09.03, Retries und die als `Estimate` gekennzeichnete Lösbarkeit. `tests/test_run_metrics.py` prüft ein Szenario gegen erwartete Werte und vergleicht die live mitgeführte Projektion für jedes Präfix und nach Speicherung in PostgreSQL mit der Neuberechnung aus dem Event-Log. Annahmen: Eine Prüfung ist ein Prüferurteil über einen Schritt oder einen Beweis; Fehlerquoten beziehen sich auf alle Prüfungen. Ablehnungen ohne `failure_code` zählen als `UNCLASSIFIED`. Nicht gemessene Tokens werden nicht als 0 gezählt, sondern als Versuche ohne Tokenzählung. CPU- und GPU-Zeit sind `None`, weil kein Event sie trägt; das Erfassen ist als F-09.08 angelegt.
 
 Projektion mit den Run-Kennzahlen aus UI §12.1: aktive und abgeschlossene Agenten, Proof Attempts und Suchzweige, formal verifizierte Lemmata und Beweise, offene Beweispflichten, CPU-, GPU-, Speicher- und Tokenverbrauch, Time to First Valid Lemma, Time to Proof, Solver-Fehlerrate und Retry-Anzahl. Die geschätzte Lösbarkeit kommt aus F-12.03 und ist als Schätzung gekennzeichnet.
 
-- [ ] Metriken stimmen mit einer Neuberechnung aus dem Event-Log überein.
-- [ ] Fehlerquoten sind pro Fehlerklasse aus F-09.03 verfügbar.
+- [x] Metriken stimmen mit einer Neuberechnung aus dem Event-Log überein.
+- [x] Fehlerquoten sind pro Fehlerklasse aus F-09.03 verfügbar.
 
 ### F-09.06 Workflow D Nachbearbeitung und Lernen
 

@@ -118,7 +118,7 @@ Der Wissensgraph aus UI Stufe 2 entsteht in M2 nur als Vorstufe. Sein vollständ
 | [E06](epics/E06-strategy-engine.md) | F-06.01, F-06.02, F-06.03 | F-06.05, F-06.06 | keine |
 | [E07](epics/E07-agent-orchestrator.md) | keine | F-07.06, F-07.07, F-07.08, F-07.10, F-07.13, F-07.15 | keine |
 | [E08](epics/E08-proof-search.md) | keine | F-08.06, F-08.07, F-08.08, F-08.10 | keine |
-| [E09](epics/E09-trial-and-error-tracking.md) | keine | F-09.04, F-09.06 | keine |
+| [E09](epics/E09-trial-and-error-tracking.md) | keine | F-09.04, F-09.06, F-09.08 | keine |
 | [E10](epics/E10-wissensgraph.md) | F-10.01, F-10.02, F-10.03 | keine | keine |
 | [E11](epics/E11-benchmarks-evaluation.md) | F-11.08, F-11.10 | F-11.05, F-11.06, F-11.07, F-11.12, F-11.14 | keine |
 | [E12](epics/E12-metriken-lernen.md) | F-12.01 | F-12.08 | keine |
