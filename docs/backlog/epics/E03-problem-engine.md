@@ -21,7 +21,7 @@ Die Originalaussage wird unverändert archiviert. Eine Formalisierung gilt erst 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
 | F-03.01 | Import von Text, LaTeX und Lean | `done` | P0 | M1 |
-| F-03.02 | Kanonische Darstellung | `ready` | P0 | M1 |
+| F-03.02 | Kanonische Darstellung | `todo` | P0 | M1 |
 | F-03.03 | Mehrdeutigkeit protokollieren | `todo` | P1 | M1 |
 | F-03.04 | Autoformalisierung | `todo` | P1 | M2 |
 | F-03.05 | Prüfung der Statement Fidelity | `todo` | P0 | M1 |
@@ -46,8 +46,8 @@ Ein Problem kann als natürlicher Text, LaTeX oder Lean-Statement angelegt werde
 
 ### F-03.02 Kanonische Darstellung
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
-- Abhängigkeiten: F-03.01, F-01.03
+- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Abhängigkeiten: F-03.01, F-01.03, F-11.01
 - Quelle: ARCH §3.1 (versionierte kanonische Darstellung), §7.1 (Schritt 2)
 - Bearbeiter: offen · Nachweise: offen
 

@@ -8,8 +8,8 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 212 |
-| `ready` | 18 |
+| `todo` | 213 |
+| `ready` | 17 |
 | `in-progress` | 0 |
 | `review` | 0 |
 | `done` | 31 |
@@ -58,7 +58,6 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | Feature | Titel | Priorität | Meilenstein |
 | --- | --- | --- | --- |
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
-| [F-03.02](epics/E03-problem-engine.md#f-0302-kanonische-darstellung) | Kanonische Darstellung | P0 | M1 |
 | [F-14.01](epics/E14-backend-api.md#f-1401-fastapi-grundgerüst-und-versioniertes-api-schema) | FastAPI-Grundgerüst und versioniertes API-Schema | P0 | M1 |
 | [F-15.01](epics/E15-research-shell.md#f-1501-client-grundgerüst) | Client-Grundgerüst | P0 | M1 |
 | [F-11.01](epics/E11-benchmarks-evaluation.md#f-1101-golden-problemliste-für-m1-ausarbeiten) | Golden-Problemliste für M1 ausarbeiten | P0 | M1 |
@@ -93,7 +92,7 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
-| [M1](ROADMAP.md#m1) | 78 | 60 | 18 | 0 |
+| [M1](ROADMAP.md#m1) | 79 | 61 | 18 | 0 |
 | [M2](ROADMAP.md#m2) | 70 | 9 | 59 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |
