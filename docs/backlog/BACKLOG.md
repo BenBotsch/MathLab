@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-262 Features in 26 Epics. Erledigt sind 31 von 262.
+262 Features in 26 Epics. Erledigt sind 32 von 262.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 213 |
-| `ready` | 16 |
+| `todo` | 211 |
+| `ready` | 18 |
 | `in-progress` | 0 |
-| `review` | 1 |
-| `done` | 31 |
+| `review` | 0 |
+| `done` | 32 |
 | `blocked` | 1 |
 | `dropped` | 0 |
 
@@ -33,7 +33,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E08 | [Proof Search Engine](epics/E08-proof-search.md) | M1, Ausbau M2, M4 und M6 | 5 | 5 | 1 | `todo` | 0/11 |
 | E09 | [Trial-and-Error und Experiment Tracking](epics/E09-trial-and-error-tracking.md) | M1, Ausbau M2 und M4 | 4 | 4 | 0 | `in-progress` | 4/8 |
 | E10 | [Wissensgraph und mathematisches Langzeitgedächtnis](epics/E10-wissensgraph.md) | M3, Vorstufe M2, Ausbau M6 | 7 | 4 | 1 | `todo` | 0/12 |
-| E11 | [Benchmarks, Betriebsmodi und Evaluation](epics/E11-benchmarks-evaluation.md) | M1, Ausbau M2 bis M6 | 7 | 6 | 1 | `in-progress` | 1/14 |
+| E11 | [Benchmarks, Betriebsmodi und Evaluation](epics/E11-benchmarks-evaluation.md) | M1, Ausbau M2 bis M6 | 7 | 6 | 1 | `in-progress` | 2/14 |
 | E12 | [Metriken, Reward und Lernverfahren](epics/E12-metriken-lernen.md) | M4, Vorstufen M1 und M2, Ausbau M6 | 2 | 10 | 1 | `todo` | 0/13 |
 | E13 | [Explanation Engine und Research Reports](epics/E13-explanation-reports.md) | M5, Vorstufe M2 | 1 | 6 | 4 | `todo` | 0/11 |
 | E14 | [Backend API, Live Stream und Control API](epics/E14-backend-api.md) | M1, Ausbau M2, M3 und M6 | 9 | 1 | 1 | `todo` | 0/11 |
@@ -51,13 +51,15 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 
 ## Now
 
-Blockiert: [F-00.01](epics/E00-projektfundament.md#f-0001-architekturentscheidungen-für-m1-vorbereiten) Architekturentscheidungen für M1 vorbereiten (P0, M1). Fünf von sechs ADRs sind angenommen, OD-02 wartet auf den Spike F-04.11.
+Blockiert: [F-00.01](epics/E00-projektfundament.md#f-0001-architekturentscheidungen-für-m1-vorbereiten) Architekturentscheidungen für M1 vorbereiten (P0, M1). Sechs von sieben ADRs sind angenommen, OD-02 wartet auf den Spike F-04.11.
 
 Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen gezogen werden.
 
 | Feature | Titel | Priorität | Meilenstein |
 | --- | --- | --- | --- |
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
+| [F-03.02](epics/E03-problem-engine.md#f-0302-kanonische-darstellung) | Kanonische Darstellung | P0 | M1 |
+| [F-04.11](epics/E04-formal-verification.md#f-0411-spike-lean-interaktionsschicht) | Spike Lean-Interaktionsschicht | P0 | M1 |
 | [F-14.01](epics/E14-backend-api.md#f-1401-fastapi-grundgerüst-und-versioniertes-api-schema) | FastAPI-Grundgerüst und versioniertes API-Schema | P0 | M1 |
 | [F-15.01](epics/E15-research-shell.md#f-1501-client-grundgerüst) | Client-Grundgerüst | P0 | M1 |
 | [F-24.02](epics/E24-sicherheit-sandbox.md#f-2402-toolrechte-pro-agentenrolle) | Toolrechte pro Agentenrolle | P0 | M1 |
@@ -80,7 +82,6 @@ M1-Features, die als Nächstes `ready` werden können. Es sind die Stufen 1 bis 
 
 | Feature | Titel | Priorität | Abhängigkeiten |
 | --- | --- | --- | --- |
-| [F-04.11](epics/E04-formal-verification.md#f-0411-spike-lean-interaktionsschicht) | Spike Lean-Interaktionsschicht | P0 | F-00.03, F-11.01 |
 | [F-15.02](epics/E15-research-shell.md#f-1502-globale-navigation) | Globale Navigation | P0 | F-15.01 |
 | [F-15.03](epics/E15-research-shell.md#f-1503-workspace-layout-und-panelverwaltung) | Workspace-Layout und Panelverwaltung | P0 | F-15.01 |
 | [F-15.06](epics/E15-research-shell.md#f-1506-design-tokens-hell--und-dunkelmodus) | Design Tokens, Hell- und Dunkelmodus | P0 | F-15.01 |
@@ -91,7 +92,7 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
-| [M1](ROADMAP.md#m1) | 79 | 61 | 18 | 0 |
+| [M1](ROADMAP.md#m1) | 78 | 60 | 18 | 0 |
 | [M2](ROADMAP.md#m2) | 70 | 9 | 59 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |

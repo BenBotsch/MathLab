@@ -1,6 +1,6 @@
 # ADR-0007 Golden-Problemliste für M1
 
-- Status: `proposed`
+- Status: `accepted`
 - Datum: 2026-11-24
 - Löst: OD-07
 - Betroffene Features: F-11.01, F-11.03, F-11.04, F-03.02
@@ -38,7 +38,7 @@ Spezialtests aus ARCH §16.2, etwa falsche Aussagen, fehlende Voraussetzungen od
 
 ## Entscheidung
 
-Offen. Der Benutzer entscheidet.
+Angenommen am 2026-11-25: Option A wie empfohlen, mit dem Listenstand `v1` aus 24 Aufgaben und der Holdout-Auswahl g05, g10, g14, g18, g21 und g23.
 
 ## Folgen
 

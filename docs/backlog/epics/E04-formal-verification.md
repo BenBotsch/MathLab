@@ -1,6 +1,6 @@
 # E04 Formal Verification Engine
 
-- Status: `todo` · Meilenstein: M1, Ausbau M2
+- Status: `in-progress` · Meilenstein: M1, Ausbau M2
 - Quellen: ARCH §4.1, §7.3, §13, §17.1, §18.4, §22 (Schritt 1)
 - Abhängige Epics: E00, E01, E02, E24
 
@@ -30,7 +30,7 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 | F-04.08 | Prüfung einzelner Beweispflichten | `todo` | P0 | M1 |
 | F-04.09 | Verifikations-Cache und Revalidierung | `todo` | P1 | M2 |
 | F-04.10 | Rekonstruktion externer Ergebnisse | `todo` | P1 | M2 |
-| F-04.11 | Spike Lean-Interaktionsschicht | `todo` | P0 | M1 |
+| F-04.11 | Spike Lean-Interaktionsschicht | `ready` | P0 | M1 |
 
 ## Features
 
@@ -157,7 +157,7 @@ Ergebnisse aus SymPy, SMT oder Numerik werden erst nach Rekonstruktion in Lean o
 
 ### F-04.11 Spike Lean-Interaktionsschicht
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.03, F-11.01
 - Quelle: ARCH §13.1, §17.1; ADR-0002
 - Bearbeiter: offen · Nachweise: offen
