@@ -20,7 +20,7 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-04.01 | Lean 4 und Mathlib einrichten | `ready` | P0 | M1 |
+| F-04.01 | Lean 4 und Mathlib einrichten | `done` | P0 | M1 |
 | F-04.02 | Lean-Interaktionsadapter | `todo` | P0 | M1 |
 | F-04.03 | Isolierte Beweisprüfung | `todo` | P0 | M1 |
 | F-04.04 | Zielabgleich | `todo` | P0 | M1 |
@@ -36,15 +36,15 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 
 ### F-04.01 Lean 4 und Mathlib einrichten
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.03, F-00.04
 - Quelle: ARCH §17.1, §22 (Schritt 1), §7.3 (Schritt 3)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat: check the ARCH 15 odd sum example in the lean container` auf `develop`. Am 2026-11-24 gelaufen: `docker compose --profile engines build lean` (Lean v4.36.0, Mathlib `fc4f59e5`, Mathlib-Cache per `lake exe cache get`, `lake build` mit 6374 Jobs erfolgreich), `uv run ruff format --check .`, `uv run ruff check .`, `uv run mypy` (strict), `MATHLAB_TEST_LEAN_IMAGE=mathlab-lean:latest uv run pytest tests/test_lean_engine.py` (3 passed), `uv run pytest` mit PostgreSQL (625 passed, 2 übersprungen) und ohne (604 passed, 23 übersprungen). `lean/MathlabLean/OddSum.lean` beweist ARCH §15 wörtlich als `odd_sum` (Summe über `Icc 1 n` von `2k - 1` gleich `n^2`) und die 0-indizierte Form `odd_sum_range` per Induktion. Das Modul gehört zur Bibliothek und wird beim Image-Build geprüft. `#print axioms MathlabLean.odd_sum` im Container nennt nur `propext`, `Classical.choice` und `Quot.sound`, also kein `sorryAx`. Der Test liest `lean --version` aus dem Container in `collect_environment` ein: Lean- und Mathlib-Version stehen im Environment und verändern den Fingerprint. Annahme: Die Container-Tests laufen nur mit `MATHLAB_TEST_LEAN_IMAGE`, weil das Image mehrere GB groß ist und in CI nicht gebaut wird.
 
 Lean-Projekt mit gepinnter Toolchain und Mathlib-Version, vorkompiliertem Cache und einem Beispielbeweis.
 
-- [ ] Der Beispielbeweis aus ARCH §15 (Summe ungerader Zahlen) kompiliert im Container.
-- [ ] Lean- und Mathlib-Version erscheinen im Environment-Fingerprint.
+- [x] Der Beispielbeweis aus ARCH §15 (Summe ungerader Zahlen) kompiliert im Container.
+- [x] Lean- und Mathlib-Version erscheinen im Environment-Fingerprint.
 
 ### F-04.02 Lean-Interaktionsadapter
 

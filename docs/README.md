@@ -36,7 +36,7 @@ Voraussetzung ist Docker (unter Windows Docker Desktop). Backend und Datenbank s
 docker compose up -d --build
 ```
 
-Das Backend ist bis F-14.01 ein Platzhalter. Es prüft die Datenbankverbindung und gibt den Environment-Fingerprint aus (`docker compose logs backend`). Die Lean-Engine mit Mathlib baut `docker compose --profile engines build lean`. Der erste Build lädt den Mathlib-Cache von mehreren GB. Die Lean-Version steht in `lean/lean-toolchain`, die Mathlib-Version in `lean/lakefile.toml` und `lean/lake-manifest.json`. Es wird kein Port zum Host freigegeben.
+Das Backend ist bis F-14.01 ein Platzhalter. Es prüft die Datenbankverbindung und gibt den Environment-Fingerprint aus (`docker compose logs backend`). Die Lean-Engine mit Mathlib baut `docker compose --profile engines build lean`. Der erste Build lädt den Mathlib-Cache von mehreren GB. Die Lean-Version steht in `lean/lean-toolchain`, die Mathlib-Version in `lean/lakefile.toml` und `lean/lake-manifest.json`. Es wird kein Port zum Host freigegeben. Der Beispielbeweis aus ARCH §15 liegt in `lean/MathlabLean/OddSum.lean`. Die Container-Tests laufen mit `MATHLAB_TEST_LEAN_IMAGE=mathlab-lean:latest uv run pytest tests/test_lean_engine.py`.
 
 Die Tests des Event Store brauchen PostgreSQL und laufen nur, wenn `MATHLAB_TEST_DATABASE_URL` gesetzt ist. Eine Wegwerf-Datenbank startet `docker run --rm -d -p 127.0.0.1:55432:5432 -e POSTGRES_HOST_AUTH_METHOD=trust postgres:17.6-bookworm`, die Adresse ist dann `postgresql://postgres@127.0.0.1:55432/postgres`. Die Anwendung liest ihre Datenbank aus `MATHLAB_DATABASE_URL`.
 
