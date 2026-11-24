@@ -18,3 +18,4 @@ Ein ADR wird nicht nachträglich umgeschrieben. Ändert sich eine Entscheidung, 
 | [ADR-0004](adr-0004-workflow-ausfuehrung.md) | Workflow- und Task-Ausführung | `accepted` |
 | [ADR-0005](adr-0005-repository-layout.md) | Repository-Layout und Build-Werkzeuge | `accepted` |
 | [ADR-0006](adr-0006-artefaktspeicher.md) | Artefaktspeicher | `accepted` |
+| [ADR-0007](adr-0007-golden-problemliste-m1.md) | Golden-Problemliste für M1 | `proposed` |

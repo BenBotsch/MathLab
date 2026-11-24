@@ -1,0 +1,280 @@
+{
+  "list": "golden-m1",
+  "version": 1,
+  "toolchain": "leanprover/lean4:v4.36.0",
+  "imports": [
+    "Mathlib"
+  ],
+  "tasks": [
+    {
+      "id": "g01",
+      "level": 1,
+      "natural_statement": "Für reelle Zahlen a und b gilt (a + b)² = a² + 2ab + b².",
+      "lean_statement": "theorem g01 (a b : ℝ) : (a + b) ^ 2 = a ^ 2 + 2 * a * b + b ^ 2",
+      "statement_hash": "sha256:07897d27a555f9e1242de74f05c0d5dd6ae3ffbe4c866f7be0c43c44d65507b6",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "algebraic_manipulation",
+      "holdout": false
+    },
+    {
+      "id": "g02",
+      "level": 1,
+      "natural_statement": "Für ganze Zahlen a und b gilt (a + b)(a − b) = a² − b².",
+      "lean_statement": "theorem g02 (a b : ℤ) : (a + b) * (a - b) = a ^ 2 - b ^ 2",
+      "statement_hash": "sha256:e9ee6bd9d3487a51d07dd88d3d8aa4ad8eee4ce55b8a717602399afc072d0e60",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "algebraic_manipulation",
+      "holdout": false
+    },
+    {
+      "id": "g03",
+      "level": 1,
+      "natural_statement": "Für reelle Zahlen a und b gilt 2ab ≤ a² + b².",
+      "lean_statement": "theorem g03 (a b : ℝ) : 2 * a * b ≤ a ^ 2 + b ^ 2",
+      "statement_hash": "sha256:e76074f4785225ad98a1a02ed2ebaa820fc18d5194fb67633deacfa85c0f8ddc",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "inequality",
+      "holdout": false
+    },
+    {
+      "id": "g04",
+      "level": 1,
+      "natural_statement": "Für rationale Zahlen a und b gilt (a + b)³ = a³ + 3a²b + 3ab² + b³.",
+      "lean_statement": "theorem g04 (a b : ℚ) : (a + b) ^ 3 = a ^ 3 + 3 * a ^ 2 * b + 3 * a * b ^ 2 + b ^ 3",
+      "statement_hash": "sha256:3acbaed32104ac7a8a1f0c130676005977cb13387fc9714c312a2a4087662f2d",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "algebraic_manipulation",
+      "holdout": false
+    },
+    {
+      "id": "g05",
+      "level": 1,
+      "natural_statement": "Für jede natürliche Zahl n ist n(n + 1) gerade.",
+      "lean_statement": "theorem g05 (n : ℕ) : Even (n * (n + 1))",
+      "statement_hash": "sha256:dfb447a9f2c7358a9ac50e582fac9f969748d160675a40880543a8e692f5133a",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "case_analysis",
+      "holdout": true,
+      "reference_solution": "../holdout-references/g05.md"
+    },
+    {
+      "id": "g06",
+      "level": 1,
+      "natural_statement": "Für ganze Zahlen a und b gilt a³ − b³ = (a − b)(a² + ab + b²).",
+      "lean_statement": "theorem g06 (a b : ℤ) : a ^ 3 - b ^ 3 = (a - b) * (a ^ 2 + a * b + b ^ 2)",
+      "statement_hash": "sha256:b024de54376bade6a412a708a1f31500a0fe8d588d991f06e410450a099b0545",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "algebraic_manipulation",
+      "holdout": false
+    },
+    {
+      "id": "g07",
+      "level": 1,
+      "natural_statement": "Für jede reelle Zahl x gilt x² − 2x + 1 ≥ 0.",
+      "lean_statement": "theorem g07 (x : ℝ) : 0 ≤ x ^ 2 - 2 * x + 1",
+      "statement_hash": "sha256:c92575d2ff6d690a4565f24ee9bab1a5741b6dce956a53fe92edac805d62aaaa",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "inequality",
+      "holdout": false
+    },
+    {
+      "id": "g08",
+      "level": 2,
+      "natural_statement": "Für jede natürliche Zahl n ≥ 1 ist die Summe der ersten n ungeraden Zahlen n², also Σ_{k=1}^{n} (2k − 1) = n².",
+      "lean_statement": "theorem g08 (n : ℕ) (hn : 1 ≤ n) : ∑ k ∈ Finset.Icc 1 n, (2 * k - 1) = n ^ 2",
+      "statement_hash": "sha256:580ff2171156a8a2317e0ca5b92f169e397536a0471bc354e5253f19b61244db",
+      "source": "ARCH §15 (Referenzbeispiel Summe ungerader Zahlen)",
+      "license": "own-work",
+      "method_hint": "mathematical_induction",
+      "holdout": false
+    },
+    {
+      "id": "g09",
+      "level": 2,
+      "natural_statement": "Für jede natürliche Zahl n gilt 2 · Σ_{k=0}^{n} k = n(n + 1).",
+      "lean_statement": "theorem g09 (n : ℕ) : 2 * (∑ k ∈ Finset.range (n + 1), k) = n * (n + 1)",
+      "statement_hash": "sha256:fbc7fea17c8874f8bf8390dd395cfdeb67138c8c386ad3cd39495d2a4f5dab37",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "mathematical_induction",
+      "holdout": false
+    },
+    {
+      "id": "g10",
+      "level": 2,
+      "natural_statement": "Für jede natürliche Zahl n gilt 6 · Σ_{k=0}^{n} k² = n(n + 1)(2n + 1).",
+      "lean_statement": "theorem g10 (n : ℕ) : 6 * (∑ k ∈ Finset.range (n + 1), k ^ 2) = n * (n + 1) * (2 * n + 1)",
+      "statement_hash": "sha256:8afbd9989b39264d2818fe580ad9551e8fc91bbc962d84cc324c1ee9ce904d70",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "mathematical_induction",
+      "holdout": true,
+      "reference_solution": "../holdout-references/g10.md"
+    },
+    {
+      "id": "g11",
+      "level": 2,
+      "natural_statement": "Für jede natürliche Zahl n gilt 4 · Σ_{k=0}^{n} k³ = (n(n + 1))².",
+      "lean_statement": "theorem g11 (n : ℕ) : 4 * (∑ k ∈ Finset.range (n + 1), k ^ 3) = (n * (n + 1)) ^ 2",
+      "statement_hash": "sha256:65126749b9ed13ee4d9fb338e2444da608bc223bad4d97ac45a95180a072c88e",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "mathematical_induction",
+      "holdout": false
+    },
+    {
+      "id": "g12",
+      "level": 2,
+      "natural_statement": "Für jede natürliche Zahl n gilt Σ_{k=0}^{n−1} 2^k = 2^n − 1.",
+      "lean_statement": "theorem g12 (n : ℕ) : ∑ k ∈ Finset.range n, 2 ^ k = 2 ^ n - 1",
+      "statement_hash": "sha256:0e006eee9ad9ee1b8d3b9a2be6fd0ff3ce415bd229dd0e01605ce72a8a2f0aa6",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "mathematical_induction",
+      "holdout": false
+    },
+    {
+      "id": "g13",
+      "level": 2,
+      "natural_statement": "Für jede ganze Zahl n ist n³ − n durch 3 teilbar.",
+      "lean_statement": "theorem g13 (n : ℤ) : 3 ∣ n ^ 3 - n",
+      "statement_hash": "sha256:6ab6c8ba401cc061787bd834fa71db4bdb24e63d857cb06faca5aa5e7a554f68",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "divisibility",
+      "holdout": false
+    },
+    {
+      "id": "g14",
+      "level": 2,
+      "natural_statement": "Bernoulli-Ungleichung: Für reelles x ≥ −1 und natürliches n gilt 1 + nx ≤ (1 + x)^n.",
+      "lean_statement": "theorem g14 (x : ℝ) (hx : -1 ≤ x) (n : ℕ) : 1 + (n : ℝ) * x ≤ (1 + x) ^ n",
+      "statement_hash": "sha256:7da0670e469930d21d254c44225cf0e1d6ff78055e50d0b701e0ea9c5771d587",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "mathematical_induction",
+      "holdout": true,
+      "reference_solution": "../holdout-references/g14.md"
+    },
+    {
+      "id": "g15",
+      "level": 2,
+      "natural_statement": "Für jede natürliche Zahl n gilt n + 1 ≤ 2^n.",
+      "lean_statement": "theorem g15 (n : ℕ) : n + 1 ≤ 2 ^ n",
+      "statement_hash": "sha256:42ef7e3426c611b6a8f54d8c179bfdc15b739a85a6ba9e6b098869cf2b0148d2",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "mathematical_induction",
+      "holdout": false
+    },
+    {
+      "id": "g16",
+      "level": 2,
+      "natural_statement": "Das Produkt dreier aufeinanderfolgender natürlicher Zahlen n(n + 1)(n + 2) ist durch 6 teilbar.",
+      "lean_statement": "theorem g16 (n : ℕ) : 6 ∣ n * (n + 1) * (n + 2)",
+      "statement_hash": "sha256:ff974b34bcc32fcb377395fc305bb4892c3315c1ea52792ffe62f47e8ffff3fa",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "divisibility",
+      "holdout": false
+    },
+    {
+      "id": "g17",
+      "level": 3,
+      "natural_statement": "Für nichtnegative reelle Zahlen a und b gilt √(ab) ≤ (a + b)/2.",
+      "lean_statement": "theorem g17 (a b : ℝ) (ha : 0 ≤ a) (hb : 0 ≤ b) : Real.sqrt (a * b) ≤ (a + b) / 2",
+      "statement_hash": "sha256:a431c9351cdd11133635cd6f3bf36aca4bb473cf32fdbe41e739b36f9e55dd9a",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "inequality",
+      "holdout": false
+    },
+    {
+      "id": "g18",
+      "level": 3,
+      "natural_statement": "Für jede natürliche Zahl n gilt Σ_{k=0}^{n−1} 1/((k + 1)(k + 2)) = n/(n + 1).",
+      "lean_statement": "theorem g18 (n : ℕ) : ∑ k ∈ Finset.range n, (1 : ℚ) / ((k + 1) * (k + 2)) = (n : ℚ) / (n + 1)",
+      "statement_hash": "sha256:5a0edb6161d3b78639b47afb77b7f264a241970202c7ee38fd73b567e04770b9",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "telescoping",
+      "holdout": true,
+      "reference_solution": "../holdout-references/g18.md"
+    },
+    {
+      "id": "g19",
+      "level": 3,
+      "natural_statement": "Die Quadratwurzel aus 2 ist irrational.",
+      "lean_statement": "theorem g19 : Irrational (Real.sqrt 2)",
+      "statement_hash": "sha256:1e3cdbc0e5af38daf7f87d13db66a8f256557d8f3712f35ce8703205e4cef5ce",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "contradiction",
+      "holdout": false
+    },
+    {
+      "id": "g20",
+      "level": 3,
+      "natural_statement": "Es gibt unendlich viele Primzahlen: Zu jeder natürlichen Zahl n gibt es eine Primzahl p ≥ n.",
+      "lean_statement": "theorem g20 : ∀ n : ℕ, ∃ p, n ≤ p ∧ Nat.Prime p",
+      "statement_hash": "sha256:3e113d574154bb6fb45815e41bac22aa85348cd724c97175ac913149f458e5c7",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "contradiction",
+      "holdout": false
+    },
+    {
+      "id": "g21",
+      "level": 3,
+      "natural_statement": "Für die Fibonacci-Zahlen gilt F_0 + … + F_{n−1} + 1 = F_{n+1}.",
+      "lean_statement": "theorem g21 (n : ℕ) : (∑ k ∈ Finset.range n, Nat.fib k) + 1 = Nat.fib (n + 1)",
+      "statement_hash": "sha256:2d3e3b2f40af8245904e22541e2505002183c706a423079e57bea1302131057c",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "mathematical_induction",
+      "holdout": true,
+      "reference_solution": "../holdout-references/g21.md"
+    },
+    {
+      "id": "g22",
+      "level": 3,
+      "natural_statement": "Cauchy-Schwarz in zwei Dimensionen: (ac + bd)² ≤ (a² + b²)(c² + d²) für reelle a, b, c, d.",
+      "lean_statement": "theorem g22 (a b c d : ℝ) : (a * c + b * d) ^ 2 ≤ (a ^ 2 + b ^ 2) * (c ^ 2 + d ^ 2)",
+      "statement_hash": "sha256:e7829e5cf40a13e02e6787fac28236edfc064dbc6593d9b8fbfcbd6b346b1538",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "inequality",
+      "holdout": false
+    },
+    {
+      "id": "g23",
+      "level": 3,
+      "natural_statement": "Das Quadrat einer natürlichen Zahl lässt bei Division durch 4 den Rest 0 oder 1.",
+      "lean_statement": "theorem g23 (n : ℕ) : n ^ 2 % 4 = 0 ∨ n ^ 2 % 4 = 1",
+      "statement_hash": "sha256:c4b8debbb98fdf784b70316fb73de21ff8a89baf92181a83e049ac920ecbe2fa",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "case_analysis",
+      "holdout": true,
+      "reference_solution": "../holdout-references/g23.md"
+    },
+    {
+      "id": "g24",
+      "level": 3,
+      "natural_statement": "Für jede natürliche Zahl n gilt Σ_{k=0}^{n} (n über k) = 2^n.",
+      "lean_statement": "theorem g24 (n : ℕ) : ∑ k ∈ Finset.range (n + 1), Nat.choose n k = 2 ^ n",
+      "statement_hash": "sha256:879dfde3ceab39b244cb2d618c9698738d8dea207fa680f5eb66a9b14f63cf2d",
+      "source": "MathLab Golden M1, eigene Formulierung eines Standardresultats",
+      "license": "own-work",
+      "method_hint": "combinatorics",
+      "holdout": false
+    }
+  ]
+}

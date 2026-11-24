@@ -9,9 +9,9 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 | Status | Anzahl |
 | --- | --- |
 | `todo` | 213 |
-| `ready` | 17 |
+| `ready` | 16 |
 | `in-progress` | 0 |
-| `review` | 0 |
+| `review` | 1 |
 | `done` | 31 |
 | `blocked` | 1 |
 | `dropped` | 0 |
@@ -60,7 +60,6 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
 | [F-14.01](epics/E14-backend-api.md#f-1401-fastapi-grundgerüst-und-versioniertes-api-schema) | FastAPI-Grundgerüst und versioniertes API-Schema | P0 | M1 |
 | [F-15.01](epics/E15-research-shell.md#f-1501-client-grundgerüst) | Client-Grundgerüst | P0 | M1 |
-| [F-11.01](epics/E11-benchmarks-evaluation.md#f-1101-golden-problemliste-für-m1-ausarbeiten) | Golden-Problemliste für M1 ausarbeiten | P0 | M1 |
 | [F-24.02](epics/E24-sicherheit-sandbox.md#f-2402-toolrechte-pro-agentenrolle) | Toolrechte pro Agentenrolle | P0 | M1 |
 | [F-24.04](epics/E24-sicherheit-sandbox.md#f-2404-secrets-und-privacy_classification) | Secrets und `privacy_classification` | P0 | M1 |
 | [F-24.09](epics/E24-sicherheit-sandbox.md#f-2409-risikoregister) | Risikoregister | P0 | M1 |

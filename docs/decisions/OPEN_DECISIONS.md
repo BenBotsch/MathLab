@@ -10,7 +10,7 @@ Die Konzeptdokumente lassen diese Punkte offen oder widersprechen sich. Jeder Ei
 | OD-04 | Workflow- und Task-Ausführung | `decided` ([ADR-0004](adr-0004-workflow-ausfuehrung.md)) | F-07.03 |
 | OD-05 | Repository-Layout und Build-Werkzeuge | `decided` ([ADR-0005](adr-0005-repository-layout.md)) | F-00.02 |
 | OD-06 | Artefaktspeicher | `decided` ([ADR-0006](adr-0006-artefaktspeicher.md)) | F-02.07 |
-| OD-07 | Golden-Problemliste für M1 | `open` | F-11.03, F-11.04 |
+| OD-07 | Golden-Problemliste für M1 | `open` (Entwurf [ADR-0007](adr-0007-golden-problemliste-m1.md)) | F-11.03, F-11.04 |
 
 ## OD-01 Client-Plattform der Oberfläche
 
@@ -51,5 +51,7 @@ Entschieden: [ADR-0006](adr-0006-artefaktspeicher.md) (`accepted`, 2026-11-23).
 ARCH §17.1 und §17.2 sehen zuerst das Dateisystem und später S3-kompatiblen Speicher vor. Zu entscheiden sind Ablageort, Namensschema über Content-Hash, Aufbewahrung und ob Artefakte im Container-Volume oder auf dem Host liegen.
 
 ## OD-07 Golden-Problemliste für M1
+
+Entwurf: [ADR-0007](adr-0007-golden-problemliste-m1.md) (`proposed`).
 
 ARCH §19 Phase 1 verlangt 20 bis 50 Aufgaben aus einer fixierten Benchmarkliste. Zu entscheiden sind Zusammensetzung (eigene Golden Tasks der Level 1 bis 3 aus ARCH §16.2, Auswahl aus miniF2F), die formalen Lean-Aussagen und welche Aufgaben als Blind-Rediscovery-Holdout dienen. Die Ausarbeitung ist Feature F-11.01.

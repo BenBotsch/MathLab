@@ -1,6 +1,6 @@
 # E11 Benchmarks, Betriebsmodi und Evaluation
 
-- Status: `todo` · Meilenstein: M1, Ausbau M2 bis M6
+- Status: `in-progress` · Meilenstein: M1, Ausbau M2 bis M6
 - Quellen: ARCH §1.1, §3.3, §4.1 (Experiment/Evaluation Engine), §15, §16, §19, §21, §21.1, §22; UI §12.2
 - Abhängige Epics: E01, E04, E09
 
@@ -20,7 +20,7 @@ Vergleiche laufen immer mit denselben Ressourcenbudgets, Toolchains und Solverli
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-11.01 | Golden-Problemliste für M1 ausarbeiten | `ready` | P0 | M1 |
+| F-11.01 | Golden-Problemliste für M1 ausarbeiten | `review` | P0 | M1 |
 | F-11.02 | Betriebsmodi durchsetzen | `todo` | P0 | M1 |
 | F-11.03 | Golden-Suite-Runner und Regressionsgate | `todo` | P0 | M1 |
 | F-11.04 | Referenzbeispiel Summe ungerader Zahlen | `todo` | P0 | M1 |
@@ -39,16 +39,16 @@ Vergleiche laufen immer mit denselben Ressourcenbudgets, Toolchains und Solverli
 
 ### F-11.01 Golden-Problemliste für M1 ausarbeiten
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `review` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: keine
 - Quelle: ARCH §16.2, §19 (Phase 1), §22 (Schritt 2)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: `benchmarks/golden/m1/v1/tasks.json` mit 24 eigenen Aufgaben (Level 1: 7, Level 2: 9, Level 3: 8), je natürliche Aussage, Lean-Zielaussage, Zielhash nach F-01.03, Quelle, Lizenz, Level, Methodenhinweis und Holdout-Kennzeichen; g08 ist das Referenzbeispiel aus ARCH §15. `src/mathlab/golden.py` (`load_golden`, `render_lean`) prüft Umfang, Level, eindeutige IDs, Hashes, Referenzbeispiel und die Ablage der Referenzlösungen. Sechs Holdout-Aufgaben, ihre Referenzlösungen liegen getrennt unter `benchmarks/golden/m1/holdout-references/`. `tests/test_golden.py`: 11 bestanden, darunter alle 24 Aussagen mit `sorry` gegen die gepinnte Mathlib im Image `mathlab-lean:latest` kompiliert (24 `sorry`-Warnungen, kein Fehler). `ruff format`, `ruff check` und `mypy` (strict) ohne Befund; `pytest` mit Test-DB und allen Images 693 bestanden, ohne 660 bestanden, 33 übersprungen. Offen: Annahme von [ADR-0007](../../decisions/adr-0007-golden-problemliste-m1.md) durch den Benutzer.
 
 Ausarbeitung für OD-07. Eine fixierte Liste von 20 bis 50 Aufgaben der Level 1 bis 3 mit natürlicher Aussage, Lean-Zielaussage, Quelle, Lizenz, Level, Methodenhinweis und Kennzeichnung als Blind-Rediscovery-Holdout. Das Referenzbeispiel aus ARCH §15 ist enthalten.
 
 - [ ] Die Liste liegt als versionierte Datei vor und ist in einem ADR für OD-07 bestätigt.
-- [ ] Jede Aufgabe hat eine Lean-Aussage, die mit gepinnter Mathlib kompiliert (nach F-04.01).
-- [ ] Holdout-Aufgaben sind markiert und ihre Referenzlösungen getrennt abgelegt.
+- [x] Jede Aufgabe hat eine Lean-Aussage, die mit gepinnter Mathlib kompiliert (nach F-04.01).
+- [x] Holdout-Aufgaben sind markiert und ihre Referenzlösungen getrennt abgelegt.
 
 ### F-11.02 Betriebsmodi durchsetzen
 
