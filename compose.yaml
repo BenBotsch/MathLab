@@ -41,5 +41,12 @@ services:
       context: .
       dockerfile: docker/lean.Dockerfile
 
+  sympy:
+    profiles: ["engines"]
+    image: mathlab-sympy:latest
+    build:
+      context: .
+      dockerfile: docker/sympy.Dockerfile
+
 volumes:
   db-data:

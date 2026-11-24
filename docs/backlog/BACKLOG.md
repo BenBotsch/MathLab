@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-262 Features in 26 Epics. Erledigt sind 27 von 262.
+262 Features in 26 Epics. Erledigt sind 28 von 262.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 215 |
-| `ready` | 19 |
+| `todo` | 213 |
+| `ready` | 20 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 27 |
+| `done` | 28 |
 | `blocked` | 1 |
 | `dropped` | 0 |
 
@@ -27,7 +27,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 2 | 0 | `in-progress` | 8/10 |
 | E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 3 | 5 | 1 | `todo` | 0/9 |
 | E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 3 | 0 | `in-progress` | 1/11 |
-| E05 | [Symbolik, SMT, Numerik und Widerlegung](epics/E05-symbolik-smt-numerik.md) | M1, Ausbau M2, M5 und M6 | 3 | 4 | 2 | `todo` | 0/9 |
+| E05 | [Symbolik, SMT, Numerik und Widerlegung](epics/E05-symbolik-smt-numerik.md) | M1, Ausbau M2, M5 und M6 | 3 | 4 | 2 | `in-progress` | 1/9 |
 | E06 | [Strategy Engine und Beweismethodenkatalog](epics/E06-strategy-engine.md) | M2, Ausbau M3 und M4 | 3 | 3 | 0 | `todo` | 0/6 |
 | E07 | [Agent Orchestrator und Multiagentensystem](epics/E07-agent-orchestrator.md) | M1, Ausbau M2 bis M6 | 6 | 8 | 2 | `in-progress` | 1/16 |
 | E08 | [Proof Search Engine](epics/E08-proof-search.md) | M1, Ausbau M2, M4 und M6 | 5 | 5 | 1 | `todo` | 0/11 |
@@ -60,7 +60,7 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
 | [F-03.01](epics/E03-problem-engine.md#f-0301-import-von-text-latex-und-lean) | Import von Text, LaTeX und Lean | P0 | M1 |
 | [F-05.07](epics/E05-symbolik-smt-numerik.md#f-0507-gegenbeispiel-objekt) | Gegenbeispiel-Objekt | P0 | M1 |
-| [F-05.01](epics/E05-symbolik-smt-numerik.md#f-0501-sympy-adapter) | SymPy-Adapter | P0 | M1 |
+| [F-05.02](epics/E05-symbolik-smt-numerik.md#f-0502-symbolische-schrittpipeline) | Symbolische Schrittpipeline | P0 | M1 |
 | [F-14.01](epics/E14-backend-api.md#f-1401-fastapi-grundgerüst-und-versioniertes-api-schema) | FastAPI-Grundgerüst und versioniertes API-Schema | P0 | M1 |
 | [F-15.01](epics/E15-research-shell.md#f-1501-client-grundgerüst) | Client-Grundgerüst | P0 | M1 |
 | [F-11.01](epics/E11-benchmarks-evaluation.md#f-1101-golden-problemliste-für-m1-ausarbeiten) | Golden-Problemliste für M1 ausarbeiten | P0 | M1 |
@@ -75,6 +75,7 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-12.08](epics/E12-metriken-lernen.md#f-1208-replay-daten-markieren) | Replay-Daten markieren | P1 | M2 |
 | [F-09.04](epics/E09-trial-and-error-tracking.md#f-0904-kontextuelle-negative-evidenz) | Kontextuelle negative Evidenz | P1 | M2 |
 | [F-21.07](epics/E21-labs-ui.md#f-2107-metrik-dashboards) | Metrik-Dashboards | P1 | M2 |
+| [F-05.08](epics/E05-symbolik-smt-numerik.md#f-0508-sagemath-adapter) | SageMath-Adapter | P2 | M5 |
 | [F-05.09](epics/E05-symbolik-smt-numerik.md#f-0509-atp-adapter-für-vampire) | ATP-Adapter für Vampire | P2 | M6 |
 
 ## Next
@@ -94,9 +95,9 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
-| [M1](ROADMAP.md#m1) | 80 | 62 | 18 | 0 |
+| [M1](ROADMAP.md#m1) | 79 | 61 | 18 | 0 |
 | [M2](ROADMAP.md#m2) | 70 | 9 | 59 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |
-| [M5](ROADMAP.md#m5) | 17 | 1 | 7 | 9 |
+| [M5](ROADMAP.md#m5) | 16 | 1 | 7 | 8 |
 | [M6](ROADMAP.md#m6) | 24 | 0 | 11 | 13 |

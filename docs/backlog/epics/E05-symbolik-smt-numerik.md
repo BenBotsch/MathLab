@@ -1,6 +1,6 @@
 # E05 Symbolik, SMT, Numerik und Widerlegung
 
-- Status: `todo` · Meilenstein: M1, Ausbau M2, M5 und M6
+- Status: `in-progress` · Meilenstein: M1, Ausbau M2, M5 und M6
 - Quellen: ARCH §4.1, §7.5, §12, §13.2, §17.1
 - Abhängige Epics: E01, E02, E04, E24
 
@@ -20,33 +20,33 @@ Numerische Evidenz ist kein Beweis und hebt eine Aussage höchstens auf `NUMERIC
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-05.01 | SymPy-Adapter | `ready` | P0 | M1 |
-| F-05.02 | Symbolische Schrittpipeline | `todo` | P0 | M1 |
+| F-05.01 | SymPy-Adapter | `done` | P0 | M1 |
+| F-05.02 | Symbolische Schrittpipeline | `ready` | P0 | M1 |
 | F-05.03 | SMT-Adapter für Z3 und cvc5 | `ready` | P1 | M2 |
 | F-05.04 | Simulationsworkflow mit Seed und Präzision | `ready` | P1 | M2 |
 | F-05.05 | Parameterstudien | `todo` | P1 | M2 |
 | F-05.06 | Workflow E Widerlegungen | `todo` | P1 | M2 |
 | F-05.07 | Gegenbeispiel-Objekt | `ready` | P0 | M1 |
-| F-05.08 | SageMath-Adapter | `todo` | P2 | M5 |
+| F-05.08 | SageMath-Adapter | `ready` | P2 | M5 |
 | F-05.09 | ATP-Adapter für Vampire | `ready` | P2 | M6 |
 
 ## Features
 
 ### F-05.01 SymPy-Adapter
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.04, F-24.01
 - Quelle: ARCH §12.1 (Standard-CAS im MVP), §17.1
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: `src/mathlab/engines/sympy_engine.py` (`SymPyEngine`, erfüllt `SymbolicEngine`) mit `src/mathlab/engines/sympy_runner.py`, das in `mathlab.sandbox` läuft; Image `docker/sympy.Dockerfile` (SymPy 1.13.3, mpmath 1.3.0), Dienst `sympy` im Compose-Profil `engines`. Operationen `simplify`, `expand`, `factor`, `solve` und `evaluate`; Summen und Reihen als `Sum(...)` bzw. `series(...)`. `tests/test_sympy_engine.py` mit `MATHLAB_TEST_SYMPY_IMAGE=mathlab-sympy:latest`: 6 bestanden, darunter `Sum(2*k - 1, (k, 1, n)) - n**2` vereinfacht zu `0` und eine Zeitüberschreitung als `EngineTimeoutError` (`RESOURCE_EXHAUSTION`). `ruff format`, `ruff check` und `mypy` (strict) ohne Befund; `pytest` mit Test-DB und allen Images 658 bestanden, 2 übersprungen, ohne 630 bestanden, 30 übersprungen. Unbekannte Operationen und nicht parsebare Ausdrücke ergeben `SYNTAX_ERROR`, fehlendes Docker `EngineUnavailableError`.
 
 Implementiert den `SymbolicEngine`-Contract für Vereinfachung, Umformung, Gleichungslösen, Summen und Reihen. Läuft mit Zeitlimit in der Sandbox.
 
-- [ ] Die Identität aus ARCH §15 (Summe der ersten n ungeraden Zahlen gleich n²) wird symbolisch bestätigt.
-- [ ] Zeitüberschreitung liefert einen typisierten Fehler.
+- [x] Die Identität aus ARCH §15 (Summe der ersten n ungeraden Zahlen gleich n²) wird symbolisch bestätigt.
+- [x] Zeitüberschreitung liefert einen typisierten Fehler.
 
 ### F-05.02 Symbolische Schrittpipeline
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-05.01, F-01.01
 - Quelle: ARCH §12.1, §13.2; UI §11.1
 - Bearbeiter: offen · Nachweise: offen
@@ -133,7 +133,7 @@ Die fünf Schritte aus ARCH §7.5 als ausführbarer Workflow.
 
 ### F-05.08 SageMath-Adapter
 
-- Status: `todo` · Priorität: P2 · Meilenstein: M5
+- Status: `ready` · Priorität: P2 · Meilenstein: M5
 - Abhängigkeiten: F-05.01
 - Quelle: ARCH §12.1, §17.1
 - Bearbeiter: offen · Nachweise: offen
