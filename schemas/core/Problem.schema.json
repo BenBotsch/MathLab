@@ -17,6 +17,35 @@
       "title": "Informal Statement",
       "type": "string"
     },
+    "input_format": {
+      "anyOf": [
+        {
+          "enum": [
+            "TEXT",
+            "LATEX",
+            "LEAN"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Input Format"
+    },
+    "original": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Original"
+    },
     "source": {
       "anyOf": [
         {

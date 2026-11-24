@@ -45,10 +45,16 @@ class Payload(BaseModel):
 
 
 class ProblemCreated(Payload):
-    """A problem was registered."""
+    """A problem was registered.
+
+    F-03.01 adds the input format and the artifact holding the unchanged original input, both
+    optional so earlier payloads stay valid.
+    """
 
     problem_id: UUID
     title: str = Field(min_length=1)
+    input_format: Literal["TEXT", "LATEX", "LEAN"] | None = None
+    original: ArtifactRef | None = Field(default=None, min_length=1)
 
 
 class ProblemFormalized(Payload):

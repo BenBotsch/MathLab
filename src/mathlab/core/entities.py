@@ -10,6 +10,7 @@ status and agent status are separate types introduced by F-01.01, F-01.06 and F-
 entities are plain IDs, never embedded entities.
 """
 
+from typing import Literal
 from uuid import UUID
 
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field
@@ -34,6 +35,8 @@ class Problem(Entity):
     title: str = Field(min_length=1)
     informal_statement: str = Field(min_length=1)
     source: str | None = None
+    input_format: Literal["TEXT", "LATEX", "LEAN"] | None = None
+    original: ArtifactRef | None = None
 
 
 class ProblemVariant(Entity):

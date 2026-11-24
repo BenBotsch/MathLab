@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-262 Features in 26 Epics. Erledigt sind 30 von 262.
+262 Features in 26 Epics. Erledigt sind 31 von 262.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 213 |
+| `todo` | 212 |
 | `ready` | 18 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 30 |
+| `done` | 31 |
 | `blocked` | 1 |
 | `dropped` | 0 |
 
@@ -25,7 +25,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E00 | [Projektfundament](epics/E00-projektfundament.md) | M1, Ausbau M2 | 5 | 4 | 0 | `in-progress` | 4/9 |
 | E01 | [Core-Domänenmodell und Contracts](epics/E01-core-domaenenmodell.md) | M1 | 7 | 0 | 0 | `done` | 7/7 |
 | E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 2 | 0 | `in-progress` | 8/10 |
-| E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 3 | 5 | 1 | `todo` | 0/9 |
+| E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 3 | 5 | 1 | `in-progress` | 1/9 |
 | E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 3 | 0 | `in-progress` | 1/11 |
 | E05 | [Symbolik, SMT, Numerik und Widerlegung](epics/E05-symbolik-smt-numerik.md) | M1, Ausbau M2, M5 und M6 | 3 | 4 | 2 | `in-progress` | 3/9 |
 | E06 | [Strategy Engine und Beweismethodenkatalog](epics/E06-strategy-engine.md) | M2, Ausbau M3 und M4 | 3 | 3 | 0 | `todo` | 0/6 |
@@ -58,7 +58,7 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | Feature | Titel | Priorität | Meilenstein |
 | --- | --- | --- | --- |
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
-| [F-03.01](epics/E03-problem-engine.md#f-0301-import-von-text-latex-und-lean) | Import von Text, LaTeX und Lean | P0 | M1 |
+| [F-03.02](epics/E03-problem-engine.md#f-0302-kanonische-darstellung) | Kanonische Darstellung | P0 | M1 |
 | [F-14.01](epics/E14-backend-api.md#f-1401-fastapi-grundgerüst-und-versioniertes-api-schema) | FastAPI-Grundgerüst und versioniertes API-Schema | P0 | M1 |
 | [F-15.01](epics/E15-research-shell.md#f-1501-client-grundgerüst) | Client-Grundgerüst | P0 | M1 |
 | [F-11.01](epics/E11-benchmarks-evaluation.md#f-1101-golden-problemliste-für-m1-ausarbeiten) | Golden-Problemliste für M1 ausarbeiten | P0 | M1 |
@@ -93,7 +93,7 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
-| [M1](ROADMAP.md#m1) | 79 | 61 | 18 | 0 |
+| [M1](ROADMAP.md#m1) | 78 | 60 | 18 | 0 |
 | [M2](ROADMAP.md#m2) | 70 | 9 | 59 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |

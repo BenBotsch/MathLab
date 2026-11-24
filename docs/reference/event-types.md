@@ -7,7 +7,7 @@ Felder mit `?` sind optional.
 
 | Eventtyp | Payload | Felder | Beschreibung |
 | --- | --- | --- | --- |
-| `problem.created` | `ProblemCreated` | `problem_id`, `title` | A problem was registered. |
+| `problem.created` | `ProblemCreated` | `problem_id`, `title`, `input_format`?, `original`? | A problem was registered. |
 | `problem.formalized` | `ProblemFormalized` | `problem_id`, `formal_statement_id`, `statement_hash` | A formal statement was produced for a problem. |
 | `strategy.selected` | `StrategySelected` | `method`, `attempt_id`? | A proof method was chosen. |
 | `proof.attempt.started` | `ProofAttemptStarted` | `attempt_id`, `problem_id`, `formal_statement_id`, `parent_attempt_id`, `agent_id`, `agent_version`, `strategy_id`, `strategy_parameters`, `setup` | An agent began a proof attempt (ARCH §9.1); ``setup`` holds the ARCH §9.2 fields. |

@@ -1,6 +1,6 @@
 # E03 Problem Engine
 
-- Status: `todo` · Meilenstein: M1, Ausbau M2 und M5
+- Status: `in-progress` · Meilenstein: M1, Ausbau M2 und M5
 - Quellen: ARCH §3.1, §4.1, §6.1 (Problem Classifier), §7.1, §11.4, §13.2, §21
 - Abhängige Epics: E01, E04
 
@@ -20,8 +20,8 @@ Die Originalaussage wird unverändert archiviert. Eine Formalisierung gilt erst 
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-03.01 | Import von Text, LaTeX und Lean | `ready` | P0 | M1 |
-| F-03.02 | Kanonische Darstellung | `todo` | P0 | M1 |
+| F-03.01 | Import von Text, LaTeX und Lean | `done` | P0 | M1 |
+| F-03.02 | Kanonische Darstellung | `ready` | P0 | M1 |
 | F-03.03 | Mehrdeutigkeit protokollieren | `todo` | P1 | M1 |
 | F-03.04 | Autoformalisierung | `todo` | P1 | M2 |
 | F-03.05 | Prüfung der Statement Fidelity | `todo` | P0 | M1 |
@@ -34,19 +34,19 @@ Die Originalaussage wird unverändert archiviert. Eine Formalisierung gilt erst 
 
 ### F-03.01 Import von Text, LaTeX und Lean
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02
 - Quelle: ARCH §3.1, §7.1 (Schritt 1)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: `src/mathlab/problem_import.py` (`ProblemInput`, `import_problem`, `original_input`) nimmt Text, LaTeX oder eine Lean-Aussage mit informellem Text an, legt die Originaleingabe byteweise im Artefaktspeicher ab und liefert `Problem` samt `problem.created`-Entwurf. `Problem` und `ProblemCreated` tragen dafür optional `input_format` und `original`. `tests/test_problem_import.py`: 8 bestanden, je Format Ereignis und unverändertes Original (auch Leerzeichen am Rand, `\r\n` und Unicode), auch nach erneutem Öffnen des Speichers. Schemas und `docs/reference/event-types.md` neu erzeugt. `ruff format`, `ruff check` und `mypy` (strict) ohne Befund; `pytest` mit Test-DB und allen Images 682 bestanden, ohne 650 bestanden, 32 übersprungen. Annahme: Der Lean-Code wird hier weder geparst noch geprüft, Formalisierung und Hash bleiben bei F-01.03 und E04.
 
 Ein Problem kann als natürlicher Text, LaTeX oder Lean-Statement angelegt werden. In M1 reicht eine vorgegebene Lean-Aussage plus informeller Text.
 
-- [ ] Import erzeugt ein `Problem` und das Ereignis `problem.created`.
-- [ ] Die Originaleingabe ist unverändert abrufbar.
+- [x] Import erzeugt ein `Problem` und das Ereignis `problem.created`.
+- [x] Die Originaleingabe ist unverändert abrufbar.
 
 ### F-03.02 Kanonische Darstellung
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-03.01, F-01.03
 - Quelle: ARCH §3.1 (versionierte kanonische Darstellung), §7.1 (Schritt 2)
 - Bearbeiter: offen · Nachweise: offen
