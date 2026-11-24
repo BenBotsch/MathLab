@@ -1,6 +1,6 @@
 # E07 Agent Orchestrator und Multiagentensystem
 
-- Status: `todo` · Meilenstein: M1, Ausbau M2 bis M6
+- Status: `in-progress` · Meilenstein: M1, Ausbau M2 bis M6
 - Quellen: ARCH §4.1, §6, §7.2, §15.5, §17.1, §17.3; UI §2.1 (System Configuration), §5
 - Abhängige Epics: E01, E02, E04, E06, E24
 
@@ -33,7 +33,7 @@ Kein Agent setzt einen Verifikationsstatus, `VERIFIED` stammt nur aus dem verifi
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
 | F-07.01 | Model Adapter | `todo` | P0 | M1 |
-| F-07.02 | Typisierte Agentennachrichten | `ready` | P0 | M1 |
+| F-07.02 | Typisierte Agentennachrichten | `done` | P0 | M1 |
 | F-07.03 | Orchestrator-Kern | `todo` | P0 | M1 |
 | F-07.04 | Tactic Generator | `todo` | P0 | M1 |
 | F-07.05 | Koordination und Isolation | `todo` | P0 | M1 |
@@ -65,16 +65,16 @@ Einheitliche Schnittstelle für externe API-Modelle und lokale Modelle mit Model
 
 ### F-07.02 Typisierte Agentennachrichten
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02, F-02.02
 - Quelle: ARCH §6.3
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: `src/mathlab/core/agent_messages.py` (Schema `AgentResultMessage`, strict, keine Zusatzfelder), `src/mathlab/messaging.py` (`report`, `adopt`, `VerificationResults`), neuer Eventtyp `agent.result.reported` als Katalogergänzung; `tests/test_messaging.py`, `tests/core/test_event_types.py`. `ruff format`, `ruff check` und `mypy` (strict) ohne Befund; `pytest` mit Test-DB 647 bestanden, 2 übersprungen, ohne DB 626 bestanden, 23 übersprungen. Ein `VERIFIED`-Anteil braucht in `verification_result_ids` die ID eines Prüfergebnisses aus `proof.step.verified`, `lemma.verified` oder `proof.completed`, sonst wird er als `UNRESOLVED` gespeichert und in `downgraded_parts` vermerkt. Annahme bis E04: Geprüft wird nur, ob das Prüfergebnis existiert, nicht ob es zum Anteil passt.
 
 Ergebnisnachrichten folgen dem Schema aus ARCH §6.3 mit `task_id`, `agent`, `status`, `method`, `verification` (zum Beispiel `base_case` und `induction_step`), `evidence_ids`, `generated_lemmas`, `remaining_goals` und `recommended_next_action`. Sie erlauben resumierbare Workflows und gezielten Kontextabruf.
 
-- [ ] Eine Nachricht ohne gültiges Schema wird abgelehnt.
-- [ ] Ein Feld `verification` mit Wert `VERIFIED` wird nur übernommen, wenn eine passende Verifikation aus E04 vorliegt.
-- [ ] Jede Nachricht erscheint als Ereignis mit Trace-ID.
+- [x] Eine Nachricht ohne gültiges Schema wird abgelehnt.
+- [x] Ein Feld `verification` mit Wert `VERIFIED` wird nur übernommen, wenn eine passende Verifikation aus E04 vorliegt.
+- [x] Jede Nachricht erscheint als Ereignis mit Trace-ID.
 
 Referenzbeispiel aus ARCH §6.3, unverändert zitiert. Bei Abweichung gilt die Quelle.
 

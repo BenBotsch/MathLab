@@ -65,6 +65,20 @@ UI_8_1 = [
 ]
 
 EXAMPLES: dict[str, dict[str, Any]] = {
+    "agent.result.reported": {
+        "message": {
+            "task_id": "TASK-1042",
+            "agent": "induction_prover",
+            "status": "PARTIAL_SUCCESS",
+            "method": "mathematical_induction",
+            "verification": {"base_case": "UNRESOLVED"},
+            "evidence_ids": [],
+            "generated_lemmas": [],
+            "remaining_goals": 1,
+            "recommended_next_action": None,
+        },
+        "downgraded_parts": ["base_case"],
+    },
     "problem.created": {"problem_id": U + "01", "title": "Odd sums"},
     "problem.formalized": {
         "problem_id": U + "01",
@@ -126,7 +140,10 @@ def envelope(event_type: str, payload: dict[str, Any]) -> EventEnvelope:
     return EventEnvelope.model_validate_json(json.dumps(data))
 
 
-EXTENSIONS = ["proof.attempt.finished"]  # F-09.01, rebuilds an ARCH §9.1 attempt
+EXTENSIONS = [
+    "proof.attempt.finished",  # F-09.01, rebuilds an ARCH §9.1 attempt
+    "agent.result.reported",  # F-07.02, logs an ARCH §6.3 agent message
+]
 
 
 def test_catalogue_is_union_of_both_sources_plus_extensions() -> None:

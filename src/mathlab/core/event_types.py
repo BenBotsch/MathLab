@@ -2,7 +2,8 @@
 
 The catalogue is the union of the event types named in both sources plus
 ``proof.attempt.finished``, which F-09.01 adds so an ARCH §9.1 attempt can be rebuilt from
-events. Neither source defines payloads, so the schemas below are minimal: they carry the IDs
+events, and ``agent.result.reported``, which F-07.02 adds so every ARCH §6.3 agent message is
+logged. Neither source defines payloads, so the schemas below are minimal: they carry the IDs
 that link an event to entities of the domain model plus the few values the UI needs.
 Large content stays in entities or artifacts.
 
@@ -26,6 +27,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from mathlab.core.agent_messages import AgentResultMessage
 from mathlab.core.attempt_protocol import AttemptBudget, AttemptSetup
 from mathlab.core.contracts import FailureCode
 from mathlab.core.event import EventEnvelope
@@ -216,6 +218,17 @@ class ProofCompleted(Payload):
     verification_result_id: UUID
 
 
+class AgentResultReported(Payload):
+    """An agent reported a result (ARCH §6.3; F-07.02).
+
+    ``message`` is the adopted message: a ``VERIFIED`` part without a known checker result is
+    stored as ``UNRESOLVED`` and listed in ``downgraded_parts``.
+    """
+
+    message: AgentResultMessage
+    downgraded_parts: tuple[str, ...] = ()
+
+
 class ProofVerificationFailed(Payload):
     """Checking a proof failed."""
 
@@ -307,6 +320,7 @@ EVENT_PAYLOADS: dict[str, type[Payload]] = {
     "knowledge.updated": KnowledgeUpdated,
     "model.trained": ModelTrained,
     "agent.started": AgentStarted,
+    "agent.result.reported": AgentResultReported,
     "budget.updated": BudgetUpdated,
     "run.paused": RunPaused,
     "run.completed": RunCompleted,
