@@ -1,6 +1,6 @@
 # E24 Sicherheit, Sandbox und Risikoregister
 
-- Status: `todo` · Meilenstein: M1, Ausbau M2 und M3
+- Status: `in-progress` · Meilenstein: M1, Ausbau M2 und M3
 - Quellen: ARCH §3.2 (Sicherheit), §6.4, §21, §21.1; UI §16.2, §18.3
 - Abhängige Epics: E00, E04, E05, E07, E14
 
@@ -20,7 +20,7 @@ Die UI mutiert die Datenbank nie direkt. Externe Paper- und Tooldaten sind nicht
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-24.01 | Container-Sandbox für generierten Code | `ready` | P0 | M1 |
+| F-24.01 | Container-Sandbox für generierten Code | `done` | P0 | M1 |
 | F-24.02 | Toolrechte pro Agentenrolle | `ready` | P0 | M1 |
 | F-24.03 | Rollen und Berechtigungen | `todo` | P0 | M1 |
 | F-24.04 | Secrets und `privacy_classification` | `ready` | P0 | M1 |
@@ -34,15 +34,15 @@ Die UI mutiert die Datenbank nie direkt. Externe Paper- und Tooldaten sind nicht
 
 ### F-24.01 Container-Sandbox für generierten Code
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.04
 - Quelle: ARCH §21 (gefährlicher generierter Code), §6.4; UI §18.3
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: `src/mathlab/sandbox.py` (`run_sandboxed`, `SandboxLimits`, `docker_command`): Docker-Container mit `--network none`, Grenzen für Speicher (ohne Swap), CPU, Prozesse und Laufzeit, schreibgeschütztem Wurzeldateisystem, `--cap-drop ALL`, `no-new-privileges`, Benutzer `65534` und genau einem Bind-Mount des Arbeitsverzeichnisses nach `/work`; Umgebungsvariablen des Hosts werden nicht übergeben. Zeitüberschreitung und OOM-Abbruch (Exitcode 137) ergeben `RESOURCE_EXHAUSTION`, andere Fehler `UNCLASSIFIED`. `tests/test_sandbox.py`, Container-Tests mit `MATHLAB_TEST_SANDBOX_IMAGE=python:3.12-slim`: 5 bestanden. `ruff format`, `ruff check` und `mypy` (strict) ohne Befund; `pytest` mit Test-DB und Sandbox-Image 652 bestanden, 2 übersprungen, ohne beides 628 bestanden, 26 übersprungen.
 
 Generierter Python-, Lean- und Simulationscode läuft in einem Container ohne Netzwerk, mit Ressourcenlimits für CPU, Speicher und Zeit und ohne Zugriff auf Secrets oder das Host-Dateisystem außerhalb eines Arbeitsverzeichnisses.
 
-- [ ] Ein Test zeigt, dass Code in der Sandbox weder Netzwerk noch Host-Dateien erreicht.
-- [ ] Ein Endlosschleifen-Test wird nach dem Zeitlimit beendet und als Fehlerklasse erfasst.
+- [x] Ein Test zeigt, dass Code in der Sandbox weder Netzwerk noch Host-Dateien erreicht.
+- [x] Ein Endlosschleifen-Test wird nach dem Zeitlimit beendet und als Fehlerklasse erfasst.
 
 ### F-24.02 Toolrechte pro Agentenrolle
 

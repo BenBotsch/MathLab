@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-262 Features in 26 Epics. Erledigt sind 26 von 262.
+262 Features in 26 Epics. Erledigt sind 27 von 262.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 218 |
-| `ready` | 17 |
+| `todo` | 215 |
+| `ready` | 19 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 26 |
+| `done` | 27 |
 | `blocked` | 1 |
 | `dropped` | 0 |
 
@@ -46,7 +46,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E21 | [Knowledge and Experiment Laboratory UI](epics/E21-labs-ui.md) | M2, Ausbau M3 bis M5 | 1 | 10 | 0 | `todo` | 0/11 |
 | E22 | [Workflow Builder und visuelle Orchestrierung](epics/E22-workflow-builder.md) | M6 | 0 | 5 | 3 | `todo` | 0/8 |
 | E23 | [Observability und Tracing](epics/E23-observability.md) | M1, Ausbau M2 | 2 | 2 | 1 | `todo` | 0/5 |
-| E24 | [Sicherheit, Sandbox und Risikoregister](epics/E24-sicherheit-sandbox.md) | M1, Ausbau M2 und M3 | 7 | 2 | 0 | `todo` | 0/9 |
+| E24 | [Sicherheit, Sandbox und Risikoregister](epics/E24-sicherheit-sandbox.md) | M1, Ausbau M2 und M3 | 7 | 2 | 0 | `in-progress` | 1/9 |
 | E25 | [Eigenständige Forschung und Forschungsbeiträge](epics/E25-forschungsbeitraege.md) | M6 | 0 | 6 | 4 | `todo` | 0/10 |
 
 ## Now
@@ -57,10 +57,10 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 
 | Feature | Titel | Priorität | Meilenstein |
 | --- | --- | --- | --- |
-| [F-24.01](epics/E24-sicherheit-sandbox.md#f-2401-container-sandbox-für-generierten-code) | Container-Sandbox für generierten Code | P0 | M1 |
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
 | [F-03.01](epics/E03-problem-engine.md#f-0301-import-von-text-latex-und-lean) | Import von Text, LaTeX und Lean | P0 | M1 |
 | [F-05.07](epics/E05-symbolik-smt-numerik.md#f-0507-gegenbeispiel-objekt) | Gegenbeispiel-Objekt | P0 | M1 |
+| [F-05.01](epics/E05-symbolik-smt-numerik.md#f-0501-sympy-adapter) | SymPy-Adapter | P0 | M1 |
 | [F-14.01](epics/E14-backend-api.md#f-1401-fastapi-grundgerüst-und-versioniertes-api-schema) | FastAPI-Grundgerüst und versioniertes API-Schema | P0 | M1 |
 | [F-15.01](epics/E15-research-shell.md#f-1501-client-grundgerüst) | Client-Grundgerüst | P0 | M1 |
 | [F-11.01](epics/E11-benchmarks-evaluation.md#f-1101-golden-problemliste-für-m1-ausarbeiten) | Golden-Problemliste für M1 ausarbeiten | P0 | M1 |
@@ -71,9 +71,11 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-12.01](epics/E12-metriken-lernen.md#f-1201-metrikebenen) | Metrikebenen | P0 | M2 |
 | [F-02.09](epics/E02-event-sourcing-persistenz.md#f-0209-schema-versionierung-und-migration) | Schema-Versionierung und Migration | P1 | M2 |
 | [F-05.04](epics/E05-symbolik-smt-numerik.md#f-0504-simulationsworkflow-mit-seed-und-präzision) | Simulationsworkflow mit Seed und Präzision | P1 | M2 |
+| [F-05.03](epics/E05-symbolik-smt-numerik.md#f-0503-smt-adapter-für-z3-und-cvc5) | SMT-Adapter für Z3 und cvc5 | P1 | M2 |
 | [F-12.08](epics/E12-metriken-lernen.md#f-1208-replay-daten-markieren) | Replay-Daten markieren | P1 | M2 |
 | [F-09.04](epics/E09-trial-and-error-tracking.md#f-0904-kontextuelle-negative-evidenz) | Kontextuelle negative Evidenz | P1 | M2 |
 | [F-21.07](epics/E21-labs-ui.md#f-2107-metrik-dashboards) | Metrik-Dashboards | P1 | M2 |
+| [F-05.09](epics/E05-symbolik-smt-numerik.md#f-0509-atp-adapter-für-vampire) | ATP-Adapter für Vampire | P2 | M6 |
 
 ## Next
 
@@ -92,9 +94,9 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
-| [M1](ROADMAP.md#m1) | 81 | 63 | 18 | 0 |
-| [M2](ROADMAP.md#m2) | 71 | 9 | 60 | 2 |
+| [M1](ROADMAP.md#m1) | 80 | 62 | 18 | 0 |
+| [M2](ROADMAP.md#m2) | 70 | 9 | 59 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |
 | [M5](ROADMAP.md#m5) | 17 | 1 | 7 | 9 |
-| [M6](ROADMAP.md#m6) | 25 | 0 | 11 | 14 |
+| [M6](ROADMAP.md#m6) | 24 | 0 | 11 | 13 |

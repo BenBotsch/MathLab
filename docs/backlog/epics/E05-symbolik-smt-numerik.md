@@ -20,21 +20,21 @@ Numerische Evidenz ist kein Beweis und hebt eine Aussage höchstens auf `NUMERIC
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-05.01 | SymPy-Adapter | `todo` | P0 | M1 |
+| F-05.01 | SymPy-Adapter | `ready` | P0 | M1 |
 | F-05.02 | Symbolische Schrittpipeline | `todo` | P0 | M1 |
-| F-05.03 | SMT-Adapter für Z3 und cvc5 | `todo` | P1 | M2 |
+| F-05.03 | SMT-Adapter für Z3 und cvc5 | `ready` | P1 | M2 |
 | F-05.04 | Simulationsworkflow mit Seed und Präzision | `ready` | P1 | M2 |
 | F-05.05 | Parameterstudien | `todo` | P1 | M2 |
 | F-05.06 | Workflow E Widerlegungen | `todo` | P1 | M2 |
 | F-05.07 | Gegenbeispiel-Objekt | `ready` | P0 | M1 |
 | F-05.08 | SageMath-Adapter | `todo` | P2 | M5 |
-| F-05.09 | ATP-Adapter für Vampire | `todo` | P2 | M6 |
+| F-05.09 | ATP-Adapter für Vampire | `ready` | P2 | M6 |
 
 ## Features
 
 ### F-05.01 SymPy-Adapter
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.04, F-24.01
 - Quelle: ARCH §12.1 (Standard-CAS im MVP), §17.1
 - Bearbeiter: offen · Nachweise: offen
@@ -58,7 +58,7 @@ Symbolische Ergebnisse werden als Ereignis `symbolic.calculation.completed` mit 
 
 ### F-05.03 SMT-Adapter für Z3 und cvc5
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-01.04, F-24.01
 - Quelle: ARCH §12.1, §7.5 (Schritt 3), §12.3
 - Bearbeiter: offen · Nachweise: offen
@@ -144,7 +144,7 @@ Adapter für erweiterte Fachdomänen wie Algebra und Zahlentheorie über denselb
 
 ### F-05.09 ATP-Adapter für Vampire
 
-- Status: `todo` · Priorität: P2 · Meilenstein: M6
+- Status: `ready` · Priorität: P2 · Meilenstein: M6
 - Abhängigkeiten: F-01.04, F-24.01
 - Quelle: ARCH §12.1
 - Bearbeiter: offen · Nachweise: offen
