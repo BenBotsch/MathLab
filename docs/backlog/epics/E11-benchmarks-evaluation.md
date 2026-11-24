@@ -28,7 +28,7 @@ Vergleiche laufen immer mit denselben Ressourcenbudgets, Toolchains und Solverli
 | F-11.06 | Externe Benchmarks miniF2F, ProofNet und PutnamBench | `todo` | P1 | M2 |
 | F-11.07 | Discover-and-Prove-Trennung | `todo` | P1 | M2 |
 | F-11.08 | Kontaminations- und Leakage-Kontrollen | `todo` | P0 | M2 |
-| F-11.09 | Benchmarkmetriken | `ready` | P0 | M1 |
+| F-11.09 | Benchmarkmetriken | `done` | P0 | M1 |
 | F-11.10 | Strategievergleich bei festem Budget | `todo` | P0 | M2 |
 | F-11.11 | Ablationsstudien | `todo` | P1 | M4 |
 | F-11.12 | Seeds, Streuung und Konfidenzintervalle | `todo` | P1 | M2 |
@@ -171,15 +171,15 @@ Datensätze werden nach Problemfamilien und gegebenenfalls Veröffentlichungszei
 
 ### F-11.09 Benchmarkmetriken
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1, Ausbau M2 bis M5
+- Status: `done` · Priorität: P0 · Meilenstein: M1, Ausbau M2 bis M5
 - Abhängigkeiten: F-09.05
 - Quelle: ARCH §16.3, §10.1; UI §12.2
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: Commit `feat: compute M1 benchmark metrics at a fixed budget` auf `develop`. Am 2026-11-24 gelaufen: `uv run ruff format --check .`, `uv run ruff check .`, `uv run mypy` (strict), `uv run pytest` mit PostgreSQL (632 passed, 2 übersprungen) und ohne (611 passed, 23 übersprungen). `src/mathlab/benchmark_metrics.py` liefert für M1 Pass@k (erwartungstreuer Schätzer, per Hypothesis gegen die kombinatorische Definition geprüft), Success Rate, Time to Proof, CostPerProof und Fehler pro Klasse aus F-09.03. `sample_from_attempt` leitet Stichproben aus abgeschlossenen Versuchen (F-09.01) ab. `tests/test_benchmark_metrics.py` belegt, dass zensierte Laufzeiten getrennt ausgewiesen und nie als Erfolg oder Time to Proof gezählt werden, und dass ein Bericht nur Stichproben eines Budgets enthält und `compare_pass_at_k` Berichte mit verschiedenem Budget ablehnt. Annahmen: Ein abgeschlossener Versuch ohne Prüferurteil ist zensiert. Kosten sind nach ADR-0003 Modellaufrufe, Tokens und Laufzeit; nicht gemessene Tokens machen die Tokensumme unbekannt statt 0. Die übrigen Metriken aus ARCH §16.3 folgen mit ihren Features.
 
 CostPerProof als gesamter Rechenaufwand geteilt durch die Zahl formal gelöster Probleme. Dazu Pass@k, Success Rate, Time to Proof, Proofs per Compute Hour, Verified Lemmas per Run, Search Depth, Premise Recall@k, Strategy Diversity, Counterexample Discovery Rate, Transfer Success, Semantic Formalization Accuracy, Explanation Quality und offene oder zensierte Laufzeiten. M1 liefert Pass@k, Success Rate, Time to Proof, CostPerProof und Fehler, die übrigen Metriken folgen mit ihren Features.
 
-- [ ] Zensierte Laufzeiten werden als solche markiert und nicht als Erfolg gezählt.
-- [ ] Pass@k wird nur bei gleichem Budget verglichen.
+- [x] Zensierte Laufzeiten werden als solche markiert und nicht als Erfolg gezählt.
+- [x] Pass@k wird nur bei gleichem Budget verglichen.
 
 ### F-11.10 Strategievergleich bei festem Budget
 

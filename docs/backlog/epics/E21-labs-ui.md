@@ -26,7 +26,7 @@ Formale Beziehungen und semantische Ähnlichkeiten sind getrennt, vermutete Anal
 | F-21.04 | Simulation Workspace | `todo` | P1 | M2 |
 | F-21.05 | Proof Explorer | `todo` | P0 | M2 |
 | F-21.06 | Model and Benchmark Laboratory | `todo` | P1 | M4 |
-| F-21.07 | Metrik-Dashboards | `todo` | P1 | M2 |
+| F-21.07 | Metrik-Dashboards | `ready` | P1 | M2 |
 | F-21.08 | Seite Research Reports | `todo` | P1 | M5 |
 | F-21.09 | Problem Explorer | `todo` | P1 | M2 |
 | F-21.10 | Parameterstudien und Gegenbeispiele | `todo` | P1 | M5 |
@@ -104,7 +104,7 @@ Vergleich von Modellversionen, Prompt- und Strategievarianten, Golden Tasks, Abl
 
 ### F-21.07 Metrik-Dashboards
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-09.05, F-11.09
 - Quelle: UI §12.1, §12.2; ARCH §14.1 (Research Dashboard)
 - Bearbeiter: offen · Nachweise: offen
