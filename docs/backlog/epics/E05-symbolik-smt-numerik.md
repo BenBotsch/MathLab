@@ -26,7 +26,7 @@ Numerische Evidenz ist kein Beweis und hebt eine Aussage höchstens auf `NUMERIC
 | F-05.04 | Simulationsworkflow mit Seed und Präzision | `ready` | P1 | M2 |
 | F-05.05 | Parameterstudien | `todo` | P1 | M2 |
 | F-05.06 | Workflow E Widerlegungen | `todo` | P1 | M2 |
-| F-05.07 | Gegenbeispiel-Objekt | `ready` | P0 | M1 |
+| F-05.07 | Gegenbeispiel-Objekt | `done` | P0 | M1 |
 | F-05.08 | SageMath-Adapter | `ready` | P2 | M5 |
 | F-05.09 | ATP-Adapter für Vampire | `ready` | P2 | M6 |
 
@@ -122,14 +122,14 @@ Die fünf Schritte aus ARCH §7.5 als ausführbarer Workflow.
 
 ### F-05.07 Gegenbeispiel-Objekt
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.02
 - Quelle: ARCH §7.5, §12.3, §18.1 (Counterexample)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: `Counterexample` und `counterexample.found` tragen Belegung, Beschreibung, Herkunft (`SourceRef`) und Artefakt; neues Ereignis `counterexample.checked` mit `VERIFIED` oder `REJECTED` und Pflichtfeld `verification_result_id`. `src/mathlab/counterexamples.py` (`CounterexampleProjection`, `rebuild_counterexamples`) liefert je Gegenbeispiel Aussage, Herkunft und Prüfstatus (`OPEN` bis zur Prüfung), Abfrage per ID und per Aussage. `tests/test_counterexamples.py`: 5 bestanden, darunter x = 0.5 gegen x² > x und Rebuild aus der Test-DB. Schemas und `docs/reference/event-types.md` neu erzeugt. `ruff format`, `ruff check` und `mypy` (strict) ohne Befund; `pytest` mit Test-DB und allen Images 674 bestanden, ohne 642 bestanden, 32 übersprungen. Der Prüfstatus liegt in der Projektion, weil Entitäten keine Statusfelder tragen.
 
 `Counterexample` mit Aussage, Belegung, Herkunft, Prüfstatus und Artefakt. Erzeugt das Ereignis `counterexample.found`.
 
-- [ ] Ein Gegenbeispiel ist mit Aussage, Herkunft und Prüfstatus abrufbar.
+- [x] Ein Gegenbeispiel ist mit Aussage, Herkunft und Prüfstatus abrufbar.
 
 ### F-05.08 SageMath-Adapter
 

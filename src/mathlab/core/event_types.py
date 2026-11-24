@@ -2,8 +2,9 @@
 
 The catalogue is the union of the event types named in both sources plus
 ``proof.attempt.finished``, which F-09.01 adds so an ARCH §9.1 attempt can be rebuilt from
-events, and ``agent.result.reported``, which F-07.02 adds so every ARCH §6.3 agent message is
-logged. Neither source defines payloads, so the schemas below are minimal: they carry the IDs
+events, ``agent.result.reported``, which F-07.02 adds so every ARCH §6.3 agent message is
+logged, and ``counterexample.checked``, which F-05.07 adds for the exact re-check of ARCH
+§7.5. Neither source defines payloads, so the schemas below are minimal: they carry the IDs
 that link an event to entities of the domain model plus the few values the UI needs.
 Large content stays in entities or artifacts.
 
@@ -32,7 +33,7 @@ from mathlab.core.agent_messages import AgentResultMessage
 from mathlab.core.attempt_protocol import AttemptBudget, AttemptSetup
 from mathlab.core.contracts import FailureCode
 from mathlab.core.event import EventEnvelope
-from mathlab.core.primitives import JsonObject
+from mathlab.core.primitives import ArtifactRef, JsonObject
 from mathlab.core.provenance import LibraryReference, SourceRef
 from mathlab.core.run import RunStatus
 
@@ -190,10 +191,30 @@ class HypothesisCreated(Payload):
 
 
 class CounterexampleFound(Payload):
-    """A counterexample to a formal statement was found."""
+    """A counterexample to a formal statement was found; unchecked until ``.checked`` (F-05.07).
+
+    F-05.07 adds assignment, description, source and artifact with defaults, so earlier payloads
+    stay valid.
+    """
 
     counterexample_id: UUID
     formal_statement_id: UUID
+    assignment: JsonObject = {}
+    description: str = ""
+    source: SourceRef | None = None
+    artifact: ArtifactRef | None = Field(default=None, min_length=1)
+
+
+class CounterexampleChecked(Payload):
+    """An exact re-check of a counterexample finished (ARCH §7.5 step 4; F-05.07).
+
+    ``VERIFIED`` means the assignment falsifies the statement, ``REJECTED`` that it does not.
+    Both need the checker result.
+    """
+
+    counterexample_id: UUID
+    verification_status: Literal["VERIFIED", "REJECTED"]
+    verification_result_id: UUID
 
 
 class SymbolicAssumption(Payload):
@@ -341,6 +362,7 @@ EVENT_PAYLOADS: dict[str, type[Payload]] = {
     "lemma.verified": LemmaVerified,
     "hypothesis.created": HypothesisCreated,
     "counterexample.found": CounterexampleFound,
+    "counterexample.checked": CounterexampleChecked,
     "symbolic.calculation.completed": SymbolicCalculationCompleted,
     "simulation.sample.received": SimulationSampleReceived,
     "proof.completed": ProofCompleted,

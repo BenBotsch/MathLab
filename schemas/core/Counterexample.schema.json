@@ -1,10 +1,57 @@
 {
   "$defs": {
-    "JsonValue": {}
+    "JsonValue": {},
+    "SourceKind": {
+      "description": "Where a claim comes from.",
+      "enum": [
+        "AGENT",
+        "VERIFIER",
+        "LIBRARY",
+        "PUBLICATION",
+        "HUMAN",
+        "SIMULATION",
+        "SYMBOLIC_ENGINE"
+      ],
+      "title": "SourceKind",
+      "type": "string"
+    },
+    "SourceRef": {
+      "additionalProperties": false,
+      "description": "The origin of a claim: a kind plus an identifier within that kind.",
+      "properties": {
+        "identifier": {
+          "description": "e.g. agent id, entity UUID, Mathlib name",
+          "minLength": 1,
+          "title": "Identifier",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/SourceKind"
+        }
+      },
+      "required": [
+        "kind",
+        "identifier"
+      ],
+      "title": "SourceRef",
+      "type": "object"
+    }
   },
   "additionalProperties": false,
   "description": "A concrete assignment that is claimed to falsify a formal statement.",
   "properties": {
+    "artifact": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Artifact"
+    },
     "assignment": {
       "additionalProperties": {
         "$ref": "#/$defs/JsonValue"
@@ -31,6 +78,17 @@
       "format": "uuid",
       "title": "Id",
       "type": "string"
+    },
+    "source": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SourceRef"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
     },
     "version": {
       "minimum": 1,

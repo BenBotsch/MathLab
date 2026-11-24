@@ -15,7 +15,7 @@ from uuid import UUID
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field
 
 from mathlab.core.primitives import ArtifactRef, JsonObject
-from mathlab.core.provenance import Provenance
+from mathlab.core.provenance import Provenance, SourceRef
 
 
 class Entity(BaseModel):
@@ -138,6 +138,8 @@ class Counterexample(Entity):
     formal_statement_id: UUID
     assignment: JsonObject
     description: str = ""
+    source: SourceRef | None = None
+    artifact: ArtifactRef | None = None
 
 
 class SimulationRun(Entity):

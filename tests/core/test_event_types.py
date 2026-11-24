@@ -100,6 +100,11 @@ EXAMPLES: dict[str, dict[str, Any]] = {
     "lemma.verified": {"lemma_id": U + "08", "verification_result_id": U + "07"},
     "hypothesis.created": {"hypothesis_id": U + "09", "statement": "n^2 is a sum of odds"},
     "counterexample.found": {"counterexample_id": U + "10", "formal_statement_id": U + "02"},
+    "counterexample.checked": {
+        "counterexample_id": U + "10",
+        "verification_status": "VERIFIED",
+        "verification_result_id": U + "07",
+    },
     "symbolic.calculation.completed": {
         "operation": "simplify",
         "expression": "x + 0",
@@ -143,6 +148,7 @@ def envelope(event_type: str, payload: dict[str, Any]) -> EventEnvelope:
 EXTENSIONS = [
     "proof.attempt.finished",  # F-09.01, rebuilds an ARCH §9.1 attempt
     "agent.result.reported",  # F-07.02, logs an ARCH §6.3 agent message
+    "counterexample.checked",  # F-05.07, exact re-check of ARCH §7.5
 ]
 
 
@@ -176,7 +182,10 @@ def test_empty_payload_is_rejected_when_fields_are_required(event_type: str) -> 
         validate_payload(envelope(event_type, {}))
 
 
-@pytest.mark.parametrize("event_type", ["proof.step.verified", "lemma.verified", "proof.completed"])
+@pytest.mark.parametrize(
+    "event_type",
+    ["proof.step.verified", "lemma.verified", "proof.completed", "counterexample.checked"],
+)
 def test_verification_claims_need_a_verification_result(event_type: str) -> None:
     payload = {k: v for k, v in EXAMPLES[event_type].items() if k != "verification_result_id"}
     with pytest.raises(ValidationError):

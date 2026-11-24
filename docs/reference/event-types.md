@@ -21,7 +21,8 @@ Felder mit `?` sind optional.
 | `lemma.discovered` | `LemmaDiscovered` | `lemma_id`, `name` | A candidate lemma was found. |
 | `lemma.verified` | `LemmaVerified` | `lemma_id`, `verification_result_id` | The checker confirmed a lemma. |
 | `hypothesis.created` | `HypothesisCreated` | `hypothesis_id`, `statement` | A hypothesis was formulated. |
-| `counterexample.found` | `CounterexampleFound` | `counterexample_id`, `formal_statement_id` | A counterexample to a formal statement was found. |
+| `counterexample.found` | `CounterexampleFound` | `counterexample_id`, `formal_statement_id`, `assignment`?, `description`?, `source`?, `artifact`? | A counterexample to a formal statement was found; unchecked until ``.checked`` (F-05.07). |
+| `counterexample.checked` | `CounterexampleChecked` | `counterexample_id`, `verification_status`, `verification_result_id` | An exact re-check of a counterexample finished (ARCH §7.5 step 4; F-05.07). |
 | `symbolic.calculation.completed` | `SymbolicCalculationCompleted` | `operation`, `expression`, `result`, `steps`?, `source`?, `source_version`?, `assumptions`?, `formal_statement_id`?, `evidence_id`?, `epistemic_level`? | A symbolic computation finished. Evidence only, never a proof (ARCH §13.2). |
 | `simulation.sample.received` | `SimulationSampleReceived` | `simulation_run_id`, `sample_index`, `values` | A simulation delivered one sample. Evidence only. |
 | `proof.completed` | `ProofCompleted` | `attempt_id`, `verification_result_id` | A complete proof was checked. |
