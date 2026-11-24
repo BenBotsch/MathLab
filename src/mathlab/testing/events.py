@@ -112,6 +112,7 @@ def step_rejected(step_id: UUID, **fields: Any) -> dict[str, Any]:
     """Payload of ``proof.step.rejected`` with all mandatory fields."""
     return {
         "step_id": str(step_id),
+        "failure_code": None,
         "message": "type mismatch",
         "state_after_fingerprint": None,
         **fields,

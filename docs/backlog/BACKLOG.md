@@ -8,11 +8,11 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 221 |
+| `todo` | 220 |
 | `ready` | 18 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 21 |
+| `done` | 22 |
 | `blocked` | 1 |
 | `dropped` | 0 |
 
@@ -31,7 +31,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E06 | [Strategy Engine und Beweismethodenkatalog](epics/E06-strategy-engine.md) | M2, Ausbau M3 und M4 | 3 | 3 | 0 | `todo` | 0/6 |
 | E07 | [Agent Orchestrator und Multiagentensystem](epics/E07-agent-orchestrator.md) | M1, Ausbau M2 bis M6 | 6 | 8 | 2 | `todo` | 0/16 |
 | E08 | [Proof Search Engine](epics/E08-proof-search.md) | M1, Ausbau M2, M4 und M6 | 5 | 5 | 1 | `todo` | 0/11 |
-| E09 | [Trial-and-Error und Experiment Tracking](epics/E09-trial-and-error-tracking.md) | M1, Ausbau M2 und M4 | 4 | 3 | 0 | `in-progress` | 2/7 |
+| E09 | [Trial-and-Error und Experiment Tracking](epics/E09-trial-and-error-tracking.md) | M1, Ausbau M2 und M4 | 4 | 3 | 0 | `in-progress` | 3/7 |
 | E10 | [Wissensgraph und mathematisches Langzeitgedächtnis](epics/E10-wissensgraph.md) | M3, Vorstufe M2, Ausbau M6 | 7 | 4 | 1 | `todo` | 0/12 |
 | E11 | [Benchmarks, Betriebsmodi und Evaluation](epics/E11-benchmarks-evaluation.md) | M1, Ausbau M2 bis M6 | 7 | 6 | 1 | `todo` | 0/14 |
 | E12 | [Metriken, Reward und Lernverfahren](epics/E12-metriken-lernen.md) | M4, Vorstufen M1 und M2, Ausbau M6 | 2 | 10 | 1 | `todo` | 0/13 |
@@ -58,7 +58,6 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | Feature | Titel | Priorität | Meilenstein |
 | --- | --- | --- | --- |
 | [F-09.05](epics/E09-trial-and-error-tracking.md#f-0905-run-metriken) | Run-Metriken | P0 | M1 |
-| [F-09.03](epics/E09-trial-and-error-tracking.md#f-0903-fehlerkatalog-und-klassifizierer) | Fehlerkatalog und Klassifizierer | P0 | M1 |
 | [F-04.01](epics/E04-formal-verification.md#f-0401-lean-4-und-mathlib-einrichten) | Lean 4 und Mathlib einrichten | P0 | M1 |
 | [F-24.01](epics/E24-sicherheit-sandbox.md#f-2401-container-sandbox-für-generierten-code) | Container-Sandbox für generierten Code | P0 | M1 |
 | [F-07.02](epics/E07-agent-orchestrator.md#f-0702-typisierte-agentennachrichten) | Typisierte Agentennachrichten | P0 | M1 |
@@ -75,6 +74,7 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-02.09](epics/E02-event-sourcing-persistenz.md#f-0209-schema-versionierung-und-migration) | Schema-Versionierung und Migration | P1 | M2 |
 | [F-05.04](epics/E05-symbolik-smt-numerik.md#f-0504-simulationsworkflow-mit-seed-und-präzision) | Simulationsworkflow mit Seed und Präzision | P1 | M2 |
 | [F-12.08](epics/E12-metriken-lernen.md#f-1208-replay-daten-markieren) | Replay-Daten markieren | P1 | M2 |
+| [F-09.04](epics/E09-trial-and-error-tracking.md#f-0904-kontextuelle-negative-evidenz) | Kontextuelle negative Evidenz | P1 | M2 |
 
 ## Next
 
@@ -94,7 +94,7 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
 | [M1](ROADMAP.md#m1) | 82 | 64 | 18 | 0 |
-| [M2](ROADMAP.md#m2) | 73 | 10 | 61 | 2 |
+| [M2](ROADMAP.md#m2) | 72 | 10 | 60 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |
 | [M5](ROADMAP.md#m5) | 17 | 1 | 7 | 9 |

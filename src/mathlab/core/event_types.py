@@ -153,10 +153,14 @@ class ProofStepVerified(Payload):
 
 
 class ProofStepRejected(Payload):
-    """A step was rejected; ``failure_code`` follows ARCH §9.3 when classified."""
+    """A step was rejected; ``failure_code`` follows ARCH §9.3, ``None`` if unclassified.
+
+    The key is mandatory: :func:`mathlab.failures.classify` decides, and ``None`` records an
+    ``UNCLASSIFIED`` result explicitly instead of omitting the classification.
+    """
 
     step_id: UUID
-    failure_code: FailureCode | None = None
+    failure_code: FailureCode | None
     message: str = Field(min_length=1)
     state_after_fingerprint: str | None = Field(min_length=1)
 

@@ -1,0 +1,17 @@
+-- source: lean v4.36.0 / Mathlib fc4f59e5, input:
+-- | mutual
+-- | theorem a (n : Nat) : n = n := b n
+-- | theorem b (n : Nat) : n = n := a n
+-- | end
+/cases/circular2.lean:2:8: error: fail to show termination for
+  a
+  b
+with errors
+failed to infer structural recursion:
+Not considering parameter n of a:
+  it is unchanged in the recursive calls
+Not considering parameter n of b:
+  it is unchanged in the recursive calls
+no parameters suitable for structural recursion
+
+well-founded recursion cannot be used, `a` does not take any (non-fixed) arguments

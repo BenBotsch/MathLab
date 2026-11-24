@@ -1,0 +1,4 @@
+-- source: lean v4.36.0 / Mathlib fc4f59e5, input:
+-- | import Mathlib.Tactic
+-- | theorem t (a b : Nat) : a + b = b + a := Nat.add_comm_wrong a b
+/cases/missing.lean:2:41: error(lean.unknownIdentifier): Unknown constant `Nat.add_comm_wrong`

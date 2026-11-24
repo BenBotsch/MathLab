@@ -1,0 +1,8 @@
+-- source: lean v4.36.0 / Mathlib fc4f59e5, input:
+-- | theorem t (n : Nat) : n = n := (rfl : 1 = 1)
+/cases/type.lean:1:31: error: Type mismatch
+  rfl
+has type
+  1 = 1
+but is expected to have type
+  n = n

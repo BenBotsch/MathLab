@@ -1,0 +1,9 @@
+-- source: lean v4.36.0 / Mathlib fc4f59e5, input:
+-- | import Mathlib.Tactic
+-- | theorem t (x : Int) (h : x > 0) : x > 1 := by linarith
+/cases/inference.lean:2:46: error: linarith failed to find a contradiction
+x : ℤ
+h : x > 0
+a✝ : x ≤ 1
+⊢ False
+failed

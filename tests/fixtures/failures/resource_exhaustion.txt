@@ -1,0 +1,9 @@
+-- source: lean v4.36.0 / Mathlib fc4f59e5, input:
+-- | set_option maxHeartbeats 100 in
+-- | theorem t : (List.range 2000).length = 2000 := by simp [List.range, List.range.loop]
+/cases/resource.lean:2:50: error: Tactic `simp` failed with a nested error:
+(deterministic) timeout at `simp`, maximum number of heartbeats (100) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.

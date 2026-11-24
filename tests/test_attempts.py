@@ -223,7 +223,7 @@ MANDATORY: dict[str, dict[str, Any]] = {
     "proof.step.rejected": step_rejected(S),
     "proof.attempt.finished": attempt_finished(A),
 }
-OPTIONAL = {"failure_code"}  # classification may follow later (F-09.03)
+OPTIONAL: set[str] = set()  # F-09.03: failure_code is mandatory, None if unclassified
 
 
 FREE_FORM = {"parameters", "strategy_parameters", "solvers", "libraries"}

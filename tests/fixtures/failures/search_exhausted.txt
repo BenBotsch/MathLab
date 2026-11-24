@@ -1,0 +1,8 @@
+-- source: lean v4.36.0 / Mathlib fc4f59e5, input:
+-- | import Mathlib.Tactic
+-- | theorem t (p q : Prop) : p → q := by aesop
+/cases/search.lean:2:37: warning: aesop: failed to prove the goal after exhaustive search.
+/cases/search.lean:2:34: error: unsolved goals
+p q : Prop
+a : p
+⊢ q

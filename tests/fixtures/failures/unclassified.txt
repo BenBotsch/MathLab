@@ -1,0 +1,3 @@
+-- source: lean v4.36.0 / Mathlib fc4f59e5, input:
+-- | import Mathlib.NotAModule
+/cases/unknown.lean:1:0: error: object file '/home/lean/project/.lake/packages/mathlib/.lake/build/lib/lean/Mathlib/NotAModule.olean' of module Mathlib.NotAModule does not exist

@@ -1,0 +1,11 @@
+-- source: lean v4.36.0 / Mathlib fc4f59e5, stage TARGET_CHECK, input:
+-- | -- proved formalisation (weaker than the original: only n = 0)
+-- | theorem proved : (0 : Nat) + 0 = 0 := rfl
+-- | -- target check against the confirmed statement
+-- | example : ∀ n : Nat, n + 0 = n := proved
+/cases/semantic.lean:4:34: error: Type mismatch
+  proved
+has type
+  0 + 0 = 0
+but is expected to have type
+  ∀ (n : Nat), n + 0 = n
