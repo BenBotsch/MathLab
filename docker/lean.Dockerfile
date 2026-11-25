@@ -19,4 +19,10 @@ RUN git clone https://github.com/leanprover-community/repl.git /home/lean/tools/
     && git -C /home/lean/tools/repl checkout --detach "$REPL_REV" \
     && cp lean-toolchain /home/lean/tools/repl/lean-toolchain \
     && cd /home/lean/tools/repl && lake build repl
+# lean-check: plain `lean` with the project's LEAN_PATH, baked at build time. The isolated
+# proof check (F-04.03) uses it because `lake env` calls git, which a sandbox refuses.
+RUN mkdir -p /home/lean/bin \
+    && printf '#!/bin/sh\nexport LEAN_PATH=%s\nexec %s "$@"\n' \
+       "$(lake env printenv LEAN_PATH)" "$(lake env which lean)" > /home/lean/bin/lean-check \
+    && chmod 755 /home/lean/bin/lean-check
 CMD ["lake", "env", "lean", "--version"]

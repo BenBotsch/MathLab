@@ -22,9 +22,9 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 | --- | --- | --- | --- | --- |
 | F-04.01 | Lean 4 und Mathlib einrichten | `done` | P0 | M1 |
 | F-04.02 | Lean-Interaktionsadapter | `done` | P0 | M1 |
-| F-04.03 | Isolierte Beweisprüfung | `ready` | P0 | M1 |
-| F-04.04 | Zielabgleich | `todo` | P0 | M1 |
-| F-04.05 | Axiomreport und `sorry`-Prüfung | `todo` | P0 | M1 |
+| F-04.03 | Isolierte Beweisprüfung | `done` | P0 | M1 |
+| F-04.04 | Zielabgleich | `ready` | P0 | M1 |
+| F-04.05 | Axiomreport und `sorry`-Prüfung | `ready` | P0 | M1 |
 | F-04.06 | Unabhängige Nachprüfung | `todo` | P1 | M1 |
 | F-04.07 | Archiv der Verifikationsartefakte | `todo` | P0 | M1 |
 | F-04.08 | Prüfung einzelner Beweispflichten | `todo` | P0 | M1 |
@@ -61,19 +61,19 @@ Python-Adapter, der Proof States liest, Taktiken ausführt und Fehler strukturie
 
 ### F-04.03 Isolierte Beweisprüfung
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-04.02, F-24.01
 - Quelle: ARCH §7.3 (Schritt 1), §21 (gefährlicher generierter Code)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: `src/mathlab/engines/lean_check.py` (`LeanChecker` als `VerificationEngine`, ein `lean`-Lauf pro Beweis in `run_sandboxed`), `docker/lean.Dockerfile` (Skript `/home/lean/bin/lean-check` mit festem `LEAN_PATH`, weil `lake env` git aufruft), `SandboxLimits.user` in `src/mathlab/sandbox.py` (numerisch, nie root; der Prüfer läuft als Image-Benutzer `lean`, UID 1000, weil der Mathlib-Cache nur für ihn lesbar ist). Tests in `tests/test_lean_check.py` (8, davon 4 gegen den Container) und `tests/test_sandbox.py` (6 neue). Am 2026-11-25: `ruff format --check` und `ruff check` ohne Befund, `mypy` (strict, 78 Dateien) ohne Befund, `pytest` 691 bestanden und 39 übersprungen ohne Testumgebung, 730 bestanden mit Datenbank und allen Images. Dabei gefunden und abgedeckt: Lean v4.36 schreibt ``declaration uses `sorry` `` mit Backticks und Meldungen teils als `error(code):`. Axiomreport und Zielabgleich folgen in F-04.05 und F-04.04.
 
 Vollständige Lean-Quelle aus Zielaussage und Beweis wird in einer Sandbox ohne Netz und mit Ressourcenlimits geprüft.
 
-- [ ] Ein Beweis mit Endlosschleife wird nach Zeitlimit mit `RESOURCE_EXHAUSTION` beendet.
-- [ ] Die Prüfung hat keinen Netzzugriff.
+- [x] Ein Beweis mit Endlosschleife wird nach Zeitlimit mit `RESOURCE_EXHAUSTION` beendet. Geprüft mit `#eval` einer `partial def`-Endlosschleife und 30 s Zeitlimit: `EngineTimeoutError` mit `RESOURCE_EXHAUSTION`.
+- [x] Die Prüfung hat keinen Netzzugriff. Der Container läuft mit `--network none`. Eine Probe im Prüfcontainer sieht nur die Schnittstelle `lo`.
 
 ### F-04.04 Zielabgleich
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-04.03, F-01.03
 - Quelle: ARCH §7.3 (Schritt 5), §13.1, §13.2, §18.4
 - Bearbeiter: offen · Nachweise: offen
@@ -85,7 +85,7 @@ Das bewiesene Theorem muss exakt der Zielaussage mit dem bestätigten Hash entsp
 
 ### F-04.05 Axiomreport und `sorry`-Prüfung
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-04.03
 - Quelle: ARCH §7.3 (Schritt 2), §13.2, §21
 - Bearbeiter: offen · Nachweise: offen

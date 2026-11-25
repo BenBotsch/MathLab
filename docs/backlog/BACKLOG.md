@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-263 Features in 26 Epics. Erledigt sind 36 von 263.
+263 Features in 26 Epics. Erledigt sind 37 von 263.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 202 |
-| `ready` | 25 |
+| `todo` | 200 |
+| `ready` | 26 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 36 |
+| `done` | 37 |
 | `blocked` | 0 |
 | `dropped` | 0 |
 
@@ -26,7 +26,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E01 | [Core-Domänenmodell und Contracts](epics/E01-core-domaenenmodell.md) | M1 | 7 | 0 | 0 | `done` | 7/7 |
 | E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 2 | 0 | `in-progress` | 8/10 |
 | E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 4 | 5 | 1 | `in-progress` | 2/10 |
-| E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 3 | 0 | `in-progress` | 3/11 |
+| E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 3 | 0 | `in-progress` | 4/11 |
 | E05 | [Symbolik, SMT, Numerik und Widerlegung](epics/E05-symbolik-smt-numerik.md) | M1, Ausbau M2, M5 und M6 | 3 | 4 | 2 | `in-progress` | 3/9 |
 | E06 | [Strategy Engine und Beweismethodenkatalog](epics/E06-strategy-engine.md) | M2, Ausbau M3 und M4 | 3 | 3 | 0 | `todo` | 0/6 |
 | E07 | [Agent Orchestrator und Multiagentensystem](epics/E07-agent-orchestrator.md) | M1, Ausbau M2 bis M6 | 6 | 8 | 2 | `in-progress` | 1/16 |
@@ -58,7 +58,8 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
 | [F-03.03](epics/E03-problem-engine.md#f-0303-mehrdeutigkeit-protokollieren) | Mehrdeutigkeit protokollieren | P1 | M1 |
 | [F-03.05](epics/E03-problem-engine.md#f-0305-prüfung-der-statement-fidelity) | Prüfung der Statement Fidelity | P0 | M1 |
-| [F-04.03](epics/E04-formal-verification.md#f-0403-isolierte-beweisprüfung) | Isolierte Beweisprüfung | P0 | M1 |
+| [F-04.04](epics/E04-formal-verification.md#f-0404-zielabgleich) | Zielabgleich | P0 | M1 |
+| [F-04.05](epics/E04-formal-verification.md#f-0405-axiomreport-und-sorry-prüfung) | Axiomreport und `sorry`-Prüfung | P0 | M1 |
 | [F-08.01](epics/E08-proof-search.md#f-0801-proof-state-und-aktionsraum) | Proof State und Aktionsraum | P0 | M1 |
 | [F-07.01](epics/E07-agent-orchestrator.md#f-0701-model-adapter) | Model Adapter | P0 | M1 |
 | [F-07.03](epics/E07-agent-orchestrator.md#f-0703-orchestrator-kern) | Orchestrator-Kern | P0 | M1 |
@@ -97,7 +98,7 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
-| [M1](ROADMAP.md#m1) | 71 | 53 | 18 | 0 |
+| [M1](ROADMAP.md#m1) | 69 | 51 | 18 | 0 |
 | [M2](ROADMAP.md#m2) | 68 | 9 | 57 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |

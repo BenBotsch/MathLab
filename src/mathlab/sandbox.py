@@ -38,6 +38,9 @@ class SandboxLimits(BaseModel):
     memory_bytes: int = Field(default=512 * 1024**2, ge=6 * 1024**2)
     cpus: float = Field(default=1.0, gt=0)
     pids: int = Field(default=64, ge=1)
+    user: str = Field(default="65534:65534", pattern=r"^[1-9][0-9]*:[1-9][0-9]*$")
+    """Numeric ``uid:gid``; never root. Images whose files only their own user may read
+    (the Lean image, F-04.03) run as that unprivileged user."""
 
 
 class SandboxResult(BaseModel):
@@ -79,7 +82,7 @@ def docker_command(
         "--security-opt",
         "no-new-privileges",
         "--user",
-        "65534:65534",
+        limits.user,
         "--mount",
         f"type=bind,source={workdir.resolve()},target={WORKDIR}",
         "--workdir",

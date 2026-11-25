@@ -38,6 +38,17 @@ def test_command_isolates_network_privileges_and_host_files(tmp_path: Path) -> N
     assert not any(a in ("-e", "--env", "--env-file", "--privileged", "-v") for a in argv)
 
 
+@pytest.mark.parametrize("user", ["0:0", "0:1000", "1000:0", "root", "1000"])
+def test_root_or_non_numeric_user_is_rejected(user: str) -> None:
+    with pytest.raises(ValueError):
+        SandboxLimits(user=user)
+
+
+def test_unprivileged_image_user_is_passed_through(tmp_path: Path) -> None:
+    argv = docker_command("img", ["x"], tmp_path, SandboxLimits(user="1000:1000"), "n")
+    assert "--user 1000:1000" in " ".join(argv)
+
+
 def test_invalid_input_is_rejected(tmp_path: Path) -> None:
     with pytest.raises(ValueError):
         run_sandboxed("img", [], tmp_path)
