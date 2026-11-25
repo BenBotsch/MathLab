@@ -20,7 +20,7 @@ Ein AND-Knoten gilt erst als gelöst, wenn alle Teilziele verifiziert sind. Ein 
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-08.01 | Proof State und Aktionsraum | `todo` | P0 | M1 |
+| F-08.01 | Proof State und Aktionsraum | `ready` | P0 | M1 |
 | F-08.02 | AND-OR-Hypergraph | `todo` | P0 | M1 |
 | F-08.03 | Tiefen-, Breiten-, Best-First- und A*-Suche | `todo` | P0 | M1 |
 | F-08.04 | Search Budget Controller | `todo` | P0 | M1 |
@@ -36,7 +36,7 @@ Ein AND-Knoten gilt erst als gelöst, wenn alle Teilziele verifiziert sind. Ein 
 
 ### F-08.01 Proof State und Aktionsraum
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-04.02, F-01.02
 - Quelle: ARCH §8 (Einleitung)
 - Bearbeiter: offen · Nachweise: offen

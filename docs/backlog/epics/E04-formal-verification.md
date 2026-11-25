@@ -21,8 +21,8 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
 | F-04.01 | Lean 4 und Mathlib einrichten | `done` | P0 | M1 |
-| F-04.02 | Lean-Interaktionsadapter | `ready` | P0 | M1 |
-| F-04.03 | Isolierte Beweisprüfung | `todo` | P0 | M1 |
+| F-04.02 | Lean-Interaktionsadapter | `done` | P0 | M1 |
+| F-04.03 | Isolierte Beweisprüfung | `ready` | P0 | M1 |
 | F-04.04 | Zielabgleich | `todo` | P0 | M1 |
 | F-04.05 | Axiomreport und `sorry`-Prüfung | `todo` | P0 | M1 |
 | F-04.06 | Unabhängige Nachprüfung | `todo` | P1 | M1 |
@@ -48,20 +48,20 @@ Lean-Projekt mit gepinnter Toolchain und Mathlib-Version, vorkompiliertem Cache 
 
 ### F-04.02 Lean-Interaktionsadapter
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-04.01, F-01.04, F-04.11, F-00.01 (OD-02)
 - Quelle: ARCH §17.1 (LeanDojo, Pantograph); LeanDojo in ARCH §2.1
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: `src/mathlab/engines/lean_repl.py` (`LeanReplEngine` mit `start`, `open_goal`, `apply_tactic`, `verify`; REPL im Image `mathlab-lean` per `docker/lean.Dockerfile`, Tag v4.36.0) und `tests/test_lean_repl.py` (12 Tests, davon 2 gegen den Container mit g09). Am 2026-11-25: `ruff format --check` und `ruff check` ohne Befund, `mypy` (strict, 76 Dateien) ohne Befund, `pytest` 681 bestanden und 35 übersprungen ohne Testumgebung, 716 bestanden mit Datenbank und allen Images. `verify` meldet nur, was die REPL sieht, und ist nicht die vertrauenswürdige Endprüfung. `VERIFIED` setzt erst F-04.03.
 
 Python-Adapter, der Proof States liest, Taktiken ausführt und Fehler strukturiert zurückgibt. Implementiert den `VerificationEngine`-Contract und die für die Suche nötigen Zustandsoperationen.
 
-- [ ] Ein Ziel kann geöffnet, eine Taktik angewendet und der neue Proof State gelesen werden.
-- [ ] Lean-Fehler werden auf den Fehlerkatalog (F-09.03) abgebildet.
-- [ ] Timeouts und Abbruch funktionieren.
+- [x] Ein Ziel kann geöffnet, eine Taktik angewendet und der neue Proof State gelesen werden. Geprüft am Container mit g09, einschließlich Verzweigung von einem älteren Proof State.
+- [x] Lean-Fehler werden auf den Fehlerkatalog (F-09.03) abgebildet. Eine gescheiterte Taktik liefert ein `TacticResult` mit `FailureClass`, eine nicht elaborierbare Aussage einen `EngineFailureError` mit `FailureCode`.
+- [x] Timeouts und Abbruch funktionieren. Beide beenden den REPL-Container, danach meldet die Engine `EngineUnavailableError`.
 
 ### F-04.03 Isolierte Beweisprüfung
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-04.02, F-24.01
 - Quelle: ARCH §7.3 (Schritt 1), §21 (gefährlicher generierter Code)
 - Bearbeiter: offen · Nachweise: offen
