@@ -24,9 +24,9 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 | F-04.02 | Lean-Interaktionsadapter | `done` | P0 | M1 |
 | F-04.03 | Isolierte Beweisprüfung | `done` | P0 | M1 |
 | F-04.04 | Zielabgleich | `ready` | P0 | M1 |
-| F-04.05 | Axiomreport und `sorry`-Prüfung | `ready` | P0 | M1 |
-| F-04.06 | Unabhängige Nachprüfung | `todo` | P1 | M1 |
-| F-04.07 | Archiv der Verifikationsartefakte | `todo` | P0 | M1 |
+| F-04.05 | Axiomreport und `sorry`-Prüfung | `done` | P0 | M1 |
+| F-04.06 | Unabhängige Nachprüfung | `ready` | P1 | M1 |
+| F-04.07 | Archiv der Verifikationsartefakte | `ready` | P0 | M1 |
 | F-04.08 | Prüfung einzelner Beweispflichten | `todo` | P0 | M1 |
 | F-04.09 | Verifikations-Cache und Revalidierung | `todo` | P1 | M2 |
 | F-04.10 | Rekonstruktion externer Ergebnisse | `todo` | P1 | M2 |
@@ -85,20 +85,20 @@ Das bewiesene Theorem muss exakt der Zielaussage mit dem bestätigten Hash entsp
 
 ### F-04.05 Axiomreport und `sorry`-Prüfung
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-04.03
 - Quelle: ARCH §7.3 (Schritt 2), §13.2, §21
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: `src/mathlab/engines/lean_check.py` (`AxiomPolicy`, `AxiomReport`, `parse_axiom_report`, `LeanChecker.check` liefert Antwort und Report; `verify` lehnt jedes nicht erlaubte oder fehlende Axiom ab) und [docs/reference/lean-axioms.md](../../reference/lean-axioms.md). Der Prüfer hängt `#print axioms _root_.<name>` hinter einer zufälligen Markierung an; gewertet wird nur die Ausgabe nach der letzten Markierung, damit ein Beweis keinen Report fälschen und kein `namespace` den Namen umlenken kann. Tests in `tests/test_lean_check.py` (16, davon 7 gegen den Container). Am 2026-11-25: `ruff format --check` und `ruff check` ohne Befund, `mypy` (strict, 78 Dateien) ohne Befund, `pytest` 696 bestanden und 42 übersprungen ohne Testumgebung, 738 bestanden mit Datenbank und allen Images. `native_decide` erscheint unter Lean v4.36 als Hilfsaxiom `<name>._native.native_decide.ax_…` und wird als zusätzliches Vertrauen abgelehnt.
 
 Für jeden geprüften Beweis entsteht ein Report der verwendeten Axiome. `sorry`, `sorryAx`, benutzerdefinierte Axiome und andere unzulässige Vertrauenskonstrukte führen zur Ablehnung. Mechanismen mit zusätzlichen Vertrauensannahmen werden im Report ausgewiesen (ARCH §13.2).
 
-- [ ] Ein Beweis mit `sorry` wird abgelehnt.
-- [ ] Ein Beweis mit eigenem `axiom` wird abgelehnt.
-- [ ] Die erlaubten Standardaxiome sind konfiguriert und dokumentiert.
+- [x] Ein Beweis mit `sorry` wird abgelehnt. Im Container: `by sorry` liefert `sorryAx` im Report und keinen gültigen Schritt.
+- [x] Ein Beweis mit eigenem `axiom` wird abgelehnt. Im Container: `axiom bad : False` erscheint unter `custom`, die Antwort hat keinen gültigen Schritt. `native_decide` wird als zusätzliches Vertrauen abgelehnt.
+- [x] Die erlaubten Standardaxiome sind konfiguriert und dokumentiert: `STANDARD_AXIOMS` (`propext`, `Classical.choice`, `Quot.sound`) als Voreinstellung von `AxiomPolicy`, beschrieben in `docs/reference/lean-axioms.md`.
 
 ### F-04.06 Unabhängige Nachprüfung
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M1
+- Status: `ready` · Priorität: P1 · Meilenstein: M1
 - Abhängigkeiten: F-04.05
 - Quelle: ARCH §7.3 (Schritt 4), §13.2; Lean-Dokumentation „Validating a Lean Proof“
 - Bearbeiter: offen · Nachweise: offen
@@ -109,7 +109,7 @@ Verifizierte Beweise werden zusätzlich mit `lean4checker --fresh` oder dem jewe
 
 ### F-04.07 Archiv der Verifikationsartefakte
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-04.05, F-02.07
 - Quelle: ARCH §7.3 (Schritt 6)
 - Bearbeiter: offen · Nachweise: offen

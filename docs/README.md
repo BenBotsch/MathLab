@@ -15,6 +15,7 @@ MathLab ist ein agentisches System für mathematische Forschung und Beweisführu
 | [backlog/epics/](backlog/epics/) | Ein Dokument pro Epic, die Features stehen als Abschnitte darin |
 | [backlog/templates/](backlog/templates/) | Vorlage für neue Epics |
 | [decisions/](decisions/) | ADR-Verfahren, ADR-Vorlage und [offene Entscheidungen](decisions/OPEN_DECISIONS.md) |
+| [reference/lean-axioms.md](reference/lean-axioms.md) | Erlaubte und abgelehnte Axiome der Lean-Prüfung |
 
 ## Entwicklung
 

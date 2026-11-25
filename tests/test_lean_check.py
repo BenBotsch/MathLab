@@ -21,10 +21,15 @@ from mathlab.core.contracts import (
 )
 from mathlab.engines.lean_check import (
     DEFAULT_LIMITS,
+    AxiomPolicy,
+    AxiomReport,
     LeanChecker,
+    classify_axioms,
     lean_source,
+    parse_axiom_report,
     response_from,
     run_check,
+    theorem_name,
 )
 from mathlab.sandbox import SandboxResult, docker_command
 
@@ -131,3 +136,97 @@ def test_check_sees_only_loopback_interface() -> None:
     result = run_check(IMAGE, probe, DEFAULT_LIMITS)
     assert result.exit_code == 0, result.stdout
     assert "NET[lo]" in result.stdout
+
+
+MARKER = "MATHLAB-AXIOMS-test"
+POLICY = AxiomPolicy()
+
+
+def test_theorem_name_is_read_from_statement() -> None:
+    assert theorem_name("theorem g09 (n : Nat) : n = n") == "g09"
+    assert theorem_name("  theorem Foo.bar : True") == "Foo.bar"
+    with pytest.raises(ValueError):
+        theorem_name("lemma t : True")
+
+
+def test_source_queries_axioms_from_root_after_marker() -> None:
+    source = lean_source(request("by simp"), ("Mathlib",), MARKER)
+    assert source.endswith(f'#eval IO.println "{MARKER}"\n#print axioms _root_.t\n')
+
+
+def test_axioms_are_classified_against_policy() -> None:
+    report = classify_axioms(
+        "t", ["propext", "sorryAx", "bad", "Lean.ofReduceBool", "t._native.native_decide.ax_1"],
+        POLICY,
+    )  # fmt: skip
+    assert report.sorry == ("sorryAx",)
+    assert report.custom == ("bad",)
+    assert report.extra_trust == ("Lean.ofReduceBool", "t._native.native_decide.ax_1")
+    assert not report.accepted
+    assert classify_axioms("t", ["propext", "Classical.choice", "Quot.sound"], POLICY).accepted
+
+
+def test_report_is_read_only_after_last_marker_and_for_the_theorem() -> None:
+    forged = f"{MARKER}\n't' does not depend on any axioms\n"
+    real = f"{MARKER}\n't' depends on axioms: [propext, sorryAx]\n"
+    report = parse_axiom_report(forged + real, MARKER, "t", POLICY)
+    assert report is not None and report.axioms == ("propext", "sorryAx")
+    clean = parse_axiom_report(
+        f"{MARKER}\n't' does not depend on any axioms\n", MARKER, "t", POLICY
+    )
+    assert clean is not None and clean.accepted and clean.axioms == ()
+    assert parse_axiom_report("'t' does not depend on any axioms\n", MARKER, "t", POLICY) is None
+    other = f"{MARKER}\n'X.t' does not depend on any axioms\n"
+    assert parse_axiom_report(other, MARKER, "t", POLICY) is None
+
+
+def test_response_rejects_disallowed_or_missing_axioms() -> None:
+    info = LeanChecker().info
+    bad = classify_axioms("t", ["bad"], POLICY)
+    rejected = response_from(run(""), info, bad)
+    assert rejected.valid_steps == 0 and "error: rejected axioms: bad" in rejected.messages
+    missing = response_from(run(""), info, require_axioms=True)
+    assert missing.valid_steps == 0 and "error: axiom report missing" in missing.messages
+    ok = response_from(run(""), info, classify_axioms("t", ["propext"], POLICY))
+    assert ok.valid_steps == 1 and ok.messages == ("axioms: propext",)
+
+
+def check(req: VerifyRequest) -> tuple[VerifyResponse, AxiomReport | None]:
+    ctx = RequestContext(trace_id=uuid4(), idempotency_key="k", timeout_seconds=120)
+    return asyncio.run(LeanChecker(IMAGE or "unused").check(req, ctx))
+
+
+@needs_image
+def test_container_reports_standard_axioms_and_accepts() -> None:
+    response, report = check(request("by simp"))
+    assert response.valid_steps == 1, response.messages
+    assert report is not None and set(report.axioms) <= {
+        "propext",
+        "Classical.choice",
+        "Quot.sound",
+    }
+
+
+@needs_image
+def test_container_rejects_sorry_custom_axiom_and_native_decide() -> None:
+    sorry, report = check(request("by sorry"))
+    assert sorry.valid_steps == 0 and report is not None and report.sorry == ("sorryAx",)
+    source = (
+        "axiom bad : False\n\ntheorem t : False := bad\n"
+        f'\n#eval IO.println "{MARKER}"\n#print axioms _root_.t\n'
+    )
+    assert IMAGE is not None
+    raw = run_check(IMAGE, source, DEFAULT_LIMITS)
+    custom = parse_axiom_report(raw.stdout, MARKER, "t", POLICY)
+    assert custom is not None and custom.custom == ("bad",) and not custom.accepted
+    assert response_from(raw, LeanChecker().info, custom).valid_steps == 0
+    native, report = check(request("by native_decide", statement="theorem t : 2 + 2 = 4"))
+    assert native.valid_steps == 0 and report is not None and report.extra_trust
+
+
+@needs_image
+def test_container_namespace_cannot_redirect_axiom_query() -> None:
+    proof = "trivial\n\nnamespace X\ntheorem t : True := trivial\n-- "
+    response, report = check(request(proof, statement="theorem t : True"))
+    assert report is not None and report.theorem == "t"
+    assert response.valid_steps == 1
