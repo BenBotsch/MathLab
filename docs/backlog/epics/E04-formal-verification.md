@@ -21,7 +21,7 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
 | F-04.01 | Lean 4 und Mathlib einrichten | `done` | P0 | M1 |
-| F-04.02 | Lean-Interaktionsadapter | `todo` | P0 | M1 |
+| F-04.02 | Lean-Interaktionsadapter | `ready` | P0 | M1 |
 | F-04.03 | Isolierte Beweisprüfung | `todo` | P0 | M1 |
 | F-04.04 | Zielabgleich | `todo` | P0 | M1 |
 | F-04.05 | Axiomreport und `sorry`-Prüfung | `todo` | P0 | M1 |
@@ -30,7 +30,7 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 | F-04.08 | Prüfung einzelner Beweispflichten | `todo` | P0 | M1 |
 | F-04.09 | Verifikations-Cache und Revalidierung | `todo` | P1 | M2 |
 | F-04.10 | Rekonstruktion externer Ergebnisse | `todo` | P1 | M2 |
-| F-04.11 | Spike Lean-Interaktionsschicht | `review` | P0 | M1 |
+| F-04.11 | Spike Lean-Interaktionsschicht | `done` | P0 | M1 |
 
 ## Features
 
@@ -48,7 +48,7 @@ Lean-Projekt mit gepinnter Toolchain und Mathlib-Version, vorkompiliertem Cache 
 
 ### F-04.02 Lean-Interaktionsadapter
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-04.01, F-01.04, F-04.11, F-00.01 (OD-02)
 - Quelle: ARCH §17.1 (LeanDojo, Pantograph); LeanDojo in ARCH §2.1
 - Bearbeiter: offen · Nachweise: offen
@@ -157,14 +157,14 @@ Ergebnisse aus SymPy, SMT oder Numerik werden erst nach Rekonstruktion in Lean o
 
 ### F-04.11 Spike Lean-Interaktionsschicht
 
-- Status: `review` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.03, F-11.01
 - Quelle: ARCH §13.1, §17.1; ADR-0002
-- Bearbeiter: Claude (Agent) · Nachweise: `docker/lean-spike.Dockerfile` baut die Lean REPL am Tag `v4.36.0` gegen `mathlab-lean:latest`. `spikes/lean_interaction.py` demonstriert auf g09 Laden, Goals, Taktiken, Verzweigung ab Proof State 0 und Rückkehr zu Proof State 1, beide Pfade erreichen `Completed`. Gemessen über drei Läufe: Start mit `import Mathlib` 32 bis 48 s, Taktik 0,02 bis 0,9 s, Spitzenwert etwa 6,6 GiB. Pantograph `dev` (6479c9bb, Lean v4.35.0) baut mit v4.36.0 nicht: Es fehlt der Match-Fall `Info.ofChoiceResolutionInfo`, und `Lean.mkTheoremValEx` sowie `Lean.mkReducibilityHintsRegularEx` gibt es nicht mehr. PyPantograph wurde deshalb nicht gebaut. Lizenzen (alle Apache-2.0), Stände und Messungen stehen in ADR-0002, dessen Empfehlung jetzt Option C lautet. `ruff format`, `ruff check` und `mypy` (strict, jetzt auch über `spikes/`) ohne Befund; `pytest` mit Test-DB und allen Images 693 bestanden, ohne 660 bestanden, 33 übersprungen. Offen: Entscheidung des Benutzers über ADR-0002.
+- Bearbeiter: Claude (Agent) · Nachweise: `docker/lean-spike.Dockerfile` baut die Lean REPL am Tag `v4.36.0` gegen `mathlab-lean:latest`. `spikes/lean_interaction.py` demonstriert auf g09 Laden, Goals, Taktiken, Verzweigung ab Proof State 0 und Rückkehr zu Proof State 1, beide Pfade erreichen `Completed`. Gemessen über drei Läufe: Start mit `import Mathlib` 32 bis 48 s, Taktik 0,02 bis 0,9 s, Spitzenwert etwa 6,6 GiB. Pantograph `dev` (6479c9bb, Lean v4.35.0) baut mit v4.36.0 nicht: Es fehlt der Match-Fall `Info.ofChoiceResolutionInfo`, und `Lean.mkTheoremValEx` sowie `Lean.mkReducibilityHintsRegularEx` gibt es nicht mehr. PyPantograph wurde deshalb nicht gebaut. Lizenzen (alle Apache-2.0), Stände und Messungen stehen in ADR-0002, dessen Empfehlung jetzt Option C lautet. `ruff format`, `ruff check` und `mypy` (strict, jetzt auch über `spikes/`) ohne Befund; `pytest` mit Test-DB und allen Images 693 bestanden, ohne 660 bestanden, 33 übersprungen. ADR-0002 am 2026-11-25 vom Benutzer mit Option C angenommen.
 
 Ein zeitlich begrenzter Spike prüft Pantograph (PyPantograph) und als Rückfall die Lean REPL gegen die gepinnte Lean- und Mathlib-Version. Das Ergebnis entscheidet OD-02.
 
-- [ ] Beide Werkzeuge starten mit der gepinnten Version im Linux-Container. Nur die Lean REPL startet. Pantograph baut mit v4.36.0 nicht, siehe Nachweise.
+- [x] Beide Werkzeuge starten mit der gepinnten Version im Linux-Container. Geprüft: Die Lean REPL startet, Pantograph baut mit v4.36.0 nicht (siehe Nachweise). Der Benutzer hat dieses Ergebnis mit ADR-0002 angenommen.
 - [x] Ein Golden-Theorem aus F-11.01 wird geladen, die Goals werden ausgelesen.
 - [x] Taktikausführung, Verzweigung und Rückkehr zu einem früheren Zustand sind demonstriert.
 - [x] Startzeit, Zeit pro Taktik und Speicherbedarf sind gemessen.

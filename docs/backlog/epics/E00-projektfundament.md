@@ -1,6 +1,6 @@
 # E00 Projektfundament
 
-- Status: `todo` · Meilenstein: M1, Ausbau M2
+- Status: `in-progress` · Meilenstein: M1, Ausbau M2
 - Quellen: ARCH §3.2, §17, §18.3, §21.1, §22; UI §19
 - Abhängige Epics: keine. Alle anderen Epics bauen hierauf auf.
 
@@ -20,7 +20,7 @@ Versionen von Python, Lean, Mathlib, Solvern und Bibliotheken sind gepinnt (ARCH
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-00.01 | Architekturentscheidungen für M1 vorbereiten | `blocked` | P0 | M1 |
+| F-00.01 | Architekturentscheidungen für M1 vorbereiten | `done` | P0 | M1 |
 | F-00.02 | Repository-Grundgerüst | `done` | P0 | M1 |
 | F-00.03 | Toolchain-Pinning und Environment-Fingerprint | `done` | P0 | M1 |
 | F-00.04 | Container-Umgebung | `done` | P0 | M1 |
@@ -34,18 +34,16 @@ Versionen von Python, Lean, Mathlib, Solvern und Bibliotheken sind gepinnt (ARCH
 
 ### F-00.01 Architekturentscheidungen für M1 vorbereiten
 
-- Status: `blocked` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: keine
 - Quelle: ARCH §17.1, §17.3, §18.3; UI §19
-- Bearbeiter: Claude (Agent) · Nachweise: ADR-0001 bis ADR-0006 in docs/decisions/. ADR-0001, 0003, 0004, 0005 und 0006 sind am 2026-11-23 vom Benutzer angenommen.
+- Bearbeiter: Claude (Agent) · Nachweise: ADR-0001 bis ADR-0006 in docs/decisions/. ADR-0001, 0003, 0004, 0005 und 0006 sind am 2026-11-23 vom Benutzer angenommen, ADR-0002 nach dem Spike F-04.11 am 2026-11-25.
 
 Für OD-01 bis OD-06 werden Optionen recherchiert, verglichen und als ADR-Entwurf mit Empfehlung vorgelegt. Die Entscheidung trifft der Benutzer.
 
 - [x] Für jede OD-01 bis OD-06 liegt ein ADR-Entwurf mit Optionen, Empfehlung und Begründung vor.
 - [x] Der Widerspruch Flutter gegen React (OD-01) ist mit beiden Quellen belegt dargestellt.
-- [ ] Nach Freigabe durch den Benutzer sind die ADRs `accepted` und die OD-Einträge `decided`. Fünf von sechs sind erledigt, OD-02 fehlt noch.
-
-Blockiert: OD-02 wird erst nach dem Spike F-04.11 entschieden. Das hat der Benutzer am 2026-11-23 so festgelegt.
+- [x] Nach Freigabe durch den Benutzer sind die ADRs `accepted` und die OD-Einträge `decided`.
 
 ### F-00.02 Repository-Grundgerüst
 

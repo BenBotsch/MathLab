@@ -1,6 +1,6 @@
 # ADR-0002 Lean-Interaktionsschicht
 
-- Status: `proposed`
+- Status: `accepted`
 - Datum: 2026-11-23
 - Löst: OD-02
 - Betroffene Features: F-04.02, mittelbar E04 und E08
@@ -69,7 +69,7 @@ Der Spike lief mit diesen festen Kriterien:
 
 ## Entscheidung
 
-Offen. Der Benutzer hat am 2026-11-23 festgelegt, dass zuerst der Spike F-04.11 läuft. Der Spike ist am 2026-11-25 abgeschlossen. Der Benutzer entscheidet jetzt über die angepasste Empfehlung.
+Angenommen am 2026-11-25 nach dem Spike F-04.11: Option C, die Lean REPL in der zur Toolchain passenden Version hinter einem providerneutralen Adapter. Pantograph wird neu bewertet, sobald es die gepinnte Toolchain unterstützt.
 
 ## Folgen
 

@@ -5,7 +5,7 @@ Die Konzeptdokumente lassen diese Punkte offen oder widersprechen sich. Jeder Ei
 | ID | Frage | Status | Blockiert |
 | --- | --- | --- | --- |
 | OD-01 | Client-Plattform der Oberfläche | `decided` ([ADR-0001](adr-0001-client-plattform.md)) | F-15.01 |
-| OD-02 | Lean-Interaktionsschicht | `open` | F-04.02 (Spike F-04.11 abgeschlossen, Entscheidung offen) |
+| OD-02 | Lean-Interaktionsschicht | `decided` | F-04.02 |
 | OD-03 | Modellprovider und lokale Modelle | `decided` ([ADR-0003](adr-0003-modellprovider.md)) | F-07.01, F-07.04 |
 | OD-04 | Workflow- und Task-Ausführung | `decided` ([ADR-0004](adr-0004-workflow-ausfuehrung.md)) | F-07.03 |
 | OD-05 | Repository-Layout und Build-Werkzeuge | `decided` ([ADR-0005](adr-0005-repository-layout.md)) | F-00.02 |
@@ -22,7 +22,7 @@ Optionen sind React und TypeScript im Browser gegen ein lokales FastAPI-Backend,
 
 ## OD-02 Lean-Interaktionsschicht
 
-Entwurf: [ADR-0002](adr-0002-lean-interaktion.md) (`proposed`). Der Spike F-04.11 ist abgeschlossen, die Empfehlung lautet jetzt Lean REPL (Option C).
+Entschieden: [ADR-0002](adr-0002-lean-interaktion.md) (`accepted`, 2026-11-25), Lean REPL (Option C).
 
 ARCH §17.1 nennt LeanDojo und Pantograph. Zu klären sind Unterstützung der gepinnten Lean- und Mathlib-Version, Zugriff auf Proof States und Taktikausführung, Lauffähigkeit unter Windows oder nur im Linux-Container, Lizenz und Wartungsstand. Vor der Entscheidung ist ein kurzer Spike mit beiden Werkzeugen sinnvoll.
 

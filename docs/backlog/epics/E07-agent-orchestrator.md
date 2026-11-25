@@ -32,9 +32,9 @@ Kein Agent setzt einen Verifikationsstatus, `VERIFIED` stammt nur aus dem verifi
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-07.01 | Model Adapter | `todo` | P0 | M1 |
+| F-07.01 | Model Adapter | `ready` | P0 | M1 |
 | F-07.02 | Typisierte Agentennachrichten | `done` | P0 | M1 |
-| F-07.03 | Orchestrator-Kern | `todo` | P0 | M1 |
+| F-07.03 | Orchestrator-Kern | `ready` | P0 | M1 |
 | F-07.04 | Tactic Generator | `todo` | P0 | M1 |
 | F-07.05 | Koordination und Isolation | `todo` | P0 | M1 |
 | F-07.06 | Proof Planner | `todo` | P1 | M2 |
@@ -53,7 +53,7 @@ Kein Agent setzt einen Verifikationsstatus, `VERIFIED` stammt nur aus dem verifi
 
 ### F-07.01 Model Adapter
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.04, F-00.01 (OD-03)
 - Quelle: ARCH §17.1, §17.3, §22
 - Bearbeiter: offen · Nachweise: offen
@@ -97,7 +97,7 @@ Referenzbeispiel aus ARCH §6.3, unverändert zitiert. Bei Abweichung gilt die Q
 
 ### F-07.03 Orchestrator-Kern
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-07.02, F-01.06, F-00.01 (OD-04)
 - Quelle: ARCH §4.1, §6.4, §7.2
 - Bearbeiter: offen · Nachweise: offen

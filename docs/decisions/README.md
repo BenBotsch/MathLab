@@ -13,7 +13,7 @@ Ein ADR wird nicht nachträglich umgeschrieben. Ändert sich eine Entscheidung, 
 | ADR | Titel | Status |
 | --- | --- | --- |
 | [ADR-0001](adr-0001-client-plattform.md) | Client-Plattform der Oberfläche | `accepted` |
-| [ADR-0002](adr-0002-lean-interaktion.md) | Lean-Interaktionsschicht | `proposed` |
+| [ADR-0002](adr-0002-lean-interaktion.md) | Lean-Interaktionsschicht | `accepted` |
 | [ADR-0003](adr-0003-modellprovider.md) | Modellprovider und lokale Modelle | `accepted` |
 | [ADR-0004](adr-0004-workflow-ausfuehrung.md) | Workflow- und Task-Ausführung | `accepted` |
 | [ADR-0005](adr-0005-repository-layout.md) | Repository-Layout und Build-Werkzeuge | `accepted` |

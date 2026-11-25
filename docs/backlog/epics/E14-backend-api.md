@@ -30,7 +30,7 @@ Der Server ist für mathematische und operative Fakten maßgeblich (UI §15.3). 
 | F-14.08 | Endpunkt für Wissenssuche | `todo` | P1 | M3 |
 | F-14.09 | CLI-App | `todo` | P0 | M1 |
 | F-14.10 | WebSockets bei nachgewiesenem Bedarf | `todo` | P2 | M6 |
-| F-14.11 | Interner Research Event Bus | `todo` | P0 | M1 |
+| F-14.11 | Interner Research Event Bus | `ready` | P0 | M1 |
 
 ## Features
 
@@ -170,7 +170,7 @@ WebSockets werden erst eingeführt, wenn eine konkrete Interaktion wie Kollabora
 
 ### F-14.11 Interner Research Event Bus
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.03, F-00.01 (OD-04)
 - Quelle: UI §15.1, §15.2 (interne Backend-Kommunikation)
 - Bearbeiter: offen · Nachweise: offen
