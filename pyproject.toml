@@ -36,7 +36,7 @@ select = ["E", "F", "W", "I", "B", "UP", "N", "SIM", "RUF"]
 plugins = ["pydantic.mypy"]
 python_version = "3.12"
 strict = true
-files = ["src", "tests"]
+files = ["src", "tests", "spikes"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

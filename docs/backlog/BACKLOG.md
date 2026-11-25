@@ -9,9 +9,9 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 | Status | Anzahl |
 | --- | --- |
 | `todo` | 211 |
-| `ready` | 18 |
+| `ready` | 17 |
 | `in-progress` | 0 |
-| `review` | 0 |
+| `review` | 1 |
 | `done` | 32 |
 | `blocked` | 1 |
 | `dropped` | 0 |
@@ -51,7 +51,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 
 ## Now
 
-Blockiert: [F-00.01](epics/E00-projektfundament.md#f-0001-architekturentscheidungen-für-m1-vorbereiten) Architekturentscheidungen für M1 vorbereiten (P0, M1). Sechs von sieben ADRs sind angenommen, OD-02 wartet auf den Spike F-04.11.
+Blockiert: [F-00.01](epics/E00-projektfundament.md#f-0001-architekturentscheidungen-für-m1-vorbereiten) Architekturentscheidungen für M1 vorbereiten (P0, M1). Sechs von sieben ADRs sind angenommen, Der Spike F-04.11 ist abgeschlossen, OD-02 wartet auf die Entscheidung über ADR-0002.
 
 Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen gezogen werden.
 
