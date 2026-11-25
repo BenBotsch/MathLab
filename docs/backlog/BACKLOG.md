@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-262 Features in 26 Epics. Erledigt sind 32 von 262.
+263 Features in 26 Epics. Erledigt sind 33 von 263.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 211 |
-| `ready` | 17 |
+| `todo` | 208 |
+| `ready` | 20 |
 | `in-progress` | 0 |
 | `review` | 1 |
-| `done` | 32 |
+| `done` | 33 |
 | `blocked` | 1 |
 | `dropped` | 0 |
 
@@ -25,7 +25,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E00 | [Projektfundament](epics/E00-projektfundament.md) | M1, Ausbau M2 | 5 | 4 | 0 | `in-progress` | 4/9 |
 | E01 | [Core-Domänenmodell und Contracts](epics/E01-core-domaenenmodell.md) | M1 | 7 | 0 | 0 | `done` | 7/7 |
 | E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 2 | 0 | `in-progress` | 8/10 |
-| E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 3 | 5 | 1 | `in-progress` | 1/9 |
+| E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 4 | 5 | 1 | `in-progress` | 2/10 |
 | E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 3 | 0 | `in-progress` | 1/11 |
 | E05 | [Symbolik, SMT, Numerik und Widerlegung](epics/E05-symbolik-smt-numerik.md) | M1, Ausbau M2, M5 und M6 | 3 | 4 | 2 | `in-progress` | 3/9 |
 | E06 | [Strategy Engine und Beweismethodenkatalog](epics/E06-strategy-engine.md) | M2, Ausbau M3 und M4 | 3 | 3 | 0 | `todo` | 0/6 |
@@ -51,14 +51,15 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 
 ## Now
 
-Blockiert: [F-00.01](epics/E00-projektfundament.md#f-0001-architekturentscheidungen-für-m1-vorbereiten) Architekturentscheidungen für M1 vorbereiten (P0, M1). Sechs von sieben ADRs sind angenommen, Der Spike F-04.11 ist abgeschlossen, OD-02 wartet auf die Entscheidung über ADR-0002.
+Blockiert: [F-00.01](epics/E00-projektfundament.md#f-0001-architekturentscheidungen-für-m1-vorbereiten) Architekturentscheidungen für M1 vorbereiten (P0, M1). Sechs von sieben ADRs sind angenommen. Der Spike F-04.11 ist abgeschlossen, OD-02 wartet auf die Entscheidung über ADR-0002.
 
 Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen gezogen werden.
 
 | Feature | Titel | Priorität | Meilenstein |
 | --- | --- | --- | --- |
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
-| [F-03.02](epics/E03-problem-engine.md#f-0302-kanonische-darstellung) | Kanonische Darstellung | P0 | M1 |
+| [F-03.03](epics/E03-problem-engine.md#f-0303-mehrdeutigkeit-protokollieren) | Mehrdeutigkeit protokollieren | P1 | M1 |
+| [F-03.05](epics/E03-problem-engine.md#f-0305-prüfung-der-statement-fidelity) | Prüfung der Statement Fidelity | P0 | M1 |
 | [F-04.11](epics/E04-formal-verification.md#f-0411-spike-lean-interaktionsschicht) | Spike Lean-Interaktionsschicht | P0 | M1 |
 | [F-14.01](epics/E14-backend-api.md#f-1401-fastapi-grundgerüst-und-versioniertes-api-schema) | FastAPI-Grundgerüst und versioniertes API-Schema | P0 | M1 |
 | [F-15.01](epics/E15-research-shell.md#f-1501-client-grundgerüst) | Client-Grundgerüst | P0 | M1 |
@@ -67,6 +68,8 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-24.09](epics/E24-sicherheit-sandbox.md#f-2409-risikoregister) | Risikoregister | P0 | M1 |
 | [F-10.01](epics/E10-wissensgraph.md#f-1001-objektklassen-und-speicherschema) | Objektklassen und Speicherschema | P0 | M2 |
 | [F-12.01](epics/E12-metriken-lernen.md#f-1201-metrikebenen) | Metrikebenen | P0 | M2 |
+| [F-03.06](epics/E03-problem-engine.md#f-0306-problem-classifier) | Problem Classifier | P1 | M2 |
+| [F-03.07](epics/E03-problem-engine.md#f-0307-ast-normalisierung-und-fingerprints) | AST-Normalisierung und Fingerprints | P1 | M2 |
 | [F-02.09](epics/E02-event-sourcing-persistenz.md#f-0209-schema-versionierung-und-migration) | Schema-Versionierung und Migration | P1 | M2 |
 | [F-05.04](epics/E05-symbolik-smt-numerik.md#f-0504-simulationsworkflow-mit-seed-und-präzision) | Simulationsworkflow mit Seed und Präzision | P1 | M2 |
 | [F-05.03](epics/E05-symbolik-smt-numerik.md#f-0503-smt-adapter-für-z3-und-cvc5) | SMT-Adapter für Z3 und cvc5 | P1 | M2 |
@@ -92,8 +95,8 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
-| [M1](ROADMAP.md#m1) | 78 | 60 | 18 | 0 |
-| [M2](ROADMAP.md#m2) | 70 | 9 | 59 | 2 |
+| [M1](ROADMAP.md#m1) | 77 | 59 | 18 | 0 |
+| [M2](ROADMAP.md#m2) | 68 | 9 | 57 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |
 | [M5](ROADMAP.md#m5) | 16 | 1 | 7 | 8 |

@@ -8,7 +8,7 @@ Die Feature-Tabellen dieser Datei spiegeln die Epic-Dateien. Bei Abweichungen gi
 
 | Meilenstein | Inhalt | Quelle | Features |
 | --- | --- | --- | --- |
-| [M1](#m1) | Proof Engine MVP und Live Research Workspace | ARCH Phase 1, UI Stufe 1 | 117 |
+| [M1](#m1) | Proof Engine MVP und Live Research Workspace | ARCH Phase 1, UI Stufe 1 | 118 |
 | [M2](#m2) | Mehrere Agenten und Methoden, Research Intelligence | ARCH Phase 2, UI Stufe 2 | 74 |
 | [M3](#m3) | Wissensgraph und Langzeitgedächtnis | ARCH Phase 3 | 14 |
 | [M4](#m4) | ML und RL | ARCH Phase 4 | 13 |
@@ -48,7 +48,7 @@ Exit-Kriterien aus UI §20, Stufe 1:
 | [E00](epics/E00-projektfundament.md) | F-00.01, F-00.02, F-00.03, F-00.04, F-00.05 | F-00.07, F-00.08, F-00.09 | keine |
 | [E01](epics/E01-core-domaenenmodell.md) | F-01.01, F-01.02, F-01.03, F-01.04, F-01.05, F-01.06, F-01.07 | keine | keine |
 | [E02](epics/E02-event-sourcing-persistenz.md) | F-02.01, F-02.02, F-02.03, F-02.04, F-02.05, F-02.06, F-02.07, F-02.08 | keine | keine |
-| [E03](epics/E03-problem-engine.md) | F-03.01, F-03.02, F-03.05 | F-03.03 | keine |
+| [E03](epics/E03-problem-engine.md) | F-03.01, F-03.02, F-03.05 | F-03.03, F-03.10 | keine |
 | [E04](epics/E04-formal-verification.md) | F-04.01, F-04.02, F-04.03, F-04.04, F-04.05, F-04.07, F-04.08, F-04.11 | F-04.06 | keine |
 | [E05](epics/E05-symbolik-smt-numerik.md) | F-05.01, F-05.02, F-05.07 | keine | keine |
 | [E07](epics/E07-agent-orchestrator.md) | F-07.01, F-07.02, F-07.03, F-07.04, F-07.05, F-07.09 | F-07.16 | keine |

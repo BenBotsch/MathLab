@@ -1,0 +1,458 @@
+{
+  "list": "golden-m1",
+  "version": 1,
+  "forms": {
+    "g01": {
+      "variables": [
+        {
+          "name": "a",
+          "type": "ℝ",
+          "quantifier": "UNIVERSAL"
+        },
+        {
+          "name": "b",
+          "type": "ℝ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "(a + b) ^ 2 = a ^ 2 + 2 * a * b + b ^ 2",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g02": {
+      "variables": [
+        {
+          "name": "a",
+          "type": "ℤ",
+          "quantifier": "UNIVERSAL"
+        },
+        {
+          "name": "b",
+          "type": "ℤ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "(a + b) * (a - b) = a ^ 2 - b ^ 2",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g03": {
+      "variables": [
+        {
+          "name": "a",
+          "type": "ℝ",
+          "quantifier": "UNIVERSAL"
+        },
+        {
+          "name": "b",
+          "type": "ℝ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "2 * a * b ≤ a ^ 2 + b ^ 2",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g04": {
+      "variables": [
+        {
+          "name": "a",
+          "type": "ℚ",
+          "quantifier": "UNIVERSAL"
+        },
+        {
+          "name": "b",
+          "type": "ℚ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "(a + b) ^ 3 = a ^ 3 + 3 * a ^ 2 * b + 3 * a * b ^ 2 + b ^ 3",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g05": {
+      "variables": [
+        {
+          "name": "n",
+          "type": "ℕ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "Even (n * (n + 1))",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g06": {
+      "variables": [
+        {
+          "name": "a",
+          "type": "ℤ",
+          "quantifier": "UNIVERSAL"
+        },
+        {
+          "name": "b",
+          "type": "ℤ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "a ^ 3 - b ^ 3 = (a - b) * (a ^ 2 + a * b + b ^ 2)",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g07": {
+      "variables": [
+        {
+          "name": "x",
+          "type": "ℝ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "0 ≤ x ^ 2 - 2 * x + 1",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g08": {
+      "variables": [
+        {
+          "name": "n",
+          "type": "ℕ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [
+        {
+          "name": "hn",
+          "statement": "1 ≤ n"
+        }
+      ],
+      "goal": "∑ k ∈ Finset.Icc 1 n, (2 * k - 1) = n ^ 2",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g09": {
+      "variables": [
+        {
+          "name": "n",
+          "type": "ℕ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "2 * (∑ k ∈ Finset.range (n + 1), k) = n * (n + 1)",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g10": {
+      "variables": [
+        {
+          "name": "n",
+          "type": "ℕ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "6 * (∑ k ∈ Finset.range (n + 1), k ^ 2) = n * (n + 1) * (2 * n + 1)",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g11": {
+      "variables": [
+        {
+          "name": "n",
+          "type": "ℕ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "4 * (∑ k ∈ Finset.range (n + 1), k ^ 3) = (n * (n + 1)) ^ 2",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g12": {
+      "variables": [
+        {
+          "name": "n",
+          "type": "ℕ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "∑ k ∈ Finset.range n, 2 ^ k = 2 ^ n - 1",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g13": {
+      "variables": [
+        {
+          "name": "n",
+          "type": "ℤ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "3 ∣ n ^ 3 - n",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g14": {
+      "variables": [
+        {
+          "name": "x",
+          "type": "ℝ",
+          "quantifier": "UNIVERSAL"
+        },
+        {
+          "name": "n",
+          "type": "ℕ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [
+        {
+          "name": "hx",
+          "statement": "-1 ≤ x"
+        }
+      ],
+      "goal": "1 + (n : ℝ) * x ≤ (1 + x) ^ n",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g15": {
+      "variables": [
+        {
+          "name": "n",
+          "type": "ℕ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "n + 1 ≤ 2 ^ n",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g16": {
+      "variables": [
+        {
+          "name": "n",
+          "type": "ℕ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "6 ∣ n * (n + 1) * (n + 2)",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g17": {
+      "variables": [
+        {
+          "name": "a",
+          "type": "ℝ",
+          "quantifier": "UNIVERSAL"
+        },
+        {
+          "name": "b",
+          "type": "ℝ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [
+        {
+          "name": "ha",
+          "statement": "0 ≤ a"
+        },
+        {
+          "name": "hb",
+          "statement": "0 ≤ b"
+        }
+      ],
+      "goal": "Real.sqrt (a * b) ≤ (a + b) / 2",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g18": {
+      "variables": [
+        {
+          "name": "n",
+          "type": "ℕ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "∑ k ∈ Finset.range n, (1 : ℚ) / ((k + 1) * (k + 2)) = (n : ℚ) / (n + 1)",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g19": {
+      "variables": [],
+      "hypotheses": [],
+      "goal": "Irrational (Real.sqrt 2)",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g20": {
+      "variables": [
+        {
+          "name": "n",
+          "type": "ℕ",
+          "quantifier": "UNIVERSAL"
+        },
+        {
+          "name": "p",
+          "type": "ℕ",
+          "quantifier": "EXISTENTIAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "n ≤ p ∧ Nat.Prime p",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g21": {
+      "variables": [
+        {
+          "name": "n",
+          "type": "ℕ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "(∑ k ∈ Finset.range n, Nat.fib k) + 1 = Nat.fib (n + 1)",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g22": {
+      "variables": [
+        {
+          "name": "a",
+          "type": "ℝ",
+          "quantifier": "UNIVERSAL"
+        },
+        {
+          "name": "b",
+          "type": "ℝ",
+          "quantifier": "UNIVERSAL"
+        },
+        {
+          "name": "c",
+          "type": "ℝ",
+          "quantifier": "UNIVERSAL"
+        },
+        {
+          "name": "d",
+          "type": "ℝ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "(a * c + b * d) ^ 2 ≤ (a ^ 2 + b ^ 2) * (c ^ 2 + d ^ 2)",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g23": {
+      "variables": [
+        {
+          "name": "n",
+          "type": "ℕ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "n ^ 2 % 4 = 0 ∨ n ^ 2 % 4 = 1",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    },
+    "g24": {
+      "variables": [
+        {
+          "name": "n",
+          "type": "ℕ",
+          "quantifier": "UNIVERSAL"
+        }
+      ],
+      "hypotheses": [],
+      "goal": "∑ k ∈ Finset.range (n + 1), Nat.choose n k = 2 ^ n",
+      "scope": [],
+      "exceptions": [],
+      "context": [
+        "Mathlib"
+      ]
+    }
+  }
+}

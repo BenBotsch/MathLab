@@ -21,14 +21,15 @@ Die Originalaussage wird unverändert archiviert. Eine Formalisierung gilt erst 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
 | F-03.01 | Import von Text, LaTeX und Lean | `done` | P0 | M1 |
-| F-03.02 | Kanonische Darstellung | `ready` | P0 | M1 |
-| F-03.03 | Mehrdeutigkeit protokollieren | `todo` | P1 | M1 |
+| F-03.02 | Kanonische Darstellung | `done` | P0 | M1 |
+| F-03.03 | Mehrdeutigkeit protokollieren | `ready` | P1 | M1 |
 | F-03.04 | Autoformalisierung | `todo` | P1 | M2 |
-| F-03.05 | Prüfung der Statement Fidelity | `todo` | P0 | M1 |
-| F-03.06 | Problem Classifier | `todo` | P1 | M2 |
-| F-03.07 | AST-Normalisierung und Fingerprints | `todo` | P1 | M2 |
+| F-03.05 | Prüfung der Statement Fidelity | `ready` | P0 | M1 |
+| F-03.06 | Problem Classifier | `ready` | P1 | M2 |
+| F-03.07 | AST-Normalisierung und Fingerprints | `ready` | P1 | M2 |
 | F-03.08 | Problemvarianten | `todo` | P1 | M2 |
 | F-03.09 | Import von Papers und Datensätzen | `todo` | P2 | M5 |
+| F-03.10 | Ereignis für Versionen der kanonischen Darstellung | `todo` | P1 | M1 |
 
 ## Features
 
@@ -46,19 +47,19 @@ Ein Problem kann als natürlicher Text, LaTeX oder Lean-Statement angelegt werde
 
 ### F-03.02 Kanonische Darstellung
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-03.01, F-01.03, F-11.01
 - Quelle: ARCH §3.1 (versionierte kanonische Darstellung), §7.1 (Schritt 2)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: `src/mathlab/canonical.py` (`CanonicalContent`, `CanonicalForm`, `parse_lean`, `load_canonical`) erfasst Variablen mit Typ und Quantor, Voraussetzungen, Ziel, Geltungsbereich, Ausnahmen und Kontext. `CanonicalForm` ist unveränderlich und trägt einen Inhaltshash. `revise` erzeugt die nächste Version mit Verweis auf den Vorgänger und Änderungsgrund, eine Revision ohne Änderung wird abgewiesen. `benchmarks/golden/m1/canonical/v1.json` enthält die Darstellung aller 24 Golden-Aufgaben, aus den Lean-Aussagen abgeleitet. Nur der von Lean inferierte Typ von `p` in g20 ist von Hand als ℕ ergänzt. `tests/test_canonical.py`: 11 bestanden, darunter Vollständigkeit und Übereinstimmung mit der Lean-Aussage für jede Golden-Aufgabe sowie Versionierung, Hashprüfung und Unveränderlichkeit. `ruff format`, `ruff check` und `mypy` (strict) ohne Befund; `pytest` mit Test-DB und allen Images 704 bestanden, ohne 671 bestanden, 33 übersprungen. Annahmen: Der Parser deckt nur Signaturen im Stil der Golden-Liste ab, und Binder mit `h`-Präfix gelten als Voraussetzungen. Ein Ereignis für neue Versionen fehlt noch, siehe F-03.10.
 
 Variablen, Quantoren, Typen, Geltungsbereiche, Ausnahmen und Voraussetzungen werden strukturiert erfasst und versioniert.
 
-- [ ] Für jede Golden-Aufgabe aus M1 ist die strukturierte Darstellung vollständig.
-- [ ] Jede Änderung erzeugt eine neue Version.
+- [x] Für jede Golden-Aufgabe aus M1 ist die strukturierte Darstellung vollständig.
+- [x] Jede Änderung erzeugt eine neue Version.
 
 ### F-03.03 Mehrdeutigkeit protokollieren
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M1
+- Status: `ready` · Priorität: P1 · Meilenstein: M1
 - Abhängigkeiten: F-03.02
 - Quelle: ARCH §7.1 (Schritt 3), §4.2 (Human Override)
 - Bearbeiter: offen · Nachweise: offen
@@ -81,7 +82,7 @@ Ein Modell erzeugt aus der kanonischen Darstellung eine Lean-Kandidatenaussage, 
 
 ### F-03.05 Prüfung der Statement Fidelity
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-03.02
 - Quelle: ARCH §7.1 (Schritt 5), §13.2, §21; SemantEq in ARCH §2.3
 - Bearbeiter: offen · Nachweise: offen
@@ -93,7 +94,7 @@ Die formale Aussage wird gegen die Originalaussage geprüft. In M1 genügt eine 
 
 ### F-03.06 Problem Classifier
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-03.02
 - Quelle: ARCH §3.1 (Klassifikation), §6.1, §7.1 (Schritt 6)
 - Bearbeiter: offen · Nachweise: offen
@@ -105,7 +106,7 @@ Ordnet Problemen Gebiet, geeignete Methoden und geschätzte Komplexität zu. Ers
 
 ### F-03.07 AST-Normalisierung und Fingerprints
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-03.02
 - Quelle: ARCH §11.4
 - Bearbeiter: offen · Nachweise: offen
@@ -136,3 +137,14 @@ Varianten eines Problems werden als `ProblemVariant` mit Verweis auf das Ursprun
 Import mathematischer Dokumente, Datensätze und Simulationsmodelle. Externe Inhalte gelten als nicht vertrauenswürdig.
 
 - [ ] Ein Paper-Abschnitt wird als Problem mit Quellenverweis angelegt.
+
+### F-03.10 Ereignis für Versionen der kanonischen Darstellung
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M1
+- Abhängigkeiten: F-03.02
+- Quelle: ARCH §3.1, §7.1 (Schritt 2); beim Umsetzen von F-03.02 aufgefallen
+- Bearbeiter: offen · Nachweise: offen
+
+F-03.02 versioniert die kanonische Darstellung im Modell. Damit Versionen im Event Store landen und wiederhergestellt werden können, fehlt ein Ereignis wie `problem.canonicalized` samt Projektion.
+
+- [ ] Jede neue Version erzeugt ein Ereignis, und die Projektion liefert die aktuelle und jede frühere Version.
