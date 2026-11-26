@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-272 Features in 26 Epics. Erledigt sind 50 von 272.
+272 Features in 26 Epics. Erledigt sind 51 von 272.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 192 |
+| `todo` | 191 |
 | `ready` | 30 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 50 |
+| `done` | 51 |
 | `blocked` | 0 |
 | `dropped` | 0 |
 
@@ -30,7 +30,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E05 | [Symbolik, SMT, Numerik und Widerlegung](epics/E05-symbolik-smt-numerik.md) | M1, Ausbau M2, M5 und M6 | 3 | 4 | 2 | `in-progress` | 3/9 |
 | E06 | [Strategy Engine und Beweismethodenkatalog](epics/E06-strategy-engine.md) | M2, Ausbau M3 und M4 | 3 | 3 | 0 | `todo` | 0/6 |
 | E07 | [Agent Orchestrator und Multiagentensystem](epics/E07-agent-orchestrator.md) | M1, Ausbau M2 bis M6 | 6 | 8 | 2 | `in-progress` | 5/16 |
-| E08 | [Proof Search Engine](epics/E08-proof-search.md) | M1, Ausbau M2, M4 und M6 | 5 | 5 | 1 | `todo` | 0/11 |
+| E08 | [Proof Search Engine](epics/E08-proof-search.md) | M1, Ausbau M2, M4 und M6 | 5 | 5 | 1 | `in-progress` | 1/11 |
 | E09 | [Trial-and-Error und Experiment Tracking](epics/E09-trial-and-error-tracking.md) | M1, Ausbau M2 und M4 | 4 | 4 | 0 | `in-progress` | 4/8 |
 | E10 | [Wissensgraph und mathematisches Langzeitgedächtnis](epics/E10-wissensgraph.md) | M3, Vorstufe M2, Ausbau M6 | 7 | 4 | 1 | `todo` | 0/12 |
 | E11 | [Benchmarks, Betriebsmodi und Evaluation](epics/E11-benchmarks-evaluation.md) | M1, Ausbau M2 bis M6 | 7 | 7 | 2 | `in-progress` | 4/16 |
@@ -58,7 +58,7 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
 | [F-03.03](epics/E03-problem-engine.md#f-0303-mehrdeutigkeit-protokollieren) | Mehrdeutigkeit protokollieren | P1 | M1 |
 | [F-12.10](epics/E12-metriken-lernen.md#f-1210-benchmark-für-lokale-modelle-quantisierung-und-kontext) | Benchmark für lokale Modelle, Quantisierung und Kontext | P1 | M1 |
-| [F-08.01](epics/E08-proof-search.md#f-0801-proof-state-und-aktionsraum) | Proof State und Aktionsraum | P0 | M1 |
+| [F-08.02](epics/E08-proof-search.md#f-0802-and-or-hypergraph) | AND-OR-Hypergraph | P0 | M1 |
 | [F-14.11](epics/E14-backend-api.md#f-1411-interner-research-event-bus) | Interner Research Event Bus | P0 | M1 |
 | [F-14.01](epics/E14-backend-api.md#f-1401-fastapi-grundgerüst-und-versioniertes-api-schema) | FastAPI-Grundgerüst und versioniertes API-Schema | P0 | M1 |
 | [F-15.01](epics/E15-research-shell.md#f-1501-client-grundgerüst) | Client-Grundgerüst | P0 | M1 |
@@ -102,7 +102,7 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
-| [M1](ROADMAP.md#m1) | 62 | 45 | 17 | 0 |
+| [M1](ROADMAP.md#m1) | 61 | 44 | 17 | 0 |
 | [M2](ROADMAP.md#m2) | 66 | 9 | 55 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |

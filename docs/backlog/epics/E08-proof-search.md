@@ -1,6 +1,6 @@
 # E08 Proof Search Engine
 
-- Status: `todo` · Meilenstein: M1, Ausbau M2, M4 und M6
+- Status: `in-progress` · Meilenstein: M1, Ausbau M2, M4 und M6
 - Quellen: ARCH §2.1, §3.1, §4.1, §6.2 (Budget Controller), §7.2, §8; UI §4.1
 - Abhängige Epics: E01, E02, E04, E07
 
@@ -20,8 +20,8 @@ Ein AND-Knoten gilt erst als gelöst, wenn alle Teilziele verifiziert sind. Ein 
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-08.01 | Proof State und Aktionsraum | `ready` | P0 | M1 |
-| F-08.02 | AND-OR-Hypergraph | `todo` | P0 | M1 |
+| F-08.01 | Proof State und Aktionsraum | `done` | P0 | M1 |
+| F-08.02 | AND-OR-Hypergraph | `ready` | P0 | M1 |
 | F-08.03 | Tiefen-, Breiten-, Best-First- und A*-Suche | `todo` | P0 | M1 |
 | F-08.04 | Search Budget Controller | `todo` | P0 | M1 |
 | F-08.05 | Checkpoint und Resume | `todo` | P0 | M1 |
@@ -36,19 +36,19 @@ Ein AND-Knoten gilt erst als gelöst, wenn alle Teilziele verifiziert sind. Ein 
 
 ### F-08.01 Proof State und Aktionsraum
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-04.02, F-01.02
 - Quelle: ARCH §8 (Einleitung)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `src/mathlab/proof_state.py` mit `SearchState` (Ziele, Hypothesen, Hilfssätze, Abhängigkeiten), `ActionKind` mit den sechs Aktionsarten aus ARCH §8, `Action`, `root()` und `successor()`. Ein Nachfolger ist ein neuer, unveränderlicher Zustand mit `parent_id`, `action` und Tiefe, der Elternzustand bleibt unverändert. Der Fingerprint `sha256:<hex>` (Schema-Version 1) deckt nur den Inhalt ab: Gleicher Inhalt auf verschiedenen Wegen ergibt denselben Fingerprint, Mengen sind ordnungsunabhängig, die Zielreihenfolge zählt. Er wird beim Erzeugen geprüft. `tests/test_proof_state.py`: 13 Tests, Testlauf ohne Lean-Image 809 passed, 55 skipped. ruff, ruff format und mypy (strict) ohne Befund. Die Tactic Generator-Events nutzen weiterhin ihren eigenen Ziel-Hash; die Umstellung auf `SearchState` gehört zur Suche ab F-08.02.
 
 Proof State s_t = (G_t, H_t, L_t, D_t) mit offenen Zielen, Hypothesen, verfügbaren Hilfssätzen und Abhängigkeiten. Aktionen sind Taktik, Umformung, neuer Hilfssatz, Fallzerlegung, Solveraufruf und Strategiewechsel.
 
-- [ ] Jede Aktion erzeugt einen neuen Zustand mit Elternverweis.
-- [ ] Jeder Zustand hat einen Fingerprint (vgl. F-09.02).
+- [x] Jede Aktion erzeugt einen neuen Zustand mit Elternverweis.
+- [x] Jeder Zustand hat einen Fingerprint (vgl. F-09.02).
 
 ### F-08.02 AND-OR-Hypergraph
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-08.01
 - Quelle: ARCH §8, §8.1; HTPS in ARCH §2.1; UI §4.1
 - Bearbeiter: offen · Nachweise: offen
