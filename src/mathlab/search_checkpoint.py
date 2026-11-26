@@ -19,9 +19,10 @@ uninterrupted search with the same seed, provided the expander is deterministic 
 goal and generator state. That is the contract of ``Expander``; a model adapter meets it with
 its recorded replay (F-07.03), a checker with its cache (F-04.07).
 
-Strategy choice (depth, breadth, best first) belongs to F-08.03. Here the next goal is drawn
-uniformly with the seeded generator, which is enough to make the ordering depend on the state
-that has to survive the checkpoint.
+The next goal is chosen by a ``Strategy`` (F-08.03, ``mathlab.search_strategies``); the
+strategy and the insertion counter are part of the checkpoint, the heuristic is passed again on
+resume like the expander. ``run`` stops when the budget controller reports an exhausted budget
+or when the ``until`` predicate holds, e.g. the root goal is ``VERIFIED`` in the graph.
 """
 
 import random
@@ -43,6 +44,7 @@ from mathlab.core.event_types import (
 )
 from mathlab.proof_state import ActionKind
 from mathlab.search_budget import BudgetState, SearchBudgetController, SearchLimits, Usage
+from mathlab.search_strategies import Heuristic, Strategy, goal_size, pick
 
 CHECKPOINT_FORMAT_VERSION = 1
 
@@ -79,6 +81,10 @@ class Expander(Protocol):
 class OpenGoal(_Frozen):
     node_id: UUID
     goal: str
+    depth: int = Field(default=0, ge=0)
+    """Expansions between the root and this goal."""
+    order: int = Field(default=0, ge=0)
+    """Insertion counter; breaks ties and orders depth- and breadth-first."""
 
 
 class SearchCheckpoint(_Frozen):
@@ -87,6 +93,8 @@ class SearchCheckpoint(_Frozen):
     format_version: int = CHECKPOINT_FORMAT_VERSION
     root_id: UUID
     steps: int = Field(ge=0)
+    strategy: Strategy
+    next_order: int = Field(ge=1)
     frontier: tuple[OpenGoal, ...]
     rng_state: tuple[int, tuple[int, ...], float | None]
     budget: BudgetState
@@ -109,8 +117,14 @@ class SearchSession:
         budget: SearchBudgetController,
         expander: Expander,
         emit: Emit,
+        strategy: Strategy,
+        next_order: int,
+        heuristic: Heuristic,
     ) -> None:
         self.root_id = root_id
+        self.strategy = strategy
+        self._next_order = next_order
+        self._heuristic = heuristic
         self.frontier = frontier
         self.steps = steps
         self.budget = budget
@@ -120,7 +134,15 @@ class SearchSession:
 
     @classmethod
     def start(
-        cls, goal: str, *, seed: int, limits: SearchLimits, expander: Expander, emit: Emit
+        cls,
+        goal: str,
+        *,
+        seed: int,
+        limits: SearchLimits,
+        expander: Expander,
+        emit: Emit,
+        strategy: Strategy = Strategy.RANDOM,
+        heuristic: Heuristic = goal_size,
     ) -> Self:
         """A new search for ``goal``; writes the root ``proof.goal.created``."""
         rng = random.Random(seed)
@@ -133,12 +155,22 @@ class SearchSession:
             budget=_controller(limits, emit),
             expander=expander,
             emit=emit,
+            strategy=strategy,
+            next_order=1,
+            heuristic=heuristic,
         )
         emit("proof.goal.created", ProofGoalCreated(proof_node_id=root.node_id, goal=goal))
         return session
 
     @classmethod
-    def resume(cls, checkpoint: SearchCheckpoint, *, expander: Expander, emit: Emit) -> Self:
+    def resume(
+        cls,
+        checkpoint: SearchCheckpoint,
+        *,
+        expander: Expander,
+        emit: Emit,
+        heuristic: Heuristic = goal_size,
+    ) -> Self:
         """Continue the search of ``checkpoint``; writes ``run.resumed``."""
         if checkpoint.format_version != CHECKPOINT_FORMAT_VERSION:
             raise CheckpointVersionError(
@@ -155,6 +187,9 @@ class SearchSession:
             budget=SearchBudgetController.restore(checkpoint.budget, _budget_emit(emit)),
             expander=expander,
             emit=emit,
+            strategy=checkpoint.strategy,
+            next_order=checkpoint.next_order,
+            heuristic=heuristic,
         )
         emit("run.resumed", RunResumed())
         return session
@@ -163,10 +198,13 @@ class SearchSession:
     def done(self) -> bool:
         return not self.frontier
 
-    def run(self, max_steps: int) -> int:
-        """Run up to ``max_steps`` steps; returns the number of steps taken."""
+    def run(self, max_steps: int, until: Callable[[], bool] = lambda: False) -> int:
+        """Run up to ``max_steps`` steps; returns the number of steps taken.
+
+        Stops early when ``until()`` holds, the frontier is empty or the budget is exhausted.
+        """
         taken = 0
-        while taken < max_steps and self.step():
+        while taken < max_steps and not until() and self.budget.exhausted() is None and self.step():
             taken += 1
         return taken
 
@@ -174,7 +212,7 @@ class SearchSession:
         """Expand one open goal; ``False`` if the frontier is empty."""
         if not self.frontier:
             return False
-        current = self.frontier.pop(self._rng.randrange(len(self.frontier)))
+        current = self.frontier.pop(pick(self.strategy, self.frontier, self._heuristic, self._rng))
         for outcome in self._expander(current.goal, self._rng):
             self._expand(current, outcome)
         self.steps += 1
@@ -195,7 +233,10 @@ class SearchSession:
             ),
         )
         for text in outcome.subgoals:
-            child = OpenGoal(node_id=_uuid(self._rng), goal=text)
+            child = OpenGoal(
+                node_id=_uuid(self._rng), goal=text, depth=goal.depth + 1, order=self._next_order
+            )
+            self._next_order += 1
             self._emit(
                 "proof.goal.created",
                 ProofGoalCreated(
@@ -230,6 +271,8 @@ class SearchSession:
         return SearchCheckpoint(
             root_id=self.root_id,
             steps=self.steps,
+            strategy=self.strategy,
+            next_order=self._next_order,
             frontier=tuple(self.frontier),
             rng_state=(version, tuple(internal), gauss),
             budget=self.budget.snapshot(),

@@ -18,6 +18,7 @@ from mathlab.search_checkpoint import (
     SearchCheckpoint,
     SearchSession,
 )
+from mathlab.search_strategies import Strategy
 
 RUN = uuid4()
 NOW = datetime(2026, 11, 26, tzinfo=UTC)
@@ -154,3 +155,21 @@ def test_verified_leaves_carry_a_check_result() -> None:
     log = uninterrupted(5)
     verified = [e for e in log.events if e.type == "proof.step.verified"]
     assert verified and all(e.payload["verification_result_id"] for e in verified)
+
+
+@pytest.mark.parametrize("strategy", [s for s in Strategy if s is not Strategy.RANDOM])
+def test_resume_keeps_the_strategy_and_its_order(strategy: Strategy) -> None:
+    def start(log: Log) -> SearchSession:
+        return SearchSession.start(
+            "g", seed=4, limits=LIMITS, expander=expander, emit=log, strategy=strategy
+        )
+
+    reference = Log()
+    start(reference).run(10_000)
+    log = Log()
+    session = start(log)
+    session.run(3)
+    stored = SearchCheckpoint.model_validate_json(session.pause().model_dump_json())
+    assert stored.strategy is strategy
+    SearchSession.resume(stored, expander=expander, emit=log).run(10_000)
+    assert log.search_events() == reference.search_events()

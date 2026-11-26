@@ -243,7 +243,7 @@ class SearchBudgetController:
         lim = self.limits
         if not s.resources_available:
             return ControlAction.PAUSE, "compute resources unavailable"
-        exhausted = self._exhausted()
+        exhausted = self.exhausted()
         if exhausted is not None:
             promising = s.verified_progress or (
                 s.value_estimate is not None and s.value_estimate >= lim.promising_value
@@ -272,7 +272,8 @@ class SearchBudgetController:
             return ControlAction.EXPLORE_WIDER, "branch limit reached"
         return ControlAction.CONTINUE, "within budget"
 
-    def _exhausted(self) -> str | None:
+    def exhausted(self) -> str | None:
+        """The first used-up resource of the total budget, ``None`` while budget is left."""
         lim, used = self.limits, self._total
         if used.iterations >= lim.max_iterations:
             return "iterations"

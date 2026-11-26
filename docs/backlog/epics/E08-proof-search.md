@@ -22,15 +22,16 @@ Ein AND-Knoten gilt erst als gelöst, wenn alle Teilziele verifiziert sind. Ein 
 | --- | --- | --- | --- | --- |
 | F-08.01 | Proof State und Aktionsraum | `done` | P0 | M1 |
 | F-08.02 | AND-OR-Hypergraph | `done` | P0 | M1 |
-| F-08.03 | Tiefen-, Breiten-, Best-First- und A*-Suche | `todo` | P0 | M1 |
+| F-08.03 | Tiefen-, Breiten-, Best-First- und A*-Suche | `done` | P0 | M1 |
 | F-08.04 | Search Budget Controller | `done` | P0 | M1 |
 | F-08.05 | Checkpoint und Resume | `done` | P0 | M1 |
 | F-08.06 | Zerlegung und Backtracking | `todo` | P1 | M2 |
 | F-08.07 | Reparatur und Strategiewechsel | `ready` | P1 | M2 |
-| F-08.08 | Parallele Kandidaten und Beam Search | `todo` | P1 | M2 |
+| F-08.08 | Parallele Kandidaten und Beam Search | `ready` | P1 | M2 |
 | F-08.09 | MCTS und HyperTree Proof Search | `todo` | P1 | M4 |
 | F-08.10 | Alternative Beweise und Methodendiversität | `todo` | P1 | M2 |
 | F-08.11 | Evolutionäre Suche und Counterexample-Guided Search | `todo` | P2 | M6 |
+| F-08.12 | Frontier-Strategien über den SearchPolicy-Contract | `todo` | P1 | M2 |
 
 ## Features
 
@@ -61,15 +62,15 @@ Datenstruktur mit OR-Knoten für alternative Strategien und AND-Knoten für geme
 
 ### F-08.03 Tiefen-, Breiten-, Best-First- und A*-Suche
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1, A* in M2
+- Status: `done` · Priorität: P0 · Meilenstein: M1, A* in M2
 - Abhängigkeiten: F-08.02, F-01.04
 - Quelle: ARCH §8.1
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `src/mathlab/search_strategies.py` mit `Strategy` (`DEPTH_FIRST`, `BREADTH_FIRST`, `BEST_FIRST`, `A_STAR`, dazu `RANDOM` als Basis für Replay-Tests) und `pick()`, das den nächsten offenen Knoten der Frontier wählt; Gleichstände gehen an den ältesten Knoten. Die Vor- und Nachteile aus ARCH §8.1 stehen als Tabelle im Moduldocstring. Heuristiken: `goal_size` (Symbolanzahl des Ziels, Standard für Best-First) und `unit_cost` (h = 1, überschätzt nie). A* nutzt Tiefe plus Heuristik und ist damit umgesetzt, nicht zurückgestellt. `SearchSession` (F-08.05) wählt über die Strategie, führt Tiefe und Einfügereihenfolge pro offenem Ziel, legt Strategie und Zähler im Checkpoint ab und hält bei erschöpftem Budget (`SearchBudgetController.exhausted()`) oder bei erfülltem `until`-Prädikat an. `tests/test_search_strategies.py`: 13 Tests. Mit einem geskripteten Expander für die Odd-Sum-Aufgabe (fehlschlagende Abkürzung, Sackgasse über starke Induktion, Induktionsbeweis aus F-11.04) erreichen Depth-First, Breadth-First, Best-First und A* (beide Heuristiken) den Status `VERIFIED` der Wurzel innerhalb von 30 Iterationen; Depth-First braucht wegen der Sackgasse mehr Schritte als Best-First. `tests/test_search_checkpoint.py` prüft Pause und Resume für jede Strategie. Testlauf ohne Lean-Image 894 passed, 55 skipped. ruff, ruff format und mypy (strict) ohne Befund. Abweichung: Der `SearchPolicy`-Contract (F-01.04) überträgt nur Zieltexte und Kandidaten, aber weder Tiefe noch Einfügereihenfolge, daher wählen die Strategien direkt in der Session. Die Anbindung über den Contract ist als F-08.12 erfasst. Der Lauf gegen Lean mit echten Modellvorschlägen folgt mit der Anbindung an den Orchestrator.
 
 Depth-First, Breadth-First und Best-First über den `SearchPolicy`-Contract, mit heuristischer Bewertung für Best-First. A* folgt, sobald eine Kostenschätzung existiert. Vor- und Nachteile laut ARCH §8.1 werden in der Konfiguration dokumentiert.
 
-- [ ] Depth-First, Breadth-First und Best-First lösen die Odd-Sum-Aufgabe innerhalb des Budgets.
-- [ ] A* ist mit einer dokumentierten Heuristik umgesetzt oder begründet zurückgestellt.
+- [x] Depth-First, Breadth-First und Best-First lösen die Odd-Sum-Aufgabe innerhalb des Budgets.
+- [x] A* ist mit einer dokumentierten Heuristik umgesetzt oder begründet zurückgestellt.
 
 ### F-08.04 Search Budget Controller
 
@@ -127,7 +128,7 @@ Lean-Fehler werden klassifiziert und je nach Fehlerklasse mit der Reaktion aus A
 
 ### F-08.08 Parallele Kandidaten und Beam Search
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-08.03
 - Quelle: ARCH §8.1, §8.2, §7.2 (Schritt 3); Seed-Prover in ARCH §2.1
 - Bearbeiter: offen · Nachweise: offen
@@ -171,3 +172,15 @@ Evolutionäre Suche für breite Variation von Strategien und Konstruktionen sowi
 
 - [ ] Ein Konstruktionsproblem wird mit evolutionärer Suche gelöst und formal geprüft.
 - [ ] Eine falsche Zwischenvermutung wird durch Counterexample-Guided Search verworfen.
+
+### F-08.12 Frontier-Strategien über den SearchPolicy-Contract
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Abhängigkeiten: F-08.03
+- Quelle: ARCH §8.1; F-01.04
+- Bearbeiter: offen · Nachweise: offen
+
+Beim Umsetzen von F-08.03 aufgefallen: `SelectRequest` enthält nur Zieltexte und Kandidaten. Tiefe, Einfügereihenfolge und Heuristikwerte fehlen, daher wählen die Strategien bisher direkt in `SearchSession`. Der Contract wird so erweitert, dass eine `SearchPolicy`, etwa ein Modell oder eine gelernte Value-Funktion, die Frontier ordnen kann, ohne dass sich die Ergebnisse der eingebauten Strategien ändern.
+
+- [ ] Die eingebauten Strategien sind als `SearchPolicy` verfügbar und liefern dieselbe Reihenfolge wie `pick()`.
+- [ ] Eine `SearchPolicy` lässt sich in `SearchSession` einsetzen; Pause und Resume bleiben deterministisch.

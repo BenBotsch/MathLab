@@ -41,7 +41,7 @@ Ein Abschnitt ohne Feature trägt einen Vermerk. „Referenz“ bedeutet Literat
 | §7.4 | Workflow D – Nachbearbeitung und Lernen | F-08.10, F-09.04, F-09.06, F-10.03, F-11.14, F-12.08, F-13.04 |  |
 | §7.5 | Workflow E – Widerlegungen | F-05.03, F-05.06, F-05.07, F-07.13 |  |
 | §8 | Proof Search und Suchsteuerung | F-08.01, F-08.02 |  |
-| §8.1 | Algorithmischer Vergleich | F-08.02, F-08.03, F-08.08, F-08.09, F-08.11 |  |
+| §8.1 | Algorithmischer Vergleich | F-08.02, F-08.03, F-08.08, F-08.09, F-08.11, F-08.12 |  |
 | §8.2 | Search Budget Controller | F-08.04, F-08.05, F-08.08, F-22.06 |  |
 | §9 | Trial-and-Error, Experimentdaten und Feedback | keine | Oberabschnitt, siehe Unterabschnitte |
 | §9.1 | ProofAttempt-Datenmodell | F-09.01, F-09.07 |  |
