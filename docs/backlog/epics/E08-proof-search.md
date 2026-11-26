@@ -26,7 +26,7 @@ Ein AND-Knoten gilt erst als gelöst, wenn alle Teilziele verifiziert sind. Ein 
 | F-08.04 | Search Budget Controller | `todo` | P0 | M1 |
 | F-08.05 | Checkpoint und Resume | `todo` | P0 | M1 |
 | F-08.06 | Zerlegung und Backtracking | `todo` | P1 | M2 |
-| F-08.07 | Reparatur und Strategiewechsel | `todo` | P1 | M2 |
+| F-08.07 | Reparatur und Strategiewechsel | `ready` | P1 | M2 |
 | F-08.08 | Parallele Kandidaten und Beam Search | `todo` | P1 | M2 |
 | F-08.09 | MCTS und HyperTree Proof Search | `todo` | P1 | M4 |
 | F-08.10 | Alternative Beweise und Methodendiversität | `todo` | P1 | M2 |
@@ -114,7 +114,7 @@ Zielzerlegung in Teilziele und Rückkehr zu früheren Zuständen, wenn ein Zweig
 
 ### F-08.07 Reparatur und Strategiewechsel
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-07.09, F-09.03
 - Quelle: ARCH §7.2 (Schritt 5), §9.3 (Spalte Reaktion); Kimina in ARCH §2.1
 - Bearbeiter: offen · Nachweise: offen

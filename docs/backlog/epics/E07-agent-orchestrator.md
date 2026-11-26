@@ -40,7 +40,7 @@ Kein Agent setzt einen Verifikationsstatus, `VERIFIED` stammt nur aus dem verifi
 | F-07.06 | Proof Planner | `todo` | P1 | M2 |
 | F-07.07 | Strategy Agents | `todo` | P1 | M2 |
 | F-07.08 | Symbolic Agent und Experimental Agent | `todo` | P1 | M2 |
-| F-07.09 | Verification Agent | `ready` | P0 | M1 |
+| F-07.09 | Verification Agent | `done` | P0 | M1 |
 | F-07.10 | Critic Agent und unabhängige Review | `ready` | P1 | M2 |
 | F-07.11 | Knowledge Agent und Premise Retriever | `todo` | P1 | M3 |
 | F-07.12 | Research Agent | `todo` | P2 | M6 |
@@ -212,14 +212,14 @@ Der Symbolic Agent steuert CAS, exakte Umformungen und symbolische Solver über 
 
 ### F-07.09 Verification Agent
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-07.03, F-04.04
 - Quelle: ARCH §6.2, §7.3
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `src/mathlab/verification_agent.py` mit `VerificationAgent`, einem Agenten für den Orchestrator (F-07.03). Er bildet aus der Übergabe des Tactic Generators (F-07.04) eine `ProofObligation` und prüft sie mit `check_obligation` aus E04 (F-04.08: Zielabgleich, `LeanChecker`, archiviertes `VerificationResult`). Das von E04 gelieferte Ereignis `proof.step.verified`, `lemma.verified` oder `proof.step.rejected` schreibt er unverändert. Seine Ergebnisnachricht nennt für `VERIFIED` die Ergebnis-ID aus diesem Ereignis; `messaging.adopt` übernimmt `VERIFIED` nur deshalb. Ein abgelehnter Beweis geht als `REPAIR`-Aufgabe an einen konfigurierten Reparatur-Agenten (F-08.07), sonst empfiehlt die Nachricht `repair`. `EngineUnavailableError` ist kein Urteil und lässt den Agenten `FAILED` enden. `tests/test_verification_agent.py` mit 7 Tests: Ereignis und gemeldete Ergebnis-ID stimmen mit dem Rückgabewert von `check_obligation` überein, das Archiv ist über `load_manifest` ladbar; Ablehnung mit Übergabe an die Reparatur; ein gefälschtes `VERIFIED` ohne E04-Ereignis wird zu `UNRESOLVED` herabgestuft; Ende-zu-Ende mit Tactic Generator und echtem `LeanChecker` auf Golden-Aufgabe g01. `ruff format`, `ruff check`, `mypy` ohne Befund. `pytest` mit Lean-Image und CLI: 808 passed, 30 skipped (Datenbank-, Sandbox- und SymPy-Image fehlen).
 
 Formuliert Beweispflichten, reicht sie an die Verification Engine weiter und leitet Fehler an den Reparatur-Workflow (F-08.07) zurück. Er setzt selbst keinen Status.
 
-- [ ] Verifikationsergebnisse stammen nachweislich aus E04.
+- [x] Verifikationsergebnisse stammen nachweislich aus E04.
 
 ### F-07.10 Critic Agent und unabhängige Review
 
