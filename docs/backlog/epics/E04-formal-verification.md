@@ -26,9 +26,9 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 | F-04.04 | Zielabgleich | `done` | P0 | M1 |
 | F-04.05 | Axiomreport und `sorry`-Prüfung | `done` | P0 | M1 |
 | F-04.06 | Unabhängige Nachprüfung | `ready` | P1 | M1 |
-| F-04.07 | Archiv der Verifikationsartefakte | `ready` | P0 | M1 |
+| F-04.07 | Archiv der Verifikationsartefakte | `done` | P0 | M1 |
 | F-04.08 | Prüfung einzelner Beweispflichten | `ready` | P0 | M1 |
-| F-04.09 | Verifikations-Cache und Revalidierung | `todo` | P1 | M2 |
+| F-04.09 | Verifikations-Cache und Revalidierung | `ready` | P1 | M2 |
 | F-04.10 | Rekonstruktion externer Ergebnisse | `todo` | P1 | M2 |
 | F-04.11 | Spike Lean-Interaktionsschicht | `done` | P0 | M1 |
 | F-04.12 | Kontrolliert äquivalente Zielform | `todo` | P1 | M2 |
@@ -110,15 +110,15 @@ Verifizierte Beweise werden zusätzlich mit `lean4checker --fresh` oder dem jewe
 
 ### F-04.07 Archiv der Verifikationsartefakte
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-04.05, F-02.07
 - Quelle: ARCH §7.3 (Schritt 6)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: `src/mathlab/engines/verification_archive.py` (`archive_check`, `load_manifest`, `reproduce`, `VerificationManifest`), `LeanChecker.check_outcome` und `CheckOutcome` in `src/mathlab/engines/lean_check.py`, neues Feld `VerificationResult.archive_artifact` (Schema `schemas/core/VerificationResult.schema.json` neu erzeugt). Pro Prüfung entstehen vier content-addressed Artefakte (ADR-0006): kompilierte Lean-Quelle, Log mit Exitcode, stdout und stderr, Axiomreport und ein Manifest. Das Manifest nennt die bestätigte Zielaussage mit Hash, Toolchain, Prüferversion, Image, optional die Docker-Image-ID, Sandbox-Limits, Axiompolitik, Marker und den Environment-Fingerprint. `proof_artifact` zeigt auf die Quelle, `archive_artifact` auf das Manifest. Tests in `tests/test_verification_archive.py` (7, davon 1 gegen den Container). Am 2026-11-26: `ruff format --check` und `ruff check` ohne Befund, `mypy` (strict, 80 Dateien) ohne Befund, `pytest` mit Lean-Image 721 bestanden und 30 übersprungen (ohne Datenbank, Sandbox- und SymPy-Image). Annahme: Image-ID und Environment-Fingerprint liefert der Aufrufer (`docker_image_id`, `collect_environment`), weil der Prüfer keinen Repository-Kontext hat. Die Verknüpfung über Events folgt mit dem Verification Agent (F-07.09).
 
 Beweisquelle, Axiomreport, Log und Fingerprints werden als Artefakte gespeichert und mit dem `VerificationResult` verknüpft.
 
-- [ ] Jedes `VerificationResult` verweist auf vollständige Artefakte.
-- [ ] Aus den Artefakten lässt sich die Prüfung reproduzieren.
+- [x] Jedes `VerificationResult` verweist auf vollständige Artefakte. `archive_check` erzeugt das Ergebnis nur zusammen mit dem Archiv. `load_manifest` prüft, dass alle genannten Artefakte existieren und zu ihrem Hash passen, und weist ein fremdes oder verändertes Archiv ab.
+- [x] Aus den Artefakten lässt sich die Prüfung reproduzieren. `reproduce` kompiliert die archivierte Quelle mit den protokollierten Einstellungen neu. Im Container ergibt der Beweis von `n + 0 = n` erneut einen gültigen Schritt mit denselben Axiomen.
 
 ### F-04.08 Prüfung einzelner Beweispflichten
 
@@ -134,7 +134,7 @@ Teilziele und Lemmata werden unabhängig vom Gesamterfolg geprüft. Ergebnis ist
 
 ### F-04.09 Verifikations-Cache und Revalidierung
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-04.07
 - Quelle: ARCH §18.4
 - Bearbeiter: offen · Nachweise: offen

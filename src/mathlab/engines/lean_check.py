@@ -122,6 +122,23 @@ class AxiomReport(_Model):
         return not self.rejected
 
 
+class CheckOutcome(_Model):
+    """Everything one check saw, so it can be archived and repeated (F-04.07)."""
+
+    target: ConfirmedStatement
+    request: VerifyRequest
+    """The request as checked, with the confirmed statement as ``lean_code``."""
+    image: str
+    limits: SandboxLimits
+    policy: AxiomPolicy
+    marker: str
+    source: str
+    """The exact file Lean compiled."""
+    result: SandboxResult
+    response: VerifyResponse
+    axioms: AxiomReport | None
+
+
 def theorem_name(lean_code: str) -> str:
     """Name of the theorem declared by ``lean_code``.
 
@@ -279,12 +296,15 @@ class LeanChecker:
     async def check(
         self, request: VerifyRequest, ctx: RequestContext
     ) -> tuple[VerifyResponse, AxiomReport | None]:
-        """Like ``verify``, plus the axiom report for the archive (F-04.07)."""
+        """Like ``verify``, plus the axiom report."""
+        outcome = await self.check_outcome(request, ctx)
+        return outcome.response, outcome.axioms
+
+    async def check_outcome(self, request: VerifyRequest, ctx: RequestContext) -> CheckOutcome:
+        """Like ``verify``, plus source, raw output and settings for the archive (F-04.07)."""
         return await call_engine(asyncio.to_thread(self._run, request, ctx), ctx)
 
-    def _run(
-        self, request: VerifyRequest, ctx: RequestContext
-    ) -> tuple[VerifyResponse, AxiomReport | None]:
+    def _run(self, request: VerifyRequest, ctx: RequestContext) -> CheckOutcome:
         target = None if self._targets is None else self._targets(request.statement_id)
         mismatches = goal_mismatches(request, target)
         if target is None or mismatches:
@@ -311,7 +331,18 @@ class LeanChecker:
         if result.failure_class is FailureClass.RESOURCE_EXHAUSTION:
             raise EngineTimeoutError("lean exceeded its sandbox limits", trace_id=ctx.trace_id)
         report = parse_axiom_report(result.stdout, marker, name, self._policy)
-        return response_from(result, self._info, report, require_axioms=True), report
+        return CheckOutcome(
+            target=target,
+            request=trusted,
+            image=self._image,
+            limits=limits,
+            policy=self._policy,
+            marker=marker,
+            source=source,
+            result=result,
+            response=response_from(result, self._info, report, require_axioms=True),
+            axioms=report,
+        )
 
 
 __all__ = [
@@ -323,6 +354,7 @@ __all__ = [
     "TOOLCHAIN",
     "AxiomPolicy",
     "AxiomReport",
+    "CheckOutcome",
     "LeanChecker",
     "TargetLookup",
     "classify_axioms",

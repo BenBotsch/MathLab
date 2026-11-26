@@ -117,6 +117,8 @@ class VerificationResult(Entity):
     unresolved_goals: int = Field(ge=0)
     messages: tuple[str, ...] = ()
     proof_artifact: ArtifactRef | None = None
+    archive_artifact: ArtifactRef | None = None
+    """Manifest of all verification artifacts (source, log, axiom report, fingerprints; F-04.07)."""
 
 
 class Lemma(Entity):

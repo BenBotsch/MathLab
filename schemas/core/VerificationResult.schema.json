@@ -2,6 +2,18 @@
   "additionalProperties": false,
   "description": "Raw outcome reported by a trusted checker for one artifact.\n\nThe verification status derived from it is a separate type (F-01.07); this DTO only records\nwhat the checker reported.",
   "properties": {
+    "archive_artifact": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Archive Artifact"
+    },
     "attempt_id": {
       "anyOf": [
         {
