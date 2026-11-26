@@ -32,6 +32,8 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 | F-04.10 | Rekonstruktion externer Ergebnisse | `ready` | P1 | M2 |
 | F-04.11 | Spike Lean-Interaktionsschicht | `done` | P0 | M1 |
 | F-04.12 | Kontrolliert äquivalente Zielform | `todo` | P1 | M2 |
+| F-04.13 | Von Lean unabhängiger Kernel-Checker | `todo` | P1 | M2 |
+| F-04.14 | Reproduktion mit Nachprüfung | `todo` | P1 | M2 |
 
 ## Features
 
@@ -182,3 +184,27 @@ Der Zielabgleich (F-04.04) akzeptiert bisher nur die exakt bestätigte Aussage. 
 
 - [ ] Ein Beweis einer äquivalenten Form mit geprüftem Äquivalenzbeweis wird akzeptiert und verweist auf diesen Nachweis.
 - [ ] Ohne Äquivalenzbeweis oder mit nur einseitiger Implikation wird die Form abgelehnt.
+
+### F-04.13 Von Lean unabhängiger Kernel-Checker
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Abhängigkeiten: F-04.06
+- Quelle: ARCH §7.3 (Schritt 4), §13.2; Lean-Dokumentation „Validating a Lean Proof“
+- Bearbeiter: offen · Nachweise: offen
+
+Bei hohem Schutzbedarf wird ein verifizierter Beweis zusätzlich von einem Kernel geprüft, der nicht aus dem Lean-Code stammt, etwa `nanoda` oder `lean4lean`. Die Werkzeugwahl folgt der aktuellen Lean-Dokumentation und wird als ADR festgehalten. F-04.06 nutzt bisher nur `leanchecker` aus der Lean-Toolchain.
+
+- [ ] Ein Beweis mit Schutzbedarf „hoch“ wird zusätzlich vom unabhängigen Checker geprüft, das Ergebnis steht im Archiv.
+- [ ] Lehnt der unabhängige Checker ab, ist der Beweis nicht `VERIFIED`.
+
+### F-04.14 Reproduktion mit Nachprüfung
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Abhängigkeiten: F-04.06, F-04.07
+- Quelle: ARCH §7.3 (Schritte 4 und 6)
+- Bearbeiter: offen · Nachweise: offen
+
+`reproduce` (F-04.07) wiederholt bisher nur die erste Lean-Prüfung. Die Reproduktion führt künftig auch die archivierte Nachprüfung mit demselben Modus (`fresh` oder nicht) erneut aus und vergleicht beide Ergebnisse.
+
+- [ ] Die Reproduktion eines archivierten Beweises meldet das Ergebnis der erneuten Nachprüfung.
+- [ ] Ein abweichendes Nachprüfergebnis ist im Rückgabewert erkennbar.

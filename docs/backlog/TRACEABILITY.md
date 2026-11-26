@@ -37,7 +37,7 @@ Ein Abschnitt ohne Feature trägt einen Vermerk. „Referenz“ bedeutet Literat
 | §7 | End-to-End-Workflows | keine | Oberabschnitt, siehe Unterabschnitte |
 | §7.1 | Workflow A – Problemaufnahme | F-03.01, F-03.02, F-03.03, F-03.04, F-03.05, F-03.06, F-03.09 |  |
 | §7.2 | Workflow B – Strategische Exploration | F-04.08, F-06.06, F-07.03, F-07.04, F-07.07, F-07.11, F-08.06, F-08.07, F-08.08, F-10.03 |  |
-| §7.3 | Workflow C – Verifikation | F-04.01, F-04.03, F-04.04, F-04.05, F-04.06, F-04.07, F-07.09 |  |
+| §7.3 | Workflow C – Verifikation | F-04.01, F-04.03, F-04.04, F-04.05, F-04.06, F-04.07, F-04.13, F-04.14, F-07.09 |  |
 | §7.4 | Workflow D – Nachbearbeitung und Lernen | F-08.10, F-09.04, F-09.06, F-10.03, F-11.14, F-12.08, F-13.04 |  |
 | §7.5 | Workflow E – Widerlegungen | F-05.03, F-05.06, F-05.07, F-07.13 |  |
 | §8 | Proof Search und Suchsteuerung | F-08.01, F-08.02 |  |
@@ -65,7 +65,7 @@ Ein Abschnitt ohne Feature trägt einen Vermerk. „Referenz“ bedeutet Literat
 | §12.3 | Counterexample-Guided Reasoning | F-05.03, F-05.06, F-05.07 |  |
 | §13 | Formale Beweise und Vertrauensgrenzen | keine | Oberabschnitt, siehe Unterabschnitte |
 | §13.1 | Lean als Trusted Checker | F-04.04 |  |
-| §13.2 | Maßnahmen | F-01.03, F-03.05, F-04.04, F-04.05, F-04.06, F-04.10, F-04.12, F-05.02 |  |
+| §13.2 | Maßnahmen | F-01.03, F-03.05, F-04.04, F-04.05, F-04.06, F-04.10, F-04.12, F-04.13, F-05.02 |  |
 | §14 | Erklärung, Visualisierung und Benutzeroberfläche | keine | Oberabschnitt, siehe Unterabschnitte |
 | §14.1 | Hauptansichten | F-13.10, F-15.05, F-18.07, F-19.10, F-21.05, F-21.06, F-21.07, F-21.09 |  |
 | §14.2 | Visualisierungstechnologien | F-13.07, F-13.08, F-13.09 |  |

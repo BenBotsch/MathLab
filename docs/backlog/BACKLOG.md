@@ -4,11 +4,11 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-264 Features in 26 Epics. Erledigt sind 42 von 264.
+266 Features in 26 Epics. Erledigt sind 42 von 266.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 196 |
+| `todo` | 198 |
 | `ready` | 26 |
 | `in-progress` | 0 |
 | `review` | 0 |
@@ -26,7 +26,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E01 | [Core-Domänenmodell und Contracts](epics/E01-core-domaenenmodell.md) | M1 | 7 | 0 | 0 | `done` | 7/7 |
 | E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 2 | 0 | `in-progress` | 8/10 |
 | E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 4 | 5 | 1 | `in-progress` | 2/10 |
-| E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 4 | 0 | `in-progress` | 9/12 |
+| E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 6 | 0 | `in-progress` | 9/14 |
 | E05 | [Symbolik, SMT, Numerik und Widerlegung](epics/E05-symbolik-smt-numerik.md) | M1, Ausbau M2, M5 und M6 | 3 | 4 | 2 | `in-progress` | 3/9 |
 | E06 | [Strategy Engine und Beweismethodenkatalog](epics/E06-strategy-engine.md) | M2, Ausbau M3 und M4 | 3 | 3 | 0 | `todo` | 0/6 |
 | E07 | [Agent Orchestrator und Multiagentensystem](epics/E07-agent-orchestrator.md) | M1, Ausbau M2 bis M6 | 6 | 8 | 2 | `in-progress` | 1/16 |
@@ -99,7 +99,7 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
 | [M1](ROADMAP.md#m1) | 66 | 49 | 17 | 0 |
-| [M2](ROADMAP.md#m2) | 67 | 9 | 56 | 2 |
+| [M2](ROADMAP.md#m2) | 69 | 9 | 58 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |
 | [M5](ROADMAP.md#m5) | 16 | 1 | 7 | 8 |
