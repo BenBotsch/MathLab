@@ -137,6 +137,24 @@ class Decision(_Frozen):
     branch_id: UUID | None = None
 
 
+class BranchUsage(_Frozen):
+    branch_id: UUID
+    usage: Usage | None
+    """``None`` if the branch was never charged."""
+    method_switches: int = Field(default=0, ge=0)
+    lemmas_retrieved: bool = False
+
+
+class BudgetState(_Frozen):
+    """Serializable state of the controller for checkpoints (F-08.05)."""
+
+    limits: SearchLimits
+    branches: tuple[BranchUsage, ...]
+    total: Usage
+    runtime_seconds: float = Field(ge=0)
+    increases: int = Field(ge=0)
+
+
 class SearchBudgetController:
     """Charges consumption per branch and decides the next control action."""
 
@@ -151,6 +169,40 @@ class SearchBudgetController:
         self.increases = 0
         self._switches: dict[UUID, int] = {}
         self._retrieved: set[UUID] = set()
+
+    def snapshot(self) -> BudgetState:
+        ids = sorted(self._branches.keys() | self._switches.keys() | self._retrieved, key=str)
+        return BudgetState(
+            limits=self.limits,
+            branches=tuple(
+                BranchUsage(
+                    branch_id=b,
+                    usage=self._branches.get(b),
+                    method_switches=self._switches.get(b, 0),
+                    lemmas_retrieved=b in self._retrieved,
+                )
+                for b in ids
+            ),
+            total=self._total,
+            runtime_seconds=self._runtime,
+            increases=self.increases,
+        )
+
+    @classmethod
+    def restore(
+        cls, state: BudgetState, emit: Callable[[BudgetUpdated], None] = lambda _: None
+    ) -> "SearchBudgetController":
+        """The controller of ``state``; restoring emits nothing."""
+        c = cls(state.limits, emit)
+        for b in state.branches:
+            if b.usage is not None:
+                c._branches[b.branch_id] = b.usage
+            if b.method_switches:
+                c._switches[b.branch_id] = b.method_switches
+            if b.lemmas_retrieved:
+                c._retrieved.add(b.branch_id)
+        c._total, c._runtime, c.increases = state.total, state.runtime_seconds, state.increases
+        return c
 
     # -- consumption ---------------------------------------------------------------------------
 
@@ -245,6 +297,8 @@ class SearchBudgetController:
 
 
 __all__ = [
+    "BranchUsage",
+    "BudgetState",
     "ControlAction",
     "Decision",
     "SearchBudgetController",

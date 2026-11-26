@@ -24,7 +24,7 @@ Ein AND-Knoten gilt erst als gelöst, wenn alle Teilziele verifiziert sind. Ein 
 | F-08.02 | AND-OR-Hypergraph | `done` | P0 | M1 |
 | F-08.03 | Tiefen-, Breiten-, Best-First- und A*-Suche | `todo` | P0 | M1 |
 | F-08.04 | Search Budget Controller | `done` | P0 | M1 |
-| F-08.05 | Checkpoint und Resume | `ready` | P0 | M1 |
+| F-08.05 | Checkpoint und Resume | `done` | P0 | M1 |
 | F-08.06 | Zerlegung und Backtracking | `todo` | P1 | M2 |
 | F-08.07 | Reparatur und Strategiewechsel | `ready` | P1 | M2 |
 | F-08.08 | Parallele Kandidaten und Beam Search | `todo` | P1 | M2 |
@@ -92,14 +92,14 @@ Budgetänderungen erzeugen `budget.updated`.
 
 ### F-08.05 Checkpoint und Resume
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-08.02, F-02.06
 - Quelle: ARCH §8.2, §19 (Phase 2, pausierbar und wiederaufnehmbar); UI §10.1
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `src/mathlab/search_checkpoint.py` mit `SearchSession`: eine Suche mit Seed, die jeden Schritt als Events in den Hypergraphen aus F-08.02 schreibt (`proof.goal.created`, `proof.expansion.created`, `proof.step.verified` mit Prüfergebnis, `proof.step.rejected`). Der Graph steckt nicht im Checkpoint, sondern wird aus dem Eventlog neu aufgebaut. `SearchCheckpoint` (Formatversion 1, JSON-serialisierbar) enthält Frontier, Zustand des Zufallsgenerators, Schrittzahl und den Zustand des Budget Controllers; dafür hat `SearchBudgetController` jetzt `snapshot()` und `restore()`. `pause()` schreibt `run.paused`, `resume()` schreibt `run.resumed`, eine fremde Formatversion wird abgewiesen. `tests/test_search_checkpoint.py`: 37 Tests; für 8 Seeds und 4 Pausenpunkte ergibt Pause, Serialisierung und Resume dieselben Suchevents und denselben Graph wie ein ununterbrochener Lauf, ebenso bei einer Pause nach jedem zweiten Schritt. Testlauf ohne Lean-Image 877 passed, 55 skipped. ruff, ruff format und mypy (strict) ohne Befund. Annahme: Der Expander ist bei gleichem Ziel und Generatorzustand deterministisch; für Modelle gilt das mit dem aufgezeichneten Replay. Die Wahl des nächsten Ziels ist zufällig mit Seed; die Suchstrategien kommen mit F-08.03. Die Ablage der Checkpoints und die Anbindung an den Orchestrator sind noch nicht umgesetzt.
 
 Suche kann pausiert und aus einem Snapshot fortgesetzt werden, ohne Zustand zu verlieren.
 
-- [ ] Pause und Resume ergeben denselben Graph wie ein ununterbrochener Lauf mit gleichem Seed.
+- [x] Pause und Resume ergeben denselben Graph wie ein ununterbrochener Lauf mit gleichem Seed.
 
 ### F-08.06 Zerlegung und Backtracking
 
