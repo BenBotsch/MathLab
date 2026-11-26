@@ -6,6 +6,10 @@ validated on construction, so a statement whose content does not match its hash 
 Changing a confirmed statement is impossible; ``revise`` creates a new version with a new hash
 that points to its predecessor. Full provenance follows in F-01.05.
 
+Both ``confirm`` and ``revise`` require an approved ``FidelityReview`` of exactly the new content
+(F-03.05), so a formalisation without approval gets no target hash. The review ID is recorded in
+``fidelity_review_id``. Direct construction stays possible for loading stored statements.
+
 The hash is SHA-256 over canonical JSON (sorted keys, no whitespace, UTF-8) and therefore depends
 only on content, never on process, platform or ``PYTHONHASHSEED``.
 """
@@ -18,6 +22,7 @@ from uuid import UUID
 from pydantic import AwareDatetime, Field, model_validator
 
 from mathlab.core.entities import Entity, FormalStatement
+from mathlab.core.fidelity import FidelityReview, require_approval
 
 HASH_PREFIX = "sha256:"
 HASH_SCHEME_VERSION = 1
@@ -66,6 +71,8 @@ class ConfirmedStatement(Entity):
     supersedes_id: UUID | None = None
     """Predecessor version, ``None`` for the first confirmation."""
     change_reason: str | None = None
+    fidelity_review_id: UUID | None = None
+    """Approved review that allowed this version; set by ``confirm`` and ``revise``."""
 
     @model_validator(mode="after")
     def _hash_matches_content(self) -> Self:
@@ -87,9 +94,21 @@ class ConfirmedStatement(Entity):
 
     @classmethod
     def confirm(
-        cls, draft: FormalStatement, *, id: UUID, created_at: AwareDatetime, toolchain: str
+        cls,
+        draft: FormalStatement,
+        *,
+        review: FidelityReview | None,
+        id: UUID,
+        created_at: AwareDatetime,
+        toolchain: str,
     ) -> Self:
-        """Confirm a draft formal statement as the immutable target."""
+        """Confirm a draft formal statement as the immutable target.
+
+        Raises:
+            FidelityError: Without an approved review of exactly this content.
+        """
+        new_hash = statement_hash(draft.lean_code, draft.imports, toolchain)
+        approved = require_approval(review, formal_statement_id=draft.id, statement_hash=new_hash)
         return cls(
             id=id,
             version=1,
@@ -99,7 +118,8 @@ class ConfirmedStatement(Entity):
             lean_code=draft.lean_code,
             imports=draft.imports,
             toolchain=toolchain,
-            statement_hash=statement_hash(draft.lean_code, draft.imports, toolchain),
+            statement_hash=new_hash,
+            fidelity_review_id=approved.id,
         )
 
     def revise(
@@ -108,6 +128,7 @@ class ConfirmedStatement(Entity):
         id: UUID,
         created_at: AwareDatetime,
         reason: str,
+        review: FidelityReview | None,
         lean_code: str | None = None,
         imports: tuple[str, ...] | None = None,
         toolchain: str | None = None,
@@ -116,6 +137,7 @@ class ConfirmedStatement(Entity):
 
         Raises:
             ImmutableStatementError: If the revision would not change the hash.
+            FidelityError: Without an approved review of exactly the new content.
         """
         code = self.lean_code if lean_code is None else lean_code
         imps = self.imports if imports is None else imports
@@ -123,6 +145,9 @@ class ConfirmedStatement(Entity):
         new_hash = statement_hash(code, imps, chain)
         if new_hash == self.statement_hash:
             raise ImmutableStatementError("revision does not change the statement")
+        approved = require_approval(
+            review, formal_statement_id=self.formal_statement_id, statement_hash=new_hash
+        )
         return type(self)(
             id=id,
             version=self.version + 1,
@@ -135,6 +160,7 @@ class ConfirmedStatement(Entity):
             statement_hash=new_hash,
             supersedes_id=self.id,
             change_reason=reason,
+            fidelity_review_id=approved.id,
         )
 
 

@@ -112,7 +112,7 @@ Der Wissensgraph aus UI Stufe 2 entsteht in M2 nur als Vorstufe. Sein vollständ
 | --- | --- | --- | --- |
 | [E00](epics/E00-projektfundament.md) | keine | F-00.06 | keine |
 | [E02](epics/E02-event-sourcing-persistenz.md) | keine | F-02.09, F-02.10 | keine |
-| [E03](epics/E03-problem-engine.md) | keine | F-03.04, F-03.06, F-03.07, F-03.08 | keine |
+| [E03](epics/E03-problem-engine.md) | keine | F-03.04, F-03.06, F-03.07, F-03.08, F-03.11 | keine |
 | [E04](epics/E04-formal-verification.md) | keine | F-04.09, F-04.10, F-04.12, F-04.13, F-04.14, F-04.15, F-04.16 | keine |
 | [E05](epics/E05-symbolik-smt-numerik.md) | keine | F-05.03, F-05.04, F-05.05, F-05.06 | keine |
 | [E06](epics/E06-strategy-engine.md) | F-06.01, F-06.02, F-06.03 | F-06.05, F-06.06 | keine |

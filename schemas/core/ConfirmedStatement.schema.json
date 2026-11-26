@@ -19,6 +19,19 @@
       "title": "Created At",
       "type": "string"
     },
+    "fidelity_review_id": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Fidelity Review Id"
+    },
     "formal_statement_id": {
       "format": "uuid",
       "title": "Formal Statement Id",

@@ -24,12 +24,13 @@ Die Originalaussage wird unverändert archiviert. Eine Formalisierung gilt erst 
 | F-03.02 | Kanonische Darstellung | `done` | P0 | M1 |
 | F-03.03 | Mehrdeutigkeit protokollieren | `ready` | P1 | M1 |
 | F-03.04 | Autoformalisierung | `todo` | P1 | M2 |
-| F-03.05 | Prüfung der Statement Fidelity | `ready` | P0 | M1 |
+| F-03.05 | Prüfung der Statement Fidelity | `done` | P0 | M1 |
 | F-03.06 | Problem Classifier | `ready` | P1 | M2 |
 | F-03.07 | AST-Normalisierung und Fingerprints | `ready` | P1 | M2 |
 | F-03.08 | Problemvarianten | `todo` | P1 | M2 |
 | F-03.09 | Import von Papers und Datensätzen | `todo` | P2 | M5 |
 | F-03.10 | Ereignis für Versionen der kanonischen Darstellung | `todo` | P1 | M1 |
+| F-03.11 | Automatische Fidelity-Prüfung | `todo` | P1 | M2 |
 
 ## Features
 
@@ -82,15 +83,15 @@ Ein Modell erzeugt aus der kanonischen Darstellung eine Lean-Kandidatenaussage, 
 
 ### F-03.05 Prüfung der Statement Fidelity
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-03.02
 - Quelle: ARCH §7.1 (Schritt 5), §13.2, §21; SemantEq in ARCH §2.3
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `src/mathlab/core/fidelity.py` mit `FidelityReview`, Checkliste `CHECKLIST` (Variablen und Typen, Quantoren, Voraussetzungen, Ziel, Geltungsbereich, Ausnahmen, keine triviale Beweisbarkeit) und `require_approval`. `ConfirmedStatement.confirm` und `revise` verlangen eine freigebende Prüfung genau des neuen Inhalts (Formalisierungs-ID und Statement-Hash) und tragen ihre ID in `fidelity_review_id`. Ohne Prüfung, bei abgelehntem Punkt oder bei geändertem Inhalt entsteht kein Ziel-Hash (`FidelityError`). Eine Ablehnung braucht eine Begründung. Schema `schemas/core/ConfirmedStatement.schema.json` neu erzeugt. `tests/core/test_fidelity.py` mit 9 Tests, `tests/core/test_target.py` angepasst. `ruff format`, `ruff check`, `mypy` ohne Befund. `pytest` mit `MATHLAB_TEST_LEAN_IMAGE=mathlab-lean:latest`: 757 passed, 30 skipped (Datenbank-, Sandbox- und SymPy-Image fehlen). Das M2-Kriterium (automatische Erkennung einer Abschwächung als `SEMANTIC_MISMATCH`, zweite Formalisierung) ist nach F-03.11 verschoben.
 
 Die formale Aussage wird gegen die Originalaussage geprüft. In M1 genügt eine menschliche Freigabe mit Checkliste. In M2 kommen eine zweite unabhängige Formalisierung und eine automatische Prüfung auf Abschwächung hinzu.
 
-- [ ] Ohne Freigabe erhält eine Formalisierung keinen Ziel-Hash.
-- [ ] Eine abgeschwächte Testformalisierung wird als `SEMANTIC_MISMATCH` erkannt (M2-Kriterium).
+- [x] Ohne Freigabe erhält eine Formalisierung keinen Ziel-Hash.
+- Das M2-Kriterium (abgeschwächte Testformalisierung als `SEMANTIC_MISMATCH`) steht in F-03.11.
 
 ### F-03.06 Problem Classifier
 
@@ -148,3 +149,15 @@ Import mathematischer Dokumente, Datensätze und Simulationsmodelle. Externe Inh
 F-03.02 versioniert die kanonische Darstellung im Modell. Damit Versionen im Event Store landen und wiederhergestellt werden können, fehlt ein Ereignis wie `problem.canonicalized` samt Projektion.
 
 - [ ] Jede neue Version erzeugt ein Ereignis, und die Projektion liefert die aktuelle und jede frühere Version.
+
+### F-03.11 Automatische Fidelity-Prüfung
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Abhängigkeiten: F-03.05, F-03.04
+- Quelle: ARCH §7.1 (Schritt 5), §13.2, §21; SemantEq in ARCH §2.3; aus F-03.05 abgetrennt
+- Bearbeiter: offen · Nachweise: offen
+
+F-03.05 deckt in M1 die menschliche Freigabe mit Checkliste ab. In M2 kommen eine zweite unabhängige Formalisierung und eine automatische Prüfung auf Abschwächung hinzu. Ihr Ergebnis ergänzt die menschliche Prüfung und ersetzt sie nicht.
+
+- [ ] Eine abgeschwächte Testformalisierung wird als `SEMANTIC_MISMATCH` erkannt.
+- [ ] Weichen zwei unabhängige Formalisierungen voneinander ab, wird die Abweichung der Prüfung vorgelegt.

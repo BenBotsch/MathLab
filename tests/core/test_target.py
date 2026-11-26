@@ -9,6 +9,7 @@ import pytest
 from pydantic import ValidationError
 
 from mathlab.core.entities import FormalStatement
+from mathlab.core.fidelity import CHECKLIST, FidelityReview
 from mathlab.core.target import (
     ConfirmedStatement,
     ImmutableStatementError,
@@ -33,8 +34,22 @@ def draft() -> FormalStatement:
     )
 
 
+def review(code: str = CODE) -> FidelityReview:
+    return FidelityReview(
+        id=UUID(int=99),
+        version=1,
+        created_at=NOW,
+        formal_statement_id=ID1,
+        statement_hash=statement_hash(code, IMPORTS, CHAIN),
+        reviewer="reviewer-1",
+        checklist=dict.fromkeys(CHECKLIST, True),
+    )
+
+
 def confirmed() -> ConfirmedStatement:
-    return ConfirmedStatement.confirm(draft(), id=ID3, created_at=NOW, toolchain=CHAIN)
+    return ConfirmedStatement.confirm(
+        draft(), review=review(), id=ID3, created_at=NOW, toolchain=CHAIN
+    )
 
 
 def test_confirm_sets_hash_and_links_draft() -> None:
@@ -80,7 +95,9 @@ def test_json_round_trip() -> None:
 def test_revise_creates_new_version_with_new_hash() -> None:
     target = confirmed()
     new_code = CODE.replace("sorry", "induction n <;> simp_all")
-    revised = target.revise(id=ID2, created_at=NOW, reason="replace sorry", lean_code=new_code)
+    revised = target.revise(
+        id=ID2, created_at=NOW, reason="replace sorry", review=review(new_code), lean_code=new_code
+    )
     assert revised.version == target.version + 1
     assert revised.statement_hash == statement_hash(new_code, IMPORTS, CHAIN)
     assert revised.statement_hash != target.statement_hash
@@ -90,7 +107,9 @@ def test_revise_creates_new_version_with_new_hash() -> None:
 
 def test_revise_without_semantic_change_fails() -> None:
     with pytest.raises(ImmutableStatementError):
-        confirmed().revise(id=ID2, created_at=NOW, reason="noop", lean_code=CODE + "  \n")
+        confirmed().revise(
+            id=ID2, created_at=NOW, reason="noop", review=review(), lean_code=CODE + "  \n"
+        )
 
 
 def test_revision_fields_must_come_together() -> None:
