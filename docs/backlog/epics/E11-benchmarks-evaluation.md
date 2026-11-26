@@ -22,8 +22,8 @@ Vergleiche laufen immer mit denselben Ressourcenbudgets, Toolchains und Solverli
 | --- | --- | --- | --- | --- |
 | F-11.01 | Golden-Problemliste für M1 ausarbeiten | `done` | P0 | M1 |
 | F-11.02 | Betriebsmodi durchsetzen | `todo` | P0 | M1 |
-| F-11.03 | Golden-Suite-Runner und Regressionsgate | `todo` | P0 | M1 |
-| F-11.04 | Referenzbeispiel Summe ungerader Zahlen | `todo` | P0 | M1 |
+| F-11.03 | Golden-Suite-Runner und Regressionsgate | `ready` | P0 | M1 |
+| F-11.04 | Referenzbeispiel Summe ungerader Zahlen | `ready` | P0 | M1 |
 | F-11.05 | Spezialtests | `todo` | P1 | M2 |
 | F-11.06 | Externe Benchmarks miniF2F, ProofNet und PutnamBench | `todo` | P1 | M2 |
 | F-11.07 | Discover-and-Prove-Trennung | `todo` | P1 | M2 |
@@ -74,7 +74,7 @@ M1 setzt `BLIND_REDISCOVERY` und `ASSISTED_REDISCOVERY` durch, `ALTERNATIVE_PROO
 
 ### F-11.03 Golden-Suite-Runner und Regressionsgate
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-11.01, F-09.05, F-07.04
 - Quelle: ARCH §16.2, §21.1 (Golden-Benchmark-Smoke-Tests, Regressionen), §22 (Schritt 6)
 - Bearbeiter: offen · Nachweise: offen
@@ -86,7 +86,7 @@ Führt die Golden Suite mit festem Budget aus und misst Pass@k, Kosten, Laufzeit
 
 ### F-11.04 Referenzbeispiel Summe ungerader Zahlen
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1, Ausbau M2 und M5
+- Status: `ready` · Priorität: P0 · Meilenstein: M1, Ausbau M2 und M5
 - Abhängigkeiten: F-11.01, F-07.04, F-04.04
 - Quelle: ARCH §15, §19 (Phase 1, Akzeptanz); UI §3.3
 - Bearbeiter: offen · Nachweise: offen

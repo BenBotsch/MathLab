@@ -50,6 +50,19 @@ from mathlab.core.status import AgentStatus
 from mathlab.messaging import VerificationResults, adopt
 from mathlab.storage.events import EventDraft
 
+ORCHESTRATOR_EVENTS = frozenset(
+    {
+        "agent.started",
+        "agent.status.changed",
+        "agent.result.reported",
+        "budget.updated",
+        "run.paused",
+        "run.resumed",
+        "run.completed",
+    }
+)
+"""Event types only the orchestrator writes; agents use ``AgentContext.emit`` for the rest."""
+
 
 class EventSink(Protocol):
     """Where the orchestrator writes events; ``PostgresEventStore`` satisfies it."""
@@ -106,6 +119,16 @@ class AgentContext:
     def hand_back(self, task: AgentTask) -> None:
         """Queue a follow-up task for the orchestrator to assign (ARCH §6.4)."""
         self._orchestrator._enqueue(task.model_copy(update={"parent_task_id": self.task.task_id}))
+
+    def emit(self, type_: str, payload: Payload) -> None:
+        """Write an event of this agent's work, e.g. ``proof.step.proposed``.
+
+        Raises:
+            ValueError: For an event type the orchestrator writes itself.
+        """
+        if type_ in ORCHESTRATOR_EVENTS:
+            raise ValueError(f"{type_} is written by the orchestrator, not by an agent")
+        self._orchestrator._emit(type_, payload, agent_id=self.task.agent_id)
 
     def record_model_call(self, tokens: int | None) -> None:
         """Count one model call against the run budget; ``None`` means tokens not reported."""
@@ -363,6 +386,7 @@ class Orchestrator:
 
 
 __all__ = [
+    "ORCHESTRATOR_EVENTS",
     "Agent",
     "AgentContext",
     "AgentStoppedError",

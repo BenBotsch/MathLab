@@ -35,13 +35,13 @@ Kein Agent setzt einen Verifikationsstatus, `VERIFIED` stammt nur aus dem verifi
 | F-07.01 | Model Adapter | `done` | P0 | M1 |
 | F-07.02 | Typisierte Agentennachrichten | `done` | P0 | M1 |
 | F-07.03 | Orchestrator-Kern | `done` | P0 | M1 |
-| F-07.04 | Tactic Generator | `ready` | P0 | M1 |
+| F-07.04 | Tactic Generator | `done` | P0 | M1 |
 | F-07.05 | Koordination und Isolation | `todo` | P0 | M1 |
 | F-07.06 | Proof Planner | `todo` | P1 | M2 |
 | F-07.07 | Strategy Agents | `todo` | P1 | M2 |
 | F-07.08 | Symbolic Agent und Experimental Agent | `todo` | P1 | M2 |
 | F-07.09 | Verification Agent | `ready` | P0 | M1 |
-| F-07.10 | Critic Agent und unabhängige Review | `todo` | P1 | M2 |
+| F-07.10 | Critic Agent und unabhängige Review | `ready` | P1 | M2 |
 | F-07.11 | Knowledge Agent und Premise Retriever | `todo` | P1 | M3 |
 | F-07.12 | Research Agent | `todo` | P2 | M6 |
 | F-07.13 | Conjecture Generator und Counterexample Generator | `todo` | P1 | M2 |
@@ -146,15 +146,15 @@ flowchart TD
 
 ### F-07.04 Tactic Generator
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-07.01, F-07.03, F-04.02
 - Quelle: ARCH §6.1 (Tactic Generator), §7.2, §19 (Phase 1), §22 (Schritt 3)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `src/mathlab/tactic_generator.py` mit `TacticGenerator`, einem Agenten für den Orchestrator (F-07.03). Er fragt das Modell über `ModelAdapter` nach einem vollständigen Taktikbeweis (Prompt-Version `tactic-generator-v1`), speichert jeden Vorschlag als `proof.step.proposed` und gibt ihn an eine `VerificationEngine`. Ein abgelehnter Beweis wird `proof.step.rejected` mit der Klassifikation aus F-09.03, die Meldung des Prüfers geht in den nächsten Prompt, höchstens `max_proposals` Vorschläge. Ein akzeptierter Beweis wird als Aufgabe an den Verification Agent (F-07.09) zurückgegeben; der Generator selbst meldet nur `UNRESOLVED`. Neu im Orchestrator: `AgentContext.emit` für Ereignisse der Agentenarbeit, die Orchestrator-Ereignisse bleiben gesperrt. `tests/test_tactic_generator.py` mit 9 Tests, darunter Golden-Aufgabe g01 gegen den echten `LeanChecker` (Fake-Modell, erst `by rfl` abgelehnt, dann `by ring` mit einem gültigen Schritt) und g01 mit `claude-haiku-5-5` über die CLI 2.1.322 gegen Lean. `ruff format`, `ruff check`, `mypy` ohne Befund. `pytest` mit Lean-Image und CLI: 800 passed, 30 skipped (Datenbank-, Sandbox- und SymPy-Image fehlen). Danach kam der Test `test_agent_cannot_write_orchestrator_events` für die Sperre in `emit` hinzu; `tests/test_orchestrator.py` läuft mit 15 passed.
 
 Proof-LLM, das Lean-Taktiken und vollständige Beweise für den aktuellen Proof State vorschlägt und an die Verification Engine gibt.
 
-- [ ] Löst mindestens eine M1-Golden-Aufgabe mit Lean-Nachweis.
-- [ ] Jeder Vorschlag wird als `proof.step.proposed` gespeichert.
+- [x] Löst mindestens eine M1-Golden-Aufgabe mit Lean-Nachweis.
+- [x] Jeder Vorschlag wird als `proof.step.proposed` gespeichert.
 
 ### F-07.05 Koordination und Isolation
 
@@ -223,7 +223,7 @@ Formuliert Beweispflichten, reicht sie an die Verification Engine weiter und lei
 
 ### F-07.10 Critic Agent und unabhängige Review
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-07.04
 - Quelle: ARCH §6.1 (Proof Critic), §6.2 (Critic Agent), §6.4 (unabhängiger Reviewer)
 - Bearbeiter: offen · Nachweise: offen

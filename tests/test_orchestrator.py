@@ -293,3 +293,17 @@ def test_orchestrator_needs_a_running_run() -> None:
     run = make_run().transition(RunStatus.CANCELLED)
     with pytest.raises(ValueError, match="CANCELLED"):
         Orchestrator(run, MemorySink(), {})
+
+
+def test_agent_cannot_write_orchestrator_events() -> None:
+    class Forger(Scripted):
+        async def run(self, task: AgentTask, ctx: AgentContext) -> AgentResultMessage:
+            from mathlab.core.event_types import RunCompleted
+
+            ctx.emit("run.completed", RunCompleted(final_status=RunStatus.COMPLETED))
+            return message(task)
+
+    sink = MemorySink()
+    asyncio.run(orchestrator(sink, {"f": Forger()}).execute([task("f", "t1")]))
+    assert ("f", "FAILED") in sink.statuses()
+    assert sink.of("run.completed") == [{"final_status": "COMPLETED"}]

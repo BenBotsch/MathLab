@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-270 Features in 26 Epics. Erledigt sind 46 von 270.
+270 Features in 26 Epics. Erledigt sind 47 von 270.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 197 |
-| `ready` | 27 |
+| `todo` | 194 |
+| `ready` | 29 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 46 |
+| `done` | 47 |
 | `blocked` | 0 |
 | `dropped` | 0 |
 
@@ -29,7 +29,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 8 | 0 | `in-progress` | 10/16 |
 | E05 | [Symbolik, SMT, Numerik und Widerlegung](epics/E05-symbolik-smt-numerik.md) | M1, Ausbau M2, M5 und M6 | 3 | 4 | 2 | `in-progress` | 3/9 |
 | E06 | [Strategy Engine und Beweismethodenkatalog](epics/E06-strategy-engine.md) | M2, Ausbau M3 und M4 | 3 | 3 | 0 | `todo` | 0/6 |
-| E07 | [Agent Orchestrator und Multiagentensystem](epics/E07-agent-orchestrator.md) | M1, Ausbau M2 bis M6 | 6 | 8 | 2 | `in-progress` | 3/16 |
+| E07 | [Agent Orchestrator und Multiagentensystem](epics/E07-agent-orchestrator.md) | M1, Ausbau M2 bis M6 | 6 | 8 | 2 | `in-progress` | 4/16 |
 | E08 | [Proof Search Engine](epics/E08-proof-search.md) | M1, Ausbau M2, M4 und M6 | 5 | 5 | 1 | `todo` | 0/11 |
 | E09 | [Trial-and-Error und Experiment Tracking](epics/E09-trial-and-error-tracking.md) | M1, Ausbau M2 und M4 | 4 | 4 | 0 | `in-progress` | 4/8 |
 | E10 | [Wissensgraph und mathematisches Langzeitgedächtnis](epics/E10-wissensgraph.md) | M3, Vorstufe M2, Ausbau M6 | 7 | 4 | 1 | `todo` | 0/12 |
@@ -59,7 +59,8 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-03.03](epics/E03-problem-engine.md#f-0303-mehrdeutigkeit-protokollieren) | Mehrdeutigkeit protokollieren | P1 | M1 |
 | [F-12.10](epics/E12-metriken-lernen.md#f-1210-benchmark-für-lokale-modelle-quantisierung-und-kontext) | Benchmark für lokale Modelle, Quantisierung und Kontext | P1 | M1 |
 | [F-08.01](epics/E08-proof-search.md#f-0801-proof-state-und-aktionsraum) | Proof State und Aktionsraum | P0 | M1 |
-| [F-07.04](epics/E07-agent-orchestrator.md#f-0704-tactic-generator) | Tactic Generator | P0 | M1 |
+| [F-11.03](epics/E11-benchmarks-evaluation.md#f-1103-golden-suite-runner-und-regressionsgate) | Golden-Suite-Runner und Regressionsgate | P0 | M1 |
+| [F-11.04](epics/E11-benchmarks-evaluation.md#f-1104-referenzbeispiel-summe-ungerader-zahlen) | Referenzbeispiel Summe ungerader Zahlen | P0 | M1 |
 | [F-07.09](epics/E07-agent-orchestrator.md#f-0709-verification-agent) | Verification Agent | P0 | M1 |
 | [F-14.11](epics/E14-backend-api.md#f-1411-interner-research-event-bus) | Interner Research Event Bus | P0 | M1 |
 | [F-14.01](epics/E14-backend-api.md#f-1401-fastapi-grundgerüst-und-versioniertes-api-schema) | FastAPI-Grundgerüst und versioniertes API-Schema | P0 | M1 |
@@ -72,6 +73,7 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-03.06](epics/E03-problem-engine.md#f-0306-problem-classifier) | Problem Classifier | P1 | M2 |
 | [F-03.04](epics/E03-problem-engine.md#f-0304-autoformalisierung) | Autoformalisierung | P1 | M2 |
 | [F-07.15](epics/E07-agent-orchestrator.md#f-0715-versionierte-agenten--und-modellprofile) | Versionierte Agenten- und Modellprofile | P1 | M2 |
+| [F-07.10](epics/E07-agent-orchestrator.md#f-0710-critic-agent-und-unabhängige-review) | Critic Agent und unabhängige Review | P1 | M2 |
 | [F-04.10](epics/E04-formal-verification.md#f-0410-rekonstruktion-externer-ergebnisse) | Rekonstruktion externer Ergebnisse | P1 | M2 |
 | [F-03.07](epics/E03-problem-engine.md#f-0307-ast-normalisierung-und-fingerprints) | AST-Normalisierung und Fingerprints | P1 | M2 |
 | [F-02.09](epics/E02-event-sourcing-persistenz.md#f-0209-schema-versionierung-und-migration) | Schema-Versionierung und Migration | P1 | M2 |
@@ -99,8 +101,8 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
-| [M1](ROADMAP.md#m1) | 64 | 47 | 17 | 0 |
-| [M2](ROADMAP.md#m2) | 70 | 9 | 59 | 2 |
+| [M1](ROADMAP.md#m1) | 62 | 45 | 17 | 0 |
+| [M2](ROADMAP.md#m2) | 69 | 9 | 58 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |
 | [M5](ROADMAP.md#m5) | 16 | 1 | 7 | 8 |
