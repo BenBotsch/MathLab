@@ -5,7 +5,7 @@ one; the old instance stays untouched, matching the append-only event model of E
 access rules are declared here as data; enforcing them is the job of F-11.02.
 """
 
-from enum import Enum
+from enum import Enum, StrEnum
 from typing import Self
 from uuid import UUID
 
@@ -65,6 +65,26 @@ MODE_RULES: dict[OperatingMode, ModeRules] = {
     ),
 }
 """Access rules per mode. Only blind and assisted rediscovery hide the reference solution."""
+
+
+class WorkflowStep(StrEnum):
+    """The six steps of workflow B, proof of a formalised statement (ARCH §7.2; F-07.03)."""
+
+    FETCH_METHODS = "FETCH_METHODS"
+    """Fetch relevant methods from the method register."""
+    FIND_LEMMAS = "FIND_LEMMAS"
+    """Find permitted lemmas and record their provenance."""
+    RUN_STRATEGIES = "RUN_STRATEGIES"
+    """Start several strategies under a budget."""
+    RECORD_PROGRESS = "RECORD_PROGRESS"
+    """Record proof states, steps and intermediate results."""
+    REPAIR = "REPAIR"
+    """Start a repair or strategy-change workflow on errors."""
+    CHECK_REUSE = "CHECK_REUSE"
+    """Check generated lemmas for reuse."""
+
+
+WORKFLOW_B: tuple[WorkflowStep, ...] = tuple(WorkflowStep)
 
 
 class RunStatus(Enum):
@@ -133,10 +153,12 @@ class Run(Entity):
 __all__ = [
     "ALLOWED_TRANSITIONS",
     "MODE_RULES",
+    "WORKFLOW_B",
     "InvalidRunTransitionError",
     "ModeRules",
     "OperatingMode",
     "Run",
     "RunBudget",
     "RunStatus",
+    "WorkflowStep",
 ]

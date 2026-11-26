@@ -34,13 +34,13 @@ Kein Agent setzt einen Verifikationsstatus, `VERIFIED` stammt nur aus dem verifi
 | --- | --- | --- | --- | --- |
 | F-07.01 | Model Adapter | `done` | P0 | M1 |
 | F-07.02 | Typisierte Agentennachrichten | `done` | P0 | M1 |
-| F-07.03 | Orchestrator-Kern | `ready` | P0 | M1 |
-| F-07.04 | Tactic Generator | `todo` | P0 | M1 |
+| F-07.03 | Orchestrator-Kern | `done` | P0 | M1 |
+| F-07.04 | Tactic Generator | `ready` | P0 | M1 |
 | F-07.05 | Koordination und Isolation | `todo` | P0 | M1 |
 | F-07.06 | Proof Planner | `todo` | P1 | M2 |
 | F-07.07 | Strategy Agents | `todo` | P1 | M2 |
 | F-07.08 | Symbolic Agent und Experimental Agent | `todo` | P1 | M2 |
-| F-07.09 | Verification Agent | `todo` | P0 | M1 |
+| F-07.09 | Verification Agent | `ready` | P0 | M1 |
 | F-07.10 | Critic Agent und unabhängige Review | `todo` | P1 | M2 |
 | F-07.11 | Knowledge Agent und Premise Retriever | `todo` | P1 | M3 |
 | F-07.12 | Research Agent | `todo` | P2 | M6 |
@@ -97,16 +97,16 @@ Referenzbeispiel aus ARCH §6.3, unverändert zitiert. Bei Abweichung gilt die Q
 
 ### F-07.03 Orchestrator-Kern
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-07.02, F-01.06, F-00.01 (OD-04)
 - Quelle: ARCH §4.1, §6.4, §7.2
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `src/mathlab/orchestrator.py` mit `Orchestrator` nach ADR-0004 Option B (asyncio im Prozess). Agenten laufen als Tasks, `AgentContext.checkpoint()` blockiert bei Pause und wirft nach Stop `AgentStoppedError`. `pause`, `resume` und `stop` wirken innerhalb von `control_timeout`; ein Agent, der die Frist verpasst, wird abgebrochen und bei Pause neu eingereiht. Ein Absturz setzt den Agenten auf `FAILED`, der Run läuft weiter oder endet mit `fail_run_on_agent_failure` als `FAILED`. Budget aus `RunBudget` (Modellaufrufe, Tokens, Laufzeit) beendet den Run. Agenten geben Folgeaufgaben über `hand_back` zurück (ARCH §6.4). Ergebnisse laufen über `messaging.adopt`, eine Agentenaussage allein wird also nicht `VERIFIED`. Neu: `WorkflowStep` und `WORKFLOW_B` in `core/run.py`, Ereignisse `agent.status.changed` und `run.resumed`, `agent.started` mit `task_id`, `workflow_step` und `parent_task_id`; Referenz und Schemas regeneriert. `tests/test_orchestrator.py` mit 14 Tests, darunter Pause/Resume und Stop mit Frist, Absturz, alle drei Budgetgrenzen und Workflow B mit sechs Schritten im Ereignisverlauf. `ruff format`, `ruff check`, `mypy` ohne Befund. `pytest` mit Lean-Image und CLI: 791 passed, 30 skipped (Datenbank-, Sandbox- und SymPy-Image fehlen).
 
 Startet, überwacht, pausiert und beendet Agenten pro Run und führt Workflow B aus ARCH §7.2 aus. Hält Budget und Abbruchkriterien ein und schreibt jeden Zustandswechsel als Ereignis (`agent.started` und folgende). Nimmt von Agenten zurückgegebene Aufgaben entgegen.
 
-- [ ] Pause und Stop wirken innerhalb einer definierten Frist auf alle Agenten.
-- [ ] Ein abgestürzter Agent wird als `FAILED` markiert, der Run läuft weiter oder endet kontrolliert.
-- [ ] Die sechs Schritte aus ARCH §7.2 sind im Ereignisverlauf eines Runs nachvollziehbar.
+- [x] Pause und Stop wirken innerhalb einer definierten Frist auf alle Agenten.
+- [x] Ein abgestürzter Agent wird als `FAILED` markiert, der Run läuft weiter oder endet kontrolliert.
+- [x] Die sechs Schritte aus ARCH §7.2 sind im Ereignisverlauf eines Runs nachvollziehbar.
 
 Referenzbeispiel aus ARCH §4, unverändert zitiert. Bei Abweichung gilt die Quelle. Das Diagramm zeigt die Gesamtarchitektur, in der der Orchestrator arbeitet.
 
@@ -146,7 +146,7 @@ flowchart TD
 
 ### F-07.04 Tactic Generator
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-07.01, F-07.03, F-04.02
 - Quelle: ARCH §6.1 (Tactic Generator), §7.2, §19 (Phase 1), §22 (Schritt 3)
 - Bearbeiter: offen · Nachweise: offen
@@ -212,7 +212,7 @@ Der Symbolic Agent steuert CAS, exakte Umformungen und symbolische Solver über 
 
 ### F-07.09 Verification Agent
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-07.03, F-04.04
 - Quelle: ARCH §6.2, §7.3
 - Bearbeiter: offen · Nachweise: offen

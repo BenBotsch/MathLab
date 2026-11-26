@@ -127,6 +127,13 @@ EXAMPLES: dict[str, dict[str, Any]] = {
     },
     "budget.updated": {"model_calls_used": 3, "tokens_used": 1200, "runtime_seconds_used": 4.5},
     "run.paused": {"reason": "user request"},
+    "run.resumed": {},
+    "agent.status.changed": {
+        "agent_id": "induction-agent-01",
+        "execution_id": U + "14",
+        "status": "FAILED",
+        "reason": "RuntimeError: crashed",
+    },
     "run.completed": {"final_status": "COMPLETED"},
 }
 
@@ -149,6 +156,8 @@ EXTENSIONS = [
     "proof.attempt.finished",  # F-09.01, rebuilds an ARCH §9.1 attempt
     "agent.result.reported",  # F-07.02, logs an ARCH §6.3 agent message
     "counterexample.checked",  # F-05.07, exact re-check of ARCH §7.5
+    "agent.status.changed",  # F-07.03, orchestrator state changes
+    "run.resumed",  # F-07.03, a paused run continues
 ]
 
 

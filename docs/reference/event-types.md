@@ -30,8 +30,10 @@ Felder mit `?` sind optional.
 | `experiment.completed` | `ExperimentCompleted` | `experiment_id`, `summary` | An experiment or evaluation run finished. |
 | `knowledge.updated` | `KnowledgeUpdated` | `entity_id`, `entity_type`, `entity_version` | An entity of the knowledge base was added or changed (as a new version). |
 | `model.trained` | `ModelTrained` | `model_version_id` | A new model version was trained. |
-| `agent.started` | `AgentStarted` | `agent_id`, `agent_version`, `execution_id` | An agent execution started. |
+| `agent.started` | `AgentStarted` | `agent_id`, `agent_version`, `execution_id`, `task_id`?, `workflow_step`?, `parent_task_id`? | An agent execution started. |
 | `agent.result.reported` | `AgentResultReported` | `message`, `downgraded_parts`? | An agent reported a result (ARCH §6.3; F-07.02). |
+| `agent.status.changed` | `AgentStatusChanged` | `agent_id`, `execution_id`, `status`, `reason`? | An agent execution changed its technical status (F-07.03). |
 | `budget.updated` | `BudgetUpdated` | `model_calls_used`, `tokens_used`?, `runtime_seconds_used` | Consumed budget so far (ADR-0003). |
 | `run.paused` | `RunPaused` | `reason`? | The run was paused. |
+| `run.resumed` | `RunResumed` |  | A paused run continues (F-07.03). |
 | `run.completed` | `RunCompleted` | `final_status` | The run ended in a terminal status. |

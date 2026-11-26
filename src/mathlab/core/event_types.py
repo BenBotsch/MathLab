@@ -3,7 +3,8 @@
 The catalogue is the union of the event types named in both sources plus
 ``proof.attempt.finished``, which F-09.01 adds so an ARCH §9.1 attempt can be rebuilt from
 events, ``agent.result.reported``, which F-07.02 adds so every ARCH §6.3 agent message is
-logged, and ``counterexample.checked``, which F-05.07 adds for the exact re-check of ARCH
+logged, ``agent.status.changed`` and ``run.resumed``, which F-07.03 adds for the orchestrator's
+state changes, and ``counterexample.checked``, which F-05.07 adds for the exact re-check of ARCH
 §7.5. Neither source defines payloads, so the schemas below are minimal: they carry the IDs
 that link an event to entities of the domain model plus the few values the UI needs.
 Large content stays in entities or artifacts.
@@ -35,7 +36,8 @@ from mathlab.core.contracts import FailureCode
 from mathlab.core.event import EventEnvelope
 from mathlab.core.primitives import ArtifactRef, JsonObject
 from mathlab.core.provenance import LibraryReference, SourceRef
-from mathlab.core.run import RunStatus
+from mathlab.core.run import RunStatus, WorkflowStep
+from mathlab.core.status import AgentStatus
 
 
 class Payload(BaseModel):
@@ -324,6 +326,24 @@ class AgentStarted(Payload):
     agent_id: str = Field(min_length=1)
     agent_version: str = Field(min_length=1)
     execution_id: UUID
+    task_id: str | None = Field(default=None, min_length=1)
+    """Task the orchestrator assigned to this execution (F-07.03)."""
+    workflow_step: WorkflowStep | None = None
+    """Step of workflow B (ARCH §7.2) the task belongs to, if any."""
+    parent_task_id: str | None = Field(default=None, min_length=1)
+    """Task whose agent handed this task back to the orchestrator (ARCH §6.4)."""
+
+
+class AgentStatusChanged(Payload):
+    """An agent execution changed its technical status (F-07.03).
+
+    ``FAILED`` means the agent crashed, ``CANCELLED`` that the orchestrator ended it.
+    """
+
+    agent_id: str = Field(min_length=1)
+    execution_id: UUID
+    status: AgentStatus
+    reason: str | None = None
 
 
 class BudgetUpdated(Payload):
@@ -338,6 +358,10 @@ class RunPaused(Payload):
     """The run was paused."""
 
     reason: str | None = None
+
+
+class RunResumed(Payload):
+    """A paused run continues (F-07.03)."""
 
 
 TERMINAL_RUN_STATUSES = frozenset({RunStatus.COMPLETED, RunStatus.FAILED, RunStatus.CANCELLED})
@@ -382,8 +406,10 @@ EVENT_PAYLOADS: dict[str, type[Payload]] = {
     "model.trained": ModelTrained,
     "agent.started": AgentStarted,
     "agent.result.reported": AgentResultReported,
+    "agent.status.changed": AgentStatusChanged,
     "budget.updated": BudgetUpdated,
     "run.paused": RunPaused,
+    "run.resumed": RunResumed,
     "run.completed": RunCompleted,
 }
 """Event type name to payload schema."""
