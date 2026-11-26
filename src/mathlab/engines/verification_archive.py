@@ -6,7 +6,9 @@
 * ``source``: the exact Lean file that was compiled (``text/x-lean``),
 * ``log``: exit code, timeout flag, stdout and stderr of the sandbox run (JSON),
 * ``axiom_report``: the classified ``#print axioms`` answer (JSON), absent if Lean printed none,
-* ``manifest``: a ``VerificationManifest`` naming the three artifacts above together with every
+* ``recheck``: the ``RecheckReport`` of the independent recheck (JSON, F-04.06), absent if the
+  first check already rejected the proof,
+* ``manifest``: a ``VerificationManifest`` naming the four artifacts above together with every
   fingerprint the check depends on: confirmed statement and its hash, toolchain, checker
   version, image name and optionally its Docker image ID, sandbox limits, axiom policy, marker
   and the environment fingerprint (F-00.03).
@@ -78,6 +80,8 @@ class VerificationManifest(BaseModel):
     source: ArtifactRef
     log: ArtifactRef
     axiom_report: ArtifactRef | None
+    recheck: ArtifactRef | None = None
+    """Report of the independent recheck (F-04.06); ``None`` if none ran."""
     proof_code: str = Field(
         description="The proof as submitted, for display; the source is authoritative."
     )
@@ -129,6 +133,9 @@ def archive_check(
         JSON_MEDIA_TYPE,
     )
     axioms = None if outcome.axioms is None else store.put(_json(outcome.axioms), JSON_MEDIA_TYPE)
+    recheck = (
+        None if outcome.recheck is None else store.put(_json(outcome.recheck), JSON_MEDIA_TYPE)
+    )
     response = outcome.response
     manifest = VerificationManifest(
         verification_result_id=id,
@@ -146,6 +153,7 @@ def archive_check(
         source=source,
         log=log,
         axiom_report=axioms,
+        recheck=recheck,
         proof_code=outcome.request.proof_code,
     )
     return VerificationResult(
@@ -179,7 +187,7 @@ def load_manifest(store: ArtifactStore, result: VerificationResult) -> Verificat
         raise ArchiveError("manifest belongs to another verification result")
     if manifest.source != result.proof_artifact:
         raise ArchiveError("manifest and verification result name different sources")
-    for ref in (manifest.source, manifest.log, manifest.axiom_report):
+    for ref in (manifest.source, manifest.log, manifest.axiom_report, manifest.recheck):
         if ref is not None:
             store.get(ref)  # raises if missing or tampered
     return manifest

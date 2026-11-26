@@ -25,4 +25,11 @@ RUN mkdir -p /home/lean/bin \
     && printf '#!/bin/sh\nexport LEAN_PATH=%s\nexec %s "$@"\n' \
        "$(lake env printenv LEAN_PATH)" "$(lake env which lean)" > /home/lean/bin/lean-check \
     && chmod 755 /home/lean/bin/lean-check
+# lean-recheck DIR MODULE [--fresh]: independent recheck (F-04.06). Compiles DIR/MODULE.lean to
+# an .olean and replays its declarations through the kernel with leanchecker (the upstreamed
+# lean4checker of the toolchain). --fresh also replays every import, including Mathlib.
+RUN printf '#!/bin/sh\nset -e\nexport LEAN_PATH=%s:"$1" PATH=%s:"$PATH"\ncd "$1"\nlean -o "$2.olean" "$2.lean" >&2\nexec leanchecker ${3:+"$3"} "$2"\n' \
+       "$(lake env printenv LEAN_PATH)" "$(dirname "$(lake env which lean)")" \
+       > /home/lean/bin/lean-recheck \
+    && chmod 755 /home/lean/bin/lean-recheck
 CMD ["lake", "env", "lean", "--version"]

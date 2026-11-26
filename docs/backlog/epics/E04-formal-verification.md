@@ -25,7 +25,7 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 | F-04.03 | Isolierte Beweisprüfung | `done` | P0 | M1 |
 | F-04.04 | Zielabgleich | `done` | P0 | M1 |
 | F-04.05 | Axiomreport und `sorry`-Prüfung | `done` | P0 | M1 |
-| F-04.06 | Unabhängige Nachprüfung | `ready` | P1 | M1 |
+| F-04.06 | Unabhängige Nachprüfung | `done` | P1 | M1 |
 | F-04.07 | Archiv der Verifikationsartefakte | `done` | P0 | M1 |
 | F-04.08 | Prüfung einzelner Beweispflichten | `done` | P0 | M1 |
 | F-04.09 | Verifikations-Cache und Revalidierung | `ready` | P1 | M2 |
@@ -99,14 +99,14 @@ Für jeden geprüften Beweis entsteht ein Report der verwendeten Axiome. `sorry`
 
 ### F-04.06 Unabhängige Nachprüfung
 
-- Status: `ready` · Priorität: P1 · Meilenstein: M1
+- Status: `done` · Priorität: P1 · Meilenstein: M1
 - Abhängigkeiten: F-04.05
 - Quelle: ARCH §7.3 (Schritt 4), §13.2; Lean-Dokumentation „Validating a Lean Proof“
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: Werkzeug ist `leanchecker`, der in Lean v4.36.0 enthaltene Nachfolger von `lean4checker`. `docker/lean.Dockerfile` erhält `/home/lean/bin/lean-recheck`. `LeanChecker` prüft jeden sonst vollständigen Beweis in einer zweiten, frischen Sandbox nach (`run_recheck`, `with_recheck`, Option `fresh_recheck` für `--fresh`). Ein Fehlschlag lehnt den Beweis ab. Der `RecheckReport` steht in `CheckOutcome`, in den Meldungen des `VerificationResult` und als Artefakt `recheck` im Manifest (F-04.07). `tests/test_lean_recheck.py` mit 9 Tests, davon 2 Containertests. Ein Beweis von `False` über `debug.skipKernelTC` besteht die erste Prüfung (Exit 0, keine Axiome) und wird erst durch die Nachprüfung abgelehnt. `--fresh` mit Mathlib dauerte im Versuch über sechs Minuten und ist deshalb nicht Standard. Beschrieben in `docs/reference/lean-axioms.md`. `ruff format`, `ruff check`, `mypy` ohne Befund. `pytest` mit `MATHLAB_TEST_LEAN_IMAGE=mathlab-lean:latest`: 737 passed, 30 skipped (Datenbank-, Sandbox- und SymPy-Image fehlen).
 
 Verifizierte Beweise werden zusätzlich mit `lean4checker --fresh` oder dem jeweils dokumentierten Mechanismus erneut geprüft. Bei hohem Schutzbedarf ist ein unabhängiger Checker vorgesehen. Die Werkzeugwahl erfolgt gemäß der aktuellen Lean-Dokumentation.
 
-- [ ] Die Nachprüfung läuft für jeden als `VERIFIED` markierten Beweis und ist im Artefakt vermerkt.
+- [x] Die Nachprüfung läuft für jeden als `VERIFIED` markierten Beweis und ist im Artefakt vermerkt.
 
 ### F-04.07 Archiv der Verifikationsartefakte
 

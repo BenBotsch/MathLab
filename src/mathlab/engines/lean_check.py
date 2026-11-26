@@ -39,6 +39,16 @@ after ``:=``, so it cannot change the type of the declared theorem; extra declar
 are not the checked theorem, and the axiom query uses ``_root_.<name>``. Without ``targets``
 every check is rejected. Controlled equivalent forms with their own proof are not supported yet.
 
+Independent recheck (F-04.06, ARCH §7.3 step 4, §13.2): a check that would be complete is
+repeated in a second, fresh sandbox by ``leanchecker``, the kernel replay of the toolchain
+(formerly ``lean4checker``, Lean reference "Validating a Lean Proof"). It compiles the same source
+to an ``.olean`` and replays every declaration of the proof module through the kernel, which
+catches environment manipulation that bypasses the kernel, e.g. ``debug.skipKernelTC``. With
+``fresh_recheck`` it also replays all imports, Mathlib included; that takes far longer than the
+default limits and is meant for high protection needs. A failed or aborted recheck turns the
+response into a rejection, and the ``RecheckReport`` is part of the ``CheckOutcome`` and the
+archive (F-04.07).
+
 The sandbox time limit equals
 ``ctx.timeout_seconds``. Cancellation through ``ctx`` returns at once; the container then ends
 at the latest with its time limit.
@@ -74,7 +84,10 @@ LEAN_VERSION = "v4.36.0"
 TOOLCHAIN = f"leanprover/lean4:{LEAN_VERSION}"
 """Content of ``lean/lean-toolchain``; a confirmed target must name exactly this toolchain."""
 LEAN_CHECK = "/home/lean/bin/lean-check"
-SOURCE_NAME = "Proof.lean"
+LEAN_RECHECK = "/home/lean/bin/lean-recheck"
+RECHECK_TOOL = "leanchecker"
+MODULE_NAME = "Proof"
+SOURCE_NAME = f"{MODULE_NAME}.lean"
 LEAN_USER = "1000:1000"
 DEFAULT_LIMITS = SandboxLimits(
     timeout_seconds=300, memory_bytes=8 * 1024**3, cpus=2, pids=256, user=LEAN_USER
@@ -122,6 +135,22 @@ class AxiomReport(_Model):
         return not self.rejected
 
 
+MAX_RECHECK_OUTPUT = 4000
+
+
+class RecheckReport(_Model):
+    """Result of the independent recheck of one source (F-04.06)."""
+
+    tool: str = RECHECK_TOOL
+    fresh: bool
+    """``True`` if all imports were replayed as well."""
+    passed: bool
+    exit_code: int | None
+    timed_out: bool
+    output: str
+    """Combined stdout and stderr, truncated to the last ``MAX_RECHECK_OUTPUT`` characters."""
+
+
 class CheckOutcome(_Model):
     """Everything one check saw, so it can be archived and repeated (F-04.07)."""
 
@@ -137,6 +166,8 @@ class CheckOutcome(_Model):
     result: SandboxResult
     response: VerifyResponse
     axioms: AxiomReport | None
+    recheck: RecheckReport | None = None
+    """``None`` if the first check already rejected the proof."""
 
 
 def theorem_name(lean_code: str) -> str:
@@ -220,6 +251,41 @@ def run_check(image: str, source: str, limits: SandboxLimits) -> SandboxResult:
         return run_sandboxed(image, [LEAN_CHECK, f"{WORKDIR}/{SOURCE_NAME}"], work, limits)
 
 
+def run_recheck(
+    image: str, source: str, limits: SandboxLimits, *, fresh: bool = False
+) -> RecheckReport:
+    """Recheck ``source`` with ``leanchecker`` in a fresh sandbox, independent of ``run_check``."""
+    with tempfile.TemporaryDirectory(prefix="mathlab-recheck-") as tmp:
+        work = Path(tmp)
+        (work / SOURCE_NAME).write_text(source, encoding="utf-8")
+        command = [LEAN_RECHECK, WORKDIR, MODULE_NAME, *(["--fresh"] if fresh else [])]
+        result = run_sandboxed(image, command, work, limits)
+    timed_out = result.timed_out or result.failure_class is FailureClass.RESOURCE_EXHAUSTION
+    return RecheckReport(
+        fresh=fresh,
+        passed=result.exit_code == 0 and not timed_out,
+        exit_code=result.exit_code,
+        timed_out=timed_out,
+        output=(result.stdout + result.stderr)[-MAX_RECHECK_OUTPUT:],
+    )
+
+
+def with_recheck(response: VerifyResponse, recheck: RecheckReport) -> VerifyResponse:
+    """``response`` with the recheck recorded; a failed recheck rejects the proof."""
+    mode = "fresh " if recheck.fresh else ""
+    if recheck.passed:
+        note = f"recheck: {recheck.tool} {mode}passed"
+        return response.model_copy(update={"messages": (*response.messages, note)})
+    reason = "exceeded its limits" if recheck.timed_out else f"failed: {recheck.output.strip()}"
+    return response.model_copy(
+        update={
+            "valid_steps": 0,
+            "invalid_steps": response.invalid_steps + 1,
+            "messages": (*response.messages, f"error: {recheck.tool} {mode}recheck {reason}"),
+        }
+    )
+
+
 def _diagnostics(output: str) -> list[tuple[str, str]]:
     """Split Lean output into ``(severity, text)`` per diagnostic."""
     starts = list(_DIAGNOSTIC.finditer(output))
@@ -278,11 +344,14 @@ class LeanChecker:
         limits: SandboxLimits | None = None,
         policy: AxiomPolicy | None = None,
         targets: TargetLookup | None = None,
+        *,
+        fresh_recheck: bool = False,
     ) -> None:
         self._image = image
         self._limits = limits or DEFAULT_LIMITS
         self._targets = targets
         self._policy = policy or AxiomPolicy()
+        self._fresh_recheck = fresh_recheck
         self._info = EngineInfo(name="lean", version=LEAN_VERSION)
 
     @property
@@ -331,6 +400,14 @@ class LeanChecker:
         if result.failure_class is FailureClass.RESOURCE_EXHAUSTION:
             raise EngineTimeoutError("lean exceeded its sandbox limits", trace_id=ctx.trace_id)
         report = parse_axiom_report(result.stdout, marker, name, self._policy)
+        response = response_from(result, self._info, report, require_axioms=True)
+        recheck = None
+        if response.valid_steps > 0:
+            try:
+                recheck = run_recheck(self._image, source, limits, fresh=self._fresh_recheck)
+            except FileNotFoundError as error:
+                raise EngineUnavailableError("docker not found", trace_id=ctx.trace_id) from error
+            response = with_recheck(response, recheck)
         return CheckOutcome(
             target=target,
             request=trusted,
@@ -340,8 +417,9 @@ class LeanChecker:
             marker=marker,
             source=source,
             result=result,
-            response=response_from(result, self._info, report, require_axioms=True),
+            response=response,
             axioms=report,
+            recheck=recheck,
         )
 
 
@@ -350,12 +428,14 @@ __all__ = [
     "EXTRA_TRUST_AXIOMS",
     "IMAGE",
     "LEAN_VERSION",
+    "MAX_RECHECK_OUTPUT",
     "STANDARD_AXIOMS",
     "TOOLCHAIN",
     "AxiomPolicy",
     "AxiomReport",
     "CheckOutcome",
     "LeanChecker",
+    "RecheckReport",
     "TargetLookup",
     "classify_axioms",
     "goal_mismatches",
@@ -363,5 +443,7 @@ __all__ = [
     "parse_axiom_report",
     "response_from",
     "run_check",
+    "run_recheck",
     "theorem_name",
+    "with_recheck",
 ]

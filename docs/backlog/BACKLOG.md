@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-264 Features in 26 Epics. Erledigt sind 41 von 264.
+264 Features in 26 Epics. Erledigt sind 42 von 264.
 
 | Status | Anzahl |
 | --- | --- |
 | `todo` | 196 |
-| `ready` | 27 |
+| `ready` | 26 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 41 |
+| `done` | 42 |
 | `blocked` | 0 |
 | `dropped` | 0 |
 
@@ -26,7 +26,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E01 | [Core-Domänenmodell und Contracts](epics/E01-core-domaenenmodell.md) | M1 | 7 | 0 | 0 | `done` | 7/7 |
 | E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 2 | 0 | `in-progress` | 8/10 |
 | E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 4 | 5 | 1 | `in-progress` | 2/10 |
-| E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 4 | 0 | `in-progress` | 8/12 |
+| E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 4 | 0 | `in-progress` | 9/12 |
 | E05 | [Symbolik, SMT, Numerik und Widerlegung](epics/E05-symbolik-smt-numerik.md) | M1, Ausbau M2, M5 und M6 | 3 | 4 | 2 | `in-progress` | 3/9 |
 | E06 | [Strategy Engine und Beweismethodenkatalog](epics/E06-strategy-engine.md) | M2, Ausbau M3 und M4 | 3 | 3 | 0 | `todo` | 0/6 |
 | E07 | [Agent Orchestrator und Multiagentensystem](epics/E07-agent-orchestrator.md) | M1, Ausbau M2 bis M6 | 6 | 8 | 2 | `in-progress` | 1/16 |
@@ -58,7 +58,6 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
 | [F-03.03](epics/E03-problem-engine.md#f-0303-mehrdeutigkeit-protokollieren) | Mehrdeutigkeit protokollieren | P1 | M1 |
 | [F-03.05](epics/E03-problem-engine.md#f-0305-prüfung-der-statement-fidelity) | Prüfung der Statement Fidelity | P0 | M1 |
-| [F-04.06](epics/E04-formal-verification.md#f-0406-unabhängige-nachprüfung) | Unabhängige Nachprüfung | P1 | M1 |
 | [F-08.01](epics/E08-proof-search.md#f-0801-proof-state-und-aktionsraum) | Proof State und Aktionsraum | P0 | M1 |
 | [F-07.01](epics/E07-agent-orchestrator.md#f-0701-model-adapter) | Model Adapter | P0 | M1 |
 | [F-07.03](epics/E07-agent-orchestrator.md#f-0703-orchestrator-kern) | Orchestrator-Kern | P0 | M1 |
