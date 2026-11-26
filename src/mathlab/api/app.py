@@ -1,0 +1,146 @@
+"""FastAPI application skeleton (UI §16.4, §19; ARCH §18.2; F-14.01).
+
+* Every route lives under the version prefix ``/api/v1``. A breaking change gets a new prefix;
+  the OpenAPI document of a version is committed and checked for compatibility
+  (``mathlab.api.openapi``).
+* Every response carries the header ``X-Trace-Id``. A client may send its own UUID in that
+  header to correlate a call; otherwise the server creates one. Error bodies repeat it.
+* Every error is an ``ErrorResponse`` (``mathlab.api.errors``), including validation errors,
+  unknown routes, engine errors and unexpected exceptions.
+
+The endpoints of the UI (runs, events, stream, commands) follow with F-14.02 to F-14.04; this
+module only provides ``GET /api/v1/health``.
+"""
+
+import logging
+from collections.abc import Awaitable, Callable
+from typing import Literal
+from uuid import UUID, uuid4
+
+from fastapi import FastAPI, Request, Response
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel, ConfigDict
+from starlette.exceptions import HTTPException
+
+from mathlab.api.errors import (
+    STATUS,
+    ApiError,
+    ErrorResponse,
+    ErrorType,
+    from_engine_error,
+    from_http_status,
+)
+from mathlab.core.contracts import EngineError, FailureCode
+
+API_VERSION = "1"
+API_PREFIX = f"/api/v{API_VERSION}"
+TRACE_HEADER = "X-Trace-Id"
+
+log = logging.getLogger(__name__)
+
+
+class Health(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    status: Literal["ok"]
+    api_version: str
+
+
+def trace_id(request: Request) -> UUID:
+    """Trace id of ``request``, set by the middleware."""
+    value: UUID = request.state.trace_id
+    return value
+
+
+def _incoming_trace_id(request: Request) -> UUID:
+    raw = request.headers.get(TRACE_HEADER)
+    if raw is not None:
+        try:
+            return UUID(raw)
+        except ValueError:
+            pass  # an invalid client value is replaced, not echoed
+    return uuid4()
+
+
+def _error(
+    request: Request,
+    error: ErrorType,
+    message: str,
+    *,
+    failure_code: FailureCode | None = None,
+    details: list[dict[str, object]] | None = None,
+) -> JSONResponse:
+    body = ErrorResponse(
+        error=error,
+        message=message,
+        trace_id=trace_id(request),
+        failure_code=failure_code,
+        details=details,
+    )
+    return JSONResponse(
+        body.model_dump(mode="json", exclude_none=True),
+        status_code=STATUS[error],
+        headers={TRACE_HEADER: str(body.trace_id)},
+    )
+
+
+_ERROR_RESPONSES: dict[int | str, dict[str, object]] = {
+    "4XX": {"model": ErrorResponse, "description": "Client error"},
+    "5XX": {"model": ErrorResponse, "description": "Server error"},
+}
+
+
+def create_app() -> FastAPI:
+    app = FastAPI(
+        title="MathLab API",
+        version=API_VERSION,
+        openapi_url=f"{API_PREFIX}/openapi.json",
+        docs_url=f"{API_PREFIX}/docs",
+        redoc_url=None,
+        responses=_ERROR_RESPONSES,
+    )
+
+    @app.middleware("http")
+    async def add_trace_id(
+        request: Request, call_next: Callable[[Request], Awaitable[Response]]
+    ) -> Response:
+        request.state.trace_id = _incoming_trace_id(request)
+        try:
+            response = await call_next(request)
+        except Exception:  # unexpected errors still answer with a typed body
+            log.exception("unhandled error, trace_id=%s", request.state.trace_id)
+            response = _error(request, ErrorType.INTERNAL_ERROR, "internal error")
+        response.headers[TRACE_HEADER] = str(request.state.trace_id)
+        return response
+
+    @app.exception_handler(ApiError)
+    async def api_error(request: Request, exc: ApiError) -> JSONResponse:
+        return _error(request, exc.error, exc.message)
+
+    @app.exception_handler(EngineError)
+    async def engine_error(request: Request, exc: EngineError) -> JSONResponse:
+        error, code = from_engine_error(exc)
+        message = str(exc) if error is not ErrorType.INTERNAL_ERROR else "internal error"
+        return _error(request, error, message or error.value, failure_code=code)
+
+    @app.exception_handler(RequestValidationError)
+    async def validation_error(request: Request, exc: RequestValidationError) -> JSONResponse:
+        details = [
+            {"loc": list(e.get("loc", ())), "msg": str(e.get("msg", "")), "type": e.get("type")}
+            for e in exc.errors()
+        ]
+        return _error(request, ErrorType.VALIDATION_ERROR, "invalid request", details=details)
+
+    @app.exception_handler(HTTPException)
+    async def http_error(request: Request, exc: HTTPException) -> JSONResponse:
+        return _error(request, from_http_status(exc.status_code), str(exc.detail))
+
+    @app.get(f"{API_PREFIX}/health", tags=["system"])
+    async def health() -> Health:
+        return Health(status="ok", api_version=API_VERSION)
+
+    return app
+
+
+__all__ = ["API_PREFIX", "API_VERSION", "TRACE_HEADER", "Health", "create_app", "trace_id"]

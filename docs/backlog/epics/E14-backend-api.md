@@ -1,6 +1,6 @@
 # E14 Backend API, Live Stream und Control API
 
-- Status: `todo` · Meilenstein: M1, Ausbau M2, M3 und M6
+- Status: `in-progress` · Meilenstein: M1, Ausbau M2, M3 und M6
 - Quellen: ARCH §3.2, §18.2, §18.3, §19 (Phase 1); UI §5.3, §10.2, §15.1, §15.2, §16.3, §16.4, §17.2, §18.2, §19, §21 (Epics UI-01 und UI-07)
 - Abhängige Epics: E01, E02, E07
 
@@ -20,10 +20,10 @@ Der Server ist für mathematische und operative Fakten maßgeblich (UI §15.3). 
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-14.01 | FastAPI-Grundgerüst und versioniertes API-Schema | `ready` | P0 | M1 |
-| F-14.02 | Lese-Endpunkte | `todo` | P0 | M1 |
-| F-14.03 | SSE-Live-Stream und Event-Nachladung | `todo` | P0 | M1 |
-| F-14.04 | Command API mit Serverbestätigung | `todo` | P0 | M1 |
+| F-14.01 | FastAPI-Grundgerüst und versioniertes API-Schema | `done` | P0 | M1 |
+| F-14.02 | Lese-Endpunkte | `ready` | P0 | M1 |
+| F-14.03 | SSE-Live-Stream und Event-Nachladung | `ready` | P0 | M1 |
+| F-14.04 | Command API mit Serverbestätigung | `ready` | P0 | M1 |
 | F-14.05 | Erkennung konkurrierender Kommandos | `todo` | P0 | M1 |
 | F-14.06 | Artefaktverweise statt großer Payloads | `todo` | P0 | M1 |
 | F-14.07 | Verhalten bei Verbindungs- und Komponentenausfällen | `todo` | P0 | M1 |
@@ -36,19 +36,19 @@ Der Server ist für mathematische und operative Fakten maßgeblich (UI §15.3). 
 
 ### F-14.01 FastAPI-Grundgerüst und versioniertes API-Schema
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.02, F-01.02
 - Quelle: UI §16.4 (letzter Absatz), §19 (Backend); ARCH §18.2 (Versionierung, Fehlertypen, Trace-IDs)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `src/mathlab/api/` mit `create_app()`, Präfix `/api/v1`, `GET /api/v1/health`, Header `X-Trace-Id` (gültige Client-UUID wird übernommen, sonst neu erzeugt) und `ErrorResponse` mit `ErrorType` und `trace_id` für Validierungs-, HTTP-, Engine- und unerwartete Fehler. Interne Fehlertexte werden nicht ausgegeben. `docs/reference/openapi-v1.json` wird mit `python -m mathlab.api.openapi` erzeugt; `--check` meldet Abweichungen, `--against` meldet Brüche (entfernte Pfade oder Operationen, neue Pflichtparameter). CI-Schritt „OpenAPI schema“ in `.github/workflows/ci.yml`. `tests/test_api.py` mit 14 Tests. ruff, ruff format und mypy strict ohne Befund; pytest 908 passed, 55 skipped. Der Vergleich gegen den Stand auf `main` bleibt Teil von F-00.06.
 
 FastAPI-Anwendung mit OpenAPI-Schema, Versionspräfix, einheitlichen Fehlertypen und Trace-ID in jeder Antwort.
 
-- [ ] Das OpenAPI-Schema ist versioniert und wird in CI auf Kompatibilität geprüft (F-00.06).
-- [ ] Jede Fehlerantwort enthält Fehlertyp und Trace-ID.
+- [x] Das OpenAPI-Schema ist versioniert und wird in CI auf Kompatibilität geprüft (F-00.06).
+- [x] Jede Fehlerantwort enthält Fehlertyp und Trace-ID.
 
 ### F-14.02 Lese-Endpunkte
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.01, F-02.05, F-02.06, F-02.07
 - Quelle: UI §16.4
 - Bearbeiter: offen · Nachweise: offen
@@ -60,7 +60,7 @@ FastAPI-Anwendung mit OpenAPI-Schema, Versionspräfix, einheitlichen Fehlertypen
 
 ### F-14.03 SSE-Live-Stream und Event-Nachladung
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.01, F-02.03
 - Quelle: UI §15.2, §16.4 (`/stream`, `/events?after=`), §17.2, §21 (Epic UI-01)
 - Bearbeiter: offen · Nachweise: offen
@@ -72,7 +72,7 @@ SSE-Endpunkt pro Run mit der Sequenznummer als Event-ID und ein Endpunkt zum Nac
 
 ### F-14.04 Command API mit Serverbestätigung
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.01, F-02.04, F-07.03
 - Quelle: UI §10.2, §16.3, §5.3, §21 (Epic UI-07)
 - Bearbeiter: offen · Nachweise: offen

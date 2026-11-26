@@ -50,3 +50,5 @@ jobs:
         run: uv run mypy
       - name: Tests
         run: uv run pytest
+      - name: OpenAPI schema
+        run: uv run python -m mathlab.api.openapi --check
