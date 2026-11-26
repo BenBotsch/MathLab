@@ -27,9 +27,9 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 | F-04.05 | Axiomreport und `sorry`-Prüfung | `done` | P0 | M1 |
 | F-04.06 | Unabhängige Nachprüfung | `ready` | P1 | M1 |
 | F-04.07 | Archiv der Verifikationsartefakte | `done` | P0 | M1 |
-| F-04.08 | Prüfung einzelner Beweispflichten | `ready` | P0 | M1 |
+| F-04.08 | Prüfung einzelner Beweispflichten | `done` | P0 | M1 |
 | F-04.09 | Verifikations-Cache und Revalidierung | `ready` | P1 | M2 |
-| F-04.10 | Rekonstruktion externer Ergebnisse | `todo` | P1 | M2 |
+| F-04.10 | Rekonstruktion externer Ergebnisse | `ready` | P1 | M2 |
 | F-04.11 | Spike Lean-Interaktionsschicht | `done` | P0 | M1 |
 | F-04.12 | Kontrolliert äquivalente Zielform | `todo` | P1 | M2 |
 
@@ -122,15 +122,15 @@ Beweisquelle, Axiomreport, Log und Fingerprints werden als Artefakte gespeichert
 
 ### F-04.08 Prüfung einzelner Beweispflichten
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-04.04
 - Quelle: ARCH §3.1 (Verifikation einzelner Lemmata), §7.2 (Schritt 6); UI §20 (Kriterium 2)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `src/mathlab/engines/obligations.py` mit `check_obligation`. Die Ereignisse `proof.step.verified` und `lemma.verified` erhalten das Feld `artifact` (Manifest aus F-04.07). Ein abgelehntes Lemma nutzt `proof.step.rejected` mit der Lemma-ID als `step_id`, weil der Katalog kein `lemma.rejected` kennt. `tests/test_obligations.py` mit 7 Tests, davon ein Containertest: Lemma `VERIFIED`, Hauptziel mit `sorry` `REJECTED`, Übergang des Hauptziels nach `FORMALLY_VERIFIED` scheitert. `ruff format`, `ruff check`, `mypy` ohne Befund. `pytest` mit `MATHLAB_TEST_LEAN_IMAGE=mathlab-lean:latest`: 728 passed, 30 skipped (Datenbank-, Sandbox- und SymPy-Image fehlen).
 
 Teilziele und Lemmata werden unabhängig vom Gesamterfolg geprüft. Ergebnis ist ein Ereignis `proof.step.verified`, `lemma.verified` oder `proof.step.rejected`.
 
-- [ ] Ein verifiziertes Teilziel erzeugt das Ereignis mit Verweis auf das Artefakt.
-- [ ] Ein Lemma kann `VERIFIED` sein, während das Hauptziel offen bleibt.
+- [x] Ein verifiziertes Teilziel erzeugt das Ereignis mit Verweis auf das Artefakt.
+- [x] Ein Lemma kann `VERIFIED` sein, während das Hauptziel offen bleibt.
 
 ### F-04.09 Verifikations-Cache und Revalidierung
 
@@ -146,7 +146,7 @@ Cache über den Hash von Aussage, Beweis, Toolchain und Abhängigkeiten. Wechsel
 
 ### F-04.10 Rekonstruktion externer Ergebnisse
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-04.08, F-05.02
 - Quelle: ARCH §13.2 (numerische und externe symbolische Ergebnisse)
 - Bearbeiter: offen · Nachweise: offen

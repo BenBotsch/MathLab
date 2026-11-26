@@ -16,10 +16,10 @@ Felder mit `?` sind optional.
 | `proof.goal.created` | `ProofGoalCreated` | `proof_node_id`, `goal`, `parent_node_id`? | A new (sub)goal appeared in the proof graph. |
 | `proof.step.proposed` | `ProofStepProposed` | `step_id`, `attempt_id`, `tactic`, `state_before_fingerprint`, `raw_response`, `sources`, `library_references` | A tactic or tool call was proposed. Not yet checked. |
 | `proof.step.accepted` | `ProofStepAccepted` | `step_id` | Search accepted a proposed step into the attempt; no formal check implied (ARCH §9.4). |
-| `proof.step.verified` | `ProofStepVerified` | `step_id`, `verification_result_id`, `state_after_fingerprint` | The trusted checker confirmed a step; needs a verification result (UI §8.1). |
+| `proof.step.verified` | `ProofStepVerified` | `step_id`, `verification_result_id`, `state_after_fingerprint`, `artifact`? | The trusted checker confirmed a step; needs a verification result (UI §8.1). |
 | `proof.step.rejected` | `ProofStepRejected` | `step_id`, `failure_code`, `message`, `state_after_fingerprint` | A step was rejected; ``failure_code`` follows ARCH §9.3, ``None`` if unclassified. |
 | `lemma.discovered` | `LemmaDiscovered` | `lemma_id`, `name` | A candidate lemma was found. |
-| `lemma.verified` | `LemmaVerified` | `lemma_id`, `verification_result_id` | The checker confirmed a lemma. |
+| `lemma.verified` | `LemmaVerified` | `lemma_id`, `verification_result_id`, `artifact`? | The checker confirmed a lemma. |
 | `hypothesis.created` | `HypothesisCreated` | `hypothesis_id`, `statement` | A hypothesis was formulated. |
 | `counterexample.found` | `CounterexampleFound` | `counterexample_id`, `formal_statement_id`, `assignment`?, `description`?, `source`?, `artifact`? | A counterexample to a formal statement was found; unchecked until ``.checked`` (F-05.07). |
 | `counterexample.checked` | `CounterexampleChecked` | `counterexample_id`, `verification_status`, `verification_result_id` | An exact re-check of a counterexample finished (ARCH §7.5 step 4; F-05.07). |

@@ -160,6 +160,8 @@ class ProofStepVerified(Payload):
     step_id: UUID
     verification_result_id: UUID
     state_after_fingerprint: str | None = Field(min_length=1)
+    artifact: ArtifactRef | None = Field(default=None, min_length=1)
+    """Archive manifest of the verification result (F-04.08); optional for older payloads."""
 
 
 class ProofStepRejected(Payload):
@@ -187,6 +189,8 @@ class LemmaVerified(Payload):
 
     lemma_id: UUID
     verification_result_id: UUID
+    artifact: ArtifactRef | None = Field(default=None, min_length=1)
+    """Archive manifest of the verification result (F-04.08); optional for older payloads."""
 
 
 class HypothesisCreated(Payload):
