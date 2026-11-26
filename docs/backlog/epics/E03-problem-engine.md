@@ -23,7 +23,7 @@ Die Originalaussage wird unverändert archiviert. Eine Formalisierung gilt erst 
 | F-03.01 | Import von Text, LaTeX und Lean | `done` | P0 | M1 |
 | F-03.02 | Kanonische Darstellung | `done` | P0 | M1 |
 | F-03.03 | Mehrdeutigkeit protokollieren | `ready` | P1 | M1 |
-| F-03.04 | Autoformalisierung | `todo` | P1 | M2 |
+| F-03.04 | Autoformalisierung | `ready` | P1 | M2 |
 | F-03.05 | Prüfung der Statement Fidelity | `done` | P0 | M1 |
 | F-03.06 | Problem Classifier | `ready` | P1 | M2 |
 | F-03.07 | AST-Normalisierung und Fingerprints | `ready` | P1 | M2 |
@@ -72,7 +72,7 @@ Erkannte Mehrdeutigkeiten werden mit Lesarten gespeichert. Ist sie relevant, war
 
 ### F-03.04 Autoformalisierung
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-03.02, F-07.01, F-04.03
 - Quelle: ARCH §7.1 (Schritt 4); ProofNet in ARCH §16.1
 - Bearbeiter: offen · Nachweise: offen

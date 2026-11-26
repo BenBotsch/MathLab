@@ -29,7 +29,7 @@ Ungeprüfte neue Erkenntnisse verändern nie direkt Modellgewichte (ARCH §10.4)
 | F-12.07 | Replay Buffer | `todo` | P1 | M4 |
 | F-12.08 | Replay-Daten markieren | `ready` | P1 | M2 |
 | F-12.09 | Lernstufen SFT, Preference Learning und RL | `todo` | P1 | M4 |
-| F-12.10 | Benchmark für lokale Modelle, Quantisierung und Kontext | `todo` | P1 | M1 |
+| F-12.10 | Benchmark für lokale Modelle, Quantisierung und Kontext | `ready` | P1 | M1 |
 | F-12.11 | Continual Learning und Forgetting-Tests | `todo` | P1 | M4 |
 | F-12.12 | Lernender Meta Controller | `todo` | P2 | M6 |
 | F-12.13 | Modellregistry und Übernahmegate | `todo` | P0 | M4 |
@@ -151,7 +151,7 @@ Stufe 1 trainiert supervised auf formal bewiesenen Aufgaben. Stufe 2 bevorzugt u
 
 ### F-12.10 Benchmark für lokale Modelle, Quantisierung und Kontext
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M1
+- Status: `ready` · Priorität: P1 · Meilenstein: M1
 - Abhängigkeiten: F-07.01 (OD-03)
 - Quelle: ARCH §17.3
 - Bearbeiter: offen · Nachweise: offen

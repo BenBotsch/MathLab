@@ -32,7 +32,7 @@ Kein Agent setzt einen Verifikationsstatus, `VERIFIED` stammt nur aus dem verifi
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-07.01 | Model Adapter | `ready` | P0 | M1 |
+| F-07.01 | Model Adapter | `done` | P0 | M1 |
 | F-07.02 | Typisierte Agentennachrichten | `done` | P0 | M1 |
 | F-07.03 | Orchestrator-Kern | `ready` | P0 | M1 |
 | F-07.04 | Tactic Generator | `todo` | P0 | M1 |
@@ -46,22 +46,22 @@ Kein Agent setzt einen Verifikationsstatus, `VERIFIED` stammt nur aus dem verifi
 | F-07.12 | Research Agent | `todo` | P2 | M6 |
 | F-07.13 | Conjecture Generator und Counterexample Generator | `todo` | P1 | M2 |
 | F-07.14 | Geometry Agent | `todo` | P2 | M5 |
-| F-07.15 | Versionierte Agenten- und Modellprofile | `todo` | P1 | M2 |
+| F-07.15 | Versionierte Agenten- und Modellprofile | `ready` | P1 | M2 |
 | F-07.16 | Bedienung aus Claude Code über MCP und CLI | `todo` | P1 | M1 |
 
 ## Features
 
 ### F-07.01 Model Adapter
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-01.04, F-00.01 (OD-03)
 - Quelle: ARCH §17.1, §17.3, §22
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `src/mathlab/model_adapter.py` mit dem Protokoll `ModelAdapter` (`complete(ModelRequest, RequestContext) -> ModelCall`), `InferenceConfig`, `FakeModelAdapter` und `ClaudeCliAdapter` nach ADR-0003 (`claude -p --output-format json`, Prompt über stdin, eingebaute Werkzeuge aus, ein Turn, leeres Arbeitsverzeichnis, gepinnte CLI-Version mit `check_version`). `ModelCall` hält Anbieter, Adapter- und Modellversion, Prompt-Version, Prompt-Hash, Tokens (`None` = nicht gemeldet), Kosten (`None` = nicht gemessen, ADR-0003), Latenz und Versuche. Rate-Limits und vorübergehende Fehler werden mit exponentiellem Backoff wiederholt, ein bleibendes Rate-Limit wirft `ModelRateLimitedError`. Timeout und Abbruch kommen aus `RequestContext`. `RecordingModel` schreibt jeden abgeschlossenen Aufruf in `ModelCallLog` (JSON Lines, nur Prompt-Hash). `tests/test_model_adapter.py` mit 15 Tests, davon ein Test gegen die echte CLI 2.1.322 mit `claude-haiku-5-5` (`MATHLAB_TEST_CLAUDE_CLI=2.1.322`). `ruff format`, `ruff check`, `mypy` ohne Befund. `pytest` mit Lean-Image und CLI: 772 passed, 30 skipped (Datenbank-, Sandbox- und SymPy-Image fehlen). Fehlgeschlagene Aufrufe werden noch nicht protokolliert; das übernimmt F-23.05.
 
 Einheitliche Schnittstelle für externe API-Modelle und lokale Modelle mit Modellversion, Inference-Konfiguration, Tokenzählung, Kosten, Timeout und Retry.
 
-- [ ] Ein Fake-Modell und ein reales Modell laufen über dieselbe Schnittstelle.
-- [ ] Jeder Aufruf speichert Modellversion, Tokens, Kosten und Latenz.
+- [x] Ein Fake-Modell und ein reales Modell laufen über dieselbe Schnittstelle.
+- [x] Jeder Aufruf speichert Modellversion, Tokens, Kosten und Latenz.
 
 ### F-07.02 Typisierte Agentennachrichten
 
@@ -280,7 +280,7 @@ Spezialisierter Agent für den geometrischen Beweisweg, also die Darstellung von
 
 ### F-07.15 Versionierte Agenten- und Modellprofile
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-07.01
 - Quelle: UI §2.1 (System Configuration), §5.2; ARCH §9.2
 - Bearbeiter: offen · Nachweise: offen
