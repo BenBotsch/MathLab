@@ -28,7 +28,18 @@ Result:
   no ``sorry``, and the axiom report contains only allowed axioms,
 * Docker missing: ``EngineUnavailableError``.
 
-The comparison with the confirmed goal is F-04.04. The sandbox time limit equals
+Goal match (F-04.04, ARCH §7.3 step 5, §13.1): before Lean runs, the request is compared with the
+``ConfirmedStatement`` that ``targets`` returns for ``request.statement_id``. ``statement_hash``,
+the hash of the requested ``lean_code`` under the target's imports and toolchain, and the
+checker's toolchain must all match the target. Otherwise the check raises
+``EngineFailureError`` with ``SEMANTIC_MISMATCH`` and compiles nothing, so a weakened or changed
+statement is rejected even if it would compile. The checked source is then built from the
+target's own ``lean_code`` and imports, never from the request. A proof can only append text
+after ``:=``, so it cannot change the type of the declared theorem; extra declarations after it
+are not the checked theorem, and the axiom query uses ``_root_.<name>``. Without ``targets``
+every check is rejected. Controlled equivalent forms with their own proof are not supported yet.
+
+The sandbox time limit equals
 ``ctx.timeout_seconds``. Cancellation through ``ctx`` returns at once; the container then ends
 at the latest with its time limit.
 """
@@ -36,9 +47,9 @@ at the latest with its time limit.
 import asyncio
 import re
 import tempfile
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from pathlib import Path
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 from pydantic import BaseModel, ConfigDict
 
@@ -53,12 +64,15 @@ from mathlab.core.contracts import (
     VerifyResponse,
     call_engine,
 )
+from mathlab.core.target import ConfirmedStatement, statement_hash
 from mathlab.failures import FailureClass
 from mathlab.sandbox import WORKDIR, SandboxLimits, SandboxResult, run_sandboxed
 
 IMAGE = "mathlab-lean:latest"
 LEAN_VERSION = "v4.36.0"
 """Pinned in ``lean/lean-toolchain``."""
+TOOLCHAIN = f"leanprover/lean4:{LEAN_VERSION}"
+"""Content of ``lean/lean-toolchain``; a confirmed target must name exactly this toolchain."""
 LEAN_CHECK = "/home/lean/bin/lean-check"
 SOURCE_NAME = "Proof.lean"
 LEAN_USER = "1000:1000"
@@ -149,6 +163,28 @@ def parse_axiom_report(
     return classify_axioms(theorem, axioms, policy)
 
 
+TargetLookup = Callable[[UUID], ConfirmedStatement | None]
+"""Returns the confirmed target statement for a statement id, ``None`` if there is none."""
+
+
+def goal_mismatches(
+    request: VerifyRequest, target: ConfirmedStatement | None, toolchain: str = TOOLCHAIN
+) -> tuple[str, ...]:
+    """Reasons why ``request`` does not ask for exactly ``target``; empty if it does."""
+    if target is None:
+        return (f"no confirmed target statement for {request.statement_id}",)
+    reasons = []
+    if request.statement_id != target.id:
+        reasons.append("statement_id differs from the confirmed target")
+    if request.statement_hash != target.statement_hash:
+        reasons.append("statement_hash differs from the confirmed target")
+    if statement_hash(request.lean_code, target.imports, target.toolchain) != target.statement_hash:
+        reasons.append("lean_code differs from the confirmed target statement")
+    if target.toolchain.strip() != toolchain:
+        reasons.append(f"target toolchain {target.toolchain!r} is not the checker's {toolchain!r}")
+    return tuple(reasons)
+
+
 def lean_source(request: VerifyRequest, imports: Sequence[str], marker: str | None = None) -> str:
     """The complete checked file: imports, statement and proof, then the axiom query."""
     header = "".join(f"import {name}\n" for name in imports)
@@ -223,12 +259,12 @@ class LeanChecker:
         self,
         image: str = IMAGE,
         limits: SandboxLimits | None = None,
-        imports: Sequence[str] = ("Mathlib",),
         policy: AxiomPolicy | None = None,
+        targets: TargetLookup | None = None,
     ) -> None:
         self._image = image
         self._limits = limits or DEFAULT_LIMITS
-        self._imports = tuple(imports)
+        self._targets = targets
         self._policy = policy or AxiomPolicy()
         self._info = EngineInfo(name="lean", version=LEAN_VERSION)
 
@@ -249,15 +285,25 @@ class LeanChecker:
     def _run(
         self, request: VerifyRequest, ctx: RequestContext
     ) -> tuple[VerifyResponse, AxiomReport | None]:
+        target = None if self._targets is None else self._targets(request.statement_id)
+        mismatches = goal_mismatches(request, target)
+        if target is None or mismatches:
+            raise EngineFailureError(
+                "goal mismatch: " + "; ".join(mismatches),
+                FailureCode.SEMANTIC_MISMATCH,
+                trace_id=ctx.trace_id,
+            )
+        # Compile the confirmed statement itself, not the request's copy of it.
+        trusted = request.model_copy(update={"lean_code": target.lean_code})
         try:
-            name = theorem_name(request.lean_code)
+            name = theorem_name(trusted.lean_code)
         except ValueError as error:
             raise EngineFailureError(
                 str(error), FailureCode.SYNTAX_ERROR, trace_id=ctx.trace_id
             ) from error
         limits = self._limits.model_copy(update={"timeout_seconds": ctx.timeout_seconds})
         marker = f"MATHLAB-AXIOMS-{uuid4().hex}"
-        source = lean_source(request, self._imports, marker)
+        source = lean_source(trusted, target.imports, marker)
         try:
             result = run_check(self._image, source, limits)
         except FileNotFoundError as error:
@@ -274,10 +320,13 @@ __all__ = [
     "IMAGE",
     "LEAN_VERSION",
     "STANDARD_AXIOMS",
+    "TOOLCHAIN",
     "AxiomPolicy",
     "AxiomReport",
     "LeanChecker",
+    "TargetLookup",
     "classify_axioms",
+    "goal_mismatches",
     "lean_source",
     "parse_axiom_report",
     "response_from",

@@ -65,7 +65,7 @@ Ein Abschnitt ohne Feature trägt einen Vermerk. „Referenz“ bedeutet Literat
 | §12.3 | Counterexample-Guided Reasoning | F-05.03, F-05.06, F-05.07 |  |
 | §13 | Formale Beweise und Vertrauensgrenzen | keine | Oberabschnitt, siehe Unterabschnitte |
 | §13.1 | Lean als Trusted Checker | F-04.04 |  |
-| §13.2 | Maßnahmen | F-01.03, F-03.05, F-04.04, F-04.05, F-04.06, F-04.10, F-05.02 |  |
+| §13.2 | Maßnahmen | F-01.03, F-03.05, F-04.04, F-04.05, F-04.06, F-04.10, F-04.12, F-05.02 |  |
 | §14 | Erklärung, Visualisierung und Benutzeroberfläche | keine | Oberabschnitt, siehe Unterabschnitte |
 | §14.1 | Hauptansichten | F-13.10, F-15.05, F-18.07, F-19.10, F-21.05, F-21.06, F-21.07, F-21.09 |  |
 | §14.2 | Visualisierungstechnologien | F-13.07, F-13.08, F-13.09 |  |

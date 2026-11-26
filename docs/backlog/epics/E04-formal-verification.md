@@ -23,14 +23,15 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 | F-04.01 | Lean 4 und Mathlib einrichten | `done` | P0 | M1 |
 | F-04.02 | Lean-Interaktionsadapter | `done` | P0 | M1 |
 | F-04.03 | Isolierte Beweisprüfung | `done` | P0 | M1 |
-| F-04.04 | Zielabgleich | `ready` | P0 | M1 |
+| F-04.04 | Zielabgleich | `done` | P0 | M1 |
 | F-04.05 | Axiomreport und `sorry`-Prüfung | `done` | P0 | M1 |
 | F-04.06 | Unabhängige Nachprüfung | `ready` | P1 | M1 |
 | F-04.07 | Archiv der Verifikationsartefakte | `ready` | P0 | M1 |
-| F-04.08 | Prüfung einzelner Beweispflichten | `todo` | P0 | M1 |
+| F-04.08 | Prüfung einzelner Beweispflichten | `ready` | P0 | M1 |
 | F-04.09 | Verifikations-Cache und Revalidierung | `todo` | P1 | M2 |
 | F-04.10 | Rekonstruktion externer Ergebnisse | `todo` | P1 | M2 |
 | F-04.11 | Spike Lean-Interaktionsschicht | `done` | P0 | M1 |
+| F-04.12 | Kontrolliert äquivalente Zielform | `todo` | P1 | M2 |
 
 ## Features
 
@@ -73,15 +74,15 @@ Vollständige Lean-Quelle aus Zielaussage und Beweis wird in einer Sandbox ohne 
 
 ### F-04.04 Zielabgleich
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-04.03, F-01.03
 - Quelle: ARCH §7.3 (Schritt 5), §13.1, §13.2, §18.4
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude (Agent) · Nachweise: `goal_mismatches` und `LeanChecker(targets=...)` in `src/mathlab/engines/lean_check.py`. Vor jedem Lean-Lauf holt der Prüfer über `targets` das `ConfirmedStatement` zur `statement_id`. Abgelehnt mit `EngineFailureError` und `SEMANTIC_MISMATCH` wird, wenn kein bestätigtes Ziel existiert oder `statement_id`, `statement_hash`, der Hash des angefragten `lean_code` unter Importen und Toolchain des Ziels oder die Toolchain des Prüfers (`TOOLCHAIN`, `leanprover/lean4:v4.36.0`) abweicht. Dann startet kein Container. Kompiliert wird danach die bestätigte Aussage mit ihren Importen, nie die Kopie aus der Anfrage. Ohne `targets` lehnt der Prüfer jede Anfrage ab. Tests in `tests/test_lean_check.py` (6 neue, davon 2 gegen den Container). Am 2026-11-26: `ruff format --check` und `ruff check` ohne Befund, `mypy` (strict, 78 Dateien) ohne Befund, `pytest` mit Lean-Image 714 bestanden und 30 übersprungen (ohne Datenbank und SymPy-Image). Kontrolliert äquivalente Formen mit eigenem Nachweis sind nicht umgesetzt und als F-04.12 erfasst.
 
 Das bewiesene Theorem muss exakt der Zielaussage mit dem bestätigten Hash entsprechen oder einer kontrolliert äquivalenten Form mit eigenem Nachweis.
 
-- [ ] Ein Beweis eines abgeschwächten Ziels wird abgelehnt.
-- [ ] Ein Beweis mit veränderter Zielaussage wird abgelehnt, auch wenn er kompiliert.
+- [x] Ein Beweis eines abgeschwächten Ziels wird abgelehnt. Im Container: `n + 0 = n \/ True` mit `Or.inr trivial` kompiliert als eigenes Ziel, gegen das bestätigte Ziel `n + 0 = n` folgt `SEMANTIC_MISMATCH`.
+- [x] Ein Beweis mit veränderter Zielaussage wird abgelehnt, auch wenn er kompiliert. Jede Abweichung im normalisierten `lean_code`, in Hash oder Toolchain führt ohne Lean-Lauf zu `SEMANTIC_MISMATCH`. Eine Anfrage, die nur durch Normalisierung abweicht, wird gegen die bestätigte Aussage geprüft.
 
 ### F-04.05 Axiomreport und `sorry`-Prüfung
 
@@ -121,7 +122,7 @@ Beweisquelle, Axiomreport, Log und Fingerprints werden als Artefakte gespeichert
 
 ### F-04.08 Prüfung einzelner Beweispflichten
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-04.04
 - Quelle: ARCH §3.1 (Verifikation einzelner Lemmata), §7.2 (Schritt 6); UI §20 (Kriterium 2)
 - Bearbeiter: offen · Nachweise: offen
@@ -169,3 +170,15 @@ Ein zeitlich begrenzter Spike prüft Pantograph (PyPantograph) und als Rückfall
 - [x] Taktikausführung, Verzweigung und Rückkehr zu einem früheren Zustand sind demonstriert.
 - [x] Startzeit, Zeit pro Taktik und Speicherbedarf sind gemessen.
 - [ ] Lizenz und letzte Releases sind festgehalten. ADR-0002 ist mit dem Ergebnis aktualisiert und dem Benutzer vorgelegt.
+
+### F-04.12 Kontrolliert äquivalente Zielform
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Abhängigkeiten: F-04.04
+- Quelle: ARCH §13.2 (kontrolliert äquivalente Form)
+- Bearbeiter: offen · Nachweise: offen
+
+Der Zielabgleich (F-04.04) akzeptiert bisher nur die exakt bestätigte Aussage. Eine abweichende Form gilt nur, wenn ein eigener, formal geprüfter Äquivalenznachweis zur bestätigten Aussage vorliegt und archiviert ist.
+
+- [ ] Ein Beweis einer äquivalenten Form mit geprüftem Äquivalenzbeweis wird akzeptiert und verweist auf diesen Nachweis.
+- [ ] Ohne Äquivalenzbeweis oder mit nur einseitiger Implikation wird die Form abgelehnt.
