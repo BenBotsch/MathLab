@@ -36,7 +36,7 @@ from mathlab.core.contracts import FailureCode
 from mathlab.core.event import EventEnvelope
 from mathlab.core.primitives import ArtifactRef, JsonObject
 from mathlab.core.provenance import LibraryReference, SourceRef
-from mathlab.core.run import RunStatus, WorkflowStep
+from mathlab.core.run import RunStatus, StopReason, WorkflowStep
 from mathlab.core.status import AgentStatus
 
 
@@ -374,11 +374,19 @@ class AgentStatusChanged(Payload):
 
 
 class BudgetUpdated(Payload):
-    """Consumed budget so far (ADR-0003)."""
+    """Consumed budget so far (ADR-0003), or a change of the limits (F-08.04).
+
+    ``branch_id`` names the search branch the update belongs to, ``None`` for the whole run.
+    ``limits`` holds the new limits after a change, ``reason`` the rule that caused it. Both
+    are ``None`` for a plain consumption update, so earlier payloads stay valid.
+    """
 
     model_calls_used: int = Field(ge=0)
     tokens_used: int | None = Field(default=None, ge=0)
     runtime_seconds_used: float = Field(ge=0)
+    branch_id: UUID | None = None
+    limits: JsonObject | None = None
+    reason: str | None = Field(default=None, min_length=1)
 
 
 class RunPaused(Payload):
@@ -395,9 +403,10 @@ TERMINAL_RUN_STATUSES = frozenset({RunStatus.COMPLETED, RunStatus.FAILED, RunSta
 
 
 class RunCompleted(Payload):
-    """The run ended in a terminal status."""
+    """The run ended in a terminal status; ``stop_reason`` says why (F-08.04)."""
 
     final_status: RunStatus
+    stop_reason: StopReason | None = None
 
     @field_validator("final_status")
     @classmethod

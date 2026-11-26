@@ -20,6 +20,8 @@ Stop criteria and final status:
 * ``stop()``: ``CANCELLED``;
 * an agent crash: the agent is ``FAILED``; the run continues, or ends ``FAILED`` when
   ``fail_run_on_agent_failure`` is set.
+
+``run.completed`` names the criterion that held first as ``stop_reason`` (F-08.04).
 """
 
 import asyncio
@@ -45,7 +47,7 @@ from mathlab.core.event_types import (
     RunResumed,
 )
 from mathlab.core.primitives import JsonObject
-from mathlab.core.run import Run, RunStatus, WorkflowStep
+from mathlab.core.run import Run, RunStatus, StopReason, WorkflowStep
 from mathlab.core.status import AgentStatus
 from mathlab.messaging import VerificationResults, adopt
 from mathlab.storage.events import EventDraft
@@ -178,6 +180,7 @@ class Orchestrator:
         self._changed = asyncio.Event()
         self._wakeup = asyncio.Event()
         self._final: RunStatus | None = None
+        self._stop_reason: StopReason | None = None
         self._model_calls = 0
         self._tokens: int | None = None
         self._started = 0.0
@@ -193,12 +196,14 @@ class Orchestrator:
             async with asyncio.timeout(self.run.budget.max_runtime_seconds):
                 await self._loop()
         except TimeoutError:
-            self._finish(self._budget_status())
+            self._finish(self._budget_status(), StopReason.RUNTIME_BUDGET)
         await self._shutdown()
         assert self._final is not None
         if self.run.status is not self._final:
             self.run = self.run.transition(self._final)
-        self._emit("run.completed", RunCompleted(final_status=self._final))
+        self._emit(
+            "run.completed", RunCompleted(final_status=self._final, stop_reason=self._stop_reason)
+        )
         return self._final
 
     async def pause(self, reason: str | None = None) -> None:
@@ -235,7 +240,7 @@ class Orchestrator:
 
     def stop(self) -> None:
         """End the run as ``CANCELLED``; ``execute`` ends all agents within ``control_timeout``."""
-        self._finish(RunStatus.CANCELLED)
+        self._finish(RunStatus.CANCELLED, StopReason.STOPPED)
 
     # -- scheduling -------------------------------------------------------------------------
 
@@ -245,7 +250,7 @@ class Orchestrator:
                 while self._queue:
                     self._launch(self._queue.popleft())
             if not self._active and not self._queue:
-                self._finish(RunStatus.COMPLETED)
+                self._finish(RunStatus.COMPLETED, StopReason.ALL_TASKS_DONE)
                 return
             self._wakeup.clear()
             await self._wakeup.wait()
@@ -289,7 +294,7 @@ class Orchestrator:
         except Exception as exc:  # an agent crash must not end the orchestrator
             self._status(execution_id, AgentStatus.FAILED, f"{type(exc).__name__}: {exc}")
             if self.fail_run_on_agent_failure:
-                self._finish(RunStatus.FAILED)
+                self._finish(RunStatus.FAILED, StopReason.AGENT_FAILED)
         else:
             self._emit(
                 "agent.result.reported", adopt(message, self._results), agent_id=task.agent_id
@@ -344,17 +349,20 @@ class Orchestrator:
             and self._tokens is not None
             and self._tokens >= budget.max_tokens
         )
-        if self._model_calls >= budget.max_model_calls or tokens_exhausted:
-            self._finish(self._budget_status())
+        if self._model_calls >= budget.max_model_calls:
+            self._finish(self._budget_status(), StopReason.MODEL_CALL_BUDGET)
+        elif tokens_exhausted:
+            self._finish(self._budget_status(), StopReason.TOKEN_BUDGET)
 
     def _budget_status(self) -> RunStatus:
         return RunStatus.COMPLETED if self.run.status is RunStatus.RUNNING else RunStatus.CANCELLED
 
     # -- helpers ----------------------------------------------------------------------------
 
-    def _finish(self, status: RunStatus) -> None:
+    def _finish(self, status: RunStatus, reason: StopReason) -> None:
         if self._final is None:
             self._final = status
+            self._stop_reason = reason
         self._resumed.set()
         self._wakeup.set()
 

@@ -122,7 +122,9 @@ def test_all_tasks_done_completes_the_run() -> None:
     assert asyncio.run(orch.execute([task("a", "t1"), task("b", "t2")])) is RunStatus.COMPLETED
     assert sink.types().count("agent.started") == 2
     assert sorted(sink.statuses()) == [("a", "FINISHED"), ("b", "FINISHED")]
-    assert sink.of("run.completed") == [{"final_status": "COMPLETED"}]
+    assert sink.of("run.completed") == [
+        {"final_status": "COMPLETED", "stop_reason": "ALL_TASKS_DONE"}
+    ]
     assert orch.run.status is RunStatus.COMPLETED and orch.run.state_version == 2
 
 
@@ -152,6 +154,7 @@ def test_crash_can_end_the_run_in_a_controlled_way() -> None:
     assert status is RunStatus.FAILED
     assert ("slow", "CANCELLED") in sink.statuses()
     assert sink.types()[-1] == "run.completed"
+    assert sink.of("run.completed")[0]["stop_reason"] == "AGENT_FAILED"
 
 
 def test_pause_and_resume_reach_every_agent_within_the_deadline() -> None:
@@ -218,7 +221,7 @@ def test_stop_ends_all_agents_within_the_deadline() -> None:
     status, elapsed = asyncio.run(scenario())
     assert status is RunStatus.CANCELLED and elapsed < 1.0
     assert sorted(sink.statuses()) == [("coop", "CANCELLED"), ("stubborn", "CANCELLED")]
-    assert sink.of("run.completed") == [{"final_status": "CANCELLED"}]
+    assert sink.of("run.completed") == [{"final_status": "CANCELLED", "stop_reason": "STOPPED"}]
 
 
 def test_stop_while_paused_releases_and_cancels_agents() -> None:
@@ -244,6 +247,7 @@ def test_model_call_budget_stops_the_run() -> None:
     assert [b["model_calls_used"] for b in budget] == [1, 2, 3]
     assert budget[-1]["tokens_used"] == 30
     assert sink.statuses() == [("a", "CANCELLED")]
+    assert sink.of("run.completed")[0]["stop_reason"] == "MODEL_CALL_BUDGET"
 
 
 def test_token_budget_stops_the_run() -> None:
@@ -251,6 +255,9 @@ def test_token_budget_stops_the_run() -> None:
     orch = orchestrator(sink, {"a": Scripted(calls=10)}, budget={"max_tokens": 20})
     asyncio.run(orch.execute([task("a", "t1")]))
     assert len(sink.of("budget.updated")) == 2
+    assert sink.of("run.completed") == [
+        {"final_status": "COMPLETED", "stop_reason": "TOKEN_BUDGET"}
+    ]
 
 
 def test_runtime_budget_stops_the_run() -> None:
@@ -260,6 +267,7 @@ def test_runtime_budget_stops_the_run() -> None:
     )
     assert asyncio.run(orch.execute([task("a", "t1")])) is RunStatus.COMPLETED
     assert sink.statuses() == [("a", "CANCELLED")]
+    assert sink.of("run.completed")[0]["stop_reason"] == "RUNTIME_BUDGET"
 
 
 def test_unknown_agent_is_rejected() -> None:
@@ -306,4 +314,6 @@ def test_agent_cannot_write_orchestrator_events() -> None:
     sink = MemorySink()
     asyncio.run(orchestrator(sink, {"f": Forger()}).execute([task("f", "t1")]))
     assert ("f", "FAILED") in sink.statuses()
-    assert sink.of("run.completed") == [{"final_status": "COMPLETED"}]
+    assert sink.of("run.completed") == [
+        {"final_status": "COMPLETED", "stop_reason": "ALL_TASKS_DONE"}
+    ]

@@ -23,7 +23,7 @@ Ein AND-Knoten gilt erst als gelöst, wenn alle Teilziele verifiziert sind. Ein 
 | F-08.01 | Proof State und Aktionsraum | `done` | P0 | M1 |
 | F-08.02 | AND-OR-Hypergraph | `done` | P0 | M1 |
 | F-08.03 | Tiefen-, Breiten-, Best-First- und A*-Suche | `todo` | P0 | M1 |
-| F-08.04 | Search Budget Controller | `ready` | P0 | M1 |
+| F-08.04 | Search Budget Controller | `done` | P0 | M1 |
 | F-08.05 | Checkpoint und Resume | `ready` | P0 | M1 |
 | F-08.06 | Zerlegung und Backtracking | `todo` | P1 | M2 |
 | F-08.07 | Reparatur und Strategiewechsel | `ready` | P1 | M2 |
@@ -73,10 +73,10 @@ Depth-First, Breadth-First und Best-First über den `SearchPolicy`-Contract, mit
 
 ### F-08.04 Search Budget Controller
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-08.02
 - Quelle: ARCH §8.2, §6.2 (Budget Controller), §6.1 (Meta Controller, erste Implementierung)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `src/mathlab/search_budget.py` mit `SearchBudgetController`: Verbrauch (Iterationen, Modellaufrufe, Tokens, CPU- und GPU-Zeit) wird pro Zweig gebucht und ist über `usage(branch_id)`, `branches()` und `total` abfragbar. `decide()` wählt nach festen, in `SearchLimits` konfigurierbaren Regeln eine der acht Aktionen aus `ControlAction` (Pausieren, Budget erhöhen oder beenden bei Budgetende, Lemmata abrufen und Methode wechseln bei Wiederholungen, Stage-Limit mit Eskalation, Early Stopping, breiter explorieren bei Zweiglimit, weitersuchen). Jede Buchung und jede Budgeterhöhung erzeugt `budget.updated`; das Event hat dafür die optionalen Felder `branch_id`, `limits` und `reason`. Der Orchestrator beendet einen Run mit Status und neuem `StopReason` in `run.completed` (`MODEL_CALL_BUDGET`, `TOKEN_BUDGET`, `RUNTIME_BUDGET`, `STOPPED`, `ALL_TASKS_DONE`, `AGENT_FAILED`). `tests/test_search_budget.py`: 13 Tests, je Aktion mindestens einer; `tests/test_orchestrator.py` prüft die Stoppgründe. `docs/reference/event-types.md` neu erzeugt. Testlauf ohne Lean-Image 840 passed, 55 skipped. ruff, ruff format und mypy (strict) ohne Befund. Cheap-First-Solver, parallele Kandidaten und Checkpoint/Resume setzen F-08.03, F-08.08 und F-08.05 um.
 
 Regelbasierter Controller nach ARCH §8.2.
 
@@ -86,9 +86,9 @@ Regelbasierter Controller nach ARCH §8.2.
 
 Budgetänderungen erzeugen `budget.updated`.
 
-- [ ] Ein Run endet bei Budgetende kontrolliert mit Status und Stoppgrund.
-- [ ] Jede der acht Aktionen ist mit Testfall belegt.
-- [ ] Verbrauch pro Zweig ist abfragbar.
+- [x] Ein Run endet bei Budgetende kontrolliert mit Status und Stoppgrund.
+- [x] Jede der acht Aktionen ist mit Testfall belegt.
+- [x] Verbrauch pro Zweig ist abfragbar.
 
 ### F-08.05 Checkpoint und Resume
 

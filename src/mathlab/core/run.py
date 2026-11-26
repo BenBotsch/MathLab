@@ -97,6 +97,18 @@ class RunStatus(Enum):
     CANCELLED = "CANCELLED"
 
 
+class StopReason(Enum):
+    """Why a run ended (F-08.04); recorded in ``run.completed`` next to the final status."""
+
+    ALL_TASKS_DONE = "ALL_TASKS_DONE"
+    MODEL_CALL_BUDGET = "MODEL_CALL_BUDGET"
+    TOKEN_BUDGET = "TOKEN_BUDGET"
+    RUNTIME_BUDGET = "RUNTIME_BUDGET"
+    STOPPED = "STOPPED"
+    """``stop()`` by a person or a controller decision."""
+    AGENT_FAILED = "AGENT_FAILED"
+
+
 ALLOWED_TRANSITIONS: dict[RunStatus, frozenset[RunStatus]] = {
     RunStatus.RUNNING: frozenset(
         {RunStatus.PAUSED, RunStatus.COMPLETED, RunStatus.FAILED, RunStatus.CANCELLED}
@@ -160,5 +172,6 @@ __all__ = [
     "Run",
     "RunBudget",
     "RunStatus",
+    "StopReason",
     "WorkflowStep",
 ]
