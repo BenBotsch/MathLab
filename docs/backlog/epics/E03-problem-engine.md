@@ -31,6 +31,7 @@ Die Originalaussage wird unverändert archiviert. Eine Formalisierung gilt erst 
 | F-03.09 | Import von Papers und Datensätzen | `todo` | P2 | M5 |
 | F-03.10 | Ereignis für Versionen der kanonischen Darstellung | `todo` | P1 | M1 |
 | F-03.11 | Automatische Fidelity-Prüfung | `todo` | P1 | M2 |
+| F-03.12 | Ereignis für die Fidelity-Prüfung | `todo` | P1 | M1 |
 
 ## Features
 
@@ -161,3 +162,15 @@ F-03.05 deckt in M1 die menschliche Freigabe mit Checkliste ab. In M2 kommen ein
 
 - [ ] Eine abgeschwächte Testformalisierung wird als `SEMANTIC_MISMATCH` erkannt.
 - [ ] Weichen zwei unabhängige Formalisierungen voneinander ab, wird die Abweichung der Prüfung vorgelegt.
+
+### F-03.12 Ereignis für die Fidelity-Prüfung
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M1
+- Abhängigkeiten: F-03.05
+- Quelle: ARCH §7.1 (Schritt 5), §13.2; beim Umsetzen von F-03.05 aufgefallen
+- Bearbeiter: offen · Nachweise: offen
+
+F-03.05 hält die menschliche Prüfung nur im Modell fest (`FidelityReview`, `fidelity_review_id`). Damit jede Freigabe und Ablehnung im Event Store nachvollziehbar bleibt, fehlt ein Ereignis wie `statement.fidelity.reviewed` mit Formalisierungs-ID, geprüftem Statement-Hash, pseudonymer Prüfer-ID, Checkliste und Ergebnis.
+
+- [ ] Jede Freigabe und jede Ablehnung erzeugt ein Ereignis, das auf die Formalisierung und den geprüften Hash verweist.
+- [ ] Zu einer bestätigten Zielaussage lässt sich das Ereignis der Freigabe über `fidelity_review_id` finden.

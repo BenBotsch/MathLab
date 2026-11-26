@@ -35,7 +35,7 @@ Ein Abschnitt ohne Feature trägt einen Vermerk. „Referenz“ bedeutet Literat
 | §6.3 | Typisierte Agentenkommunikation | F-01.07, F-07.02 |  |
 | §6.4 | Agentenkoordination und Isolation | F-07.03, F-07.05, F-07.10, F-11.02, F-24.01, F-24.02 |  |
 | §7 | End-to-End-Workflows | keine | Oberabschnitt, siehe Unterabschnitte |
-| §7.1 | Workflow A – Problemaufnahme | F-03.01, F-03.02, F-03.03, F-03.04, F-03.05, F-03.06, F-03.09, F-03.11 |  |
+| §7.1 | Workflow A – Problemaufnahme | F-03.01, F-03.02, F-03.03, F-03.04, F-03.05, F-03.06, F-03.09, F-03.11, F-03.12 |  |
 | §7.2 | Workflow B – Strategische Exploration | F-04.08, F-04.16, F-06.06, F-07.03, F-07.04, F-07.07, F-07.11, F-08.06, F-08.07, F-08.08, F-10.03 |  |
 | §7.3 | Workflow C – Verifikation | F-04.01, F-04.03, F-04.04, F-04.05, F-04.06, F-04.07, F-04.13, F-04.14, F-07.09 |  |
 | §7.4 | Workflow D – Nachbearbeitung und Lernen | F-08.10, F-09.04, F-09.06, F-10.03, F-11.14, F-12.08, F-13.04 |  |
