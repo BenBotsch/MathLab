@@ -120,7 +120,7 @@ Der Wissensgraph aus UI Stufe 2 entsteht in M2 nur als Vorstufe. Sein vollständ
 | [E08](epics/E08-proof-search.md) | keine | F-08.06, F-08.07, F-08.08, F-08.10 | keine |
 | [E09](epics/E09-trial-and-error-tracking.md) | keine | F-09.04, F-09.06, F-09.08 | keine |
 | [E10](epics/E10-wissensgraph.md) | F-10.01, F-10.02, F-10.03 | keine | keine |
-| [E11](epics/E11-benchmarks-evaluation.md) | F-11.08, F-11.10 | F-11.05, F-11.06, F-11.07, F-11.12, F-11.14 | keine |
+| [E11](epics/E11-benchmarks-evaluation.md) | F-11.08, F-11.10 | F-11.05, F-11.06, F-11.07, F-11.12, F-11.14, F-11.15 | keine |
 | [E12](epics/E12-metriken-lernen.md) | F-12.01 | F-12.08 | keine |
 | [E13](epics/E13-explanation-reports.md) | keine | F-13.01, F-13.04 | keine |
 | [E15](epics/E15-research-shell.md) | F-15.11 | F-15.08, F-15.12 | keine |
@@ -185,6 +185,7 @@ Exit-Kriterium aus ARCH §19, Phase 5:
 | [E03](epics/E03-problem-engine.md) | keine | keine | F-03.09 |
 | [E05](epics/E05-symbolik-smt-numerik.md) | keine | keine | F-05.08 |
 | [E07](epics/E07-agent-orchestrator.md) | keine | keine | F-07.14 |
+| [E11](epics/E11-benchmarks-evaluation.md) | keine | keine | F-11.16 |
 | [E13](epics/E13-explanation-reports.md) | F-13.03 | F-13.02, F-13.05, F-13.06, F-13.10 | F-13.07, F-13.08, F-13.09, F-13.11 |
 | [E15](epics/E15-research-shell.md) | keine | keine | F-15.13, F-15.14 |
 | [E17](epics/E17-inspector.md) | keine | F-17.10 | keine |

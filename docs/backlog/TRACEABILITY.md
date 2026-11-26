@@ -71,11 +71,11 @@ Ein Abschnitt ohne Feature trägt einen Vermerk. „Referenz“ bedeutet Literat
 | §14.2 | Visualisierungstechnologien | F-13.07, F-13.08, F-13.09 |  |
 | §14.3 | Erklärungskette | F-13.01, F-13.02, F-13.03, F-13.06, F-13.07, F-17.10 |  |
 | §15 | Beispiel: Summe ungerader Zahlen | F-08.10, F-11.04 |  |
-| §15.1 | Experimentelle Beobachtung | F-05.04, F-11.04 | Beispiel, Teil des Referenzbeispiels F-11.04 |
-| §15.2 | Algebraischer Beweis | F-08.10, F-11.04 | Beispiel, Teil des Referenzbeispiels F-11.04 |
-| §15.3 | Induktiver Beweis | F-08.10, F-11.04 | Beispiel, Teil des Referenzbeispiels F-11.04 |
-| §15.4 | Geometrischer Beweis | F-07.14, F-13.07 |  |
-| §15.5 | Systemworkflow | F-07.07, F-07.14, F-11.14 |  |
+| §15.1 | Experimentelle Beobachtung | F-05.04, F-11.15 | Beispiel, Teil des Referenzbeispiels F-11.04 |
+| §15.2 | Algebraischer Beweis | F-08.10, F-11.15 | Beispiel, Teil des Referenzbeispiels F-11.04 |
+| §15.3 | Induktiver Beweis | F-08.10, F-11.04, F-11.15 | Beispiel, Teil des Referenzbeispiels F-11.04 |
+| §15.4 | Geometrischer Beweis | F-07.14, F-13.07, F-11.16 |  |
+| §15.5 | Systemworkflow | F-07.07, F-07.14, F-11.14, F-11.16 |  |
 | §16 | Benchmarks und wissenschaftliche Evaluation | keine | Oberabschnitt, siehe Unterabschnitte |
 | §16.1 | Wichtige Datensätze | F-03.04, F-11.06, F-11.07, F-11.13 |  |
 | §16.2 | Golden-Test-Suite | F-11.01, F-11.03, F-11.05, F-11.13 |  |

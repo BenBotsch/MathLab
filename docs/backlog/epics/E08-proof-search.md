@@ -157,7 +157,7 @@ Monte-Carlo-Baumsuche und HyperTree Proof Search mit gelernter Policy und Value-
 
 Nach einem ersten Beweis werden weitere unabhängige Beweise mit anderen Methoden gesucht. Diversität wird über Methoden und Struktur gemessen, unterschiedliche Texte gelten nicht automatisch als andere Beweise (UI §12.2).
 
-- [ ] Für die Odd-Sum-Aufgabe werden der algebraische und der induktive Beweisweg gefunden und verifiziert (F-11.04).
+- [ ] Für die Odd-Sum-Aufgabe werden der algebraische und der induktive Beweisweg gefunden und verifiziert (F-11.15).
 - [ ] Ein Diversitätsmaß ist definiert und wird gespeichert.
 
 ### F-08.11 Evolutionäre Suche und Counterexample-Guided Search

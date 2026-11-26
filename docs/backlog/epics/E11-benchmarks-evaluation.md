@@ -23,7 +23,7 @@ Vergleiche laufen immer mit denselben Ressourcenbudgets, Toolchains und Solverli
 | F-11.01 | Golden-Problemliste für M1 ausarbeiten | `done` | P0 | M1 |
 | F-11.02 | Betriebsmodi durchsetzen | `todo` | P0 | M1 |
 | F-11.03 | Golden-Suite-Runner und Regressionsgate | `ready` | P0 | M1 |
-| F-11.04 | Referenzbeispiel Summe ungerader Zahlen | `ready` | P0 | M1 |
+| F-11.04 | Referenzbeispiel Summe ungerader Zahlen | `done` | P0 | M1 |
 | F-11.05 | Spezialtests | `todo` | P1 | M2 |
 | F-11.06 | Externe Benchmarks miniF2F, ProofNet und PutnamBench | `todo` | P1 | M2 |
 | F-11.07 | Discover-and-Prove-Trennung | `todo` | P1 | M2 |
@@ -34,6 +34,8 @@ Vergleiche laufen immer mit denselben Ressourcenbudgets, Toolchains und Solverli
 | F-11.12 | Seeds, Streuung und Konfidenzintervalle | `todo` | P1 | M2 |
 | F-11.13 | Forschungsnahe Benchmarks | `todo` | P2 | M6 |
 | F-11.14 | Evaluation Engine für Beweisvergleiche | `todo` | P1 | M2 |
+| F-11.15 | Referenzbeispiel: getrennte Beweiswege und Beobachtung | `todo` | P1 | M2 |
+| F-11.16 | Referenzbeispiel: Systemworkflow vollständig | `todo` | P2 | M5 |
 
 ## Features
 
@@ -86,16 +88,14 @@ Führt die Golden Suite mit festem Budget aus und misst Pass@k, Kosten, Laufzeit
 
 ### F-11.04 Referenzbeispiel Summe ungerader Zahlen
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1, Ausbau M2 und M5
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-11.01, F-07.04, F-04.04
 - Quelle: ARCH §15, §19 (Phase 1, Akzeptanz); UI §3.3
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `tests/test_reference_odd_sum.py` mit dem Abnahmetest für Golden-Aufgabe g08 (`∑ k ∈ Finset.Icc 1 n, (2 * k - 1) = n ^ 2`, `1 ≤ n`) gegen den echten `LeanChecker`. Ein Skriptmodell schlägt erst `by simp` vor (abgelehnt, `proof.step.rejected`), dann den Induktionsbeweis nach ARCH §15.3. Tactic Generator (F-07.04) und Verification Agent (F-07.09) laufen unter dem Orchestrator in `BLIND_REDISCOVERY`. Belegt sind `proof.step.verified` für den zweiten Vorschlag, `VERIFIED` mit der Ergebnis-ID aus E04, der Zielhash von Golden-Liste, bestätigter Aussage und Archivmanifest ist derselbe, und `reproduce` wiederholt die archivierte Prüfung allein aus den Artefakten mit demselben Ergebnis (1 gültiger Schritt, kein `sorryAx`, keine abgelehnten Axiome). `ruff format`, `ruff check`, `mypy` ohne Befund. `pytest` mit Lean-Image und CLI: 809 passed, 30 skipped (Datenbank-, Sandbox- und SymPy-Image fehlen). Die Ausbaustufen für M2 und M5 stehen in F-11.15 und F-11.16.
 
-End-to-End-Abnahmetest mit dem Ziel Σ(2k−1) = n². M1 verlangt einen verifizierten Beweis. M2 verlangt den algebraischen und den induktiven Beweisweg sowie die experimentelle Beobachtung als Hypothese. M5 ergänzt den geometrischen Weg und den Workflow aus ARCH §15.5 vollständig.
+End-to-End-Abnahmetest mit dem Ziel Σ(2k−1) = n². M1 verlangt einen verifizierten Beweis.
 
-- [ ] M1: Ein formal verifizierter Beweis mit unveränderlichem Zielhash und reproduzierbaren Versuchen.
-- [ ] M2: Algebraischer und induktiver Beweis sind getrennt verifiziert, die Tabelle aus ARCH §15.1 ist als `NUMERICALLY_SUPPORTED` gespeichert.
-- [ ] M5: Alle acht Schritte aus ARCH §15.5 sind im Ereignisverlauf eines Runs nachvollziehbar.
+- [x] M1: Ein formal verifizierter Beweis mit unveränderlichem Zielhash und reproduzierbaren Versuchen.
 
 Formeln aus ARCH §15, §15.2 und §15.3, unverändert zitiert. Bei Abweichung gilt die Quelle.
 
@@ -237,3 +237,25 @@ Vergleicht mehrere Beweise derselben Aussage nach Korrektheit, Beweislänge, Rec
 
 - [ ] Für die Odd-Sum-Aufgabe liegt ein Vergleich der gefundenen Beweise vor.
 - [ ] Beweislänge wird nicht als Wahrheitskriterium verwendet (UI §12.2).
+
+### F-11.15 Referenzbeispiel: getrennte Beweiswege und Beobachtung
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Abhängigkeiten: F-11.04, F-08.10, F-05.04
+- Quelle: ARCH §15.1 bis §15.3, §19 (Phase 2)
+- Bearbeiter: offen · Nachweise: offen
+
+M2-Ausbau des Referenzbeispiels F-11.04: der algebraische und der induktive Beweisweg sowie die experimentelle Beobachtung als Hypothese.
+
+- [ ] Algebraischer und induktiver Beweis sind getrennt verifiziert, die Tabelle aus ARCH §15.1 ist als `NUMERICALLY_SUPPORTED` gespeichert.
+
+### F-11.16 Referenzbeispiel: Systemworkflow vollständig
+
+- Status: `todo` · Priorität: P2 · Meilenstein: M5
+- Abhängigkeiten: F-11.15, F-07.14
+- Quelle: ARCH §15.4, §15.5
+- Bearbeiter: offen · Nachweise: offen
+
+M5-Ausbau des Referenzbeispiels F-11.04: der geometrische Weg und der Workflow aus ARCH §15.5 vollständig.
+
+- [ ] Alle acht Schritte aus ARCH §15.5 sind im Ereignisverlauf eines Runs nachvollziehbar.
