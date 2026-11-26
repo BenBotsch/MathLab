@@ -1,0 +1,19 @@
+{
+  "benchmark_version": "v1",
+  "tasks": [
+    "g01",
+    "g08"
+  ],
+  "samples": 1,
+  "budget": {
+    "model_calls": 2,
+    "tokens": null,
+    "runtime_seconds": 600
+  },
+  "success_rate": 1.0,
+  "pass_at_k": {
+    "1": 1.0
+  },
+  "cost_per_proof_model_calls": 1.5,
+  "tolerance": 0.0
+}

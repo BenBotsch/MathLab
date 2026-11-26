@@ -1,0 +1,9 @@
+{
+  "g01": [
+    "by ring"
+  ],
+  "g08": [
+    "by simp",
+    "by\n  induction n with\n  | zero => omega\n  | succ m ih =>\n    rcases Nat.eq_zero_or_pos m with rfl | hm\n    · simp\n    · rw [Finset.sum_Icc_succ_top (by omega), ih hm, show 2 * (m + 1) - 1 = 2 * m + 1 by omega]\n      ring"
+  ]
+}

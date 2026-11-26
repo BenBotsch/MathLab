@@ -22,16 +22,16 @@ Vergleiche laufen immer mit denselben Ressourcenbudgets, Toolchains und Solverli
 | --- | --- | --- | --- | --- |
 | F-11.01 | Golden-Problemliste für M1 ausarbeiten | `done` | P0 | M1 |
 | F-11.02 | Betriebsmodi durchsetzen | `todo` | P0 | M1 |
-| F-11.03 | Golden-Suite-Runner und Regressionsgate | `ready` | P0 | M1 |
+| F-11.03 | Golden-Suite-Runner und Regressionsgate | `done` | P0 | M1 |
 | F-11.04 | Referenzbeispiel Summe ungerader Zahlen | `done` | P0 | M1 |
-| F-11.05 | Spezialtests | `todo` | P1 | M2 |
+| F-11.05 | Spezialtests | `ready` | P1 | M2 |
 | F-11.06 | Externe Benchmarks miniF2F, ProofNet und PutnamBench | `todo` | P1 | M2 |
 | F-11.07 | Discover-and-Prove-Trennung | `todo` | P1 | M2 |
 | F-11.08 | Kontaminations- und Leakage-Kontrollen | `todo` | P0 | M2 |
 | F-11.09 | Benchmarkmetriken | `done` | P0 | M1 |
 | F-11.10 | Strategievergleich bei festem Budget | `todo` | P0 | M2 |
 | F-11.11 | Ablationsstudien | `todo` | P1 | M4 |
-| F-11.12 | Seeds, Streuung und Konfidenzintervalle | `todo` | P1 | M2 |
+| F-11.12 | Seeds, Streuung und Konfidenzintervalle | `ready` | P1 | M2 |
 | F-11.13 | Forschungsnahe Benchmarks | `todo` | P2 | M6 |
 | F-11.14 | Evaluation Engine für Beweisvergleiche | `todo` | P1 | M2 |
 | F-11.15 | Referenzbeispiel: getrennte Beweiswege und Beobachtung | `todo` | P1 | M2 |
@@ -76,15 +76,15 @@ M1 setzt `BLIND_REDISCOVERY` und `ASSISTED_REDISCOVERY` durch, `ALTERNATIVE_PROO
 
 ### F-11.03 Golden-Suite-Runner und Regressionsgate
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-11.01, F-09.05, F-07.04
 - Quelle: ARCH §16.2, §21.1 (Golden-Benchmark-Smoke-Tests, Regressionen), §22 (Schritt 6)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `src/mathlab/golden_suite.py` führt Aufgaben der Golden Suite mit festem `AttemptBudget` aus. Jede Stichprobe ist ein eigener Run im Modus `BLIND_REDISCOVERY` mit Tactic Generator und Verification Agent. Aus den Events entsteht ein `Sample` (gelöst nur bei `proof.step.verified`), daraus der Bericht von `benchmark_metrics`. `EvaluationRun` erhält die Felder `configuration` und `metrics`, das Schema ist neu erzeugt. `regressions()` vergleicht Erfolgsquote, Pass@k und Modellaufrufe pro Beweis mit einer Baseline. `python -m mathlab.golden_suite --image … --artifacts …` ist der Smoke-Lauf: g01 und g08 mit abgespielten Antworten aus `benchmarks/golden/m1/smoke/`, Exitcode 1 bei Regression. `tests/test_golden_suite.py`: 11 Tests ohne Lean, ein Lean-Test (Smoke besteht mit der Baseline, scheitert mit strengerer Baseline). Ein realer Smoke-Lauf ergab Erfolgsquote 1.0, Pass@1 1.0, 3 Modellaufrufe. ruff, ruff format und mypy (strict) ohne Befund, vollständiger Testlauf mit Lean-Image: 821 passed, 30 skipped. Die Einbindung in die CI-Pipeline folgt in F-00.06, weil die CI noch kein Lean-Image hat.
 
 Führt die Golden Suite mit festem Budget aus und misst Pass@k, Kosten, Laufzeit und formale Validität. Ein Smoke-Lauf mit kleinem Budget läuft in CI (F-00.06), Regressionen bei Erfolgsquote und Kosten werden sichtbar.
 
-- [ ] Ein Lauf erzeugt einen versionierten `EvaluationRun` mit allen Metriken.
-- [ ] Der CI-Smoke-Lauf schlägt bei Regression gegenüber der Baseline fehl.
+- [x] Ein Lauf erzeugt einen versionierten `EvaluationRun` mit allen Metriken.
+- [x] Der CI-Smoke-Lauf schlägt bei Regression gegenüber der Baseline fehl.
 
 ### F-11.04 Referenzbeispiel Summe ungerader Zahlen
 
@@ -124,7 +124,7 @@ Formeln aus ARCH §15, §15.2 und §15.3, unverändert zitiert. Bei Abweichung g
 
 ### F-11.05 Spezialtests
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-11.03
 - Quelle: ARCH §16.2 (Spezialtests); Benchmarking Testing in ATP in ARCH §2.4
 - Bearbeiter: offen · Nachweise: offen
@@ -205,7 +205,7 @@ Ablationen ohne Graph, ohne Memory, ohne Critic, ohne RL, nur symbolisch, nur LL
 
 ### F-11.12 Seeds, Streuung und Konfidenzintervalle
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-11.03
 - Quelle: ARCH §16.4 (letzter Punkt)
 - Bearbeiter: offen · Nachweise: offen

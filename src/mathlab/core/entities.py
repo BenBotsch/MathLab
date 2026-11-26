@@ -199,6 +199,10 @@ class EvaluationRun(Entity):
     benchmark_id: str = Field(min_length=1)
     benchmark_version: str = Field(min_length=1)
     attempt_ids: tuple[UUID, ...] = ()
+    configuration: JsonObject = Field(default_factory=dict)
+    """Budget, samples, tasks, model and checker of the run (F-11.03)."""
+    metrics: JsonObject = Field(default_factory=dict)
+    """The benchmark report of ``mathlab.benchmark_metrics`` as JSON (F-11.03)."""
 
 
 class PublicationSource(Entity):

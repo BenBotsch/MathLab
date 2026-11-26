@@ -25,7 +25,7 @@ Versionen von Python, Lean, Mathlib, Solvern und Bibliotheken sind gepinnt (ARCH
 | F-00.03 | Toolchain-Pinning und Environment-Fingerprint | `done` | P0 | M1 |
 | F-00.04 | Container-Umgebung | `done` | P0 | M1 |
 | F-00.05 | CI-Grundgates | `done` | P0 | M1 |
-| F-00.06 | Fachliche CI-Gates | `todo` | P1 | M2 |
+| F-00.06 | Fachliche CI-Gates | `ready` | P1 | M2 |
 | F-00.07 | Lizenzinventar | `todo` | P1 | M1 |
 | F-00.08 | Entwickler-Setup dokumentieren | `todo` | P1 | M1 |
 | F-00.09 | Sicherung des Datenordners | `ready` | P1 | M1 |
@@ -153,7 +153,7 @@ CI prüft Formatierung, Linting, statische Typprüfung und Tests bei jedem Push.
 
 ### F-00.06 Fachliche CI-Gates
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-00.05, F-02.01, F-04.05, F-11.03
 - Quelle: ARCH §21.1
 - Bearbeiter: offen · Nachweise: offen

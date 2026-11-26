@@ -1,4 +1,7 @@
 {
+  "$defs": {
+    "JsonValue": {}
+  },
   "additionalProperties": false,
   "description": "A benchmark evaluation over a fixed benchmark version.",
   "properties": {
@@ -21,6 +24,13 @@
       "title": "Benchmark Version",
       "type": "string"
     },
+    "configuration": {
+      "additionalProperties": {
+        "$ref": "#/$defs/JsonValue"
+      },
+      "title": "Configuration",
+      "type": "object"
+    },
     "created_at": {
       "format": "date-time",
       "title": "Created At",
@@ -30,6 +40,13 @@
       "format": "uuid",
       "title": "Id",
       "type": "string"
+    },
+    "metrics": {
+      "additionalProperties": {
+        "$ref": "#/$defs/JsonValue"
+      },
+      "title": "Metrics",
+      "type": "object"
     },
     "version": {
       "minimum": 1,
