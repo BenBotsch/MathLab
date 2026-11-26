@@ -36,7 +36,7 @@ Ein Abschnitt ohne Feature trägt einen Vermerk. „Referenz“ bedeutet Literat
 | §6.4 | Agentenkoordination und Isolation | F-07.03, F-07.05, F-07.10, F-11.02, F-24.01, F-24.02 |  |
 | §7 | End-to-End-Workflows | keine | Oberabschnitt, siehe Unterabschnitte |
 | §7.1 | Workflow A – Problemaufnahme | F-03.01, F-03.02, F-03.03, F-03.04, F-03.05, F-03.06, F-03.09 |  |
-| §7.2 | Workflow B – Strategische Exploration | F-04.08, F-06.06, F-07.03, F-07.04, F-07.07, F-07.11, F-08.06, F-08.07, F-08.08, F-10.03 |  |
+| §7.2 | Workflow B – Strategische Exploration | F-04.08, F-04.16, F-06.06, F-07.03, F-07.04, F-07.07, F-07.11, F-08.06, F-08.07, F-08.08, F-10.03 |  |
 | §7.3 | Workflow C – Verifikation | F-04.01, F-04.03, F-04.04, F-04.05, F-04.06, F-04.07, F-04.13, F-04.14, F-07.09 |  |
 | §7.4 | Workflow D – Nachbearbeitung und Lernen | F-08.10, F-09.04, F-09.06, F-10.03, F-11.14, F-12.08, F-13.04 |  |
 | §7.5 | Workflow E – Widerlegungen | F-05.03, F-05.06, F-05.07, F-07.13 |  |
@@ -89,7 +89,7 @@ Ein Abschnitt ohne Feature trägt einen Vermerk. „Referenz“ bedeutet Literat
 | §18.1 | Kernentitäten | F-01.02, F-03.08, F-05.07 |  |
 | §18.2 | Schnittstellenbeispiele | F-01.04, F-14.01, F-23.01 |  |
 | §18.3 | Projektstruktur | F-00.01, F-00.02, F-14.09, F-15.01 |  |
-| §18.4 | Persistenz, Idempotenz und Konsistenz | F-01.03, F-02.04, F-04.04, F-04.09, F-10.02, F-10.03 |  |
+| §18.4 | Persistenz, Idempotenz und Konsistenz | F-01.03, F-02.04, F-04.04, F-04.09, F-04.15, F-04.16, F-10.02, F-10.03 |  |
 | §19 | Entwicklungsroadmap und Akzeptanzkriterien | F-06.03, F-07.04, F-07.12, F-08.05, F-10.06, F-10.08, F-10.09, F-10.12, F-11.01, F-11.04, F-11.10, F-11.13, F-12.02, F-12.05, F-12.06, F-12.07, F-12.09, F-12.11, F-12.13, F-13.03, F-13.04, F-13.05, F-14.09, F-21.10, F-25.07, F-25.08, F-25.09, F-25.10 | Phasen, siehe Unterzeilen und ROADMAP.md |
 | §19 Phase 1 | Proof Engine MVP (grob 4–6 Wochen) | F-07.04, F-11.01, F-11.04, F-14.09 |  |
 | §19 Phase 2 | Mehrere Agenten und Beweismethoden (weitere 4–8 Wochen) | F-06.03, F-08.05, F-11.10 |  |

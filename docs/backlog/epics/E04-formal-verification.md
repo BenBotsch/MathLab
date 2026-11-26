@@ -34,6 +34,8 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 | F-04.12 | Kontrolliert äquivalente Zielform | `todo` | P1 | M2 |
 | F-04.13 | Von Lean unabhängiger Kernel-Checker | `todo` | P1 | M2 |
 | F-04.14 | Reproduktion mit Nachprüfung | `todo` | P1 | M2 |
+| F-04.15 | Revalidierungslauf nach Versionswechsel | `todo` | P1 | M2 |
+| F-04.16 | Cache in der Prüfung einzelner Beweispflichten | `todo` | P1 | M2 |
 
 ## Features
 
@@ -208,3 +210,27 @@ Bei hohem Schutzbedarf wird ein verifizierter Beweis zusätzlich von einem Kerne
 
 - [ ] Die Reproduktion eines archivierten Beweises meldet das Ergebnis der erneuten Nachprüfung.
 - [ ] Ein abweichendes Nachprüfergebnis ist im Rückgabewert erkennbar.
+
+### F-04.15 Revalidierungslauf nach Versionswechsel
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Abhängigkeiten: F-04.09
+- Quelle: ARCH §18.4 (abhängige Proof-Zertifikate nachprüfen)
+- Bearbeiter: offen · Nachweise: offen
+
+F-04.09 markiert betroffene Cache-Einträge nur, wenn `mark_revalidation` aufgerufen wird. Ein Kommando oder Startschritt erkennt einen Wechsel von Toolchain oder Lake-Paketen, markiert die betroffenen Einträge und prüft sie mit der neuen Version erneut. Das alte Ergebnis und sein Archiv bleiben erhalten.
+
+- [ ] Nach einem Wechsel der Mathlib-Revision werden alle betroffenen Einträge ohne manuellen Aufruf markiert.
+- [ ] Der Revalidierungslauf prüft jeden markierten Eintrag neu und meldet, welche Ergebnisse sich geändert haben.
+
+### F-04.16 Cache in der Prüfung einzelner Beweispflichten
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Abhängigkeiten: F-04.08, F-04.09
+- Quelle: ARCH §18.4; ARCH §7.2 (Schritt 6)
+- Bearbeiter: offen · Nachweise: offen
+
+`check_obligation` (F-04.08) prüft jede Beweispflicht mit Lean, auch wenn dieselbe Aussage mit demselben Beweis unter denselben Abhängigkeiten schon geprüft wurde. Die Prüfung nutzt künftig den Verifikations-Cache (F-04.09) und erzeugt bei einem Treffer das Ereignis mit Verweis auf das bereits archivierte Ergebnis.
+
+- [ ] Eine bereits geprüfte Beweispflicht wird ohne Lean-Lauf beantwortet, das Ereignis verweist auf das archivierte Ergebnis.
+- [ ] Ein zur Revalidierung markierter Eintrag führt zu einer neuen Prüfung.
