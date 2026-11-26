@@ -14,6 +14,8 @@ Felder mit `?` sind optional.
 | `proof.attempt.finished` | `ProofAttemptFinished` | `attempt_id`, `state_before_id`?, `state_after_id`?, `generated_lemma_ids`?, `unresolved_goals`?, `duration_ms`, `model_calls`, `input_tokens`, `output_tokens`, `peak_memory_bytes`, `retries`, `stop_reason`, `remaining_budget`, `recommended_next_experiment`, `verified_progress`?, `novelty`?, `estimated_solvability`?, `next_actions`? | An attempt ended; search, resources, stop reason and estimates (ARCH §9.1, §9.2). |
 | `proof.branch.created` | `ProofBranchCreated` | `branch_id`, `parent_branch_id`? | The search branched. |
 | `proof.goal.created` | `ProofGoalCreated` | `proof_node_id`, `goal`, `parent_node_id`? | A new (sub)goal appeared in the proof graph. |
+| `proof.expansion.created` | `ProofExpansionCreated` | `expansion_id`, `goal_node_id`, `action_kind`, `action`, `step_id`? | An action was applied to a goal; its subgoals must all be proven (AND node, F-08.02). |
+| `proof.relation.added` | `ProofRelationAdded` | `relation`, `source_id`, `target_node_id` | A cross edge of the proof hypergraph (UI §4.1; F-08.02). |
 | `proof.step.proposed` | `ProofStepProposed` | `step_id`, `attempt_id`, `tactic`, `state_before_fingerprint`, `raw_response`, `sources`, `library_references` | A tactic or tool call was proposed. Not yet checked. |
 | `proof.step.accepted` | `ProofStepAccepted` | `step_id` | Search accepted a proposed step into the attempt; no formal check implied (ARCH §9.4). |
 | `proof.step.verified` | `ProofStepVerified` | `step_id`, `verification_result_id`, `state_after_fingerprint`, `artifact`? | The trusted checker confirmed a step; needs a verification result (UI §8.1). |

@@ -27,7 +27,7 @@ Eine Erklärung ist nie Grundlage für den Status `FORMALLY_VERIFIED`. Natürlic
 | F-13.05 | Exporte Markdown, LaTeX, PDF und Lean | `todo` | P1 | M5 |
 | F-13.06 | Abfrage „Warum ist dieser Schritt gültig?“ | `todo` | P1 | M5 |
 | F-13.07 | Illustrationen, Diagramme und Animationen | `todo` | P2 | M5 |
-| F-13.08 | Graphviz-Export | `todo` | P2 | M5 |
+| F-13.08 | Graphviz-Export | `ready` | P2 | M5 |
 | F-13.09 | Lean Blueprint und ProofWidgets4 | `todo` | P2 | M5 |
 | F-13.10 | Explanation Viewer | `todo` | P1 | M5 |
 | F-13.11 | Bewertung der Erklärungsqualität | `todo` | P2 | M5 |
@@ -112,7 +112,7 @@ Geometrische Illustrationen, Diagramme oder Simulationen ergänzen die Erklärun
 
 ### F-13.08 Graphviz-Export
 
-- Status: `todo` · Priorität: P2 · Meilenstein: M5
+- Status: `ready` · Priorität: P2 · Meilenstein: M5
 - Abhängigkeiten: F-08.02
 - Quelle: ARCH §14.2
 - Bearbeiter: offen · Nachweise: offen

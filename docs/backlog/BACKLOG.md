@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-272 Features in 26 Epics. Erledigt sind 51 von 272.
+272 Features in 26 Epics. Erledigt sind 52 von 272.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 191 |
-| `ready` | 30 |
+| `todo` | 187 |
+| `ready` | 33 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 51 |
+| `done` | 52 |
 | `blocked` | 0 |
 | `dropped` | 0 |
 
@@ -30,7 +30,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E05 | [Symbolik, SMT, Numerik und Widerlegung](epics/E05-symbolik-smt-numerik.md) | M1, Ausbau M2, M5 und M6 | 3 | 4 | 2 | `in-progress` | 3/9 |
 | E06 | [Strategy Engine und Beweismethodenkatalog](epics/E06-strategy-engine.md) | M2, Ausbau M3 und M4 | 3 | 3 | 0 | `todo` | 0/6 |
 | E07 | [Agent Orchestrator und Multiagentensystem](epics/E07-agent-orchestrator.md) | M1, Ausbau M2 bis M6 | 6 | 8 | 2 | `in-progress` | 5/16 |
-| E08 | [Proof Search Engine](epics/E08-proof-search.md) | M1, Ausbau M2, M4 und M6 | 5 | 5 | 1 | `in-progress` | 1/11 |
+| E08 | [Proof Search Engine](epics/E08-proof-search.md) | M1, Ausbau M2, M4 und M6 | 5 | 5 | 1 | `in-progress` | 2/11 |
 | E09 | [Trial-and-Error und Experiment Tracking](epics/E09-trial-and-error-tracking.md) | M1, Ausbau M2 und M4 | 4 | 4 | 0 | `in-progress` | 4/8 |
 | E10 | [Wissensgraph und mathematisches Langzeitgedächtnis](epics/E10-wissensgraph.md) | M3, Vorstufe M2, Ausbau M6 | 7 | 4 | 1 | `todo` | 0/12 |
 | E11 | [Benchmarks, Betriebsmodi und Evaluation](epics/E11-benchmarks-evaluation.md) | M1, Ausbau M2 bis M6 | 7 | 7 | 2 | `in-progress` | 4/16 |
@@ -58,7 +58,8 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
 | [F-03.03](epics/E03-problem-engine.md#f-0303-mehrdeutigkeit-protokollieren) | Mehrdeutigkeit protokollieren | P1 | M1 |
 | [F-12.10](epics/E12-metriken-lernen.md#f-1210-benchmark-für-lokale-modelle-quantisierung-und-kontext) | Benchmark für lokale Modelle, Quantisierung und Kontext | P1 | M1 |
-| [F-08.02](epics/E08-proof-search.md#f-0802-and-or-hypergraph) | AND-OR-Hypergraph | P0 | M1 |
+| [F-08.04](epics/E08-proof-search.md#f-0804-search-budget-controller) | Search Budget Controller | P0 | M1 |
+| [F-08.05](epics/E08-proof-search.md#f-0805-checkpoint-und-resume) | Checkpoint und Resume | P0 | M1 |
 | [F-14.11](epics/E14-backend-api.md#f-1411-interner-research-event-bus) | Interner Research Event Bus | P0 | M1 |
 | [F-14.01](epics/E14-backend-api.md#f-1401-fastapi-grundgerüst-und-versioniertes-api-schema) | FastAPI-Grundgerüst und versioniertes API-Schema | P0 | M1 |
 | [F-15.01](epics/E15-research-shell.md#f-1501-client-grundgerüst) | Client-Grundgerüst | P0 | M1 |
@@ -83,6 +84,8 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-00.06](epics/E00-projektfundament.md#f-0006-fachliche-ci-gates) | Fachliche CI-Gates | P1 | M2 |
 | [F-11.05](epics/E11-benchmarks-evaluation.md#f-1105-spezialtests) | Spezialtests | P1 | M2 |
 | [F-11.12](epics/E11-benchmarks-evaluation.md#f-1112-seeds-streuung-und-konfidenzintervalle) | Seeds, Streuung und Konfidenzintervalle | P1 | M2 |
+| [F-07.06](epics/E07-agent-orchestrator.md#f-0706-proof-planner) | Proof Planner | P1 | M2 |
+| [F-13.08](epics/E13-explanation-reports.md#f-1308-graphviz-export) | Graphviz-Export | P2 | M5 |
 | [F-05.08](epics/E05-symbolik-smt-numerik.md#f-0508-sagemath-adapter) | SageMath-Adapter | P2 | M5 |
 | [F-05.09](epics/E05-symbolik-smt-numerik.md#f-0509-atp-adapter-für-vampire) | ATP-Adapter für Vampire | P2 | M6 |
 
@@ -102,9 +105,9 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
-| [M1](ROADMAP.md#m1) | 61 | 44 | 17 | 0 |
-| [M2](ROADMAP.md#m2) | 66 | 9 | 55 | 2 |
+| [M1](ROADMAP.md#m1) | 59 | 42 | 17 | 0 |
+| [M2](ROADMAP.md#m2) | 65 | 9 | 54 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |
-| [M5](ROADMAP.md#m5) | 17 | 1 | 7 | 9 |
+| [M5](ROADMAP.md#m5) | 16 | 1 | 7 | 8 |
 | [M6](ROADMAP.md#m6) | 24 | 0 | 11 | 13 |

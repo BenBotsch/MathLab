@@ -21,10 +21,10 @@ Ein AND-Knoten gilt erst als gelöst, wenn alle Teilziele verifiziert sind. Ein 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
 | F-08.01 | Proof State und Aktionsraum | `done` | P0 | M1 |
-| F-08.02 | AND-OR-Hypergraph | `ready` | P0 | M1 |
+| F-08.02 | AND-OR-Hypergraph | `done` | P0 | M1 |
 | F-08.03 | Tiefen-, Breiten-, Best-First- und A*-Suche | `todo` | P0 | M1 |
-| F-08.04 | Search Budget Controller | `todo` | P0 | M1 |
-| F-08.05 | Checkpoint und Resume | `todo` | P0 | M1 |
+| F-08.04 | Search Budget Controller | `ready` | P0 | M1 |
+| F-08.05 | Checkpoint und Resume | `ready` | P0 | M1 |
 | F-08.06 | Zerlegung und Backtracking | `todo` | P1 | M2 |
 | F-08.07 | Reparatur und Strategiewechsel | `ready` | P1 | M2 |
 | F-08.08 | Parallele Kandidaten und Beam Search | `todo` | P1 | M2 |
@@ -48,16 +48,16 @@ Proof State s_t = (G_t, H_t, L_t, D_t) mit offenen Zielen, Hypothesen, verfügba
 
 ### F-08.02 AND-OR-Hypergraph
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-08.01
 - Quelle: ARCH §8, §8.1; HTPS in ARCH §2.1; UI §4.1
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `src/mathlab/proof_graph.py` mit `ProofHypergraph` als Projektion des Eventlogs: Ziele sind OR-Knoten (`proof.goal.created`), Expansionen sind AND-Knoten (neues Event `proof.expansion.created`), Querkanten `DEPENDS_ON`, `REUSES` und `REFUTES` (neues Event `proof.relation.added`). Der Status wird bei jeder Abfrage von unten nach oben abgeleitet und nie gespeichert. `VERIFIED` entsteht nur aus `proof.step.verified`, `REFUTED` nur aus einem `REFUTES`-Verweis eines Gegenbeispiels mit `counterexample.checked` = `VERIFIED`; ein ungeprüftes Gegenbeispiel bleibt Evidenz. `DEPENDS_ON` hält einen Knoten bis zum Beweis des Hilfssatzes auf `WAITING`, Zyklen beweisen nichts. Eventkatalog und `docs/reference/event-types.md` sind erweitert. `tests/test_proof_graph.py`: 12 Tests, darunter AND-Knoten, OR-Knoten, `REFUTES` und Rekonstruktion aus Events. Testlauf ohne Lean-Image 827 passed, 55 skipped. ruff, ruff format und mypy (strict) ohne Befund.
 
 Datenstruktur mit OR-Knoten für alternative Strategien und AND-Knoten für gemeinsam zu erfüllende Teilziele, dazu die Kanten `DEPENDS_ON`, `REUSES` und `REFUTES` aus UI §4.1. Statusweitergabe von unten nach oben.
 
-- [ ] Ein AND-Knoten ist erst gelöst, wenn alle Kinder verifiziert sind (Test).
-- [ ] Ein `REFUTES`-Verweis setzt das Ziel auf `REFUTED`.
-- [ ] Der Graph ist aus Ereignissen rekonstruierbar.
+- [x] Ein AND-Knoten ist erst gelöst, wenn alle Kinder verifiziert sind (Test).
+- [x] Ein `REFUTES`-Verweis setzt das Ziel auf `REFUTED`, sobald das Gegenbeispiel exakt geprüft ist.
+- [x] Der Graph ist aus Ereignissen rekonstruierbar.
 
 ### F-08.03 Tiefen-, Breiten-, Best-First- und A*-Suche
 
@@ -73,7 +73,7 @@ Depth-First, Breadth-First und Best-First über den `SearchPolicy`-Contract, mit
 
 ### F-08.04 Search Budget Controller
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-08.02
 - Quelle: ARCH §8.2, §6.2 (Budget Controller), §6.1 (Meta Controller, erste Implementierung)
 - Bearbeiter: offen · Nachweise: offen
@@ -92,7 +92,7 @@ Budgetänderungen erzeugen `budget.updated`.
 
 ### F-08.05 Checkpoint und Resume
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-08.02, F-02.06
 - Quelle: ARCH §8.2, §19 (Phase 2, pausierbar und wiederaufnehmbar); UI §10.1
 - Bearbeiter: offen · Nachweise: offen

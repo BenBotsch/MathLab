@@ -37,7 +37,7 @@ Kein Agent setzt einen Verifikationsstatus, `VERIFIED` stammt nur aus dem verifi
 | F-07.03 | Orchestrator-Kern | `done` | P0 | M1 |
 | F-07.04 | Tactic Generator | `done` | P0 | M1 |
 | F-07.05 | Koordination und Isolation | `todo` | P0 | M1 |
-| F-07.06 | Proof Planner | `todo` | P1 | M2 |
+| F-07.06 | Proof Planner | `ready` | P1 | M2 |
 | F-07.07 | Strategy Agents | `todo` | P1 | M2 |
 | F-07.08 | Symbolic Agent und Experimental Agent | `todo` | P1 | M2 |
 | F-07.09 | Verification Agent | `done` | P0 | M1 |
@@ -178,7 +178,7 @@ Die sechs Regeln aus ARCH §6.4 werden technisch durchgesetzt.
 
 ### F-07.06 Proof Planner
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-07.04, F-08.02
 - Quelle: ARCH §6.1 (Proof Planner)
 - Bearbeiter: offen · Nachweise: offen

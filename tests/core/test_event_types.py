@@ -92,6 +92,17 @@ EXAMPLES: dict[str, dict[str, Any]] = {
     "proof.attempt.finished": attempt_finished(UUID(U + "03")),
     "proof.branch.created": {"branch_id": U + "04"},
     "proof.goal.created": {"proof_node_id": U + "05", "goal": "n + 0 = n"},
+    "proof.expansion.created": {
+        "expansion_id": U + "06",
+        "goal_node_id": U + "05",
+        "action_kind": "CASE_SPLIT",
+        "action": "rcases h with h | h",
+    },
+    "proof.relation.added": {
+        "relation": "REFUTES",
+        "source_id": U + "07",
+        "target_node_id": U + "05",
+    },
     "proof.step.proposed": step_proposed(UUID(U + "06"), UUID(U + "03")),
     "proof.step.accepted": {"step_id": U + "06"},
     "proof.step.verified": step_verified(UUID(U + "06"), UUID(U + "07")),
@@ -158,6 +169,8 @@ EXTENSIONS = [
     "counterexample.checked",  # F-05.07, exact re-check of ARCH §7.5
     "agent.status.changed",  # F-07.03, orchestrator state changes
     "run.resumed",  # F-07.03, a paused run continues
+    "proof.expansion.created",  # F-08.02, AND node of the proof hypergraph
+    "proof.relation.added",  # F-08.02, DEPENDS_ON, REUSES and REFUTES of UI §4.1
 ]
 
 

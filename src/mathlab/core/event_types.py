@@ -134,6 +134,33 @@ class ProofGoalCreated(Payload):
     parent_node_id: UUID | None = None
 
 
+class ProofExpansionCreated(Payload):
+    """An action was applied to a goal; its subgoals must all be proven (AND node, F-08.02).
+
+    The subgoals are ``proof.goal.created`` events whose ``parent_node_id`` is ``expansion_id``.
+    ``step_id`` names the checked step of the action, if any; an expansion without subgoals is
+    closed only by ``proof.step.verified`` for that step.
+    """
+
+    expansion_id: UUID
+    goal_node_id: UUID
+    action_kind: str = Field(min_length=1)
+    action: str = Field(min_length=1)
+    step_id: UUID | None = None
+
+
+class ProofRelationAdded(Payload):
+    """A cross edge of the proof hypergraph (UI §4.1; F-08.02).
+
+    ``DEPENDS_ON`` and ``REUSES`` point from node ``source_id`` to node ``target_node_id``.
+    ``REFUTES`` points from the counterexample ``source_id`` to the goal it refutes.
+    """
+
+    relation: Literal["DEPENDS_ON", "REUSES", "REFUTES"]
+    source_id: UUID
+    target_node_id: UUID
+
+
 class ProofStepProposed(Payload):
     """A tactic or tool call was proposed. Not yet checked.
 
@@ -388,6 +415,8 @@ EVENT_PAYLOADS: dict[str, type[Payload]] = {
     "proof.attempt.finished": ProofAttemptFinished,
     "proof.branch.created": ProofBranchCreated,
     "proof.goal.created": ProofGoalCreated,
+    "proof.expansion.created": ProofExpansionCreated,
+    "proof.relation.added": ProofRelationAdded,
     "proof.step.proposed": ProofStepProposed,
     "proof.step.accepted": ProofStepAccepted,
     "proof.step.verified": ProofStepVerified,
