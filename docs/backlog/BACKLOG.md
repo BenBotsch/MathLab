@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-266 Features in 26 Epics. Erledigt sind 42 von 266.
+266 Features in 26 Epics. Erledigt sind 43 von 266.
 
 | Status | Anzahl |
 | --- | --- |
 | `todo` | 198 |
-| `ready` | 26 |
+| `ready` | 25 |
 | `in-progress` | 0 |
 | `review` | 0 |
-| `done` | 42 |
+| `done` | 43 |
 | `blocked` | 0 |
 | `dropped` | 0 |
 
@@ -26,7 +26,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E01 | [Core-Domänenmodell und Contracts](epics/E01-core-domaenenmodell.md) | M1 | 7 | 0 | 0 | `done` | 7/7 |
 | E02 | [Event Sourcing und Persistenz](epics/E02-event-sourcing-persistenz.md) | M1 | 8 | 2 | 0 | `in-progress` | 8/10 |
 | E03 | [Problem Engine](epics/E03-problem-engine.md) | M1, Ausbau M2 und M5 | 4 | 5 | 1 | `in-progress` | 2/10 |
-| E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 6 | 0 | `in-progress` | 9/14 |
+| E04 | [Formal Verification Engine](epics/E04-formal-verification.md) | M1, Ausbau M2 | 8 | 6 | 0 | `in-progress` | 10/14 |
 | E05 | [Symbolik, SMT, Numerik und Widerlegung](epics/E05-symbolik-smt-numerik.md) | M1, Ausbau M2, M5 und M6 | 3 | 4 | 2 | `in-progress` | 3/9 |
 | E06 | [Strategy Engine und Beweismethodenkatalog](epics/E06-strategy-engine.md) | M2, Ausbau M3 und M4 | 3 | 3 | 0 | `todo` | 0/6 |
 | E07 | [Agent Orchestrator und Multiagentensystem](epics/E07-agent-orchestrator.md) | M1, Ausbau M2 bis M6 | 6 | 8 | 2 | `in-progress` | 1/16 |
@@ -70,7 +70,6 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-10.01](epics/E10-wissensgraph.md#f-1001-objektklassen-und-speicherschema) | Objektklassen und Speicherschema | P0 | M2 |
 | [F-12.01](epics/E12-metriken-lernen.md#f-1201-metrikebenen) | Metrikebenen | P0 | M2 |
 | [F-03.06](epics/E03-problem-engine.md#f-0306-problem-classifier) | Problem Classifier | P1 | M2 |
-| [F-04.09](epics/E04-formal-verification.md#f-0409-verifikations-cache-und-revalidierung) | Verifikations-Cache und Revalidierung | P1 | M2 |
 | [F-04.10](epics/E04-formal-verification.md#f-0410-rekonstruktion-externer-ergebnisse) | Rekonstruktion externer Ergebnisse | P1 | M2 |
 | [F-03.07](epics/E03-problem-engine.md#f-0307-ast-normalisierung-und-fingerprints) | AST-Normalisierung und Fingerprints | P1 | M2 |
 | [F-02.09](epics/E02-event-sourcing-persistenz.md#f-0209-schema-versionierung-und-migration) | Schema-Versionierung und Migration | P1 | M2 |

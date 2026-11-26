@@ -358,6 +358,14 @@ class LeanChecker:
     def info(self) -> EngineInfo:
         return self._info
 
+    @property
+    def policy(self) -> AxiomPolicy:
+        return self._policy
+
+    @property
+    def fresh_recheck(self) -> bool:
+        return self._fresh_recheck
+
     async def verify(self, request: VerifyRequest, ctx: RequestContext) -> VerifyResponse:
         response, _ = await self.check(request, ctx)
         return response

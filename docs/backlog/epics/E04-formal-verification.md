@@ -28,7 +28,7 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 | F-04.06 | Unabhängige Nachprüfung | `done` | P1 | M1 |
 | F-04.07 | Archiv der Verifikationsartefakte | `done` | P0 | M1 |
 | F-04.08 | Prüfung einzelner Beweispflichten | `done` | P0 | M1 |
-| F-04.09 | Verifikations-Cache und Revalidierung | `ready` | P1 | M2 |
+| F-04.09 | Verifikations-Cache und Revalidierung | `done` | P1 | M2 |
 | F-04.10 | Rekonstruktion externer Ergebnisse | `ready` | P1 | M2 |
 | F-04.11 | Spike Lean-Interaktionsschicht | `done` | P0 | M1 |
 | F-04.12 | Kontrolliert äquivalente Zielform | `todo` | P1 | M2 |
@@ -136,15 +136,15 @@ Teilziele und Lemmata werden unabhängig vom Gesamterfolg geprüft. Ergebnis ist
 
 ### F-04.09 Verifikations-Cache und Revalidierung
 
-- Status: `ready` · Priorität: P1 · Meilenstein: M2
+- Status: `done` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-04.07
 - Quelle: ARCH §18.4
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `src/mathlab/engines/verification_cache.py` mit `VerificationCache`, `CachedChecker`, `cache_key` und `dependencies_from_manifest`. Der Schlüssel umfasst Zielhash, Beweis, Toolchain, alle Paketrevisionen aus `lean/lake-manifest.json`, Checker-Version, Axiompolitik und Recheck-Modus. Ein Treffer liefert das archivierte `VerificationResult` und wird gegen das Archiv geprüft. `mark_revalidation` markiert Einträge mit abweichenden Abhängigkeiten, `revalidation_due` listet sie, und markierte Einträge werden nicht ausgeliefert. `tests/test_verification_cache.py` mit 11 Tests, davon ein Containertest (zweite identische Prüfung ohne Lean-Lauf). `ruff format`, `ruff check`, `mypy` ohne Befund. `pytest` mit `MATHLAB_TEST_LEAN_IMAGE=mathlab-lean:latest`: 748 passed, 30 skipped (Datenbank-, Sandbox- und SymPy-Image fehlen).
 
 Cache über den Hash von Aussage, Beweis, Toolchain und Abhängigkeiten. Wechselt die Mathlib-Version, werden abhängige Zertifikate erneut geprüft.
 
-- [ ] Identische Prüfanfragen werden aus dem Cache beantwortet.
-- [ ] Nach einem Versionswechsel sind betroffene Ergebnisse als „zu revalidieren“ markiert.
+- [x] Identische Prüfanfragen werden aus dem Cache beantwortet.
+- [x] Nach einem Versionswechsel sind betroffene Ergebnisse als „zu revalidieren“ markiert.
 
 ### F-04.10 Rekonstruktion externer Ergebnisse
 
