@@ -30,7 +30,7 @@ Der Server ist für mathematische und operative Fakten maßgeblich (UI §15.3). 
 | F-14.08 | Endpunkt für Wissenssuche | `todo` | P1 | M3 |
 | F-14.09 | CLI-App | `todo` | P0 | M1 |
 | F-14.10 | WebSockets bei nachgewiesenem Bedarf | `todo` | P2 | M6 |
-| F-14.11 | Interner Research Event Bus | `ready` | P0 | M1 |
+| F-14.11 | Interner Research Event Bus | `review` | P0 | M1 |
 
 ## Features
 
@@ -170,14 +170,14 @@ WebSockets werden erst eingeführt, wenn eine konkrete Interaktion wie Kollabora
 
 ### F-14.11 Interner Research Event Bus
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `review` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.03, F-00.01 (OD-04)
 - Quelle: UI §15.1, §15.2 (interne Backend-Kommunikation)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `src/mathlab/bus.py`, `tests/test_bus.py`. Am 2026-11-27 liefen `ruff format --check`, `ruff check` und `mypy` (strict) ohne Befund, `pytest` mit 914 passed und 56 skipped. Der Postgres-Test `test_redelivery_against_postgres_persists_once` wurde übersprungen, weil `MATHLAB_TEST_DATABASE_URL` nicht gesetzt war. Er ist vor `done` nachzuholen.
 
 Agenten, CAS und Solver veröffentlichen Ergebnisse über einen Bus oder eine Queue. Der Bus schreibt in den Event Store und speist den Live-Stream, der Orchestrator abonniert ihn. Die Wahl der Technik folgt OD-04.
 
-- [ ] Ein Event wird genau einmal persistiert, auch wenn der Bus es mehrfach zustellt.
+- [x] Ein Event wird genau einmal persistiert, auch wenn der Bus es mehrfach zustellt.
 
 Referenzbeispiel aus UI §15.1, unverändert zitiert. Bei Abweichung gilt die Quelle.
 
