@@ -9,9 +9,9 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 | Status | Anzahl |
 | --- | --- |
 | `todo` | 183 |
-| `ready` | 33 |
+| `ready` | 32 |
 | `in-progress` | 0 |
-| `review` | 1 |
+| `review` | 2 |
 | `done` | 56 |
 | `blocked` | 0 |
 | `dropped` | 0 |
@@ -58,7 +58,6 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
 | [F-03.03](epics/E03-problem-engine.md#f-0303-mehrdeutigkeit-protokollieren) | Mehrdeutigkeit protokollieren | P1 | M1 |
 | [F-12.10](epics/E12-metriken-lernen.md#f-1210-benchmark-für-lokale-modelle-quantisierung-und-kontext) | Benchmark für lokale Modelle, Quantisierung und Kontext | P1 | M1 |
-| [F-14.02](epics/E14-backend-api.md#f-1402-lese-endpunkte) | Lese-Endpunkte | P0 | M1 |
 | [F-14.03](epics/E14-backend-api.md#f-1403-sse-live-stream-und-event-nachladung) | SSE-Live-Stream und Event-Nachladung | P0 | M1 |
 | [F-14.04](epics/E14-backend-api.md#f-1404-command-api-mit-serverbestätigung) | Command API mit Serverbestätigung | P0 | M1 |
 | [F-15.01](epics/E15-research-shell.md#f-1501-client-grundgerüst) | Client-Grundgerüst | P0 | M1 |

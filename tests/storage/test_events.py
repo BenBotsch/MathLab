@@ -67,6 +67,16 @@ def test_sequences_start_at_one_per_run(store: PostgresEventStore) -> None:
 
 
 @needs_db
+def test_run_ids_lists_every_run_with_events(store: PostgresEventStore) -> None:
+    a, b = uuid4(), uuid4()
+    store.append(draft(a))
+    store.append(draft(b))
+    store.append(draft(a))
+    ids = store.run_ids()
+    assert {a, b} <= set(ids) and ids == sorted(ids) and len(ids) == len(set(ids))
+
+
+@needs_db
 def test_parallel_writers_get_gapless_unique_sequences(store: PostgresEventStore) -> None:
     run_id = uuid4()
     writers, per_writer = 8, 25

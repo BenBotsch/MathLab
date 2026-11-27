@@ -178,6 +178,12 @@ class PostgresEventStore:
             ).fetchall()
         return [EventEnvelope.model_validate_json(text) for (text,) in rows]
 
+    def run_ids(self) -> list[UUID]:
+        """Every run with at least one stored event, ordered by ``run_id``."""
+        with psycopg.connect(self._conninfo) as conn:
+            rows = conn.execute("SELECT run_id FROM event_sequences ORDER BY run_id").fetchall()
+        return [run_id for (run_id,) in rows]
+
 
 __all__ = [
     "DATABASE_URL_ENV",

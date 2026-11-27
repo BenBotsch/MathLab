@@ -1,6 +1,104 @@
 {
   "components": {
     "schemas": {
+      "AgentGraph": {
+        "additionalProperties": false,
+        "properties": {
+          "agents": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/AgentView"
+            },
+            "title": "Agents",
+            "type": "object"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "sequence": {
+            "title": "Sequence",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "run_id",
+          "sequence",
+          "agents"
+        ],
+        "title": "AgentGraph",
+        "type": "object"
+      },
+      "AgentStatus": {
+        "description": "Technical process state of an agent or task. Says nothing about mathematical validity.",
+        "enum": [
+          "RUNNING",
+          "FINISHED",
+          "FAILED",
+          "PAUSED",
+          "CANCELLED"
+        ],
+        "title": "AgentStatus",
+        "type": "string"
+      },
+      "AgentView": {
+        "additionalProperties": false,
+        "properties": {
+          "agent_version": {
+            "title": "Agent Version",
+            "type": "string"
+          },
+          "execution_id": {
+            "format": "uuid",
+            "title": "Execution Id",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AgentStatus"
+          }
+        },
+        "required": [
+          "agent_version",
+          "execution_id",
+          "status"
+        ],
+        "title": "AgentView",
+        "type": "object"
+      },
+      "AttemptView": {
+        "additionalProperties": false,
+        "properties": {
+          "failure_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Failure Code"
+          },
+          "verification": {
+            "$ref": "#/components/schemas/VerificationStatus",
+            "default": "OPEN"
+          },
+          "verification_result_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verification Result Id"
+          }
+        },
+        "title": "AttemptView",
+        "type": "object"
+      },
       "ErrorResponse": {
         "additionalProperties": false,
         "description": "Body of every error response.",
@@ -102,6 +200,515 @@
         ],
         "title": "Health",
         "type": "object"
+      },
+      "MetricsView": {
+        "additionalProperties": false,
+        "properties": {
+          "events_by_type": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "default": {},
+            "title": "Events By Type",
+            "type": "object"
+          },
+          "failures_by_code": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "default": {},
+            "title": "Failures By Code",
+            "type": "object"
+          },
+          "model_calls_used": {
+            "default": 0,
+            "title": "Model Calls Used",
+            "type": "integer"
+          },
+          "runtime_seconds_used": {
+            "default": 0.0,
+            "title": "Runtime Seconds Used",
+            "type": "number"
+          },
+          "steps_proposed": {
+            "default": 0,
+            "title": "Steps Proposed",
+            "type": "integer"
+          },
+          "steps_rejected": {
+            "default": 0,
+            "title": "Steps Rejected",
+            "type": "integer"
+          },
+          "steps_verified": {
+            "default": 0,
+            "title": "Steps Verified",
+            "type": "integer"
+          },
+          "tokens_used": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tokens Used"
+          }
+        },
+        "title": "MetricsView",
+        "type": "object"
+      },
+      "NodeView": {
+        "additionalProperties": false,
+        "properties": {
+          "goal": {
+            "title": "Goal",
+            "type": "string"
+          },
+          "parent_node_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Node Id"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ProofNodeStatus",
+            "default": "WAITING"
+          }
+        },
+        "required": [
+          "goal",
+          "parent_node_id"
+        ],
+        "title": "NodeView",
+        "type": "object"
+      },
+      "ProofGraph": {
+        "additionalProperties": false,
+        "properties": {
+          "graph": {
+            "$ref": "#/components/schemas/ProofGraphView"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "sequence": {
+            "title": "Sequence",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "run_id",
+          "sequence",
+          "graph"
+        ],
+        "title": "ProofGraph",
+        "type": "object"
+      },
+      "ProofGraphView": {
+        "additionalProperties": false,
+        "properties": {
+          "attempts": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/AttemptView"
+            },
+            "default": {},
+            "propertyNames": {
+              "format": "uuid"
+            },
+            "title": "Attempts",
+            "type": "object"
+          },
+          "nodes": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/NodeView"
+            },
+            "default": {},
+            "propertyNames": {
+              "format": "uuid"
+            },
+            "title": "Nodes",
+            "type": "object"
+          },
+          "steps": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/StepView"
+            },
+            "default": {},
+            "propertyNames": {
+              "format": "uuid"
+            },
+            "title": "Steps",
+            "type": "object"
+          }
+        },
+        "title": "ProofGraphView",
+        "type": "object"
+      },
+      "ProofNodeDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "node": {
+            "$ref": "#/components/schemas/NodeView"
+          },
+          "node_id": {
+            "format": "uuid",
+            "title": "Node Id",
+            "type": "string"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "sequence": {
+            "title": "Sequence",
+            "type": "integer"
+          },
+          "steps": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/StepView"
+            },
+            "description": "Steps proposed for this node.",
+            "propertyNames": {
+              "format": "uuid"
+            },
+            "title": "Steps",
+            "type": "object"
+          }
+        },
+        "required": [
+          "run_id",
+          "node_id",
+          "sequence",
+          "node",
+          "steps"
+        ],
+        "title": "ProofNodeDetail",
+        "type": "object"
+      },
+      "ProofNodeStatus": {
+        "description": "Status of a node in the proof search graph (UI §4.3).",
+        "enum": [
+          "VERIFIED",
+          "RUNNING",
+          "WAITING",
+          "FAILED",
+          "CONJECTURED",
+          "ABANDONED",
+          "REFUTED"
+        ],
+        "title": "ProofNodeStatus",
+        "type": "string"
+      },
+      "ReplayedState": {
+        "additionalProperties": false,
+        "description": "Replay result with its origin.",
+        "properties": {
+          "sequence": {
+            "description": "Last event contained in the state.",
+            "minimum": 0.0,
+            "title": "Sequence",
+            "type": "integer"
+          },
+          "snapshot_sequence": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Sequence of the snapshot used, if any.",
+            "title": "Snapshot Sequence"
+          },
+          "snapshot_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Format of the snapshot used, if any.",
+            "title": "Snapshot Version"
+          },
+          "state": {
+            "$ref": "#/components/schemas/ResearchState"
+          }
+        },
+        "required": [
+          "state",
+          "sequence",
+          "snapshot_version",
+          "snapshot_sequence"
+        ],
+        "title": "ReplayedState",
+        "type": "object"
+      },
+      "ResearchState": {
+        "additionalProperties": false,
+        "properties": {
+          "agents": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "$ref": "#/components/schemas/AgentView"
+              },
+              "type": "object"
+            },
+            "propertyNames": {
+              "format": "uuid"
+            },
+            "title": "Agents",
+            "type": "object"
+          },
+          "metrics": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/MetricsView"
+            },
+            "propertyNames": {
+              "format": "uuid"
+            },
+            "title": "Metrics",
+            "type": "object"
+          },
+          "proof_graphs": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ProofGraphView"
+            },
+            "propertyNames": {
+              "format": "uuid"
+            },
+            "title": "Proof Graphs",
+            "type": "object"
+          },
+          "runs": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/RunView"
+            },
+            "propertyNames": {
+              "format": "uuid"
+            },
+            "title": "Runs",
+            "type": "object"
+          }
+        },
+        "required": [
+          "runs",
+          "proof_graphs",
+          "agents",
+          "metrics"
+        ],
+        "title": "ResearchState",
+        "type": "object"
+      },
+      "RunDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "last_sequence": {
+            "title": "Last Sequence",
+            "type": "integer"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/MetricsView"
+          },
+          "pause_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pause Reason"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RunStatus"
+          }
+        },
+        "required": [
+          "run_id",
+          "status",
+          "last_sequence",
+          "metrics"
+        ],
+        "title": "RunDetail",
+        "type": "object"
+      },
+      "RunList": {
+        "additionalProperties": false,
+        "properties": {
+          "runs": {
+            "items": {
+              "$ref": "#/components/schemas/RunSummary"
+            },
+            "title": "Runs",
+            "type": "array"
+          }
+        },
+        "required": [
+          "runs"
+        ],
+        "title": "RunList",
+        "type": "object"
+      },
+      "RunStatus": {
+        "description": "Lifecycle status of a run (UI §3.2). Unrelated to agent or verification status.",
+        "enum": [
+          "RUNNING",
+          "PAUSED",
+          "COMPLETED",
+          "FAILED",
+          "CANCELLED"
+        ],
+        "title": "RunStatus",
+        "type": "string"
+      },
+      "RunSummary": {
+        "additionalProperties": false,
+        "properties": {
+          "last_sequence": {
+            "title": "Last Sequence",
+            "type": "integer"
+          },
+          "pause_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pause Reason"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RunStatus"
+          }
+        },
+        "required": [
+          "run_id",
+          "status",
+          "last_sequence"
+        ],
+        "title": "RunSummary",
+        "type": "object"
+      },
+      "RunView": {
+        "additionalProperties": false,
+        "properties": {
+          "last_sequence": {
+            "title": "Last Sequence",
+            "type": "integer"
+          },
+          "pause_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pause Reason"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RunStatus"
+          }
+        },
+        "required": [
+          "status",
+          "last_sequence"
+        ],
+        "title": "RunView",
+        "type": "object"
+      },
+      "StepView": {
+        "additionalProperties": false,
+        "properties": {
+          "accepted": {
+            "default": false,
+            "title": "Accepted",
+            "type": "boolean"
+          },
+          "attempt_id": {
+            "format": "uuid",
+            "title": "Attempt Id",
+            "type": "string"
+          },
+          "proof_node_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Proof Node Id"
+          },
+          "tactic": {
+            "title": "Tactic",
+            "type": "string"
+          },
+          "verification": {
+            "$ref": "#/components/schemas/VerificationStatus",
+            "default": "OPEN"
+          },
+          "verification_result_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verification Result Id"
+          }
+        },
+        "required": [
+          "attempt_id",
+          "tactic",
+          "proof_node_id"
+        ],
+        "title": "StepView",
+        "type": "object"
+      },
+      "VerificationStatus": {
+        "description": "Outcome of a trusted proof checker for one artifact (UI §1.3).",
+        "enum": [
+          "VERIFIED",
+          "OPEN",
+          "REJECTED"
+        ],
+        "title": "VerificationStatus",
+        "type": "string"
       }
     }
   },
@@ -111,6 +718,54 @@
   },
   "openapi": "3.1.0",
   "paths": {
+    "/api/v1/artifacts/{ref}": {
+      "get": {
+        "operationId": "get_artifact_api_v1_artifacts__ref__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ref",
+            "required": true,
+            "schema": {
+              "title": "Ref",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/octet-stream": {}
+            },
+            "description": "Successful Response"
+          },
+          "4XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Client error"
+          },
+          "5XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Server error"
+          }
+        },
+        "summary": "Get Artifact",
+        "tags": [
+          "read"
+        ]
+      }
+    },
     "/api/v1/health": {
       "get": {
         "operationId": "health_api_v1_health_get",
@@ -149,6 +804,359 @@
         "summary": "Health",
         "tags": [
           "system"
+        ]
+      }
+    },
+    "/api/v1/runs": {
+      "get": {
+        "operationId": "list_runs_api_v1_runs_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/RunStatus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "4XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Client error"
+          },
+          "5XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Server error"
+          }
+        },
+        "summary": "List Runs",
+        "tags": [
+          "read"
+        ]
+      }
+    },
+    "/api/v1/runs/{run_id}": {
+      "get": {
+        "operationId": "get_run_api_v1_runs__run_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "4XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Client error"
+          },
+          "5XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Server error"
+          }
+        },
+        "summary": "Get Run",
+        "tags": [
+          "read"
+        ]
+      }
+    },
+    "/api/v1/runs/{run_id}/agent-graph": {
+      "get": {
+        "operationId": "get_agent_graph_api_v1_runs__run_id__agent_graph_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentGraph"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "4XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Client error"
+          },
+          "5XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Server error"
+          }
+        },
+        "summary": "Get Agent Graph",
+        "tags": [
+          "read"
+        ]
+      }
+    },
+    "/api/v1/runs/{run_id}/proof-graph": {
+      "get": {
+        "operationId": "get_proof_graph_api_v1_runs__run_id__proof_graph_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProofGraph"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "4XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Client error"
+          },
+          "5XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Server error"
+          }
+        },
+        "summary": "Get Proof Graph",
+        "tags": [
+          "read"
+        ]
+      }
+    },
+    "/api/v1/runs/{run_id}/proof-nodes/{node_id}": {
+      "get": {
+        "operationId": "get_proof_node_api_v1_runs__run_id__proof_nodes__node_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Run Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "node_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Node Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProofNodeDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "4XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Client error"
+          },
+          "5XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Server error"
+          }
+        },
+        "summary": "Get Proof Node",
+        "tags": [
+          "read"
+        ]
+      }
+    },
+    "/api/v1/runs/{run_id}/snapshot": {
+      "get": {
+        "operationId": "get_snapshot_api_v1_runs__run_id__snapshot_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Run Id",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Last event to include.",
+            "in": "query",
+            "name": "at",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Last event to include.",
+              "title": "At"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReplayedState"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "4XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Client error"
+          },
+          "5XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Server error"
+          }
+        },
+        "summary": "Get Snapshot",
+        "tags": [
+          "read"
         ]
       }
     }

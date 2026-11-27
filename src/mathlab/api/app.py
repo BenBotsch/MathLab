@@ -8,8 +8,9 @@
 * Every error is an ``ErrorResponse`` (``mathlab.api.errors``), including validation errors,
   unknown routes, engine errors and unexpected exceptions.
 
-The endpoints of the UI (runs, events, stream, commands) follow with F-14.02 to F-14.04; this
-module only provides ``GET /api/v1/health``.
+``GET /api/v1/health`` lives here; the read endpoints are in ``mathlab.api.read`` (F-14.02) and
+answer ``UNAVAILABLE`` until ``create_app`` receives a ``ReadBackend``. Events, stream and
+commands follow with F-14.03 and F-14.04.
 """
 
 import logging
@@ -31,6 +32,8 @@ from mathlab.api.errors import (
     from_engine_error,
     from_http_status,
 )
+from mathlab.api.read import ReadBackend
+from mathlab.api.read import router as read_router
 from mathlab.core.contracts import EngineError, FailureCode
 
 API_VERSION = "1"
@@ -91,7 +94,7 @@ _ERROR_RESPONSES: dict[int | str, dict[str, object]] = {
 }
 
 
-def create_app() -> FastAPI:
+def create_app(read_backend: ReadBackend | None = None) -> FastAPI:
     app = FastAPI(
         title="MathLab API",
         version=API_VERSION,
@@ -140,6 +143,8 @@ def create_app() -> FastAPI:
     async def health() -> Health:
         return Health(status="ok", api_version=API_VERSION)
 
+    app.state.read_backend = read_backend
+    app.include_router(read_router, prefix=API_PREFIX)
     return app
 
 

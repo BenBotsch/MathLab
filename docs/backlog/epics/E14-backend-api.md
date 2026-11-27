@@ -21,7 +21,7 @@ Der Server ist für mathematische und operative Fakten maßgeblich (UI §15.3). 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
 | F-14.01 | FastAPI-Grundgerüst und versioniertes API-Schema | `done` | P0 | M1 |
-| F-14.02 | Lese-Endpunkte | `ready` | P0 | M1 |
+| F-14.02 | Lese-Endpunkte | `review` | P0 | M1 |
 | F-14.03 | SSE-Live-Stream und Event-Nachladung | `ready` | P0 | M1 |
 | F-14.04 | Command API mit Serverbestätigung | `ready` | P0 | M1 |
 | F-14.05 | Erkennung konkurrierender Kommandos | `todo` | P0 | M1 |
@@ -48,15 +48,15 @@ FastAPI-Anwendung mit OpenAPI-Schema, Versionspräfix, einheitlichen Fehlertypen
 
 ### F-14.02 Lese-Endpunkte
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `review` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.01, F-02.05, F-02.06, F-02.07
 - Quelle: UI §16.4
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: Endpunkte in `src/mathlab/api/read.py`, Tests in `tests/test_api_read.py`, `PostgresEventStore.run_ids` mit Test in `tests/storage/test_events.py`, OpenAPI-Dokument `docs/reference/openapi-v1.json` neu erzeugt. Am 2026-11-27 liefen `ruff format --check`, `ruff check`, `mypy` (strict), `python -m mathlab.api.openapi --check` und `--against` gegen das vorherige v1-Dokument (keine brechende Änderung) sowie `pytest` mit 931 passed und 57 skipped, alle ohne Befund. Beleg Snapshot: Für jede Sequenz 1 bis 8 und für eine Sequenz über dem Ende gleicht `GET /runs/{run_id}/snapshot?at=n` dem `rebuild` der ersten n Ereignisse und nennt `sequence`, `snapshot_version` und `snapshot_sequence`. Festlegungen im Schema: Proof-Nodes liegen unter `/runs/{run_id}/proof-nodes/{node_id}`, weil der Store keinen Index von Knoten auf Runs hat. Artefakte werden als `application/octet-stream` ausgeliefert, solange der Medientyp nicht gespeichert wird. Der Agent-Graph enthält vorerst nur Agentenzustände, Kanten folgen mit E18. Ohne konfiguriertes Backend antworten die Endpunkte mit `UNAVAILABLE`. Offen vor `done`: Der Postgres-Test `test_run_ids_lists_every_run_with_events` wurde übersprungen, weil `MATHLAB_TEST_DATABASE_URL` nicht gesetzt war.
 
 `GET /runs`, `GET /runs/{id}`, `GET /runs/{id}/snapshot`, `GET /runs/{id}/proof-graph`, `GET /runs/{id}/agent-graph`, `GET /proof-nodes/{id}` und `GET /artifacts/{id}`. Die Pfade in UI §16.4 sind illustrativ und werden im API-Schema festgelegt.
 
-- [ ] Jeder Endpunkt hat einen Contract-Test.
-- [ ] Ein Snapshot ist konsistent zu einer genannten Eventsequenz.
+- [x] Jeder Endpunkt hat einen Contract-Test.
+- [x] Ein Snapshot ist konsistent zu einer genannten Eventsequenz.
 
 ### F-14.03 SSE-Live-Stream und Event-Nachladung
 
