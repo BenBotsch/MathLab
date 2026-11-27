@@ -199,19 +199,21 @@ def run_suite(
     return SuiteResult(evaluation_run=evaluation, report=metrics, samples=tuple(collected))
 
 
-def _sample(
-    task: GoldenTask,
+def prepare_run(
+    task_label: str,
     target: ConfirmedStatement,
     model: ModelAdapter,
     checker: LeanChecker,
     store: ArtifactStore,
     budget: AttemptBudget,
     model_name: str,
-    index: int,
     attempt_id: UUID,
     clock: Callable[[], datetime],
-    monotonic: Callable[[], float],
-) -> Sample:
+) -> tuple[Run, dict[str, Agent], AgentTask]:
+    """Run, agents and start task of one attempt on ``target`` in ``BLIND_REDISCOVERY``.
+
+    The golden suite and ``POST /runs`` (F-14.12) start attempts the same way.
+    """
     # The generator's own limit is the effective cap; the run limit is one call above it so
     # the budget stop cannot cut off the check of the last proposal.
     run = Run(
@@ -232,9 +234,8 @@ def _sample(
         ),
         VERIFICATION_AGENT: VerificationAgent(checker, store, clock=clock),
     }
-    sink = _Sink()
     start = AgentTask(
-        task_id=f"{task.id}-{index}",
+        task_id=task_label,
         agent_id="tactic",
         input={
             "statement_id": str(target.id),
@@ -243,6 +244,26 @@ def _sample(
             "attempt_id": str(attempt_id),
         },
     )
+    return run, agents, start
+
+
+def _sample(
+    task: GoldenTask,
+    target: ConfirmedStatement,
+    model: ModelAdapter,
+    checker: LeanChecker,
+    store: ArtifactStore,
+    budget: AttemptBudget,
+    model_name: str,
+    index: int,
+    attempt_id: UUID,
+    clock: Callable[[], datetime],
+    monotonic: Callable[[], float],
+) -> Sample:
+    run, agents, start = prepare_run(
+        f"{task.id}-{index}", target, model, checker, store, budget, model_name, attempt_id, clock
+    )
+    sink = _Sink()
     began = monotonic()
     asyncio.run(Orchestrator(run, sink, agents, clock=clock).execute([start]))
     return sample_from_events(target.problem_id, budget, sink.events, monotonic() - began)
@@ -360,6 +381,7 @@ __all__ = [
     "SuiteResult",
     "confirm_task",
     "main",
+    "prepare_run",
     "regressions",
     "run_suite",
     "sample_from_events",

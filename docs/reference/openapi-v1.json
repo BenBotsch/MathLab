@@ -65,6 +65,41 @@
         "title": "AgentView",
         "type": "object"
       },
+      "AttemptBudget": {
+        "additionalProperties": false,
+        "description": "Limits per ADR-0003: model calls, tokens (``None``: not limited) and runtime.",
+        "properties": {
+          "model_calls": {
+            "minimum": 0.0,
+            "title": "Model Calls",
+            "type": "integer"
+          },
+          "runtime_seconds": {
+            "minimum": 0.0,
+            "title": "Runtime Seconds",
+            "type": "number"
+          },
+          "tokens": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tokens"
+          }
+        },
+        "required": [
+          "model_calls",
+          "tokens",
+          "runtime_seconds"
+        ],
+        "title": "AttemptBudget",
+        "type": "object"
+      },
       "AttemptView": {
         "additionalProperties": false,
         "properties": {
@@ -97,6 +132,84 @@
           }
         },
         "title": "AttemptView",
+        "type": "object"
+      },
+      "BenchmarkReport": {
+        "additionalProperties": false,
+        "properties": {
+          "budget": {
+            "$ref": "#/components/schemas/AttemptBudget"
+          },
+          "censored_runtimes_seconds": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Censored Runtimes Seconds",
+            "type": "array"
+          },
+          "cost_per_proof": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Cost"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "failures_by_class": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "propertyNames": {
+              "$ref": "#/components/schemas/FailureClass"
+            },
+            "title": "Failures By Class",
+            "type": "object"
+          },
+          "pass_at_k": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Pass At K",
+            "type": "object"
+          },
+          "problems": {
+            "title": "Problems",
+            "type": "integer"
+          },
+          "samples": {
+            "title": "Samples",
+            "type": "integer"
+          },
+          "solved_problems": {
+            "title": "Solved Problems",
+            "type": "integer"
+          },
+          "times_to_proof_seconds": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Times To Proof Seconds",
+            "type": "array"
+          },
+          "total_cost": {
+            "$ref": "#/components/schemas/Cost"
+          }
+        },
+        "required": [
+          "budget",
+          "problems",
+          "samples",
+          "solved_problems",
+          "pass_at_k",
+          "times_to_proof_seconds",
+          "censored_runtimes_seconds",
+          "total_cost",
+          "cost_per_proof",
+          "failures_by_class"
+        ],
+        "title": "BenchmarkReport",
         "type": "object"
       },
       "CommandAck": {
@@ -234,6 +347,38 @@
         "title": "CommandRequest",
         "type": "object"
       },
+      "Cost": {
+        "additionalProperties": false,
+        "description": "Compute per ADR-0003; ``tokens`` is ``None`` if not measured. Averages are fractional.",
+        "properties": {
+          "model_calls": {
+            "title": "Model Calls",
+            "type": "number"
+          },
+          "runtime_seconds": {
+            "title": "Runtime Seconds",
+            "type": "number"
+          },
+          "tokens": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tokens"
+          }
+        },
+        "required": [
+          "model_calls",
+          "tokens",
+          "runtime_seconds"
+        ],
+        "title": "Cost",
+        "type": "object"
+      },
       "ErrorResponse": {
         "additionalProperties": false,
         "description": "Body of every error response.",
@@ -299,6 +444,69 @@
         ],
         "title": "ErrorType",
         "type": "string"
+      },
+      "EvaluationRun": {
+        "additionalProperties": false,
+        "description": "A benchmark evaluation over a fixed benchmark version.",
+        "properties": {
+          "attempt_ids": {
+            "default": [],
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Attempt Ids",
+            "type": "array"
+          },
+          "benchmark_id": {
+            "minLength": 1,
+            "title": "Benchmark Id",
+            "type": "string"
+          },
+          "benchmark_version": {
+            "minLength": 1,
+            "title": "Benchmark Version",
+            "type": "string"
+          },
+          "configuration": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Configuration",
+            "type": "object"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "metrics": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Metrics",
+            "type": "object"
+          },
+          "version": {
+            "minimum": 1.0,
+            "title": "Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "version",
+          "created_at",
+          "benchmark_id",
+          "benchmark_version"
+        ],
+        "title": "EvaluationRun",
+        "type": "object"
       },
       "EventEnvelope": {
         "additionalProperties": false,
@@ -432,6 +640,23 @@
         "title": "EventEnvelope",
         "type": "object"
       },
+      "FailureClass": {
+        "description": "ARCH §9.3 classes plus ``UNCLASSIFIED`` (backlog addition).",
+        "enum": [
+          "SYNTAX_ERROR",
+          "TYPE_ERROR",
+          "MISSING_LEMMA",
+          "INVALID_INFERENCE",
+          "COUNTEREXAMPLE_FOUND",
+          "SEARCH_EXHAUSTED",
+          "CIRCULAR_DEPENDENCY",
+          "SEMANTIC_MISMATCH",
+          "RESOURCE_EXHAUSTION",
+          "UNCLASSIFIED"
+        ],
+        "title": "FailureClass",
+        "type": "string"
+      },
       "FailureCode": {
         "description": "The failure catalogue of ARCH §9.3.",
         "enum": [
@@ -447,6 +672,61 @@
         ],
         "title": "FailureCode",
         "type": "string"
+      },
+      "GoldenSuiteRequest": {
+        "additionalProperties": false,
+        "description": "Body of ``POST /golden-suite/runs``; without ``task_ids`` every task runs.",
+        "properties": {
+          "ks": {
+            "default": [
+              1
+            ],
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 1,
+            "title": "Ks",
+            "type": "array"
+          },
+          "model_calls": {
+            "default": 4,
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "title": "Model Calls",
+            "type": "integer"
+          },
+          "runtime_seconds": {
+            "default": 300,
+            "maximum": 3600.0,
+            "minimum": 1.0,
+            "title": "Runtime Seconds",
+            "type": "integer"
+          },
+          "samples": {
+            "default": 1,
+            "maximum": 10.0,
+            "minimum": 1.0,
+            "title": "Samples",
+            "type": "integer"
+          },
+          "task_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Ids"
+          }
+        },
+        "title": "GoldenSuiteRequest",
+        "type": "object"
       },
       "Health": {
         "additionalProperties": false,
@@ -914,6 +1194,121 @@
         "title": "RunView",
         "type": "object"
       },
+      "Sample": {
+        "additionalProperties": false,
+        "description": "One attempt on one problem under ``budget``.",
+        "properties": {
+          "budget": {
+            "$ref": "#/components/schemas/AttemptBudget"
+          },
+          "cost": {
+            "$ref": "#/components/schemas/Cost"
+          },
+          "failure_class": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FailureClass"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "outcome": {
+            "$ref": "#/components/schemas/SampleOutcome"
+          },
+          "problem_id": {
+            "format": "uuid",
+            "title": "Problem Id",
+            "type": "string"
+          },
+          "runtime_seconds": {
+            "title": "Runtime Seconds",
+            "type": "number"
+          }
+        },
+        "required": [
+          "problem_id",
+          "budget",
+          "outcome",
+          "runtime_seconds",
+          "cost"
+        ],
+        "title": "Sample",
+        "type": "object"
+      },
+      "SampleOutcome": {
+        "enum": [
+          "SOLVED",
+          "FAILED",
+          "CENSORED"
+        ],
+        "title": "SampleOutcome",
+        "type": "string"
+      },
+      "StartRunRequest": {
+        "additionalProperties": false,
+        "description": "Body of ``POST /runs``.",
+        "properties": {
+          "golden_task_id": {
+            "description": "Task id of the golden list.",
+            "minLength": 1,
+            "title": "Golden Task Id",
+            "type": "string"
+          },
+          "model_calls": {
+            "default": 4,
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "title": "Model Calls",
+            "type": "integer"
+          },
+          "runtime_seconds": {
+            "default": 300,
+            "maximum": 3600.0,
+            "minimum": 1.0,
+            "title": "Runtime Seconds",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "golden_task_id"
+        ],
+        "title": "StartRunRequest",
+        "type": "object"
+      },
+      "StartedRun": {
+        "additionalProperties": false,
+        "properties": {
+          "golden_task_id": {
+            "title": "Golden Task Id",
+            "type": "string"
+          },
+          "problem_id": {
+            "format": "uuid",
+            "title": "Problem Id",
+            "type": "string"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "statement_id": {
+            "format": "uuid",
+            "title": "Statement Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "run_id",
+          "problem_id",
+          "statement_id",
+          "golden_task_id"
+        ],
+        "title": "StartedRun",
+        "type": "object"
+      },
       "StepView": {
         "additionalProperties": false,
         "properties": {
@@ -966,6 +1361,31 @@
           "proof_node_id"
         ],
         "title": "StepView",
+        "type": "object"
+      },
+      "SuiteResult": {
+        "additionalProperties": false,
+        "properties": {
+          "evaluation_run": {
+            "$ref": "#/components/schemas/EvaluationRun"
+          },
+          "report": {
+            "$ref": "#/components/schemas/BenchmarkReport"
+          },
+          "samples": {
+            "items": {
+              "$ref": "#/components/schemas/Sample"
+            },
+            "title": "Samples",
+            "type": "array"
+          }
+        },
+        "required": [
+          "evaluation_run",
+          "report",
+          "samples"
+        ],
+        "title": "SuiteResult",
         "type": "object"
       },
       "VerificationStatus": {
@@ -1031,6 +1451,57 @@
         "summary": "Get Artifact",
         "tags": [
           "read"
+        ]
+      }
+    },
+    "/api/v1/golden-suite/runs": {
+      "post": {
+        "operationId": "start_golden_suite_api_v1_golden_suite_runs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoldenSuiteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuiteResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "4XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Client error"
+          },
+          "5XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Server error"
+          }
+        },
+        "summary": "Start Golden Suite",
+        "tags": [
+          "runs"
         ]
       }
     },
@@ -1131,6 +1602,55 @@
         "summary": "List Runs",
         "tags": [
           "read"
+        ]
+      },
+      "post": {
+        "operationId": "start_run_api_v1_runs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartRunRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StartedRun"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "4XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Client error"
+          },
+          "5XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Server error"
+          }
+        },
+        "summary": "Start Run",
+        "tags": [
+          "runs"
         ]
       }
     },

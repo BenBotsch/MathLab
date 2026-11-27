@@ -166,3 +166,17 @@ def test_subscribing_after_close_ends_immediately() -> None:
         assert [e async for e in late] == []
 
     asyncio.run(scenario())
+
+
+def test_sync_append_persists_and_fans_out_once() -> None:
+    async def scenario() -> None:
+        sink = MemorySink()
+        bus = ResearchEventBus(sink)
+        live = bus.subscribe()
+        d = draft(uuid4())
+        first = bus.append(d)
+        assert bus.append(d) == first and await bus.publish(d) == first
+        assert len(sink.events) == 1
+        assert await drain(live) == [first]
+
+    asyncio.run(scenario())

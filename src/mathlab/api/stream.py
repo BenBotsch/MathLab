@@ -9,7 +9,9 @@
 
 The stream subscribes to the research event bus (F-14.11) *before* it reads the backlog from
 the store, then drops bus events at or below the last sequence it sent. Events published while
-the backlog is read are therefore neither lost nor sent twice. If the bus drops the subscriber
+the backlog is read are therefore neither lost nor sent twice. A live event whose sequence skips
+ahead, because several producers write to the bus (F-14.12), first triggers a read of the gap
+from the store. If the bus drops the subscriber
 because it fell behind, the stream ends; the client reconnects with ``Last-Event-ID`` and
 catches up from the store. Idle streams send a comment line as keep-alive.
 
@@ -71,6 +73,11 @@ async def event_stream(
                 continue
             except (StopAsyncIteration, SubscriberOverflowError):
                 return
+            if event.sequence > last + 1:
+                for missed in await asyncio.to_thread(events.read, run_id, last):
+                    if missed.sequence < event.sequence:
+                        last = missed.sequence
+                        yield sse_message(missed)
             if event.sequence > last:
                 last = event.sequence
                 yield sse_message(event)

@@ -11,6 +11,11 @@ remembers which ``event_id`` values it has already fanned out, so subscribers se
 event only once. That memory lives in the process; after a restart subscribers catch up from
 the store by ``sequence`` instead (F-14.03).
 
+The orchestrator writes synchronously; ``append`` serves it from the event loop's thread. It
+persists and fans out in one step without the publish lock, so its events can reach subscribers
+before an earlier sequence that ``publish`` is still storing. Consumers that need gap-free order,
+such as the live stream, fill a gap from the store (F-14.12).
+
 Subscribers get a bounded queue. A subscriber that falls behind is dropped and its iterator
 ends with ``SubscriberOverflowError``, so one slow consumer cannot block publishers.
 """
@@ -129,13 +134,25 @@ class ResearchEventBus:
         """
         async with self._lock:
             event = await asyncio.to_thread(self._sink.append, draft)
-            if event.event_id in self._delivered:
-                return event
-            self._delivered.add(event.event_id)
-            for subscription in list(self._subscriptions):
-                if not subscription._offer(event):
-                    self._unsubscribe(subscription, overflowed=True)
+            self._fan_out(event)
             return event
+
+    def append(self, draft: EventDraft) -> EventEnvelope:
+        """Persist and deliver ``draft`` synchronously; call it only from the loop's thread.
+
+        This makes the bus an ``EventSink`` for the orchestrator, which writes synchronously.
+        """
+        event = self._sink.append(draft)
+        self._fan_out(event)
+        return event
+
+    def _fan_out(self, event: EventEnvelope) -> None:
+        if event.event_id in self._delivered:
+            return
+        self._delivered.add(event.event_id)
+        for subscription in list(self._subscriptions):
+            if not subscription._offer(event):
+                self._unsubscribe(subscription, overflowed=True)
 
     def close(self) -> None:
         """End every subscription; later subscriptions end immediately."""

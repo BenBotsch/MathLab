@@ -11,7 +11,8 @@
 ``GET /api/v1/health`` lives here; the read endpoints are in ``mathlab.api.read`` (F-14.02) and
 answer ``UNAVAILABLE`` until ``create_app`` receives a ``ReadBackend``. Catch-up and the SSE
 stream are in ``mathlab.api.stream`` (F-14.03) and also need the ``ResearchEventBus``.
-The Control API is in ``mathlab.api.control`` (F-14.04) and needs a ``CommandService``.
+The Control API is in ``mathlab.api.control`` (F-14.04) and needs a ``CommandService``. Starting
+runs and the golden suite is in ``mathlab.api.runs`` (F-14.12) and needs a ``RunLauncher``.
 """
 
 import logging
@@ -37,6 +38,8 @@ from mathlab.api.errors import (
 )
 from mathlab.api.read import ReadBackend
 from mathlab.api.read import router as read_router
+from mathlab.api.runs import RunLauncher
+from mathlab.api.runs import router as runs_router
 from mathlab.api.stream import DEFAULT_KEEPALIVE_SECONDS
 from mathlab.api.stream import router as stream_router
 from mathlab.bus import ResearchEventBus
@@ -104,6 +107,7 @@ def create_app(
     read_backend: ReadBackend | None = None,
     event_bus: ResearchEventBus | None = None,
     command_service: CommandService | None = None,
+    run_launcher: RunLauncher | None = None,
     *,
     keepalive_seconds: float = DEFAULT_KEEPALIVE_SECONDS,
 ) -> FastAPI:
@@ -158,10 +162,12 @@ def create_app(
     app.state.read_backend = read_backend
     app.state.event_bus = event_bus
     app.state.command_service = command_service
+    app.state.run_launcher = run_launcher
     app.state.keepalive_seconds = keepalive_seconds
     app.include_router(read_router, prefix=API_PREFIX)
     app.include_router(stream_router, prefix=API_PREFIX)
     app.include_router(control_router, prefix=API_PREFIX)
+    app.include_router(runs_router, prefix=API_PREFIX)
     return app
 
 

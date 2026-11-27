@@ -28,9 +28,10 @@ Der Server ist für mathematische und operative Fakten maßgeblich (UI §15.3). 
 | F-14.06 | Artefaktverweise statt großer Payloads | `ready` | P0 | M1 |
 | F-14.07 | Verhalten bei Verbindungs- und Komponentenausfällen | `ready` | P0 | M1 |
 | F-14.08 | Endpunkt für Wissenssuche | `todo` | P1 | M3 |
-| F-14.09 | CLI-App | `ready` | P0 | M1 |
+| F-14.09 | CLI-App | `blocked` | P0 | M1 |
 | F-14.10 | WebSockets bei nachgewiesenem Bedarf | `ready` | P2 | M6 |
 | F-14.11 | Interner Research Event Bus | `review` | P0 | M1 |
+| F-14.12 | Endpunkte zum Starten von Runs und der Golden Suite | `review` | P0 | M1 |
 
 ## Features
 
@@ -148,8 +149,8 @@ Theorem- und Lemma-Suche über die Retrieval-Pipeline. Jeder Treffer enthält se
 
 ### F-14.09 CLI-App
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
-- Abhängigkeiten: F-14.04, F-14.03
+- Status: `blocked` · Priorität: P0 · Meilenstein: M1
+- Abhängigkeiten: F-14.04, F-14.03, F-14.12
 - Quelle: ARCH §18.3 (`apps/cli`), §19 (Phase 1, CLI oder einfache Web-UI)
 - Bearbeiter: offen · Nachweise: offen
 
@@ -167,6 +168,19 @@ Kommandozeile zum Starten, Beobachten, Pausieren und Beenden von Runs sowie zum 
 WebSockets werden erst eingeführt, wenn eine konkrete Interaktion wie Kollaboration sie benötigt.
 
 - [ ] Der Bedarf ist in einem ADR begründet, bevor implementiert wird.
+
+### F-14.12 Endpunkte zum Starten von Runs und der Golden Suite
+
+- Status: `review` · Priorität: P0 · Meilenstein: M1
+- Abhängigkeiten: F-14.04, F-14.03, F-11.03
+- Quelle: ARCH §18.3, §19 (Phase 1); UI §5.3, §16.4. Angelegt am 2026-11-27 bei der Arbeit an F-14.09, weil die API keinen Run starten konnte.
+- Bearbeiter: Claude · Nachweise: `src/mathlab/api/runs.py` (`RunLauncher`, `POST /runs`, `POST /golden-suite/runs`), `ResearchEventBus.append` in `src/mathlab/bus.py`, Lückenfüllung in `src/mathlab/api/stream.py`, Audit über den Bus in `src/mathlab/api/control.py`, `prepare_run` in `src/mathlab/golden_suite.py`. Tests in `tests/test_api_runs.py`, `tests/test_bus.py` und `tests/test_api_stream.py`. `docs/reference/openapi-v1.json` ist neu erzeugt. Am 2026-11-27 liefen `ruff format`, `ruff check`, `mypy` (strict), `python -m mathlab.api.openapi --check` und `--against` gegen das vorherige v1-Dokument (keine brechende Änderung) sowie `pytest` mit 968 passed und 57 skipped, alle ohne Befund. Die betroffenen Testdateien liefen dreimal hintereinander grün. Belege: Ein über `POST /runs` gestarteter Run schreibt über den Bus; ein Abonnent sieht seine Events live, `run.pause` und `run.stop` über den `CommandService` halten ihn an, `run.paused`, die Audit-Events und `run.completed` erscheinen im Stream. Ein Odd-Sum-Run (`g08`) endet `COMPLETED` mit `proof.step.verified`, dessen Prüfarchiv über `GET /artifacts/{ref}` abrufbar ist. Der Golden-Suite-Lauf über die API liefert denselben Bericht wie `run_suite` bis auf die gemessenen Laufzeiten. Offen vor `done`: Alle Läufe nutzten den Fake-Checker der Golden-Suite-Tests, weil Docker und das Lean-Image hier nicht verfügbar sind. Der Odd-Sum-Lauf gegen das echte Lean-Image ist nachzuholen. Festlegungen: Ein Run gilt als Kontrollziel, solange er im Server läuft; danach antworten Kommandos mit „run is not active“. Der Orchestrator schreibt synchron über `ResearchEventBus.append`. Weil dadurch Events eines Runs in anderer Reihenfolge beim Abonnenten ankommen können, liest der Stream eine Lücke aus dem Store nach. Der Golden-Suite-Endpunkt antwortet erst nach Ende des Laufs. Der Proof-Graph bleibt in diesem Ablauf leer, weil Tactic Generator und Verification Agent keine `proof.node.*`-Events schreiben.
+
+`POST /runs` startet einen Run für eine Aufgabe der Golden-Liste im Prozess des Servers. Die Events laufen über den Research Event Bus, sodass Stream und Control API den Run sehen. Ein zweiter Endpunkt startet die Golden Suite und liefert ihr Ergebnis als `EvaluationRun`. Der Server bleibt maßgeblich, der Client übergibt nur Aufgabe und Budget.
+
+- [x] Ein über `POST /runs` gestarteter Run erscheint im Stream und lässt sich über `POST /runs/{run_id}/commands` pausieren und beenden.
+- [x] Ein Run der Odd-Sum-Aufgabe endet mit verifiziertem Beweis, abrufbar über die Lese-Endpunkte.
+- [x] Ein Golden-Suite-Lauf über die API liefert denselben Bericht wie `run_suite`.
 
 ### F-14.11 Interner Research Event Bus
 

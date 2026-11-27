@@ -212,3 +212,22 @@ def test_events_endpoint_and_errors(tmp_path: Path) -> None:
     assert [json.loads(m.split("data: ", 1)[1])["sequence"] for m in r.text.split("\n\n")[:-1]] == [
         5
     ]
+
+
+def test_gap_in_live_events_is_filled_from_the_store() -> None:
+    async def scenario() -> None:
+        store = MemoryStore()
+        bus = ResearchEventBus(store)
+        run_id = uuid4()
+        stream = event_stream(run_id, 0, events=store, bus=bus)
+        first = asyncio.ensure_future(anext(stream))
+        await asyncio.sleep(0.05)  # subscribed, backlog empty
+        store.append(problem(run_id))  # 1 bypasses the bus, e.g. a publish still in flight
+        bus.append(problem(run_id))  # 2 arrives live first
+        assert parse(await asyncio.wait_for(first, 2))[0] == 1
+        assert await take(stream, 1) == [2]
+        await bus.publish(problem(run_id))
+        assert await take(stream, 1) == [3]
+        await stream.aclose()
+
+    asyncio.run(scenario())

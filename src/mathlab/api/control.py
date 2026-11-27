@@ -46,6 +46,7 @@ from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel, ConfigDict, Field
 
 from mathlab.api.errors import ApiError, ErrorType
+from mathlab.bus import ResearchEventBus
 from mathlab.core.event import EventEnvelope
 from mathlab.core.event_types import CommandAccepted, CommandRecord, CommandRejected
 from mathlab.core.primitives import JsonObject
@@ -146,8 +147,11 @@ class CommandService:
         controllers: Mapping[UUID, RunController],
         *,
         clock: Callable[[], datetime] = lambda: datetime.now(UTC),
+        bus: ResearchEventBus | None = None,
     ) -> None:
+        """Audit events go through ``bus`` if given, so the live stream shows them."""
         self._sink = sink
+        self._bus = bus
         self._controllers = controllers
         self._clock = clock
         self._lock = asyncio.Lock()
@@ -258,6 +262,8 @@ class CommandService:
             payload=payload.model_dump(mode="json"),
             proof_node_id=payload.command.proof_node_id,
         )
+        if self._bus is not None:
+            return await self._bus.publish(draft)
         return await asyncio.to_thread(self._sink.append, draft)
 
 
