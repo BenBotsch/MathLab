@@ -139,6 +139,27 @@ EXAMPLES: dict[str, dict[str, Any]] = {
     "budget.updated": {"model_calls_used": 3, "tokens_used": 1200, "runtime_seconds_used": 4.5},
     "run.paused": {"reason": "user request"},
     "run.resumed": {},
+    "command.accepted": {
+        "command": {
+            "command_id": "cmd-00119",
+            "command_type": "run.pause",
+            "requested_by": "user",
+            "expected_state_version": 35,
+            "parameters": {"reason": "review"},
+        },
+        "run_status": "PAUSED",
+    },
+    "command.rejected": {
+        "command": {
+            "command_id": "cmd-00120",
+            "command_type": "proof_node.set_verified",
+            "requested_by": "user",
+            "expected_state_version": 36,
+            "proof_node_id": U + "10",
+        },
+        "error": "VALIDATION_ERROR",
+        "reason": "unknown command type",
+    },
     "agent.status.changed": {
         "agent_id": "induction-agent-01",
         "execution_id": U + "14",
@@ -171,6 +192,8 @@ EXTENSIONS = [
     "run.resumed",  # F-07.03, a paused run continues
     "proof.expansion.created",  # F-08.02, AND node of the proof hypergraph
     "proof.relation.added",  # F-08.02, DEPENDS_ON, REUSES and REFUTES of UI §4.1
+    "command.accepted",  # F-14.04, audit event of the Control API
+    "command.rejected",  # F-14.04, audit event of the Control API
 ]
 
 

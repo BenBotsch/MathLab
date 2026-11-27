@@ -39,3 +39,5 @@ Felder mit `?` sind optional.
 | `run.paused` | `RunPaused` | `reason`? | The run was paused. |
 | `run.resumed` | `RunResumed` |  | A paused run continues (F-07.03). |
 | `run.completed` | `RunCompleted` | `final_status`, `stop_reason`? | The run ended in a terminal status; ``stop_reason`` says why (F-08.04). |
+| `command.accepted` | `CommandAccepted` | `command`, `run_status` | The server executed a command; audit event of the Control API (F-14.04). |
+| `command.rejected` | `CommandRejected` | `command`, `error`, `reason` | The server refused a command and did not execute it (F-14.04). |

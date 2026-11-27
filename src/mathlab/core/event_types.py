@@ -4,8 +4,9 @@ The catalogue is the union of the event types named in both sources plus
 ``proof.attempt.finished``, which F-09.01 adds so an ARCH §9.1 attempt can be rebuilt from
 events, ``agent.result.reported``, which F-07.02 adds so every ARCH §6.3 agent message is
 logged, ``agent.status.changed`` and ``run.resumed``, which F-07.03 adds for the orchestrator's
-state changes, and ``counterexample.checked``, which F-05.07 adds for the exact re-check of ARCH
-§7.5. Neither source defines payloads, so the schemas below are minimal: they carry the IDs
+state changes, ``command.accepted`` and ``command.rejected``, which F-14.04 adds as audit events
+of the Control API, and ``counterexample.checked``, which F-05.07 adds for the exact re-check
+of ARCH §7.5. Neither source defines payloads, so the schemas below are minimal: they carry the IDs
 that link an event to entities of the domain model plus the few values the UI needs.
 Large content stays in entities or artifacts.
 
@@ -416,6 +417,38 @@ class RunCompleted(Payload):
         return value
 
 
+class CommandRecord(Payload):
+    """A command as submitted to the Control API (UI §10.2, §16.3; F-14.04).
+
+    ``command_type`` is kept as sent, so a rejected unknown type is still auditable.
+    """
+
+    command_id: str = Field(min_length=1, max_length=128)
+    command_type: str = Field(min_length=1, max_length=128)
+    requested_by: str = Field(min_length=1)
+    expected_state_version: int = Field(ge=0)
+    branch_id: UUID | None = None
+    agent_id: str | None = Field(default=None, min_length=1)
+    proof_node_id: UUID | None = None
+    parameters: JsonObject = {}
+
+
+class CommandAccepted(Payload):
+    """The server executed a command; audit event of the Control API (F-14.04)."""
+
+    command: CommandRecord
+    run_status: RunStatus
+
+
+class CommandRejected(Payload):
+    """The server refused a command and did not execute it (F-14.04)."""
+
+    command: CommandRecord
+    error: str = Field(min_length=1)
+    """``ErrorType`` of the answer, e.g. ``VALIDATION_ERROR`` or ``CONFLICT``."""
+    reason: str = Field(min_length=1)
+
+
 EVENT_PAYLOADS: dict[str, type[Payload]] = {
     "problem.created": ProblemCreated,
     "problem.formalized": ProblemFormalized,
@@ -449,6 +482,8 @@ EVENT_PAYLOADS: dict[str, type[Payload]] = {
     "run.paused": RunPaused,
     "run.resumed": RunResumed,
     "run.completed": RunCompleted,
+    "command.accepted": CommandAccepted,
+    "command.rejected": CommandRejected,
 }
 """Event type name to payload schema."""
 

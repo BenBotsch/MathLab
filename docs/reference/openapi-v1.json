@@ -99,6 +99,141 @@
         "title": "AttemptView",
         "type": "object"
       },
+      "CommandAck": {
+        "additionalProperties": false,
+        "description": "Server acknowledgement of an executed command.",
+        "properties": {
+          "audit_event_id": {
+            "format": "uuid",
+            "title": "Audit Event Id",
+            "type": "string"
+          },
+          "command_id": {
+            "title": "Command Id",
+            "type": "string"
+          },
+          "duplicate": {
+            "description": "True if this repeats the answer to an earlier send.",
+            "title": "Duplicate",
+            "type": "boolean"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "run_status": {
+            "$ref": "#/components/schemas/RunStatus"
+          },
+          "state_version": {
+            "description": "Sequence of the audit event; the new state version.",
+            "title": "State Version",
+            "type": "integer"
+          },
+          "status": {
+            "const": "accepted",
+            "default": "accepted",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "command_id",
+          "run_id",
+          "run_status",
+          "state_version",
+          "audit_event_id",
+          "duplicate"
+        ],
+        "title": "CommandAck",
+        "type": "object"
+      },
+      "CommandRequest": {
+        "additionalProperties": false,
+        "description": "Body of ``POST /runs/{run_id}/commands`` (UI §16.3).",
+        "properties": {
+          "agent_id": {
+            "anyOf": [
+              {
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Id"
+          },
+          "branch_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Branch Id"
+          },
+          "command_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Command Id",
+            "type": "string"
+          },
+          "expected_state_version": {
+            "minimum": 0.0,
+            "title": "Expected State Version",
+            "type": "integer"
+          },
+          "parameters": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "default": {},
+            "title": "Parameters",
+            "type": "object"
+          },
+          "proof_node_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Proof Node Id"
+          },
+          "requested_by": {
+            "minLength": 1,
+            "title": "Requested By",
+            "type": "string"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "type": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "command_id",
+          "type",
+          "run_id",
+          "requested_by",
+          "expected_state_version"
+        ],
+        "title": "CommandRequest",
+        "type": "object"
+      },
       "ErrorResponse": {
         "additionalProperties": false,
         "description": "Body of every error response.",
@@ -1102,6 +1237,69 @@
         "summary": "Get Agent Graph",
         "tags": [
           "read"
+        ]
+      }
+    },
+    "/api/v1/runs/{run_id}/commands": {
+      "post": {
+        "operationId": "post_command_api_v1_runs__run_id__commands_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommandRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandAck"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "4XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Client error"
+          },
+          "5XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Server error"
+          }
+        },
+        "summary": "Post Command",
+        "tags": [
+          "control"
         ]
       }
     },

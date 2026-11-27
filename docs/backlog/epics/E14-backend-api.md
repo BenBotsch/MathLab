@@ -23,12 +23,12 @@ Der Server ist für mathematische und operative Fakten maßgeblich (UI §15.3). 
 | F-14.01 | FastAPI-Grundgerüst und versioniertes API-Schema | `done` | P0 | M1 |
 | F-14.02 | Lese-Endpunkte | `review` | P0 | M1 |
 | F-14.03 | SSE-Live-Stream und Event-Nachladung | `done` | P0 | M1 |
-| F-14.04 | Command API mit Serverbestätigung | `ready` | P0 | M1 |
-| F-14.05 | Erkennung konkurrierender Kommandos | `todo` | P0 | M1 |
+| F-14.04 | Command API mit Serverbestätigung | `done` | P0 | M1 |
+| F-14.05 | Erkennung konkurrierender Kommandos | `ready` | P0 | M1 |
 | F-14.06 | Artefaktverweise statt großer Payloads | `ready` | P0 | M1 |
 | F-14.07 | Verhalten bei Verbindungs- und Komponentenausfällen | `ready` | P0 | M1 |
 | F-14.08 | Endpunkt für Wissenssuche | `todo` | P1 | M3 |
-| F-14.09 | CLI-App | `todo` | P0 | M1 |
+| F-14.09 | CLI-App | `ready` | P0 | M1 |
 | F-14.10 | WebSockets bei nachgewiesenem Bedarf | `ready` | P2 | M6 |
 | F-14.11 | Interner Research Event Bus | `review` | P0 | M1 |
 
@@ -72,16 +72,16 @@ SSE-Endpunkt pro Run mit der Sequenznummer als Event-ID und ein Endpunkt zum Nac
 
 ### F-14.04 Command API mit Serverbestätigung
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.01, F-02.04, F-07.03
 - Quelle: UI §10.2, §16.3, §5.3, §21 (Epic UI-07)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: Endpunkt und `CommandService` in `src/mathlab/api/control.py`, Audit-Eventtypen `command.accepted` und `command.rejected` in `src/mathlab/core/event_types.py`, Tests in `tests/test_api_control.py` und `tests/core/test_event_types.py`. `docs/reference/event-types.md` und `docs/reference/openapi-v1.json` sind neu erzeugt. Am 2026-11-27 liefen `ruff format`, `ruff check`, `mypy` (strict), `python -m mathlab.api.openapi --check` und `--against` gegen das vorherige v1-Dokument (keine brechende Änderung) sowie `pytest` mit 959 passed und 57 skipped, alle ohne Befund. Belege: Dieselbe `command_id` zweimal, auch fünfmal gleichzeitig, führt das Kommando einmal aus; die Wiederholung liefert dieselbe Bestätigung mit `duplicate: true` oder denselben Fehler. Jede Annahme und jede Ablehnung (unbekannter Typ, falscher Status, fehlende Bestätigung bei `run.stop`, inaktiver Run, abweichende `run_id`, wiederverwendete `command_id` mit anderem Inhalt) hinterlässt genau ein Audit-Event. Kommandos wie `proof_node.set_verified` mit `status: VERIFIED` werden mit `VALIDATION_ERROR` abgelehnt und ändern nichts. Ein echter Orchestrator wird über die API pausiert, fortgesetzt und beendet. Festlegungen: M1 kennt nur `run.pause`, `run.resume` und `run.stop` (mit `parameters.confirm: true`). Die Audit-`event_id` ist UUIDv5 aus Run und `command_id`; `state_version` in der Bestätigung ist die Sequenz des Audit-Events. `expected_state_version` wird erfasst, geprüft wird es in F-14.05.
 
 `POST /runs/{id}/commands` mit `command_id`, `type`, `run_id`, optional `branch_id`, `agent_id` und `proof_node_id`, dazu `requested_by`, `expected_state_version` und `parameters`. Antwort ist eine Bestätigung mit neuem Zustandsstand oder ein begründeter Fehler. Jedes Kommando erzeugt ein Audit-Event. Die Control API ist vom Lesezugriff getrennt.
 
-- [ ] Ein wiederholt gesendetes Kommando mit gleicher `command_id` wird genau einmal ausgeführt.
-- [ ] Jedes angenommene oder abgelehnte Kommando ist als Audit-Event im Log.
-- [ ] Ein Kommando, das `VERIFIED` setzen soll, existiert nicht und wird abgelehnt (Test).
+- [x] Ein wiederholt gesendetes Kommando mit gleicher `command_id` wird genau einmal ausgeführt.
+- [x] Jedes angenommene oder abgelehnte Kommando ist als Audit-Event im Log.
+- [x] Ein Kommando, das `VERIFIED` setzen soll, existiert nicht und wird abgelehnt (Test).
 
 Referenzbeispiel aus UI §16.3, unverändert zitiert. Bei Abweichung gilt die Quelle.
 
@@ -103,7 +103,7 @@ Referenzbeispiel aus UI §16.3, unverändert zitiert. Bei Abweichung gilt die Qu
 
 ### F-14.05 Erkennung konkurrierender Kommandos
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.04
 - Quelle: UI §10.2 (`expected_state_version`), §18.2 (Commands gleichzeitig)
 - Bearbeiter: offen · Nachweise: offen
@@ -148,7 +148,7 @@ Theorem- und Lemma-Suche über die Retrieval-Pipeline. Jeder Treffer enthält se
 
 ### F-14.09 CLI-App
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.04, F-14.03
 - Quelle: ARCH §18.3 (`apps/cli`), §19 (Phase 1, CLI oder einfache Web-UI)
 - Bearbeiter: offen · Nachweise: offen

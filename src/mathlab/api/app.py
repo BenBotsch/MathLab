@@ -11,7 +11,7 @@
 ``GET /api/v1/health`` lives here; the read endpoints are in ``mathlab.api.read`` (F-14.02) and
 answer ``UNAVAILABLE`` until ``create_app`` receives a ``ReadBackend``. Catch-up and the SSE
 stream are in ``mathlab.api.stream`` (F-14.03) and also need the ``ResearchEventBus``.
-Commands follow with F-14.04.
+The Control API is in ``mathlab.api.control`` (F-14.04) and needs a ``CommandService``.
 """
 
 import logging
@@ -25,6 +25,8 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict
 from starlette.exceptions import HTTPException
 
+from mathlab.api.control import CommandService
+from mathlab.api.control import router as control_router
 from mathlab.api.errors import (
     STATUS,
     ApiError,
@@ -101,6 +103,7 @@ _ERROR_RESPONSES: dict[int | str, dict[str, object]] = {
 def create_app(
     read_backend: ReadBackend | None = None,
     event_bus: ResearchEventBus | None = None,
+    command_service: CommandService | None = None,
     *,
     keepalive_seconds: float = DEFAULT_KEEPALIVE_SECONDS,
 ) -> FastAPI:
@@ -154,9 +157,11 @@ def create_app(
 
     app.state.read_backend = read_backend
     app.state.event_bus = event_bus
+    app.state.command_service = command_service
     app.state.keepalive_seconds = keepalive_seconds
     app.include_router(read_router, prefix=API_PREFIX)
     app.include_router(stream_router, prefix=API_PREFIX)
+    app.include_router(control_router, prefix=API_PREFIX)
     return app
 
 
