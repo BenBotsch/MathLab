@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-274 Features in 26 Epics. Erledigt sind 59 von 274.
+275 Features in 26 Epics. Erledigt sind 60 von 275.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 178 |
-| `ready` | 33 |
+| `todo` | 179 |
+| `ready` | 32 |
 | `in-progress` | 0 |
 | `review` | 3 |
-| `done` | 59 |
+| `done` | 60 |
 | `blocked` | 1 |
 | `dropped` | 0 |
 
@@ -30,13 +30,13 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E05 | [Symbolik, SMT, Numerik und Widerlegung](epics/E05-symbolik-smt-numerik.md) | M1, Ausbau M2, M5 und M6 | 3 | 4 | 2 | `in-progress` | 3/9 |
 | E06 | [Strategy Engine und Beweismethodenkatalog](epics/E06-strategy-engine.md) | M2, Ausbau M3 und M4 | 3 | 3 | 0 | `todo` | 0/6 |
 | E07 | [Agent Orchestrator und Multiagentensystem](epics/E07-agent-orchestrator.md) | M1, Ausbau M2 bis M6 | 6 | 8 | 2 | `in-progress` | 5/16 |
-| E08 | [Proof Search Engine](epics/E08-proof-search.md) | M1, Ausbau M2, M4 und M6 | 5 | 6 | 1 | `in-progress` | 5/12 |
+| E08 | [Proof Search Engine](epics/E08-proof-search.md) | M1, Ausbau M2, M4 und M6 | 5 | 7 | 1 | `in-progress` | 5/13 |
 | E09 | [Trial-and-Error und Experiment Tracking](epics/E09-trial-and-error-tracking.md) | M1, Ausbau M2 und M4 | 4 | 4 | 0 | `in-progress` | 4/8 |
 | E10 | [Wissensgraph und mathematisches Langzeitgedächtnis](epics/E10-wissensgraph.md) | M3, Vorstufe M2, Ausbau M6 | 7 | 4 | 1 | `todo` | 0/12 |
 | E11 | [Benchmarks, Betriebsmodi und Evaluation](epics/E11-benchmarks-evaluation.md) | M1, Ausbau M2 bis M6 | 7 | 7 | 2 | `in-progress` | 4/16 |
 | E12 | [Metriken, Reward und Lernverfahren](epics/E12-metriken-lernen.md) | M4, Vorstufen M1 und M2, Ausbau M6 | 2 | 10 | 1 | `todo` | 0/13 |
 | E13 | [Explanation Engine und Research Reports](epics/E13-explanation-reports.md) | M5, Vorstufe M2 | 1 | 6 | 4 | `todo` | 0/11 |
-| E14 | [Backend API, Live Stream und Control API](epics/E14-backend-api.md) | M1, Ausbau M2, M3 und M6 | 10 | 1 | 1 | `in-progress` | 4/12 |
+| E14 | [Backend API, Live Stream und Control API](epics/E14-backend-api.md) | M1, Ausbau M2, M3 und M6 | 10 | 1 | 1 | `in-progress` | 5/12 |
 | E15 | [Research Shell und Designsystem](epics/E15-research-shell.md) | M1, Ausbau M2 und M5 | 8 | 4 | 2 | `todo` | 0/14 |
 | E16 | [Proof Search Graph UI](epics/E16-proof-graph-ui.md) | M1, Ausbau M2 | 5 | 4 | 0 | `todo` | 0/9 |
 | E17 | [Inspector](epics/E17-inspector.md) | M1, Ausbau M2 und M5 | 5 | 5 | 0 | `todo` | 0/10 |
@@ -58,7 +58,6 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
 | [F-03.03](epics/E03-problem-engine.md#f-0303-mehrdeutigkeit-protokollieren) | Mehrdeutigkeit protokollieren | P1 | M1 |
 | [F-12.10](epics/E12-metriken-lernen.md#f-1210-benchmark-für-lokale-modelle-quantisierung-und-kontext) | Benchmark für lokale Modelle, Quantisierung und Kontext | P1 | M1 |
-| [F-14.06](epics/E14-backend-api.md#f-1406-artefaktverweise-statt-großer-payloads) | Artefaktverweise statt großer Payloads | P0 | M1 |
 | [F-14.07](epics/E14-backend-api.md#f-1407-verhalten-bei-verbindungs--und-komponentenausfällen) | Verhalten bei Verbindungs- und Komponentenausfällen | P0 | M1 |
 | [F-15.01](epics/E15-research-shell.md#f-1501-client-grundgerüst) | Client-Grundgerüst | P0 | M1 |
 | [F-24.02](epics/E24-sicherheit-sandbox.md#f-2402-toolrechte-pro-agentenrolle) | Toolrechte pro Agentenrolle | P0 | M1 |
@@ -106,7 +105,7 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
 | [M1](ROADMAP.md#m1) | 52 | 35 | 17 | 0 |
-| [M2](ROADMAP.md#m2) | 65 | 9 | 54 | 2 |
+| [M2](ROADMAP.md#m2) | 66 | 9 | 55 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |
 | [M5](ROADMAP.md#m5) | 16 | 1 | 7 | 8 |

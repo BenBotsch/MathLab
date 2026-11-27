@@ -231,3 +231,58 @@ def test_gap_in_live_events_is_filled_from_the_store() -> None:
         await stream.aclose()
 
     asyncio.run(scenario())
+
+
+def rejected(run_id: UUID, message: str) -> EventDraft:
+    return problem(run_id).model_copy(
+        update={
+            "type": "proof.step.rejected",
+            "payload": {
+                "step_id": str(uuid4()),
+                "failure_code": None,
+                "message": message,
+                "state_after_fingerprint": None,
+            },
+        }
+    )
+
+
+def test_large_lean_log_is_streamed_as_artifact_id(tmp_path: Path) -> None:
+    lean_log = "error: unsolved goals\n" + "⊢ n * n % 2 = 1\n" * 4000  # about 70 KB
+    store = MemoryStore()
+    artifacts = FileSystemArtifactStore(tmp_path / "artifacts")
+    bus = ResearchEventBus(store, artifacts=artifacts, max_inline_bytes=4096)
+    run_id = uuid4()
+
+    async def scenario() -> str:
+        stream = event_stream(run_id, 0, events=store, bus=bus)
+        first = asyncio.ensure_future(anext(stream))
+        await asyncio.sleep(0.05)
+        draft = rejected(run_id, lean_log)
+        await bus.publish(draft)
+        await bus.publish(draft)  # redelivery stores the same reference, no conflict
+        message = await asyncio.wait_for(first, 2)
+        await stream.aclose()
+        return message
+
+    message = asyncio.run(scenario())
+    assert len(message.encode("utf-8")) < 4096 and "unsolved goals" not in message
+    _, _, event = parse(message)
+    ref = event.payload["message"]
+    assert isinstance(ref, str) and ref.startswith("sha256:")
+    assert [e.sequence for e in store.read(run_id)] == [1]
+
+    backend = ReadBackend(store, InMemorySnapshotStore(), artifacts)
+    client = TestClient(create_app(backend, bus))
+    r = client.get(f"{API_PREFIX}/artifacts/{ref}")
+    assert r.status_code == 200 and r.content.decode("utf-8") == lean_log
+
+
+def test_small_payload_stays_inline(tmp_path: Path) -> None:
+    store = MemoryStore()
+    artifacts = FileSystemArtifactStore(tmp_path / "artifacts")
+    bus = ResearchEventBus(store, artifacts=artifacts, max_inline_bytes=4096)
+    run_id = uuid4()
+    event = bus.append(rejected(run_id, "unknown identifier 'foo'"))
+    assert event.payload["message"] == "unknown identifier 'foo'"
+    assert not (tmp_path / "artifacts").exists()

@@ -146,7 +146,7 @@ def enforce_inline_limit(
     """
     if max_inline_bytes < 1:
         raise ValueError("max_inline_bytes must be positive")
-    size = len(json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
+    size = _size(payload)
     if size > max_inline_bytes:
         raise InlineContentTooLargeError(
             f"payload has {size} bytes inline, limit is {max_inline_bytes}; "
@@ -154,10 +154,49 @@ def enforce_inline_limit(
         )
 
 
+def _size(value: object) -> int:
+    return len(json.dumps(value, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
+
+
+TEXT_MEDIA_TYPE = "text/plain; charset=utf-8"
+
+
+def offload_large_values(
+    payload: JsonObject,
+    artifacts: ArtifactStore,
+    max_inline_bytes: int = DEFAULT_MAX_INLINE_BYTES,
+) -> JsonObject:
+    """Move the largest top-level strings of ``payload`` into ``artifacts`` until it fits.
+
+    Each moved string is replaced by its ``ArtifactRef``, so the field keeps its type and the
+    payload stays valid for strict schemas. A payload within the limit is returned unchanged.
+    Content that is not a top-level string (nested objects, lists) is left as is; if the payload
+    still does not fit, ``enforce_inline_limit`` of the store rejects it.
+    """
+    if max_inline_bytes < 1:
+        raise ValueError("max_inline_bytes must be positive")
+    if _size(payload) <= max_inline_bytes:
+        return payload
+    result = dict(payload)
+    candidates = sorted(
+        (k for k, v in result.items() if isinstance(v, str) and not REF_PATTERN.match(v)),
+        key=lambda k: _size(result[k]),
+        reverse=True,
+    )
+    for key in candidates:
+        value = result[key]
+        assert isinstance(value, str)
+        result[key] = artifacts.put(value.encode("utf-8"), TEXT_MEDIA_TYPE)
+        if _size(result) <= max_inline_bytes:
+            break
+    return result
+
+
 __all__ = [
     "DATA_DIR_ENV",
     "DEFAULT_DATA_DIR",
     "DEFAULT_MAX_INLINE_BYTES",
+    "TEXT_MEDIA_TYPE",
     "ArtifactError",
     "ArtifactIntegrityError",
     "ArtifactNotFoundError",
@@ -167,4 +206,5 @@ __all__ = [
     "artifact_ref",
     "data_dir",
     "enforce_inline_limit",
+    "offload_large_values",
 ]

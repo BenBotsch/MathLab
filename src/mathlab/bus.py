@@ -16,6 +16,10 @@ persists and fans out in one step without the publish lock, so its events can re
 before an earlier sequence that ``publish`` is still storing. Consumers that need gap-free order,
 such as the live stream, fill a gap from the store (F-14.12).
 
+With an artifact store, the bus moves oversized string values of a payload into it before
+persisting and keeps only their ``ArtifactRef`` inline (UI §16.4; F-14.06). The stream and the
+store therefore never carry a large Lean log; ``GET /artifacts/{ref}`` returns it.
+
 Subscribers get a bounded queue. A subscriber that falls behind is dropped and its iterator
 ends with ``SubscriberOverflowError``, so one slow consumer cannot block publishers.
 """
@@ -26,6 +30,11 @@ from typing import Protocol
 from uuid import UUID
 
 from mathlab.core.event import EventEnvelope
+from mathlab.storage.artifacts import (
+    DEFAULT_MAX_INLINE_BYTES,
+    ArtifactStore,
+    offload_large_values,
+)
 from mathlab.storage.events import EventDraft
 
 DEFAULT_QUEUE_SIZE = 1000
@@ -100,8 +109,17 @@ class Subscription:
 class ResearchEventBus:
     """Persist-then-publish bus for one process."""
 
-    def __init__(self, sink: EventSink, *, queue_size: int = DEFAULT_QUEUE_SIZE) -> None:
+    def __init__(
+        self,
+        sink: EventSink,
+        *,
+        queue_size: int = DEFAULT_QUEUE_SIZE,
+        artifacts: ArtifactStore | None = None,
+        max_inline_bytes: int = DEFAULT_MAX_INLINE_BYTES,
+    ) -> None:
         self._sink = sink
+        self._artifacts = artifacts
+        self._max_inline_bytes = max_inline_bytes
         self._queue_size = queue_size
         self._subscriptions: list[Subscription] = []
         self._delivered: set[UUID] = set()
@@ -133,7 +151,7 @@ class ResearchEventBus:
         or ``EventIdConflictError``, propagate and nothing is delivered.
         """
         async with self._lock:
-            event = await asyncio.to_thread(self._sink.append, draft)
+            event = await asyncio.to_thread(self._store, draft)
             self._fan_out(event)
             return event
 
@@ -142,9 +160,16 @@ class ResearchEventBus:
 
         This makes the bus an ``EventSink`` for the orchestrator, which writes synchronously.
         """
-        event = self._sink.append(draft)
+        event = self._store(draft)
         self._fan_out(event)
         return event
+
+    def _store(self, draft: EventDraft) -> EventEnvelope:
+        if self._artifacts is not None:
+            payload = offload_large_values(draft.payload, self._artifacts, self._max_inline_bytes)
+            if payload is not draft.payload:
+                draft = draft.model_copy(update={"payload": payload})
+        return self._sink.append(draft)
 
     def _fan_out(self, event: EventEnvelope) -> None:
         if event.event_id in self._delivered:

@@ -16,6 +16,7 @@ from mathlab.storage.artifacts import (
     artifact_ref,
     data_dir,
     enforce_inline_limit,
+    offload_large_values,
 )
 
 LEAN = b"theorem t : True := trivial\n"
@@ -128,3 +129,23 @@ def test_limit_counts_utf8_bytes() -> None:
 def test_non_positive_limit_is_rejected() -> None:
     with pytest.raises(ValueError):
         enforce_inline_limit({}, max_inline_bytes=0)
+
+
+def test_offload_moves_largest_strings_until_the_payload_fits(tmp_path: Path) -> None:
+    store = FileSystemArtifactStore(tmp_path)
+    payload: JsonObject = {"big": "a" * 3000, "medium": "b" * 600, "small": "c", "n": 1}
+    result = offload_large_values(payload, store, max_inline_bytes=1024)
+    assert result["big"] == artifact_ref(b"a" * 3000)
+    assert result["medium"] == "b" * 600 and result["small"] == "c" and result["n"] == 1
+    big = result["big"]
+    assert isinstance(big, str) and store.get(big) == b"a" * 3000
+    assert offload_large_values({"x": "y"}, store, max_inline_bytes=1024) == {"x": "y"}
+
+
+def test_offload_leaves_non_strings_to_the_inline_limit(tmp_path: Path) -> None:
+    store = FileSystemArtifactStore(tmp_path)
+    payload: JsonObject = {"values": ["x" * 100] * 30}
+    result = offload_large_values(payload, store, max_inline_bytes=1024)
+    assert result == payload
+    with pytest.raises(InlineContentTooLargeError):
+        enforce_inline_limit(result, max_inline_bytes=1024)

@@ -32,6 +32,7 @@ Ein AND-Knoten gilt erst als gelöst, wenn alle Teilziele verifiziert sind. Ein 
 | F-08.10 | Alternative Beweise und Methodendiversität | `todo` | P1 | M2 |
 | F-08.11 | Evolutionäre Suche und Counterexample-Guided Search | `todo` | P2 | M6 |
 | F-08.12 | Frontier-Strategien über den SearchPolicy-Contract | `todo` | P1 | M2 |
+| F-08.13 | Proof-Node-Events aus dem Agentenablauf | `todo` | P1 | M2 |
 
 ## Features
 
@@ -184,3 +185,15 @@ Beim Umsetzen von F-08.03 aufgefallen: `SelectRequest` enthält nur Zieltexte un
 
 - [ ] Die eingebauten Strategien sind als `SearchPolicy` verfügbar und liefern dieselbe Reihenfolge wie `pick()`.
 - [ ] Eine `SearchPolicy` lässt sich in `SearchSession` einsetzen; Pause und Resume bleiben deterministisch.
+
+### F-08.13 Proof-Node-Events aus dem Agentenablauf
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Abhängigkeiten: F-08.02, F-14.12
+- Quelle: ARCH §8; UI §4.1. Angelegt am 2026-11-27 bei der Arbeit an F-14.12: Ein über `POST /runs` gestarteter Run endet mit `proof.step.verified`, aber `GET /runs/{run_id}/proof-graph` bleibt leer.
+- Bearbeiter: offen · Nachweise: offen
+
+Tactic Generator und Verification Agent schreiben bisher nur `proof.step.*`-Events. Für den Proof-Graph braucht es `proof.node.*`-Events für Zielaussage, Teilziele und Schritte, ohne dass ein Agent einen Knoten auf `VERIFIED` setzt.
+
+- [ ] Ein Odd-Sum-Run über `POST /runs` liefert einen nicht leeren Proof-Graph, dessen Wurzel die Zielaussage ist.
+- [ ] `VERIFIED` erscheint im Graph nur für Knoten mit Prüfnachweis.

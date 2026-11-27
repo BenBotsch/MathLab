@@ -9,7 +9,7 @@ Die Feature-Tabellen dieser Datei spiegeln die Epic-Dateien. Bei Abweichungen gi
 | Meilenstein | Inhalt | Quelle | Features |
 | --- | --- | --- | --- |
 | [M1](#m1) | Proof Engine MVP und Live Research Workspace | ARCH Phase 1, UI Stufe 1 | 118 |
-| [M2](#m2) | Mehrere Agenten und Methoden, Research Intelligence | ARCH Phase 2, UI Stufe 2 | 74 |
+| [M2](#m2) | Mehrere Agenten und Methoden, Research Intelligence | ARCH Phase 2, UI Stufe 2 | 75 |
 | [M3](#m3) | Wissensgraph und Langzeitgedächtnis | ARCH Phase 3 | 14 |
 | [M4](#m4) | ML und RL | ARCH Phase 4 | 13 |
 | [M5](#m5) | Dashboards, Simulation und Erklärungen | ARCH Phase 5 | 17 |
@@ -117,7 +117,7 @@ Der Wissensgraph aus UI Stufe 2 entsteht in M2 nur als Vorstufe. Sein vollständ
 | [E05](epics/E05-symbolik-smt-numerik.md) | keine | F-05.03, F-05.04, F-05.05, F-05.06 | keine |
 | [E06](epics/E06-strategy-engine.md) | F-06.01, F-06.02, F-06.03 | F-06.05, F-06.06 | keine |
 | [E07](epics/E07-agent-orchestrator.md) | keine | F-07.06, F-07.07, F-07.08, F-07.10, F-07.13, F-07.15 | keine |
-| [E08](epics/E08-proof-search.md) | keine | F-08.06, F-08.07, F-08.08, F-08.10, F-08.12 | keine |
+| [E08](epics/E08-proof-search.md) | keine | F-08.06, F-08.07, F-08.08, F-08.10, F-08.12, F-08.13 | keine |
 | [E09](epics/E09-trial-and-error-tracking.md) | keine | F-09.04, F-09.06, F-09.08 | keine |
 | [E10](epics/E10-wissensgraph.md) | F-10.01, F-10.02, F-10.03 | keine | keine |
 | [E11](epics/E11-benchmarks-evaluation.md) | F-11.08, F-11.10 | F-11.05, F-11.06, F-11.07, F-11.12, F-11.14, F-11.15 | keine |
