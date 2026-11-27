@@ -101,6 +101,7 @@ class ResearchEventBus:
         self._subscriptions: list[Subscription] = []
         self._delivered: set[UUID] = set()
         self._lock = asyncio.Lock()
+        self._closed = False
 
     def subscribe(self, *, run_id: UUID | None = None, maxsize: int | None = None) -> Subscription:
         """Receive events published from now on, optionally only those of ``run_id``."""
@@ -109,7 +110,10 @@ class ResearchEventBus:
             (lambda e: True) if run_id is None else (lambda e: e.run_id == run_id),
             self._queue_size if maxsize is None else maxsize,
         )
-        self._subscriptions.append(subscription)
+        if self._closed:
+            subscription._close()
+        else:
+            self._subscriptions.append(subscription)
         return subscription
 
     def _unsubscribe(self, subscription: Subscription, *, overflowed: bool = False) -> None:
@@ -134,7 +138,8 @@ class ResearchEventBus:
             return event
 
     def close(self) -> None:
-        """End every subscription."""
+        """End every subscription; later subscriptions end immediately."""
+        self._closed = True
         for subscription in list(self._subscriptions):
             self._unsubscribe(subscription)
 

@@ -155,3 +155,14 @@ def test_redelivery_against_postgres_persists_once() -> None:
         assert [e.event_id for e in store.read(run_id)] == [d.event_id]
 
     asyncio.run(scenario())
+
+
+def test_subscribing_after_close_ends_immediately() -> None:
+    async def scenario() -> None:
+        bus = ResearchEventBus(MemorySink())
+        bus.close()
+        late = bus.subscribe()
+        await bus.publish(draft(uuid4()))
+        assert [e async for e in late] == []
+
+    asyncio.run(scenario())

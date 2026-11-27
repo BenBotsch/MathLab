@@ -9,8 +9,9 @@
   unknown routes, engine errors and unexpected exceptions.
 
 ``GET /api/v1/health`` lives here; the read endpoints are in ``mathlab.api.read`` (F-14.02) and
-answer ``UNAVAILABLE`` until ``create_app`` receives a ``ReadBackend``. Events, stream and
-commands follow with F-14.03 and F-14.04.
+answer ``UNAVAILABLE`` until ``create_app`` receives a ``ReadBackend``. Catch-up and the SSE
+stream are in ``mathlab.api.stream`` (F-14.03) and also need the ``ResearchEventBus``.
+Commands follow with F-14.04.
 """
 
 import logging
@@ -34,6 +35,9 @@ from mathlab.api.errors import (
 )
 from mathlab.api.read import ReadBackend
 from mathlab.api.read import router as read_router
+from mathlab.api.stream import DEFAULT_KEEPALIVE_SECONDS
+from mathlab.api.stream import router as stream_router
+from mathlab.bus import ResearchEventBus
 from mathlab.core.contracts import EngineError, FailureCode
 
 API_VERSION = "1"
@@ -94,7 +98,12 @@ _ERROR_RESPONSES: dict[int | str, dict[str, object]] = {
 }
 
 
-def create_app(read_backend: ReadBackend | None = None) -> FastAPI:
+def create_app(
+    read_backend: ReadBackend | None = None,
+    event_bus: ResearchEventBus | None = None,
+    *,
+    keepalive_seconds: float = DEFAULT_KEEPALIVE_SECONDS,
+) -> FastAPI:
     app = FastAPI(
         title="MathLab API",
         version=API_VERSION,
@@ -144,7 +153,10 @@ def create_app(read_backend: ReadBackend | None = None) -> FastAPI:
         return Health(status="ok", api_version=API_VERSION)
 
     app.state.read_backend = read_backend
+    app.state.event_bus = event_bus
+    app.state.keepalive_seconds = keepalive_seconds
     app.include_router(read_router, prefix=API_PREFIX)
+    app.include_router(stream_router, prefix=API_PREFIX)
     return app
 
 

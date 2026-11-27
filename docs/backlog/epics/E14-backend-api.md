@@ -22,14 +22,14 @@ Der Server ist für mathematische und operative Fakten maßgeblich (UI §15.3). 
 | --- | --- | --- | --- | --- |
 | F-14.01 | FastAPI-Grundgerüst und versioniertes API-Schema | `done` | P0 | M1 |
 | F-14.02 | Lese-Endpunkte | `review` | P0 | M1 |
-| F-14.03 | SSE-Live-Stream und Event-Nachladung | `ready` | P0 | M1 |
+| F-14.03 | SSE-Live-Stream und Event-Nachladung | `done` | P0 | M1 |
 | F-14.04 | Command API mit Serverbestätigung | `ready` | P0 | M1 |
 | F-14.05 | Erkennung konkurrierender Kommandos | `todo` | P0 | M1 |
-| F-14.06 | Artefaktverweise statt großer Payloads | `todo` | P0 | M1 |
-| F-14.07 | Verhalten bei Verbindungs- und Komponentenausfällen | `todo` | P0 | M1 |
+| F-14.06 | Artefaktverweise statt großer Payloads | `ready` | P0 | M1 |
+| F-14.07 | Verhalten bei Verbindungs- und Komponentenausfällen | `ready` | P0 | M1 |
 | F-14.08 | Endpunkt für Wissenssuche | `todo` | P1 | M3 |
 | F-14.09 | CLI-App | `todo` | P0 | M1 |
-| F-14.10 | WebSockets bei nachgewiesenem Bedarf | `todo` | P2 | M6 |
+| F-14.10 | WebSockets bei nachgewiesenem Bedarf | `ready` | P2 | M6 |
 | F-14.11 | Interner Research Event Bus | `review` | P0 | M1 |
 
 ## Features
@@ -60,15 +60,15 @@ FastAPI-Anwendung mit OpenAPI-Schema, Versionspräfix, einheitlichen Fehlertypen
 
 ### F-14.03 SSE-Live-Stream und Event-Nachladung
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.01, F-02.03
 - Quelle: UI §15.2, §16.4 (`/stream`, `/events?after=`), §17.2, §21 (Epic UI-01)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: Endpunkte in `src/mathlab/api/stream.py`, Tests in `tests/test_api_stream.py`. Der Bus beendet nach `close` auch spätere Abonnements sofort, der Test dafür steht in `tests/test_bus.py`. Das OpenAPI-Dokument `docs/reference/openapi-v1.json` ist neu erzeugt. Am 2026-11-27 liefen `ruff format --check`, `ruff check`, `mypy` (strict), `python -m mathlab.api.openapi --check` und `--against` gegen das vorherige v1-Dokument (keine brechende Änderung) sowie `pytest` mit 938 passed und 57 skipped, alle ohne Befund. Die Stream-Tests liefen dreimal hintereinander grün. Belege: Ein Client trennt nach Event 2, während der Trennung entstehen 4 und 5. Bei erneuter Verbindung mit `Last-Event-ID: 2` erhält er über HTTP 3, 4 und 5 in Reihenfolge. Ein `agent.started` erscheint im Stream, bevor der Run endet. Ein Event, das während des Nachladens aus dem Store veröffentlicht wird, kommt genau einmal an. Festlegungen: SSE-`id` ist die Sequenz, `event` der Eventtyp, `data` der Envelope als JSON. Der Startpunkt ist `Last-Event-ID`, sonst `?after=`, sonst 0. Ein leerlaufender Stream sendet alle 15 s einen Kommentar als Keep-alive. Fällt ein Abonnent hinter den Bus zurück, endet der Stream und der Client verbindet mit `Last-Event-ID` neu. `GET /runs/{run_id}/events` liefert höchstens 1000 Events pro Abruf.
 
 SSE-Endpunkt pro Run mit der Sequenznummer als Event-ID und ein Endpunkt zum Nachladen ab einer Sequenz.
 
-- [ ] Ein Client, der mit `Last-Event-ID` neu verbindet, erhält alle verpassten Events in Reihenfolge.
-- [ ] Ein Agentenevent erscheint während der Ausführung im Stream (UI §20, Kriterium 1).
+- [x] Ein Client, der mit `Last-Event-ID` neu verbindet, erhält alle verpassten Events in Reihenfolge.
+- [x] Ein Agentenevent erscheint während der Ausführung im Stream (UI §20, Kriterium 1).
 
 ### F-14.04 Command API mit Serverbestätigung
 
@@ -114,7 +114,7 @@ Stimmt `expected_state_version` nicht mit dem aktuellen Stand überein, wird das
 
 ### F-14.06 Artefaktverweise statt großer Payloads
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.03, F-02.07
 - Quelle: UI §16.4 (letzter Absatz), §17.2, §18.2 (große Events)
 - Bearbeiter: offen · Nachweise: offen
@@ -125,7 +125,7 @@ Payloads oberhalb einer konfigurierten Größe werden im Artefaktspeicher abgele
 
 ### F-14.07 Verhalten bei Verbindungs- und Komponentenausfällen
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.03, F-02.08
 - Quelle: UI §18.2
 - Bearbeiter: offen · Nachweise: offen
@@ -159,7 +159,7 @@ Kommandozeile zum Starten, Beobachten, Pausieren und Beenden von Runs sowie zum 
 
 ### F-14.10 WebSockets bei nachgewiesenem Bedarf
 
-- Status: `todo` · Priorität: P2 · Meilenstein: M6
+- Status: `ready` · Priorität: P2 · Meilenstein: M6
 - Abhängigkeiten: F-14.03
 - Quelle: UI §15.2
 - Bearbeiter: offen · Nachweise: offen
