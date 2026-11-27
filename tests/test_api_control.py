@@ -48,6 +48,9 @@ class MemoryStore:
     def get(self, event_id: UUID) -> EventEnvelope | None:
         return self._ids.get(event_id)
 
+    def read(self, run_id: UUID, after_sequence: int = 0) -> list[EventEnvelope]:
+        return [e for e in self.events if e.run_id == run_id and e.sequence > after_sequence]
+
     def audits(self) -> list[EventEnvelope]:
         return [e for e in self.events if e.type.startswith("command.")]
 
@@ -279,20 +282,30 @@ def test_pause_resume_and_stop_drive_a_real_orchestrator() -> None:
         )
         await asyncio.sleep(0.03)
 
-        def command(cid: str, type_: str, **params: Any) -> CommandRequest:
+        def command(cid: str, type_: str, version: int, **params: Any) -> CommandRequest:
             return CommandRequest.model_validate(
-                body(run_id, type_, command_id=cid, parameters=params)
+                body(
+                    run_id,
+                    type_,
+                    command_id=cid,
+                    expected_state_version=version,
+                    parameters=params,
+                )
             )
 
-        paused = await service.submit(run_id, command("c1", "run.pause", reason="user"), TRACE)
+        paused = await service.submit(run_id, command("c1", "run.pause", 0, reason="user"), TRACE)
         assert paused.run_status is RunStatus.PAUSED
-        resumed = await service.submit(run_id, command("c2", "run.resume"), TRACE)
+        resumed = await service.submit(
+            run_id, command("c2", "run.resume", paused.state_version), TRACE
+        )
         assert resumed.run_status is RunStatus.RUNNING
         assert resumed.state_version > paused.state_version
         with pytest.raises(ApiError) as refused:
-            await service.submit(run_id, command("c3", "run.stop"), TRACE)
+            await service.submit(run_id, command("c3", "run.stop", resumed.state_version), TRACE)
         assert refused.value.error is ErrorType.VALIDATION_ERROR
-        await service.submit(run_id, command("c4", "run.stop", confirm=True), TRACE)
+        await service.submit(
+            run_id, command("c4", "run.stop", resumed.state_version, confirm=True), TRACE
+        )
         assert await asyncio.wait_for(running, 2) is RunStatus.CANCELLED
         return store, orch
 
@@ -305,3 +318,76 @@ def test_pause_resume_and_stop_drive_a_real_orchestrator() -> None:
         "command.rejected",
         "command.accepted",
     ]
+
+
+def test_two_concurrent_commands_on_the_same_version_execute_once() -> None:
+    async def scenario() -> None:
+        controller = FakeController()
+        run_id = controller.run.id
+        store = MemoryStore()
+        service = CommandService(store, {run_id: controller}, clock=lambda: NOW)
+        pause = CommandRequest.model_validate(body(run_id, command_id="a"))
+        stop = CommandRequest.model_validate(
+            body(run_id, "run.stop", command_id="b", parameters={"confirm": True})
+        )
+        results = await asyncio.gather(
+            service.submit(run_id, pause, TRACE),
+            service.submit(run_id, stop, TRACE),
+            return_exceptions=True,
+        )
+        acks = [r for r in results if not isinstance(r, BaseException)]
+        errors = [r for r in results if isinstance(r, ApiError)]
+        assert len(acks) == 1 and len(errors) == 1
+        assert errors[0].error is ErrorType.CONFLICT
+        assert f"state version is {acks[0].state_version}" in errors[0].message
+        assert len(controller.calls) == 1
+        assert sorted(e.type for e in store.audits()) == ["command.accepted", "command.rejected"]
+
+    asyncio.run(scenario())
+
+
+def test_stale_version_is_a_conflict_and_the_reloaded_version_succeeds() -> None:
+    controller = FakeController()
+    run_id = controller.run.id
+    client, store = setup({run_id: controller})
+    ack = post(client, run_id, body(run_id)).json()
+    stale = post(client, run_id, body(run_id, "run.resume", command_id="cmd-2"))
+    assert stale.status_code == 409 and stale.json()["error"] == "CONFLICT"
+    assert controller.calls == ["pause:None"]
+    store.append(  # agent activity does not move the control version
+        EventDraft(
+            event_id=uuid4(),
+            timestamp=NOW,
+            type="problem.created",
+            schema_version=1,
+            run_id=run_id,
+            trace_id=TRACE,
+            payload={"problem_id": str(uuid4()), "title": "Odd sums"},
+        )
+    )
+    fresh = post(
+        client,
+        run_id,
+        body(run_id, "run.resume", command_id="cmd-3", expected_state_version=ack["state_version"]),
+    )
+    assert fresh.status_code == 200 and fresh.json()["run_status"] == "RUNNING"
+    assert fresh.json()["state_version"] > ack["state_version"]
+
+
+def test_state_version_is_recovered_from_the_store_after_a_restart() -> None:
+    async def scenario() -> None:
+        controller = FakeController()
+        run_id = controller.run.id
+        store = MemoryStore()
+        first = CommandService(store, {run_id: controller}, clock=lambda: NOW)
+        ack = await first.submit(run_id, CommandRequest.model_validate(body(run_id)), TRACE)
+        restarted = CommandService(store, {run_id: controller}, clock=lambda: NOW)
+        assert await restarted.state_version(run_id) == ack.state_version
+        assert await restarted.state_version(uuid4()) == 0
+        resume = body(
+            run_id, "run.resume", command_id="cmd-2", expected_state_version=ack.state_version
+        )
+        later = await restarted.submit(run_id, CommandRequest.model_validate(resume), TRACE)
+        assert later.run_status is RunStatus.RUNNING
+
+    asyncio.run(scenario())

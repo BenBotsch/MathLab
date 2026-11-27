@@ -24,7 +24,7 @@ Der Server ist für mathematische und operative Fakten maßgeblich (UI §15.3). 
 | F-14.02 | Lese-Endpunkte | `review` | P0 | M1 |
 | F-14.03 | SSE-Live-Stream und Event-Nachladung | `done` | P0 | M1 |
 | F-14.04 | Command API mit Serverbestätigung | `done` | P0 | M1 |
-| F-14.05 | Erkennung konkurrierender Kommandos | `ready` | P0 | M1 |
+| F-14.05 | Erkennung konkurrierender Kommandos | `done` | P0 | M1 |
 | F-14.06 | Artefaktverweise statt großer Payloads | `ready` | P0 | M1 |
 | F-14.07 | Verhalten bei Verbindungs- und Komponentenausfällen | `ready` | P0 | M1 |
 | F-14.08 | Endpunkt für Wissenssuche | `todo` | P1 | M3 |
@@ -103,14 +103,14 @@ Referenzbeispiel aus UI §16.3, unverändert zitiert. Bei Abweichung gilt die Qu
 
 ### F-14.05 Erkennung konkurrierender Kommandos
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.04
 - Quelle: UI §10.2 (`expected_state_version`), §18.2 (Commands gleichzeitig)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: Prüfung in `CommandService` (`src/mathlab/api/control.py`), Tests in `tests/test_api_control.py`. Am 2026-11-27 liefen `ruff format --check`, `ruff check`, `mypy` (strict), `python -m mathlab.api.openapi --check` (Schema unverändert) sowie `pytest` mit 962 passed und 57 skipped, alle ohne Befund. Die Kommando-Tests liefen dreimal hintereinander grün. Belege: Zwei gleichzeitige Kommandos (`run.pause` und `run.stop`) auf Stand 0 ergeben genau eine Ausführung und einen `CONFLICT`, dessen Meldung den aktuellen Stand nennt; beide sind auditiert. Ein Kommando mit veraltetem Stand wird abgelehnt, nach dem Nachladen des Stands gelingt es. Der Stand wird nach einem Neustart aus dem Event Store wiederhergestellt. Festlegung, da UI §10.2 den Zustandsstand nicht definiert: Der Stand eines Runs ist die Sequenz seines letzten angenommenen Kommandos (`command.accepted`), 0 ohne Kommando. Er entspricht `state_version` der Bestätigung. Agenten-Events und abgelehnte Kommandos ändern ihn nicht, sonst würde ein Kommando auf einen aktiven Run fast immer mit den Agenten kollidieren. Eine erneut gesendete, bereits beantwortete `command_id` wiederholt die erste Antwort und wird nicht erneut geprüft.
 
 Stimmt `expected_state_version` nicht mit dem aktuellen Stand überein, wird das Kommando mit Versionskonflikt abgelehnt und der Client lädt den neuesten Zustand.
 
-- [ ] Zwei gleichzeitige Kommandos auf denselben Stand ergeben genau eine Ausführung und einen Konflikt.
+- [x] Zwei gleichzeitige Kommandos auf denselben Stand ergeben genau eine Ausführung und einen Konflikt.
 
 ### F-14.06 Artefaktverweise statt großer Payloads
 

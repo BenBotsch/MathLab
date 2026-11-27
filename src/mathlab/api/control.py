@@ -26,8 +26,14 @@ arrives while the first attempt runs waits for its outcome. If the process dies 
 executing a command and storing its audit event, a retry executes it again; ADR-0004 accepts
 this loss window.
 
-``expected_state_version`` is required and recorded. Checking it against the current version
-is F-14.05.
+``expected_state_version`` detects concurrent commands (UI §10.2, §18.2; F-14.05). The state
+version of a run is the sequence of its last *accepted* command audit event, 0 before the first
+one; the acknowledgement returns it as ``state_version``. Agent events do not change it, so a
+client can pause a busy run without racing the agents. A command whose expected version differs
+is rejected with ``CONFLICT`` naming the current version; the client reloads and resends under a
+new ``command_id``. A resend of an already answered ``command_id`` repeats the first answer and
+is not checked again. The version is read from the event store once per run and then kept in
+memory, so it survives a restart.
 """
 
 import asyncio
@@ -55,6 +61,8 @@ class CommandSink(Protocol):
     def append(self, draft: EventDraft) -> EventEnvelope: ...
 
     def get(self, event_id: UUID) -> EventEnvelope | None: ...
+
+    def read(self, run_id: UUID, after_sequence: int = 0) -> list[EventEnvelope]: ...
 
 
 class RunController(Protocol):
@@ -143,6 +151,7 @@ class CommandService:
         self._controllers = controllers
         self._clock = clock
         self._lock = asyncio.Lock()
+        self._versions: dict[UUID, int] = {}
 
     async def submit(self, run_id: UUID, request: CommandRequest, trace: UUID) -> CommandAck:
         """Execute ``request`` once.
@@ -177,11 +186,27 @@ class CommandService:
                 CommandAccepted(command=request.record(), run_status=status),
                 trace,
             )
+            self._versions[run_id] = event.sequence
             return _ack(event, request.command_id, status, duplicate=False)
+
+    async def state_version(self, run_id: UUID) -> int:
+        """Sequence of the last accepted command of ``run_id``, 0 if there is none."""
+        if run_id not in self._versions:
+            events = await asyncio.to_thread(self._sink.read, run_id)
+            accepted = [e.sequence for e in events if e.type == "command.accepted"]
+            self._versions[run_id] = max(accepted, default=0)
+        return self._versions[run_id]
 
     async def _execute(self, run_id: UUID, request: CommandRequest) -> RunStatus:
         if request.run_id != run_id:
             raise _RejectedError(ErrorType.VALIDATION_ERROR, "run_id differs from the path")
+        current_version = await self.state_version(run_id)
+        if request.expected_state_version != current_version:
+            raise _RejectedError(
+                ErrorType.CONFLICT,
+                f"state version is {current_version}, expected"
+                f" {request.expected_state_version}; reload and resend",
+            )
         if request.type not in COMMAND_TYPES:
             raise _RejectedError(
                 ErrorType.VALIDATION_ERROR, f"unknown command type {request.type!r}"
