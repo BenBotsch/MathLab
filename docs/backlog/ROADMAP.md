@@ -123,6 +123,7 @@ Der Wissensgraph aus UI Stufe 2 entsteht in M2 nur als Vorstufe. Sein vollständ
 | [E11](epics/E11-benchmarks-evaluation.md) | F-11.08, F-11.10 | F-11.05, F-11.06, F-11.07, F-11.12, F-11.14, F-11.15 | keine |
 | [E12](epics/E12-metriken-lernen.md) | F-12.01 | F-12.08 | keine |
 | [E13](epics/E13-explanation-reports.md) | keine | F-13.01, F-13.04 | keine |
+| [E14](epics/E14-backend-api.md) | keine | F-14.15, F-14.17 | F-14.16 |
 | [E15](epics/E15-research-shell.md) | F-15.11 | F-15.08, F-15.12 | keine |
 | [E16](epics/E16-proof-graph-ui.md) | keine | F-16.07, F-16.08 | keine |
 | [E17](epics/E17-inspector.md) | keine | F-17.07, F-17.08 | keine |

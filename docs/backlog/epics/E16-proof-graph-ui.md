@@ -20,7 +20,7 @@ Kein Mensch kann einen Knoten per Klick ohne formalen Prüfnachweis auf `VERIFIE
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-16.01 | Viewmodell für AND- und OR-Ziele | `todo` | P0 | M1 |
+| F-16.01 | Viewmodell für AND- und OR-Ziele | `ready` | P0 | M1 |
 | F-16.02 | Custom Nodes mit Status | `todo` | P0 | M1 |
 | F-16.03 | Zoom, Pan, Collapse und Layouts | `todo` | P0 | M1 |
 | F-16.04 | Graphfilter | `todo` | P1 | M1 |
@@ -34,7 +34,7 @@ Kein Mensch kann einen Knoten per Klick ohne formalen Prüfnachweis auf `VERIFIE
 
 ### F-16.01 Viewmodell für AND- und OR-Ziele
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-08.02, F-14.02, F-15.01
 - Quelle: UI §4.1, §21 (Epic UI-03)
 - Bearbeiter: offen · Nachweise: offen

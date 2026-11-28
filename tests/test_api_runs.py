@@ -5,10 +5,12 @@ The checker is the fake from the golden-suite tests: it accepts every proof exce
 
 import asyncio
 import json
+import os
 from pathlib import Path
 from typing import Any
 from uuid import UUID
 
+import pytest
 from fastapi.testclient import TestClient
 
 from mathlab.api import API_PREFIX, create_app
@@ -17,6 +19,7 @@ from mathlab.api.read import ReadBackend
 from mathlab.api.runs import GoldenSuiteRequest, RunLauncher, StartRunRequest
 from mathlab.bus import ResearchEventBus
 from mathlab.core.contracts import EngineInfo, RequestContext
+from mathlab.engines.lean_check import LeanChecker
 from mathlab.golden_suite import SMOKE_DIR
 from mathlab.model_adapter import FakeModelAdapter, ModelAdapter, ModelCall, ModelRequest
 from mathlab.storage.artifacts import FileSystemArtifactStore
@@ -26,6 +29,7 @@ from test_golden_suite import BUDGET, SorryRejecting, suite
 from test_tactic_generator import NOW
 
 ODD_SUM = "g08"
+LEAN_IMAGE = os.environ.get("MATHLAB_TEST_LEAN_IMAGE")
 REPLIES: dict[str, list[str]] = json.loads((SMOKE_DIR / "replies.json").read_text("utf-8"))
 
 
@@ -61,14 +65,20 @@ class Gated:
 
 
 def system(
-    tmp_path: Path, model: Any = None, checker: Any = None, **launcher: Any
+    tmp_path: Path,
+    model: Any = None,
+    checker: Any = None,
+    lean_image: str | None = None,
+    **launcher: Any,
 ) -> tuple[StoreWithRunIds, ResearchEventBus, RunLauncher, CommandService, ReadBackend]:
     store = StoreWithRunIds()
     bus = ResearchEventBus(store)
     artifacts = FileSystemArtifactStore(tmp_path / "artifacts")
     runs = RunLauncher(
         bus,
-        lambda targets: checker or SorryRejecting(),
+        (lambda targets: LeanChecker(lean_image, targets=targets))
+        if lean_image
+        else (lambda targets: checker or SorryRejecting()),
         model or (lambda task: FakeModelAdapter(REPLIES[task.id])),
         artifacts,
         model_name="replay",
@@ -177,3 +187,20 @@ def test_golden_suite_over_the_api_matches_run_suite(tmp_path: Path) -> None:
         direct.report.model_dump(mode="json")
     )
     assert [s["outcome"] for s in result["samples"]] == [s.outcome.value for s in direct.samples]
+
+
+@pytest.mark.skipif(LEAN_IMAGE is None, reason="MATHLAB_TEST_LEAN_IMAGE not set")
+def test_odd_sum_run_is_verified_by_the_real_lean_checker(tmp_path: Path) -> None:
+    """``POST /runs`` on the odd-sum task ends verified by Lean, not by a fake checker."""
+    _, bus, runs, commands, backend = system(tmp_path, lean_image=LEAN_IMAGE)
+    with TestClient(create_app(backend, bus, commands, runs)) as client:
+        r = client.post(f"{API_PREFIX}/runs", json={"golden_task_id": ODD_SUM})
+        assert r.status_code == 202
+        run_id = UUID(r.json()["run_id"])
+        assert client.portal is not None
+        client.portal.call(runs.wait, run_id)
+        assert client.get(f"{API_PREFIX}/runs/{run_id}").json()["status"] == "COMPLETED"
+        events = client.get(f"{API_PREFIX}/runs/{run_id}/events").json()
+        [verified] = [e for e in events if e["type"] == "proof.step.verified"]
+        archive = client.get(f"{API_PREFIX}/artifacts/{verified['payload']['artifact']}")
+        assert archive.status_code == 200 and archive.content

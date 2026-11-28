@@ -21,19 +21,22 @@ Der Server ist für mathematische und operative Fakten maßgeblich (UI §15.3). 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
 | F-14.01 | FastAPI-Grundgerüst und versioniertes API-Schema | `done` | P0 | M1 |
-| F-14.02 | Lese-Endpunkte | `review` | P0 | M1 |
+| F-14.02 | Lese-Endpunkte | `done` | P0 | M1 |
 | F-14.03 | SSE-Live-Stream und Event-Nachladung | `done` | P0 | M1 |
 | F-14.04 | Command API mit Serverbestätigung | `done` | P0 | M1 |
 | F-14.05 | Erkennung konkurrierender Kommandos | `done` | P0 | M1 |
 | F-14.06 | Artefaktverweise statt großer Payloads | `done` | P0 | M1 |
 | F-14.07 | Verhalten bei Verbindungs- und Komponentenausfällen | `done` | P0 | M1 |
 | F-14.08 | Endpunkt für Wissenssuche | `todo` | P1 | M3 |
-| F-14.09 | CLI-App | `blocked` | P0 | M1 |
+| F-14.09 | CLI-App | `ready` | P0 | M1 |
 | F-14.10 | WebSockets bei nachgewiesenem Bedarf | `ready` | P2 | M6 |
-| F-14.11 | Interner Research Event Bus | `review` | P0 | M1 |
-| F-14.12 | Endpunkte zum Starten von Runs und der Golden Suite | `review` | P0 | M1 |
-| F-14.13 | Runs nach einem Backend-Neustart | `todo` | P0 | M1 |
-| F-14.14 | Server-Einstiegspunkt | `todo` | P0 | M1 |
+| F-14.11 | Interner Research Event Bus | `done` | P0 | M1 |
+| F-14.12 | Endpunkte zum Starten von Runs und der Golden Suite | `done` | P0 | M1 |
+| F-14.13 | Runs nach einem Backend-Neustart | `ready` | P0 | M1 |
+| F-14.14 | Server-Einstiegspunkt | `ready` | P0 | M1 |
+| F-14.15 | Nicht blockierendes Schreiben des Orchestrators | `todo` | P1 | M2 |
+| F-14.16 | Begrenzter Speicher für Bus und Run-Starter | `todo` | P2 | M2 |
+| F-14.17 | Abstürze von Hintergrund-Runs protokollieren | `todo` | P1 | M2 |
 
 ## Features
 
@@ -51,10 +54,10 @@ FastAPI-Anwendung mit OpenAPI-Schema, Versionspräfix, einheitlichen Fehlertypen
 
 ### F-14.02 Lese-Endpunkte
 
-- Status: `review` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.01, F-02.05, F-02.06, F-02.07
 - Quelle: UI §16.4
-- Bearbeiter: Claude · Nachweise: Endpunkte in `src/mathlab/api/read.py`, Tests in `tests/test_api_read.py`, `PostgresEventStore.run_ids` mit Test in `tests/storage/test_events.py`, OpenAPI-Dokument `docs/reference/openapi-v1.json` neu erzeugt. Am 2026-11-27 liefen `ruff format --check`, `ruff check`, `mypy` (strict), `python -m mathlab.api.openapi --check` und `--against` gegen das vorherige v1-Dokument (keine brechende Änderung) sowie `pytest` mit 931 passed und 57 skipped, alle ohne Befund. Beleg Snapshot: Für jede Sequenz 1 bis 8 und für eine Sequenz über dem Ende gleicht `GET /runs/{run_id}/snapshot?at=n` dem `rebuild` der ersten n Ereignisse und nennt `sequence`, `snapshot_version` und `snapshot_sequence`. Festlegungen im Schema: Proof-Nodes liegen unter `/runs/{run_id}/proof-nodes/{node_id}`, weil der Store keinen Index von Knoten auf Runs hat. Artefakte werden als `application/octet-stream` ausgeliefert, solange der Medientyp nicht gespeichert wird. Der Agent-Graph enthält vorerst nur Agentenzustände, Kanten folgen mit E18. Ohne konfiguriertes Backend antworten die Endpunkte mit `UNAVAILABLE`. Offen vor `done`: Der Postgres-Test `test_run_ids_lists_every_run_with_events` wurde übersprungen, weil `MATHLAB_TEST_DATABASE_URL` nicht gesetzt war.
+- Bearbeiter: Claude · Nachweise: Endpunkte in `src/mathlab/api/read.py`, Tests in `tests/test_api_read.py`, `PostgresEventStore.run_ids` mit Test in `tests/storage/test_events.py`, OpenAPI-Dokument `docs/reference/openapi-v1.json` neu erzeugt. Am 2026-11-27 liefen `ruff format --check`, `ruff check`, `mypy` (strict), `python -m mathlab.api.openapi --check` und `--against` gegen das vorherige v1-Dokument (keine brechende Änderung) sowie `pytest` mit 931 passed und 57 skipped, alle ohne Befund. Beleg Snapshot: Für jede Sequenz 1 bis 8 und für eine Sequenz über dem Ende gleicht `GET /runs/{run_id}/snapshot?at=n` dem `rebuild` der ersten n Ereignisse und nennt `sequence`, `snapshot_version` und `snapshot_sequence`. Festlegungen im Schema: Proof-Nodes liegen unter `/runs/{run_id}/proof-nodes/{node_id}`, weil der Store keinen Index von Knoten auf Runs hat. Artefakte werden als `application/octet-stream` ausgeliefert, solange der Medientyp nicht gespeichert wird. Der Agent-Graph enthält vorerst nur Agentenzustände, Kanten folgen mit E18. Ohne konfiguriertes Backend antworten die Endpunkte mit `UNAVAILABLE`. Review am 2026-11-28: `test_run_ids_lists_every_run_with_events` lief gegen PostgreSQL 17.6 (`postgres:17.6-bookworm`) grün, die gesamte Suite mit `MATHLAB_TEST_DATABASE_URL` ergab 1000 passed und 33 skipped.
 
 `GET /runs`, `GET /runs/{id}`, `GET /runs/{id}/snapshot`, `GET /runs/{id}/proof-graph`, `GET /runs/{id}/agent-graph`, `GET /proof-nodes/{id}` und `GET /artifacts/{id}`. Die Pfade in UI §16.4 sind illustrativ und werden im API-Schema festgelegt.
 
@@ -151,7 +154,7 @@ Theorem- und Lemma-Suche über die Retrieval-Pipeline. Jeder Treffer enthält se
 
 ### F-14.09 CLI-App
 
-- Status: `blocked` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.04, F-14.03, F-14.12
 - Quelle: ARCH §18.3 (`apps/cli`), §19 (Phase 1, CLI oder einfache Web-UI)
 - Bearbeiter: offen · Nachweise: offen
@@ -173,10 +176,10 @@ WebSockets werden erst eingeführt, wenn eine konkrete Interaktion wie Kollabora
 
 ### F-14.12 Endpunkte zum Starten von Runs und der Golden Suite
 
-- Status: `review` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.04, F-14.03, F-11.03
 - Quelle: ARCH §18.3, §19 (Phase 1); UI §5.3, §16.4. Angelegt am 2026-11-27 bei der Arbeit an F-14.09, weil die API keinen Run starten konnte.
-- Bearbeiter: Claude · Nachweise: `src/mathlab/api/runs.py` (`RunLauncher`, `POST /runs`, `POST /golden-suite/runs`), `ResearchEventBus.append` in `src/mathlab/bus.py`, Lückenfüllung in `src/mathlab/api/stream.py`, Audit über den Bus in `src/mathlab/api/control.py`, `prepare_run` in `src/mathlab/golden_suite.py`. Tests in `tests/test_api_runs.py`, `tests/test_bus.py` und `tests/test_api_stream.py`. `docs/reference/openapi-v1.json` ist neu erzeugt. Am 2026-11-27 liefen `ruff format`, `ruff check`, `mypy` (strict), `python -m mathlab.api.openapi --check` und `--against` gegen das vorherige v1-Dokument (keine brechende Änderung) sowie `pytest` mit 968 passed und 57 skipped, alle ohne Befund. Die betroffenen Testdateien liefen dreimal hintereinander grün. Belege: Ein über `POST /runs` gestarteter Run schreibt über den Bus; ein Abonnent sieht seine Events live, `run.pause` und `run.stop` über den `CommandService` halten ihn an, `run.paused`, die Audit-Events und `run.completed` erscheinen im Stream. Ein Odd-Sum-Run (`g08`) endet `COMPLETED` mit `proof.step.verified`, dessen Prüfarchiv über `GET /artifacts/{ref}` abrufbar ist. Der Golden-Suite-Lauf über die API liefert denselben Bericht wie `run_suite` bis auf die gemessenen Laufzeiten. Review am 2026-11-28: `ks` der Golden Suite nahm `0` und negative Werte an, die erst im Lauf mit einem 500er scheiterten. Jedes `k` muss jetzt mindestens 1 sein, Regressionstest in `test_unknown_task_and_missing_launcher`. Danach liefen `ruff format --check`, `ruff check`, `mypy` (strict), `--check` und `--against` gegen das vorherige v1-Dokument sowie `pytest` mit 976 passed und 57 skipped, alle ohne Befund. Offen vor `done`: Alle Läufe nutzten den Fake-Checker der Golden-Suite-Tests, weil Docker und das Lean-Image hier nicht verfügbar sind. Der Odd-Sum-Lauf gegen das echte Lean-Image ist nachzuholen. Festlegungen: Ein Run gilt als Kontrollziel, solange er im Server läuft; danach antworten Kommandos mit „run is not active“. Der Orchestrator schreibt synchron über `ResearchEventBus.append`. Weil dadurch Events eines Runs in anderer Reihenfolge beim Abonnenten ankommen können, liest der Stream eine Lücke aus dem Store nach. Der Golden-Suite-Endpunkt antwortet erst nach Ende des Laufs. Der Proof-Graph bleibt in diesem Ablauf leer, weil Tactic Generator und Verification Agent keine `proof.node.*`-Events schreiben; nachgetragen als F-08.13.
+- Bearbeiter: Claude · Nachweise: `src/mathlab/api/runs.py` (`RunLauncher`, `POST /runs`, `POST /golden-suite/runs`), `ResearchEventBus.append` in `src/mathlab/bus.py`, Lückenfüllung in `src/mathlab/api/stream.py`, Audit über den Bus in `src/mathlab/api/control.py`, `prepare_run` in `src/mathlab/golden_suite.py`. Tests in `tests/test_api_runs.py`, `tests/test_bus.py` und `tests/test_api_stream.py`. `docs/reference/openapi-v1.json` ist neu erzeugt. Am 2026-11-27 liefen `ruff format`, `ruff check`, `mypy` (strict), `python -m mathlab.api.openapi --check` und `--against` gegen das vorherige v1-Dokument (keine brechende Änderung) sowie `pytest` mit 968 passed und 57 skipped, alle ohne Befund. Die betroffenen Testdateien liefen dreimal hintereinander grün. Belege: Ein über `POST /runs` gestarteter Run schreibt über den Bus; ein Abonnent sieht seine Events live, `run.pause` und `run.stop` über den `CommandService` halten ihn an, `run.paused`, die Audit-Events und `run.completed` erscheinen im Stream. Ein Odd-Sum-Run (`g08`) endet `COMPLETED` mit `proof.step.verified`, dessen Prüfarchiv über `GET /artifacts/{ref}` abrufbar ist. Der Golden-Suite-Lauf über die API liefert denselben Bericht wie `run_suite` bis auf die gemessenen Laufzeiten. Review am 2026-11-28: `ks` der Golden Suite nahm `0` und negative Werte an, die erst im Lauf mit einem 500er scheiterten. Jedes `k` muss jetzt mindestens 1 sein, Regressionstest in `test_unknown_task_and_missing_launcher`. Danach liefen `ruff format --check`, `ruff check`, `mypy` (strict), `--check` und `--against` gegen das vorherige v1-Dokument sowie `pytest` mit 976 passed und 57 skipped, alle ohne Befund. Der Odd-Sum-Lauf gegen das echte Lean-Image ist mit `test_odd_sum_run_is_verified_by_the_real_lean_checker` nachgeholt: Am 2026-11-28 endete ein über `POST /runs` gestarteter Run mit `mathlab-lean:latest` `COMPLETED`, sein Prüfarchiv war abrufbar. Die gesamte Suite mit `MATHLAB_TEST_LEAN_IMAGE` ergab 999 passed und 34 skipped. Festlegungen: Ein Run gilt als Kontrollziel, solange er im Server läuft; danach antworten Kommandos mit „run is not active“. Der Orchestrator schreibt synchron über `ResearchEventBus.append`. Weil dadurch Events eines Runs in anderer Reihenfolge beim Abonnenten ankommen können, liest der Stream eine Lücke aus dem Store nach. Der Golden-Suite-Endpunkt antwortet erst nach Ende des Laufs. Der Proof-Graph bleibt in diesem Ablauf leer, weil Tactic Generator und Verification Agent keine `proof.node.*`-Events schreiben; nachgetragen als F-08.13.
 
 `POST /runs` startet einen Run für eine Aufgabe der Golden-Liste im Prozess des Servers. Die Events laufen über den Research Event Bus, sodass Stream und Control API den Run sehen. Ein zweiter Endpunkt startet die Golden Suite und liefert ihr Ergebnis als `EvaluationRun`. Der Server bleibt maßgeblich, der Client übergibt nur Aufgabe und Budget.
 
@@ -186,7 +189,7 @@ WebSockets werden erst eingeführt, wenn eine konkrete Interaktion wie Kollabora
 
 ### F-14.13 Runs nach einem Backend-Neustart
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.12, F-02.08
 - Quelle: UI §18.2 (Backend-Neustart). Angelegt am 2026-11-27 bei der Arbeit an F-14.07: Ein Run, der beim Neustart im Server lief, hat danach keinen Controller mehr und bleibt im Lesezugriff `RUNNING`, Kommandos antworten mit „run is not active“.
 - Bearbeiter: offen · Nachweise: offen
@@ -198,7 +201,7 @@ Beim Start erkennt der Server Runs, deren letztes Event kein `run.completed` ist
 
 ### F-14.14 Server-Einstiegspunkt
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.12
 - Quelle: ARCH §18.3. Angelegt am 2026-11-28 bei der Arbeit an F-15.01: `create_app` wird nur in Tests verdrahtet, es gibt keinen ASGI-Server als Abhängigkeit und keinen Befehl, der die API mit dauerhaften Speichern startet.
 - Bearbeiter: offen · Nachweise: offen
@@ -208,12 +211,46 @@ Ein Befehl startet die API mit gepinntem ASGI-Server, verdrahtet Event-, Snapsho
 - [ ] Ein dokumentierter Befehl startet den Server, `GET /api/v1/runs` antwortet.
 - [ ] Runs bleiben über einen Neustart des Servers erhalten.
 
+### F-14.15 Nicht blockierendes Schreiben des Orchestrators
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Abhängigkeiten: F-14.12
+- Quelle: ADR-0004; UI §15.1. Angelegt am 2026-11-28 beim Review von F-14.11: `ResearchEventBus.append` schreibt synchron im Thread des Event-Loops in den Event Store, jeder Postgres-Zugriff des Orchestrators hält damit Stream und Control API an.
+- Bearbeiter: offen · Nachweise: offen
+
+Der Orchestrator schreibt über den Bus, ohne den Event-Loop für die Dauer des Speicherzugriffs zu blockieren. Reihenfolge und Exactly-once-Persistenz bleiben erhalten.
+
+- [ ] Während ein Schreibzugriff künstlich verzögert wird, antworten Stream und Control API weiter.
+- [ ] Ein Event wird weiterhin genau einmal persistiert und in Sequenzreihenfolge gestreamt.
+
+### F-14.16 Begrenzter Speicher für Bus und Run-Starter
+
+- Status: `todo` · Priorität: P2 · Meilenstein: M2
+- Abhängigkeiten: F-14.12
+- Quelle: ADR-0004. Angelegt am 2026-11-28 beim Review von F-14.11 und F-14.12: `ResearchEventBus._delivered` und `RunLauncher._targets` wachsen mit jedem Event und jedem Run und werden nie geleert.
+- Bearbeiter: offen · Nachweise: offen
+
+Bus und Run-Starter halten nur so viel Zustand, wie für Deduplizierung und laufende Runs nötig ist.
+
+- [ ] Nach vielen beendeten Runs bleibt der gehaltene Zustand begrenzt, eine erneute Zustellung wird weiterhin nicht doppelt ausgeliefert.
+
+### F-14.17 Abstürze von Hintergrund-Runs protokollieren
+
+- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Abhängigkeiten: F-14.12
+- Quelle: UI §18.2. Angelegt am 2026-11-28 beim Review von F-14.12: Bricht ein über `POST /runs` gestarteter Run mit einer Exception ab, holt niemand sie ab. Sie erscheint nur als asyncio-Warnung.
+- Bearbeiter: offen · Nachweise: offen
+
+Eine Exception eines Hintergrund-Runs wird strukturiert protokolliert, und der Run endet mit einem eigenen Ereignis und begründetem Status, statt im Lesezugriff `RUNNING` zu bleiben.
+
+- [ ] Ein Run, dessen Agent eine Exception wirft, erscheint mit Fehlerstatus und protokollierter Ursache.
+
 ### F-14.11 Interner Research Event Bus
 
-- Status: `review` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.03, F-00.01 (OD-04)
 - Quelle: UI §15.1, §15.2 (interne Backend-Kommunikation)
-- Bearbeiter: Claude · Nachweise: `src/mathlab/bus.py`, `tests/test_bus.py`. Am 2026-11-27 liefen `ruff format --check`, `ruff check` und `mypy` (strict) ohne Befund, `pytest` mit 914 passed und 56 skipped. Der Postgres-Test `test_redelivery_against_postgres_persists_once` wurde übersprungen, weil `MATHLAB_TEST_DATABASE_URL` nicht gesetzt war. Er ist vor `done` nachzuholen.
+- Bearbeiter: Claude · Nachweise: `src/mathlab/bus.py`, `tests/test_bus.py`. Am 2026-11-27 liefen `ruff format --check`, `ruff check` und `mypy` (strict) ohne Befund, `pytest` mit 914 passed und 56 skipped. Review am 2026-11-28: `test_redelivery_against_postgres_persists_once` lief gegen PostgreSQL 17.6 (`postgres:17.6-bookworm`) grün, die gesamte Suite mit `MATHLAB_TEST_DATABASE_URL` ergab 1000 passed und 33 skipped.
 
 Agenten, CAS und Solver veröffentlichen Ergebnisse über einen Bus oder eine Queue. Der Bus schreibt in den Event Store und speist den Live-Stream, der Orchestrator abonniert ihn. Die Wahl der Technik folgt OD-04.
 

@@ -4,16 +4,16 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-277 Features in 26 Epics. Erledigt sind 62 von 277.
+280 Features in 26 Epics. Erledigt sind 65 von 280.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 178 |
-| `ready` | 33 |
+| `todo` | 176 |
+| `ready` | 39 |
 | `in-progress` | 0 |
-| `review` | 3 |
-| `done` | 62 |
-| `blocked` | 1 |
+| `review` | 0 |
+| `done` | 65 |
+| `blocked` | 0 |
 | `dropped` | 0 |
 
 ## Epics
@@ -36,7 +36,7 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E11 | [Benchmarks, Betriebsmodi und Evaluation](epics/E11-benchmarks-evaluation.md) | M1, Ausbau M2 bis M6 | 7 | 7 | 2 | `in-progress` | 4/16 |
 | E12 | [Metriken, Reward und Lernverfahren](epics/E12-metriken-lernen.md) | M4, Vorstufen M1 und M2, Ausbau M6 | 2 | 10 | 1 | `todo` | 0/13 |
 | E13 | [Explanation Engine und Research Reports](epics/E13-explanation-reports.md) | M5, Vorstufe M2 | 1 | 6 | 4 | `todo` | 0/11 |
-| E14 | [Backend API, Live Stream und Control API](epics/E14-backend-api.md) | M1, Ausbau M2, M3 und M6 | 12 | 1 | 1 | `in-progress` | 6/14 |
+| E14 | [Backend API, Live Stream und Control API](epics/E14-backend-api.md) | M1, Ausbau M2, M3 und M6 | 12 | 3 | 2 | `in-progress` | 9/17 |
 | E15 | [Research Shell und Designsystem](epics/E15-research-shell.md) | M1, Ausbau M2 und M5 | 8 | 4 | 2 | `in-progress` | 1/14 |
 | E16 | [Proof Search Graph UI](epics/E16-proof-graph-ui.md) | M1, Ausbau M2 | 5 | 4 | 0 | `todo` | 0/9 |
 | E17 | [Inspector](epics/E17-inspector.md) | M1, Ausbau M2 und M5 | 5 | 5 | 0 | `todo` | 0/10 |
@@ -64,6 +64,10 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-24.02](epics/E24-sicherheit-sandbox.md#f-2402-toolrechte-pro-agentenrolle) | Toolrechte pro Agentenrolle | P0 | M1 |
 | [F-24.04](epics/E24-sicherheit-sandbox.md#f-2404-secrets-und-privacy_classification) | Secrets und `privacy_classification` | P0 | M1 |
 | [F-24.09](epics/E24-sicherheit-sandbox.md#f-2409-risikoregister) | Risikoregister | P0 | M1 |
+| [F-14.09](epics/E14-backend-api.md#f-1409-cli-app) | CLI-App | P0 | M1 |
+| [F-14.13](epics/E14-backend-api.md#f-1413-runs-nach-einem-backend-neustart) | Runs nach einem Backend-Neustart | P0 | M1 |
+| [F-14.14](epics/E14-backend-api.md#f-1414-server-einstiegspunkt) | Server-Einstiegspunkt | P0 | M1 |
+| [F-16.01](epics/E16-proof-graph-ui.md#f-1601-viewmodell-für-and--und-or-ziele) | Viewmodell für AND- und OR-Ziele | P0 | M1 |
 | [F-10.01](epics/E10-wissensgraph.md#f-1001-objektklassen-und-speicherschema) | Objektklassen und Speicherschema | P0 | M2 |
 | [F-12.01](epics/E12-metriken-lernen.md#f-1201-metrikebenen) | Metrikebenen | P0 | M2 |
 | [F-03.06](epics/E03-problem-engine.md#f-0306-problem-classifier) | Problem Classifier | P1 | M2 |
@@ -84,6 +88,8 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-11.05](epics/E11-benchmarks-evaluation.md#f-1105-spezialtests) | Spezialtests | P1 | M2 |
 | [F-11.12](epics/E11-benchmarks-evaluation.md#f-1112-seeds-streuung-und-konfidenzintervalle) | Seeds, Streuung und Konfidenzintervalle | P1 | M2 |
 | [F-07.06](epics/E07-agent-orchestrator.md#f-0706-proof-planner) | Proof Planner | P1 | M2 |
+| [F-08.13](epics/E08-proof-search.md#f-0813-proof-node-events-aus-dem-agentenablauf) | Proof-Node-Events aus dem Agentenablauf | P1 | M2 |
+| [F-19.10](epics/E19-timeline-replay.md#f-1910-experiment-explorer) | Experiment Explorer | P1 | M2 |
 | [F-13.08](epics/E13-explanation-reports.md#f-1308-graphviz-export) | Graphviz-Export | P2 | M5 |
 | [F-05.08](epics/E05-symbolik-smt-numerik.md#f-0508-sagemath-adapter) | SageMath-Adapter | P2 | M5 |
 | [F-05.09](epics/E05-symbolik-smt-numerik.md#f-0509-atp-adapter-für-vampire) | ATP-Adapter für Vampire | P2 | M6 |
@@ -101,8 +107,8 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
-| [M1](ROADMAP.md#m1) | 53 | 36 | 17 | 0 |
-| [M2](ROADMAP.md#m2) | 66 | 9 | 55 | 2 |
+| [M1](ROADMAP.md#m1) | 45 | 29 | 16 | 0 |
+| [M2](ROADMAP.md#m2) | 65 | 9 | 53 | 3 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |
 | [M5](ROADMAP.md#m5) | 16 | 1 | 7 | 8 |

@@ -29,7 +29,7 @@ Historische Zustände sind schreibgeschützt (UI §9.3, §18.2). Direkte histori
 | F-19.07 | Schreibgeschützter Replay-Modus | `todo` | P0 | M1 |
 | F-19.08 | Fork from Here | `todo` | P1 | M2 |
 | F-19.09 | Deterministische Replay-Tests | `todo` | P0 | M1 |
-| F-19.10 | Experiment Explorer | `todo` | P1 | M2 |
+| F-19.10 | Experiment Explorer | `ready` | P1 | M2 |
 
 ## Features
 
@@ -136,7 +136,7 @@ Tests vergleichen den UI-Zustand aus Snapshot plus Eventfolge mit dem Live-Zusta
 
 ### F-19.10 Experiment Explorer
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-09.01, F-14.02
 - Quelle: ARCH §14.1 (Experiment Explorer)
 - Bearbeiter: offen · Nachweise: offen
