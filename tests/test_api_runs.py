@@ -61,14 +61,14 @@ class Gated:
 
 
 def system(
-    tmp_path: Path, model: Any = None, **launcher: Any
+    tmp_path: Path, model: Any = None, checker: Any = None, **launcher: Any
 ) -> tuple[StoreWithRunIds, ResearchEventBus, RunLauncher, CommandService, ReadBackend]:
     store = StoreWithRunIds()
     bus = ResearchEventBus(store)
     artifacts = FileSystemArtifactStore(tmp_path / "artifacts")
     runs = RunLauncher(
         bus,
-        lambda targets: SorryRejecting(),
+        lambda targets: checker or SorryRejecting(),
         model or (lambda task: FakeModelAdapter(REPLIES[task.id])),
         artifacts,
         model_name="replay",

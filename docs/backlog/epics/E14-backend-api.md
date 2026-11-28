@@ -26,12 +26,13 @@ Der Server ist für mathematische und operative Fakten maßgeblich (UI §15.3). 
 | F-14.04 | Command API mit Serverbestätigung | `done` | P0 | M1 |
 | F-14.05 | Erkennung konkurrierender Kommandos | `done` | P0 | M1 |
 | F-14.06 | Artefaktverweise statt großer Payloads | `done` | P0 | M1 |
-| F-14.07 | Verhalten bei Verbindungs- und Komponentenausfällen | `ready` | P0 | M1 |
+| F-14.07 | Verhalten bei Verbindungs- und Komponentenausfällen | `done` | P0 | M1 |
 | F-14.08 | Endpunkt für Wissenssuche | `todo` | P1 | M3 |
 | F-14.09 | CLI-App | `blocked` | P0 | M1 |
 | F-14.10 | WebSockets bei nachgewiesenem Bedarf | `ready` | P2 | M6 |
 | F-14.11 | Interner Research Event Bus | `review` | P0 | M1 |
 | F-14.12 | Endpunkte zum Starten von Runs und der Golden Suite | `review` | P0 | M1 |
+| F-14.13 | Runs nach einem Backend-Neustart | `todo` | P0 | M1 |
 
 ## Features
 
@@ -126,15 +127,15 @@ Payloads oberhalb einer konfigurierten Größe werden im Artefaktspeicher abgele
 
 ### F-14.07 Verhalten bei Verbindungs- und Komponentenausfällen
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.03, F-02.08
 - Quelle: UI §18.2
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: `AgentActivity` und die Felder `reason` und `last_activity` von `AgentView` in `src/mathlab/projections.py`, `SNAPSHOT_FORMAT_VERSION = 2` in `src/mathlab/storage/snapshots.py`. Tests in `tests/test_api_failures.py`, Parameter `checker` der Testhilfe `system` in `tests/test_api_runs.py`. `docs/reference/openapi-v1.json` ist neu erzeugt. Am 2026-11-27 liefen `ruff format`, `ruff check`, `mypy` (strict), `python -m mathlab.api.openapi --check` und `--against` gegen das vorherige v1-Dokument (keine brechende Änderung) sowie `pytest` mit 976 passed und 57 skipped, alle ohne Befund. Die Ausfalltests liefen dreimal hintereinander grün. Belege mit je einem Integrationstest über die API: (1) SSE getrennt: Nach einem Odd-Sum-Run liefert `GET /runs/{id}/stream` mit `Last-Event-ID: 3` genau die gespeicherten Events ab Sequenz 4 bis `run.completed`. (2) Agent abgestürzt: Der Agent-Graph zeigt den Agenten `FAILED` mit Grund `RuntimeError: model process died` und als `last_activity` sein letztes Event vor dem Absturz. (3) Verifier nicht verfügbar: Der Checker wirft `EngineUnavailableError`; es entsteht kein `proof.step.verified`, `lemma.verified` oder `proof.completed`, der Snapshot enthält weder `VERIFIED` noch `REJECTED`, der vorgeschlagene Schritt bleibt `OPEN`, und der Agent steht mit Grund `EngineUnavailableError` auf `FAILED`. (4) Backend-Neustart: Neue Bus-, Command- und Leseinstanzen über denselben Event- und Snapshot-Speicher laden den Snapshot (Sequenz 3) und liefern denselben Zustand wie der Neuaufbau und dieselbe Rundetail-Antwort. Ein Kommando danach wird abgelehnt, sein Audit-Event erhält die nächste Sequenz und erscheint im Stream ab `Last-Event-ID`. Festlegungen: Die Agentenprojektion übernimmt `agent.status.changed` mit Grund; `last_activity` ist das letzte Event des Agenten ohne seine Statuswechsel. Die Snapshot-Formatversion steigt auf 2, ältere Snapshots werden ignoriert und neu aufgebaut. Beobachtet, nicht geändert: Stürzt der einzige Agent ab, endet der Run mit `COMPLETED`, solange `fail_run_on_agent_failure` nicht gesetzt ist. Ein Run, der beim Neustart noch lief, bleibt ohne Controller `RUNNING`; nachgetragen als F-14.13.
 
 Das Backend liefert für die Fehlerfälle aus UI §18.2 die nötigen Zustände. Ein abgestürzter Agent erhält einen Fehlerstatus mit letzter bekannter Aktivität. Ist der Verifier nicht verfügbar, bleibt der Prüfstatus offen oder unterbrochen. Nach einem Backend-Neustart wird der Snapshot geladen und die Eventsequenz fortgesetzt. Die Fälle Versionskonflikt, große Events und Replay liegen in F-14.05, F-14.06 und F-19.07.
 
-- [ ] Für jeden der vier hier behandelten Fehlerfälle gibt es einen Integrationstest.
-- [ ] Ein Verifier-Ausfall führt nie zu einem gültigen Prüfstatus.
+- [x] Für jeden der vier hier behandelten Fehlerfälle gibt es einen Integrationstest.
+- [x] Ein Verifier-Ausfall führt nie zu einem gültigen Prüfstatus.
 
 ### F-14.08 Endpunkt für Wissenssuche
 
@@ -181,6 +182,18 @@ WebSockets werden erst eingeführt, wenn eine konkrete Interaktion wie Kollabora
 - [x] Ein über `POST /runs` gestarteter Run erscheint im Stream und lässt sich über `POST /runs/{run_id}/commands` pausieren und beenden.
 - [x] Ein Run der Odd-Sum-Aufgabe endet mit verifiziertem Beweis, abrufbar über die Lese-Endpunkte.
 - [x] Ein Golden-Suite-Lauf über die API liefert denselben Bericht wie `run_suite`.
+
+### F-14.13 Runs nach einem Backend-Neustart
+
+- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Abhängigkeiten: F-14.12, F-02.08
+- Quelle: UI §18.2 (Backend-Neustart). Angelegt am 2026-11-27 bei der Arbeit an F-14.07: Ein Run, der beim Neustart im Server lief, hat danach keinen Controller mehr und bleibt im Lesezugriff `RUNNING`, Kommandos antworten mit „run is not active“.
+- Bearbeiter: offen · Nachweise: offen
+
+Beim Start erkennt der Server Runs, deren letztes Event kein `run.completed` ist. Er setzt sie mit `resume` aus Snapshot und Events fort oder beendet sie mit einem eigenen Ereignis und begründetem Status. Die Historie bleibt unverändert.
+
+- [ ] Nach einem Neustart mitten in einem Run steht dieser nie dauerhaft auf `RUNNING` ohne Controller.
+- [ ] Der Übergang ist als neues Event protokolliert, die Sequenz läuft lückenlos weiter.
 
 ### F-14.11 Interner Research Event Bus
 

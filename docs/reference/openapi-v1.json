@@ -1,6 +1,32 @@
 {
   "components": {
     "schemas": {
+      "AgentActivity": {
+        "additionalProperties": false,
+        "description": "The last event an agent wrote, apart from its status changes.",
+        "properties": {
+          "sequence": {
+            "title": "Sequence",
+            "type": "integer"
+          },
+          "timestamp": {
+            "format": "date-time",
+            "title": "Timestamp",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sequence",
+          "type",
+          "timestamp"
+        ],
+        "title": "AgentActivity",
+        "type": "object"
+      },
       "AgentGraph": {
         "additionalProperties": false,
         "properties": {
@@ -52,6 +78,27 @@
             "format": "uuid",
             "title": "Execution Id",
             "type": "string"
+          },
+          "last_activity": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentActivity"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
           },
           "status": {
             "$ref": "#/components/schemas/AgentStatus"

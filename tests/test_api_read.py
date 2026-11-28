@@ -18,7 +18,12 @@ from mathlab.api.read import (
 from mathlab.core.event import EventEnvelope
 from mathlab.projections import rebuild
 from mathlab.storage.artifacts import FileSystemArtifactStore
-from mathlab.storage.snapshots import InMemorySnapshotStore, ReplayedState, SnapshottingRunner
+from mathlab.storage.snapshots import (
+    SNAPSHOT_FORMAT_VERSION,
+    InMemorySnapshotStore,
+    ReplayedState,
+    SnapshottingRunner,
+)
 from mathlab.testing.events import Log, attempt_started, step_proposed, step_verified
 
 
@@ -102,7 +107,9 @@ def test_snapshot_is_consistent_with_named_sequence(setup: Setup, at: int) -> No
     assert body.sequence == n
     assert body.state == rebuild(done.events[:n]).for_run(done.run_id)
     if n >= 3:
-        assert body.snapshot_sequence == n - n % 3 and body.snapshot_version == 1
+        assert (
+            body.snapshot_sequence == n - n % 3 and body.snapshot_version == SNAPSHOT_FORMAT_VERSION
+        )
 
 
 def test_snapshot_defaults_to_latest_and_rejects_bad_sequence(setup: Setup) -> None:

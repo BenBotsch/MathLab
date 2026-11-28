@@ -10,13 +10,17 @@ through ``proof.step.verified`` or ``proof.completed``, whose payloads require a
 ``verification_result_id`` (WORKFLOW invariant "no VERIFIED without proof").
 
 Assumptions until the event catalogue grows (F-02.10): there is no ``run.resumed`` event,
-so a later event of a paused run sets it back to ``RUNNING``. There is no agent end event,
-so agents take their final status from ``run.completed``. Projections live in memory;
+so a later event of a paused run sets it back to ``RUNNING``. An agent that crashes or is
+cancelled reports ``agent.status.changed`` (F-07.03); the agent view keeps that status and its
+reason, together with the last event the agent wrote before, so a crash shows its last known
+activity (UI §18.2; F-14.07). Agents still running take their final status from
+``run.completed``. Projections live in memory;
 ``mathlab.storage.snapshots`` persists them per run (F-02.06).
 """
 
 from collections import Counter
 from collections.abc import Iterable
+from datetime import datetime
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict
@@ -24,6 +28,7 @@ from pydantic import BaseModel, ConfigDict
 from mathlab.core.event import EventEnvelope
 from mathlab.core.event_types import (
     AgentStarted,
+    AgentStatusChanged,
     BudgetUpdated,
     ProofCompleted,
     ProofGoalCreated,
@@ -78,10 +83,21 @@ class ProofGraphView(_State):
     attempts: dict[UUID, AttemptView] = {}
 
 
+class AgentActivity(_State):
+    """The last event an agent wrote, apart from its status changes."""
+
+    sequence: int
+    type: str
+    timestamp: datetime
+
+
 class AgentView(_State):
     agent_version: str
     execution_id: UUID
     status: AgentStatus
+    reason: str | None = None
+    """Why the agent ended ``FAILED`` or ``CANCELLED``, from ``agent.status.changed``."""
+    last_activity: AgentActivity | None = None
 
 
 class MetricsView(_State):
@@ -221,6 +237,12 @@ class AgentStateProjection:
                 execution_id=payload.execution_id,
                 status=AgentStatus.RUNNING,
             )
+        elif isinstance(payload, AgentStatusChanged):
+            if payload.agent_id not in agents:
+                return
+            agents[payload.agent_id] = agents[payload.agent_id].model_copy(
+                update={"status": payload.status, "reason": payload.reason}
+            )
         elif isinstance(payload, RunPaused):
             agents = _move(agents, {AgentStatus.RUNNING}, AgentStatus.PAUSED)
         elif isinstance(payload, RunCompleted):
@@ -229,8 +251,15 @@ class AgentStateProjection:
         elif any(a.status is AgentStatus.PAUSED for a in agents.values()):
             # The run continues without a resume event, see module docstring.
             agents = _move(agents, {AgentStatus.PAUSED}, AgentStatus.RUNNING)
-        else:
+        elif event.agent_id not in agents:
             return
+        if event.agent_id in agents and not isinstance(payload, AgentStatusChanged):
+            activity = AgentActivity(
+                sequence=event.sequence, type=event.type, timestamp=event.timestamp
+            )
+            agents[event.agent_id] = agents[event.agent_id].model_copy(
+                update={"last_activity": activity}
+            )
         self._agents[event.run_id] = dict(sorted(agents.items()))
 
     def state(self) -> dict[UUID, dict[str, AgentView]]:

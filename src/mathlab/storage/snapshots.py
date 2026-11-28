@@ -23,7 +23,8 @@ from mathlab.core.event import EventEnvelope
 from mathlab.projections import ResearchProjection, ResearchState
 from mathlab.storage.projection import ProjectionRunner
 
-SNAPSHOT_FORMAT_VERSION = 1
+SNAPSHOT_FORMAT_VERSION = 2
+"""2 since F-14.07: agent views carry reason and last activity."""
 
 EventReader = Callable[[UUID, int], list[EventEnvelope]]
 """``(run_id, after_sequence)`` to the later events in order, like ``PostgresEventStore.read``."""
