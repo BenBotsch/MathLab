@@ -33,6 +33,7 @@ Der Server ist für mathematische und operative Fakten maßgeblich (UI §15.3). 
 | F-14.11 | Interner Research Event Bus | `review` | P0 | M1 |
 | F-14.12 | Endpunkte zum Starten von Runs und der Golden Suite | `review` | P0 | M1 |
 | F-14.13 | Runs nach einem Backend-Neustart | `todo` | P0 | M1 |
+| F-14.14 | Server-Einstiegspunkt | `todo` | P0 | M1 |
 
 ## Features
 
@@ -194,6 +195,18 @@ Beim Start erkennt der Server Runs, deren letztes Event kein `run.completed` ist
 
 - [ ] Nach einem Neustart mitten in einem Run steht dieser nie dauerhaft auf `RUNNING` ohne Controller.
 - [ ] Der Übergang ist als neues Event protokolliert, die Sequenz läuft lückenlos weiter.
+
+### F-14.14 Server-Einstiegspunkt
+
+- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Abhängigkeiten: F-14.12
+- Quelle: ARCH §18.3. Angelegt am 2026-11-28 bei der Arbeit an F-15.01: `create_app` wird nur in Tests verdrahtet, es gibt keinen ASGI-Server als Abhängigkeit und keinen Befehl, der die API mit dauerhaften Speichern startet.
+- Bearbeiter: offen · Nachweise: offen
+
+Ein Befehl startet die API mit gepinntem ASGI-Server, verdrahtet Event-, Snapshot- und Artefaktspeicher aus der Konfiguration und bindet standardmäßig nur an `127.0.0.1`.
+
+- [ ] Ein dokumentierter Befehl startet den Server, `GET /api/v1/runs` antwortet.
+- [ ] Runs bleiben über einen Neustart des Servers erhalten.
 
 ### F-14.11 Interner Research Event Bus
 

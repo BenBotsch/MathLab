@@ -4,15 +4,15 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 ## Stand
 
-276 Features in 26 Epics. Erledigt sind 61 von 276.
+277 Features in 26 Epics. Erledigt sind 62 von 277.
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 180 |
-| `ready` | 31 |
+| `todo` | 178 |
+| `ready` | 33 |
 | `in-progress` | 0 |
 | `review` | 3 |
-| `done` | 61 |
+| `done` | 62 |
 | `blocked` | 1 |
 | `dropped` | 0 |
 
@@ -36,8 +36,8 @@ Fortschritt zählt Features mit Status `done` gegen alle nicht verworfenen Featu
 | E11 | [Benchmarks, Betriebsmodi und Evaluation](epics/E11-benchmarks-evaluation.md) | M1, Ausbau M2 bis M6 | 7 | 7 | 2 | `in-progress` | 4/16 |
 | E12 | [Metriken, Reward und Lernverfahren](epics/E12-metriken-lernen.md) | M4, Vorstufen M1 und M2, Ausbau M6 | 2 | 10 | 1 | `todo` | 0/13 |
 | E13 | [Explanation Engine und Research Reports](epics/E13-explanation-reports.md) | M5, Vorstufe M2 | 1 | 6 | 4 | `todo` | 0/11 |
-| E14 | [Backend API, Live Stream und Control API](epics/E14-backend-api.md) | M1, Ausbau M2, M3 und M6 | 11 | 1 | 1 | `in-progress` | 6/13 |
-| E15 | [Research Shell und Designsystem](epics/E15-research-shell.md) | M1, Ausbau M2 und M5 | 8 | 4 | 2 | `todo` | 0/14 |
+| E14 | [Backend API, Live Stream und Control API](epics/E14-backend-api.md) | M1, Ausbau M2, M3 und M6 | 12 | 1 | 1 | `in-progress` | 6/14 |
+| E15 | [Research Shell und Designsystem](epics/E15-research-shell.md) | M1, Ausbau M2 und M5 | 8 | 4 | 2 | `in-progress` | 1/14 |
 | E16 | [Proof Search Graph UI](epics/E16-proof-graph-ui.md) | M1, Ausbau M2 | 5 | 4 | 0 | `todo` | 0/9 |
 | E17 | [Inspector](epics/E17-inspector.md) | M1, Ausbau M2 und M5 | 5 | 5 | 0 | `todo` | 0/10 |
 | E18 | [Agent Explorer und Agent Execution Graph](epics/E18-agent-explorer.md) | M1, Ausbau M2 | 2 | 5 | 1 | `todo` | 0/8 |
@@ -58,7 +58,9 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 | [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
 | [F-03.03](epics/E03-problem-engine.md#f-0303-mehrdeutigkeit-protokollieren) | Mehrdeutigkeit protokollieren | P1 | M1 |
 | [F-12.10](epics/E12-metriken-lernen.md#f-1210-benchmark-für-lokale-modelle-quantisierung-und-kontext) | Benchmark für lokale Modelle, Quantisierung und Kontext | P1 | M1 |
-| [F-15.01](epics/E15-research-shell.md#f-1501-client-grundgerüst) | Client-Grundgerüst | P0 | M1 |
+| [F-15.02](epics/E15-research-shell.md#f-1502-globale-navigation) | Globale Navigation | P0 | M1 |
+| [F-15.03](epics/E15-research-shell.md#f-1503-workspace-layout-und-panelverwaltung) | Workspace-Layout und Panelverwaltung | P0 | M1 |
+| [F-15.06](epics/E15-research-shell.md#f-1506-design-tokens-hell--und-dunkelmodus) | Design Tokens, Hell- und Dunkelmodus | P0 | M1 |
 | [F-24.02](epics/E24-sicherheit-sandbox.md#f-2402-toolrechte-pro-agentenrolle) | Toolrechte pro Agentenrolle | P0 | M1 |
 | [F-24.04](epics/E24-sicherheit-sandbox.md#f-2404-secrets-und-privacy_classification) | Secrets und `privacy_classification` | P0 | M1 |
 | [F-24.09](epics/E24-sicherheit-sandbox.md#f-2409-risikoregister) | Risikoregister | P0 | M1 |
@@ -91,11 +93,7 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 
 M1-Features, die als Nächstes `ready` werden können. Es sind die Stufen 1 bis 3 der [Reihenfolge in M1](ROADMAP.md#reihenfolge-in-m1). Ein Feature wird `ready`, wenn seine Abhängigkeiten `done` sind und jede genannte offene Entscheidung (OD) als ADR entschieden ist.
 
-| Feature | Titel | Priorität | Abhängigkeiten |
-| --- | --- | --- | --- |
-| [F-15.02](epics/E15-research-shell.md#f-1502-globale-navigation) | Globale Navigation | P0 | F-15.01 |
-| [F-15.03](epics/E15-research-shell.md#f-1503-workspace-layout-und-panelverwaltung) | Workspace-Layout und Panelverwaltung | P0 | F-15.01 |
-| [F-15.06](epics/E15-research-shell.md#f-1506-design-tokens-hell--und-dunkelmodus) | Design Tokens, Hell- und Dunkelmodus | P0 | F-15.01 |
+Derzeit keine.
 
 ## Later
 

@@ -1,6 +1,6 @@
 # E15 Research Shell und Designsystem
 
-- Status: `todo` · Meilenstein: M1, Ausbau M2 und M5
+- Status: `in-progress` · Meilenstein: M1, Ausbau M2 und M5
 - Quellen: ARCH §14.1, §17.1, §18.3; UI §1.2, §1.3, §2, §3, §13.1, §14, §15.3, §19, §21 (Epic UI-02)
 - Abhängige Epics: E14
 
@@ -20,12 +20,12 @@ Agentenstatus, mathematischer Befund und formale Verifikation werden nie vermisc
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-15.01 | Client-Grundgerüst | `ready` | P0 | M1 |
-| F-15.02 | Globale Navigation | `todo` | P0 | M1 |
-| F-15.03 | Workspace-Layout und Panelverwaltung | `todo` | P0 | M1 |
+| F-15.01 | Client-Grundgerüst | `done` | P0 | M1 |
+| F-15.02 | Globale Navigation | `ready` | P0 | M1 |
+| F-15.03 | Workspace-Layout und Panelverwaltung | `ready` | P0 | M1 |
 | F-15.04 | Run-Auswahl und Run-Header | `todo` | P0 | M1 |
 | F-15.05 | Statuskarten, Laufzeit und Budgets | `todo` | P0 | M1 |
-| F-15.06 | Design Tokens, Hell- und Dunkelmodus | `todo` | P0 | M1 |
+| F-15.06 | Design Tokens, Hell- und Dunkelmodus | `ready` | P0 | M1 |
 | F-15.07 | Responsives Layout | `todo` | P1 | M1 |
 | F-15.08 | Adaptive Detailtiefe | `todo` | P1 | M2 |
 | F-15.09 | Getrennte Frontend-Zustände | `todo` | P0 | M1 |
@@ -39,20 +39,20 @@ Agentenstatus, mathematischer Befund und formale Verifikation werden nie vermisc
 
 ### F-15.01 Client-Grundgerüst
 
-- Status: `ready` · Priorität: P0 · Meilenstein: M1
+- Status: `done` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-00.01 (OD-01), F-00.02
 - Quelle: UI §19, §19.1, §19.2; ARCH §17.1, §18.3 (`apps/web`, `apps/desktop`)
-- Bearbeiter: offen · Nachweise: offen
+- Bearbeiter: Claude · Nachweise: Client unter `web/` mit React 19.1.0, TypeScript 5.8.3 (strict), Vite 6.3.5, Vitest 3.2.4 und pnpm-Lockfile. `web/.npmrc` setzt `save-exact`, `web/scripts/check-pins.mjs` (`pnpm check-pins`) bricht ab, sobald eine Version in `package.json` nicht exakt `x.y.z` ist. `web/src/api.ts` lädt `GET /api/v1/runs`, `web/src/App.tsx` zeigt Run-Tabelle, Leerzustand oder Fehlermeldung. Tests in `web/src/api.test.ts` (Vertragstest gegen `docs/reference/openapi-v1.json`, Fehlerpfade) und `web/src/App.test.tsx`. Am 2026-11-28 liefen `pnpm format:check`, `pnpm check-pins`, `pnpm typecheck`, `pnpm test` (8 passed) und `pnpm build` ohne Befund. Integration: Ein FastAPI-Server mit `create_app` und zwei Runs lief lokal, `GET /api/v1/runs` über den Vite-Proxy lieferte beide Runs. Nicht geprüft: Darstellung in einem echten Browser, abgedeckt durch jsdom-Komponententests. Beobachtet, nicht geändert: Es gibt keinen Server-Einstiegspunkt; nachgetragen als F-14.14.
 
 Lauffähiger Client mit Build, Tests, gepinnten Bibliotheksversionen und Anbindung an die API. UI §19.1 empfiehlt zuerst React mit TypeScript, ARCH §17.1 nennt Flutter-Desktop mit optionaler React-Web-UI. Die Entscheidung fällt in OD-01.
 
 - [x] OD-01 ist als ADR entschieden ([ADR-0001](../../decisions/adr-0001-client-plattform.md)).
-- [ ] Alle UI-Bibliotheken sind auf exakte Versionen gepinnt.
-- [ ] Der Client lädt die Run-Liste aus `GET /runs`.
+- [x] Alle UI-Bibliotheken sind auf exakte Versionen gepinnt.
+- [x] Der Client lädt die Run-Liste aus `GET /runs`.
 
 ### F-15.02 Globale Navigation
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-15.01
 - Quelle: UI §2.2
 - Bearbeiter: offen · Nachweise: offen
@@ -63,7 +63,7 @@ Stabile linke Navigation mit den Gruppen Research (Overview, Active Runs, Proble
 
 ### F-15.03 Workspace-Layout und Panelverwaltung
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-15.01
 - Quelle: UI §3.1, §21 (Epic UI-02)
 - Bearbeiter: offen · Nachweise: offen
@@ -98,7 +98,7 @@ Statuskarten für aktive Agenten, Suchversuche, verifizierte Lemmata, offene Tei
 
 ### F-15.06 Design Tokens, Hell- und Dunkelmodus
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-15.01
 - Quelle: UI §14.1, §14.2, §4.3, §21 (Epic UI-02)
 - Bearbeiter: offen · Nachweise: offen
