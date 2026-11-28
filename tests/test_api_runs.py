@@ -150,6 +150,9 @@ def test_unknown_task_and_missing_launcher(tmp_path: Path) -> None:
     assert r.status_code == 404
     r = client.post(f"{API_PREFIX}/golden-suite/runs", json={"samples": 1, "ks": [2]})
     assert r.status_code == 422
+    for ks in ([0], [-1], [1, 0]):
+        r = client.post(f"{API_PREFIX}/golden-suite/runs", json={"samples": 1, "ks": ks})
+        assert r.status_code == 422 and r.json()["error"] == "VALIDATION_ERROR", ks
     bare = TestClient(create_app(), raise_server_exceptions=False)
     r = bare.post(f"{API_PREFIX}/runs", json={"golden_task_id": ODD_SUM})
     assert r.status_code == 503 and r.json()["error"] == "UNAVAILABLE"

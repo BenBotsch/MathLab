@@ -60,7 +60,9 @@ class GoldenSuiteRequest(_Body):
 
     task_ids: list[str] | None = Field(default=None, min_length=1)
     samples: int = Field(default=1, ge=1, le=10)
-    ks: list[int] = Field(default=[1], min_length=1)
+    ks: list[Annotated[int, Field(ge=1)]] = Field(
+        default=[1], min_length=1, description="The k of Pass@k, each at least 1."
+    )
     model_calls: int = Field(default=4, ge=1, le=100)
     runtime_seconds: int = Field(default=300, ge=1, le=3600)
 
