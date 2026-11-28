@@ -29,7 +29,7 @@ Ereignisse werden nie geändert oder gelöscht. Die Reihenfolge pro Run vergibt 
 | F-02.07 | Artefaktspeicher | `done` | P0 | M1 |
 | F-02.08 | Integrationstests für Reconnect und Absturz | `done` | P0 | M1 |
 | F-02.09 | Schema-Versionierung und Migration | `ready` | P1 | M2 |
-| F-02.10 | Ereignisse für Fortsetzen und Agentenende | `todo` | P1 | M2 |
+| F-02.10 | Ereignisse für Fortsetzen und Agentenende | `ready` | P1 | M2 |
 
 ## Features
 
@@ -166,7 +166,7 @@ Regeln für kompatible und inkompatible Änderungen an Eventschemas. Alte Ereign
 
 ### F-02.10 Ereignisse für Fortsetzen und Agentenende
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-02.05
 - Quelle: ARCH §9.4; UI §10.1 (Start / Pause / Resume / Stop)
 - Bearbeiter: offen · Nachweise: offen

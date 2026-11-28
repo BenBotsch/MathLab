@@ -29,9 +29,9 @@ Die Originalaussage wird unverändert archiviert. Eine Formalisierung gilt erst 
 | F-03.07 | AST-Normalisierung und Fingerprints | `ready` | P1 | M2 |
 | F-03.08 | Problemvarianten | `todo` | P1 | M2 |
 | F-03.09 | Import von Papers und Datensätzen | `todo` | P2 | M5 |
-| F-03.10 | Ereignis für Versionen der kanonischen Darstellung | `todo` | P1 | M1 |
+| F-03.10 | Ereignis für Versionen der kanonischen Darstellung | `ready` | P1 | M1 |
 | F-03.11 | Automatische Fidelity-Prüfung | `todo` | P1 | M2 |
-| F-03.12 | Ereignis für die Fidelity-Prüfung | `todo` | P1 | M1 |
+| F-03.12 | Ereignis für die Fidelity-Prüfung | `ready` | P1 | M1 |
 
 ## Features
 
@@ -142,7 +142,7 @@ Import mathematischer Dokumente, Datensätze und Simulationsmodelle. Externe Inh
 
 ### F-03.10 Ereignis für Versionen der kanonischen Darstellung
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M1
+- Status: `ready` · Priorität: P1 · Meilenstein: M1
 - Abhängigkeiten: F-03.02
 - Quelle: ARCH §3.1, §7.1 (Schritt 2); beim Umsetzen von F-03.02 aufgefallen
 - Bearbeiter: offen · Nachweise: offen
@@ -165,7 +165,7 @@ F-03.05 deckt in M1 die menschliche Freigabe mit Checkliste ab. In M2 kommen ein
 
 ### F-03.12 Ereignis für die Fidelity-Prüfung
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M1
+- Status: `ready` · Priorität: P1 · Meilenstein: M1
 - Abhängigkeiten: F-03.05
 - Quelle: ARCH §7.1 (Schritt 5), §13.2; beim Umsetzen von F-03.05 aufgefallen
 - Bearbeiter: offen · Nachweise: offen

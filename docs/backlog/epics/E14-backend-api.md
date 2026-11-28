@@ -34,9 +34,9 @@ Der Server ist für mathematische und operative Fakten maßgeblich (UI §15.3). 
 | F-14.12 | Endpunkte zum Starten von Runs und der Golden Suite | `done` | P0 | M1 |
 | F-14.13 | Runs nach einem Backend-Neustart | `ready` | P0 | M1 |
 | F-14.14 | Server-Einstiegspunkt | `ready` | P0 | M1 |
-| F-14.15 | Nicht blockierendes Schreiben des Orchestrators | `todo` | P1 | M2 |
-| F-14.16 | Begrenzter Speicher für Bus und Run-Starter | `todo` | P2 | M2 |
-| F-14.17 | Abstürze von Hintergrund-Runs protokollieren | `todo` | P1 | M2 |
+| F-14.15 | Nicht blockierendes Schreiben des Orchestrators | `ready` | P1 | M2 |
+| F-14.16 | Begrenzter Speicher für Bus und Run-Starter | `ready` | P2 | M2 |
+| F-14.17 | Abstürze von Hintergrund-Runs protokollieren | `ready` | P1 | M2 |
 
 ## Features
 
@@ -213,7 +213,7 @@ Ein Befehl startet die API mit gepinntem ASGI-Server, verdrahtet Event-, Snapsho
 
 ### F-14.15 Nicht blockierendes Schreiben des Orchestrators
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-14.12
 - Quelle: ADR-0004; UI §15.1. Angelegt am 2026-11-28 beim Review von F-14.11: `ResearchEventBus.append` schreibt synchron im Thread des Event-Loops in den Event Store, jeder Postgres-Zugriff des Orchestrators hält damit Stream und Control API an.
 - Bearbeiter: offen · Nachweise: offen
@@ -225,7 +225,7 @@ Der Orchestrator schreibt über den Bus, ohne den Event-Loop für die Dauer des 
 
 ### F-14.16 Begrenzter Speicher für Bus und Run-Starter
 
-- Status: `todo` · Priorität: P2 · Meilenstein: M2
+- Status: `ready` · Priorität: P2 · Meilenstein: M2
 - Abhängigkeiten: F-14.12
 - Quelle: ADR-0004. Angelegt am 2026-11-28 beim Review von F-14.11 und F-14.12: `ResearchEventBus._delivered` und `RunLauncher._targets` wachsen mit jedem Event und jedem Run und werden nie geleert.
 - Bearbeiter: offen · Nachweise: offen
@@ -236,7 +236,7 @@ Bus und Run-Starter halten nur so viel Zustand, wie für Deduplizierung und lauf
 
 ### F-14.17 Abstürze von Hintergrund-Runs protokollieren
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-14.12
 - Quelle: UI §18.2. Angelegt am 2026-11-28 beim Review von F-14.12: Bricht ein über `POST /runs` gestarteter Run mit einer Exception ab, holt niemand sie ab. Sie erscheint nur als asyncio-Warnung.
 - Bearbeiter: offen · Nachweise: offen

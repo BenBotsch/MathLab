@@ -20,7 +20,7 @@ Keine Secrets in Logs, Spans oder Traces (UI §18.3). Jedes Event und jeder Span
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-23.01 | Trace-ID-Propagation | `todo` | P0 | M1 |
+| F-23.01 | Trace-ID-Propagation | `ready` | P0 | M1 |
 | F-23.02 | OpenTelemetry-Spans | `todo` | P1 | M2 |
 | F-23.03 | Langfuse-Anbindung | `todo` | P2 | M2 |
 | F-23.04 | Verknüpfung technischer und mathematischer Traces | `todo` | P1 | M2 |
@@ -30,7 +30,7 @@ Keine Secrets in Logs, Spans oder Traces (UI §18.3). Jedes Event und jeder Span
 
 ### F-23.01 Trace-ID-Propagation
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-02.01, F-14.01
 - Quelle: UI §16.2 (Pflichtfelder), ARCH §18.2
 - Bearbeiter: offen · Nachweise: offen

@@ -20,7 +20,7 @@ Eine Methode wird nur angewendet, wenn ihre Voraussetzungen geprüft sind. Stati
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-06.01 | Schema für Methodendefinitionen | `todo` | P0 | M2 |
+| F-06.01 | Schema für Methodendefinitionen | `ready` | P0 | M2 |
 | F-06.02 | Methodenregistry | `todo` | P0 | M2 |
 | F-06.03 | Drei ausführbare Methodenstrategien | `todo` | P0 | M2 |
 | F-06.04 | Vollständiger Methodenkatalog | `todo` | P1 | M3 |
@@ -31,7 +31,7 @@ Eine Methode wird nur angewendet, wenn ihre Voraussetzungen geprüft sind. Stati
 
 ### F-06.01 Schema für Methodendefinitionen
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M2
+- Status: `ready` · Priorität: P0 · Meilenstein: M2
 - Abhängigkeiten: F-01.02
 - Quelle: ARCH §5.2
 - Bearbeiter: offen · Nachweise: offen

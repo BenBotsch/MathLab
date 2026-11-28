@@ -20,13 +20,13 @@ Eine Schaltfläche zeigt einen neuen Zustand erst nach Backendbestätigung (UI �
 
 | Feature | Titel | Status | Priorität | Meilenstein |
 | --- | --- | --- | --- | --- |
-| F-20.01 | Pause, Resume und Stop | `todo` | P0 | M1 |
+| F-20.01 | Pause, Resume und Stop | `ready` | P0 | M1 |
 | F-20.02 | Budgetänderungen | `todo` | P1 | M1 |
 | F-20.03 | Suchzweig priorisieren | `todo` | P1 | M2 |
 | F-20.04 | Neuer verknüpfter Versuch | `todo` | P1 | M2 |
-| F-20.05 | Mathematischer Hinweis als versioniertes Artefakt | `todo` | P1 | M2 |
+| F-20.05 | Mathematischer Hinweis als versioniertes Artefakt | `ready` | P1 | M2 |
 | F-20.06 | Folgetask und Alternativmodell | `todo` | P1 | M2 |
-| F-20.07 | Lemma erneut prüfen | `todo` | P1 | M2 |
+| F-20.07 | Lemma erneut prüfen | `ready` | P1 | M2 |
 | F-20.08 | Experimentparameter als neue Version | `todo` | P1 | M2 |
 | F-20.09 | Bestätigung kostspieliger und destruktiver Aktionen | `todo` | P0 | M1 |
 | F-20.10 | Berechtigungs- und Auditregeln | `todo` | P0 | M1 |
@@ -36,7 +36,7 @@ Eine Schaltfläche zeigt einen neuen Zustand erst nach Backendbestätigung (UI �
 
 ### F-20.01 Pause, Resume und Stop
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.04, F-07.03, F-08.05
 - Quelle: UI §10.1 (Run), §20 (Stufe 1, Kriterium 6), §21 (Epic UI-07)
 - Bearbeiter: offen · Nachweise: offen
@@ -82,7 +82,7 @@ Kommando `branch.investigate` aus UI §16.3. Die `parameters` sind `strategy` f�
 
 ### F-20.05 Mathematischer Hinweis als versioniertes Artefakt
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-14.04, F-02.07, F-01.05
 - Quelle: UI §5.3, §10.1 (Teilziel, Hinweis), §21 (Epic UI-07)
 - Bearbeiter: offen · Nachweise: offen
@@ -104,7 +104,7 @@ Einen neuen versionierten Folgetask an einen Agenten senden oder einen neuen Age
 
 ### F-20.07 Lemma erneut prüfen
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-14.04, F-04.06
 - Quelle: UI §10.1 (Lemma, Erneut überprüfen)
 - Bearbeiter: offen · Nachweise: offen

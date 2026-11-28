@@ -28,7 +28,7 @@ Agentenstatus, mathematischer Befund und formale Verifikation werden nie vermisc
 | F-15.06 | Design Tokens, Hell- und Dunkelmodus | `ready` | P0 | M1 |
 | F-15.07 | Responsives Layout | `todo` | P1 | M1 |
 | F-15.08 | Adaptive Detailtiefe | `todo` | P1 | M2 |
-| F-15.09 | Getrennte Frontend-Zustände | `todo` | P0 | M1 |
+| F-15.09 | Getrennte Frontend-Zustände | `ready` | P0 | M1 |
 | F-15.10 | UX-Regeln, Suche und mathematische Notation | `todo` | P1 | M1 |
 | F-15.11 | Research Overview | `todo` | P0 | M2 |
 | F-15.12 | System Configuration | `todo` | P1 | M2 |
@@ -136,7 +136,7 @@ Drei Stufen Overview, Explore und Inspect. Zoom und Kontextwechsel ändern den D
 
 ### F-15.09 Getrennte Frontend-Zustände
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-15.01, F-14.03
 - Quelle: UI §15.3
 - Bearbeiter: offen · Nachweise: offen

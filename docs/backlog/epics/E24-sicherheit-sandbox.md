@@ -22,11 +22,11 @@ Die UI mutiert die Datenbank nie direkt. Externe Paper- und Tooldaten sind nicht
 | --- | --- | --- | --- | --- |
 | F-24.01 | Container-Sandbox für generierten Code | `done` | P0 | M1 |
 | F-24.02 | Toolrechte pro Agentenrolle | `ready` | P0 | M1 |
-| F-24.03 | Rollen und Berechtigungen | `todo` | P0 | M1 |
+| F-24.03 | Rollen und Berechtigungen | `ready` | P0 | M1 |
 | F-24.04 | Secrets und `privacy_classification` | `ready` | P0 | M1 |
 | F-24.05 | Externe Daten als nicht vertrauenswürdig | `todo` | P1 | M3 |
 | F-24.06 | Ressourcenquoten und Early Stopping | `todo` | P0 | M1 |
-| F-24.07 | Keine direkte Datenbankmutation durch die UI | `todo` | P0 | M1 |
+| F-24.07 | Keine direkte Datenbankmutation durch die UI | `ready` | P0 | M1 |
 | F-24.08 | CI-Gates für Provenienz und Sicherheit | `todo` | P1 | M2 |
 | F-24.09 | Risikoregister | `ready` | P0 | M1 |
 
@@ -57,7 +57,7 @@ Jede Agentenrolle hat eine explizite Liste erlaubter Werkzeuge und Parameter. Ni
 
 ### F-24.03 Rollen und Berechtigungen
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.01
 - Quelle: UI §18.3 (Start, Stop, Budgetänderung, Toolrechte), §2.1 (System Configuration)
 - Bearbeiter: offen · Nachweise: offen
@@ -102,7 +102,7 @@ Quoten für Token, Kosten, Zeit und Rechenzeit pro Run, Agent und Benutzer mit E
 
 ### F-24.07 Keine direkte Datenbankmutation durch die UI
 
-- Status: `todo` · Priorität: P0 · Meilenstein: M1
+- Status: `ready` · Priorität: P0 · Meilenstein: M1
 - Abhängigkeiten: F-14.04
 - Quelle: UI §18.3
 - Bearbeiter: offen · Nachweise: offen

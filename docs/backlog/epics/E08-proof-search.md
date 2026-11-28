@@ -31,7 +31,7 @@ Ein AND-Knoten gilt erst als gelöst, wenn alle Teilziele verifiziert sind. Ein 
 | F-08.09 | MCTS und HyperTree Proof Search | `todo` | P1 | M4 |
 | F-08.10 | Alternative Beweise und Methodendiversität | `todo` | P1 | M2 |
 | F-08.11 | Evolutionäre Suche und Counterexample-Guided Search | `todo` | P2 | M6 |
-| F-08.12 | Frontier-Strategien über den SearchPolicy-Contract | `todo` | P1 | M2 |
+| F-08.12 | Frontier-Strategien über den SearchPolicy-Contract | `ready` | P1 | M2 |
 | F-08.13 | Proof-Node-Events aus dem Agentenablauf | `ready` | P1 | M2 |
 
 ## Features
@@ -176,7 +176,7 @@ Evolutionäre Suche für breite Variation von Strategien und Konstruktionen sowi
 
 ### F-08.12 Frontier-Strategien über den SearchPolicy-Contract
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-08.03
 - Quelle: ARCH §8.1; F-01.04
 - Bearbeiter: offen · Nachweise: offen

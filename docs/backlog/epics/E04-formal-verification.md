@@ -31,11 +31,11 @@ Nur diese Engine erzeugt `VerificationResult` mit Status `VERIFIED`. Ist sie nic
 | F-04.09 | Verifikations-Cache und Revalidierung | `done` | P1 | M2 |
 | F-04.10 | Rekonstruktion externer Ergebnisse | `ready` | P1 | M2 |
 | F-04.11 | Spike Lean-Interaktionsschicht | `done` | P0 | M1 |
-| F-04.12 | Kontrolliert äquivalente Zielform | `todo` | P1 | M2 |
-| F-04.13 | Von Lean unabhängiger Kernel-Checker | `todo` | P1 | M2 |
-| F-04.14 | Reproduktion mit Nachprüfung | `todo` | P1 | M2 |
-| F-04.15 | Revalidierungslauf nach Versionswechsel | `todo` | P1 | M2 |
-| F-04.16 | Cache in der Prüfung einzelner Beweispflichten | `todo` | P1 | M2 |
+| F-04.12 | Kontrolliert äquivalente Zielform | `ready` | P1 | M2 |
+| F-04.13 | Von Lean unabhängiger Kernel-Checker | `ready` | P1 | M2 |
+| F-04.14 | Reproduktion mit Nachprüfung | `ready` | P1 | M2 |
+| F-04.15 | Revalidierungslauf nach Versionswechsel | `ready` | P1 | M2 |
+| F-04.16 | Cache in der Prüfung einzelner Beweispflichten | `ready` | P1 | M2 |
 
 ## Features
 
@@ -177,7 +177,7 @@ Ein zeitlich begrenzter Spike prüft Pantograph (PyPantograph) und als Rückfall
 
 ### F-04.12 Kontrolliert äquivalente Zielform
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-04.04
 - Quelle: ARCH §13.2 (kontrolliert äquivalente Form)
 - Bearbeiter: offen · Nachweise: offen
@@ -189,7 +189,7 @@ Der Zielabgleich (F-04.04) akzeptiert bisher nur die exakt bestätigte Aussage. 
 
 ### F-04.13 Von Lean unabhängiger Kernel-Checker
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-04.06
 - Quelle: ARCH §7.3 (Schritt 4), §13.2; Lean-Dokumentation „Validating a Lean Proof“
 - Bearbeiter: offen · Nachweise: offen
@@ -201,7 +201,7 @@ Bei hohem Schutzbedarf wird ein verifizierter Beweis zusätzlich von einem Kerne
 
 ### F-04.14 Reproduktion mit Nachprüfung
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-04.06, F-04.07
 - Quelle: ARCH §7.3 (Schritte 4 und 6)
 - Bearbeiter: offen · Nachweise: offen
@@ -213,7 +213,7 @@ Bei hohem Schutzbedarf wird ein verifizierter Beweis zusätzlich von einem Kerne
 
 ### F-04.15 Revalidierungslauf nach Versionswechsel
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-04.09
 - Quelle: ARCH §18.4 (abhängige Proof-Zertifikate nachprüfen)
 - Bearbeiter: offen · Nachweise: offen
@@ -225,7 +225,7 @@ F-04.09 markiert betroffene Cache-Einträge nur, wenn `mark_revalidation` aufger
 
 ### F-04.16 Cache in der Prüfung einzelner Beweispflichten
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-04.08, F-04.09
 - Quelle: ARCH §18.4; ARCH §7.2 (Schritt 6)
 - Bearbeiter: offen · Nachweise: offen

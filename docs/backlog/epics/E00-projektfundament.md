@@ -27,7 +27,7 @@ Versionen von Python, Lean, Mathlib, Solvern und Bibliotheken sind gepinnt (ARCH
 | F-00.05 | CI-Grundgates | `done` | P0 | M1 |
 | F-00.06 | Fachliche CI-Gates | `ready` | P1 | M2 |
 | F-00.07 | Lizenzinventar | `todo` | P1 | M1 |
-| F-00.08 | Entwickler-Setup dokumentieren | `todo` | P1 | M1 |
+| F-00.08 | Entwickler-Setup dokumentieren | `ready` | P1 | M1 |
 | F-00.09 | Sicherung des Datenordners | `ready` | P1 | M1 |
 
 ## Features
@@ -178,7 +178,7 @@ Inventar der Lizenzen aller eingesetzten Werkzeuge, Bibliotheken, Modellgewichte
 
 ### F-00.08 Entwickler-Setup dokumentieren
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M1
+- Status: `ready` · Priorität: P1 · Meilenstein: M1
 - Abhängigkeiten: F-00.04
 - Quelle: ARCH §3.2
 - Bearbeiter: offen · Nachweise: offen

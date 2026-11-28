@@ -18,7 +18,7 @@ Kein Versuch wird gelöscht. Ein ProofAttempt ohne Pflichtfelder wird nicht gesp
 
 ### F-09.08 CPU- und GPU-Verbrauch erfassen
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M2
+- Status: `ready` · Priorität: P1 · Meilenstein: M2
 - Abhängigkeiten: F-09.05
 - Quelle: ARCH §10.1 (Kosten); UI §12.1
 - Bearbeiter: offen · Nachweise: offen
@@ -39,7 +39,7 @@ Ergänzung des Backlogs aus F-09.05. Kein Event trägt bisher CPU- oder GPU-Zeit
 | F-09.05 | Run-Metriken | `done` | P0 | M1 |
 | F-09.06 | Workflow D Nachbearbeitung und Lernen | `todo` | P1 | M2 |
 | F-09.07 | Metrik für verifizierten Fortschritt | `todo` | P1 | M4 |
-| F-09.08 | CPU- und GPU-Verbrauch erfassen | `todo` | P1 | M2 |
+| F-09.08 | CPU- und GPU-Verbrauch erfassen | `ready` | P1 | M2 |
 
 ## Features
 

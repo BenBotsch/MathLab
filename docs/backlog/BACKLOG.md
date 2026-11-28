@@ -8,8 +8,8 @@ Zentrale Statusübersicht aller Epics und Features. Die maßgeblichen Angaben st
 
 | Status | Anzahl |
 | --- | --- |
-| `todo` | 176 |
-| `ready` | 39 |
+| `todo` | 153 |
+| `ready` | 62 |
 | `in-progress` | 0 |
 | `review` | 0 |
 | `done` | 65 |
@@ -55,43 +55,66 @@ Features mit Status `ready`. Sie haben keine offenen Abhängigkeiten und dürfen
 
 | Feature | Titel | Priorität | Meilenstein |
 | --- | --- | --- | --- |
-| [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
-| [F-03.03](epics/E03-problem-engine.md#f-0303-mehrdeutigkeit-protokollieren) | Mehrdeutigkeit protokollieren | P1 | M1 |
-| [F-12.10](epics/E12-metriken-lernen.md#f-1210-benchmark-für-lokale-modelle-quantisierung-und-kontext) | Benchmark für lokale Modelle, Quantisierung und Kontext | P1 | M1 |
-| [F-15.02](epics/E15-research-shell.md#f-1502-globale-navigation) | Globale Navigation | P0 | M1 |
-| [F-15.03](epics/E15-research-shell.md#f-1503-workspace-layout-und-panelverwaltung) | Workspace-Layout und Panelverwaltung | P0 | M1 |
-| [F-15.06](epics/E15-research-shell.md#f-1506-design-tokens-hell--und-dunkelmodus) | Design Tokens, Hell- und Dunkelmodus | P0 | M1 |
-| [F-24.02](epics/E24-sicherheit-sandbox.md#f-2402-toolrechte-pro-agentenrolle) | Toolrechte pro Agentenrolle | P0 | M1 |
-| [F-24.04](epics/E24-sicherheit-sandbox.md#f-2404-secrets-und-privacy_classification) | Secrets und `privacy_classification` | P0 | M1 |
-| [F-24.09](epics/E24-sicherheit-sandbox.md#f-2409-risikoregister) | Risikoregister | P0 | M1 |
 | [F-14.09](epics/E14-backend-api.md#f-1409-cli-app) | CLI-App | P0 | M1 |
 | [F-14.13](epics/E14-backend-api.md#f-1413-runs-nach-einem-backend-neustart) | Runs nach einem Backend-Neustart | P0 | M1 |
 | [F-14.14](epics/E14-backend-api.md#f-1414-server-einstiegspunkt) | Server-Einstiegspunkt | P0 | M1 |
+| [F-15.02](epics/E15-research-shell.md#f-1502-globale-navigation) | Globale Navigation | P0 | M1 |
+| [F-15.03](epics/E15-research-shell.md#f-1503-workspace-layout-und-panelverwaltung) | Workspace-Layout und Panelverwaltung | P0 | M1 |
+| [F-15.06](epics/E15-research-shell.md#f-1506-design-tokens-hell--und-dunkelmodus) | Design Tokens, Hell- und Dunkelmodus | P0 | M1 |
+| [F-15.09](epics/E15-research-shell.md#f-1509-getrennte-frontend-zustände) | Getrennte Frontend-Zustände | P0 | M1 |
 | [F-16.01](epics/E16-proof-graph-ui.md#f-1601-viewmodell-für-and--und-or-ziele) | Viewmodell für AND- und OR-Ziele | P0 | M1 |
+| [F-20.01](epics/E20-human-in-the-loop.md#f-2001-pause-resume-und-stop) | Pause, Resume und Stop | P0 | M1 |
+| [F-23.01](epics/E23-observability.md#f-2301-trace-id-propagation) | Trace-ID-Propagation | P0 | M1 |
+| [F-24.02](epics/E24-sicherheit-sandbox.md#f-2402-toolrechte-pro-agentenrolle) | Toolrechte pro Agentenrolle | P0 | M1 |
+| [F-24.03](epics/E24-sicherheit-sandbox.md#f-2403-rollen-und-berechtigungen) | Rollen und Berechtigungen | P0 | M1 |
+| [F-24.04](epics/E24-sicherheit-sandbox.md#f-2404-secrets-und-privacy_classification) | Secrets und `privacy_classification` | P0 | M1 |
+| [F-24.07](epics/E24-sicherheit-sandbox.md#f-2407-keine-direkte-datenbankmutation-durch-die-ui) | Keine direkte Datenbankmutation durch die UI | P0 | M1 |
+| [F-24.09](epics/E24-sicherheit-sandbox.md#f-2409-risikoregister) | Risikoregister | P0 | M1 |
+| [F-00.08](epics/E00-projektfundament.md#f-0008-entwickler-setup-dokumentieren) | Entwickler-Setup dokumentieren | P1 | M1 |
+| [F-00.09](epics/E00-projektfundament.md#f-0009-sicherung-des-datenordners) | Sicherung des Datenordners | P1 | M1 |
+| [F-03.03](epics/E03-problem-engine.md#f-0303-mehrdeutigkeit-protokollieren) | Mehrdeutigkeit protokollieren | P1 | M1 |
+| [F-03.10](epics/E03-problem-engine.md#f-0310-ereignis-für-versionen-der-kanonischen-darstellung) | Ereignis für Versionen der kanonischen Darstellung | P1 | M1 |
+| [F-03.12](epics/E03-problem-engine.md#f-0312-ereignis-für-die-fidelity-prüfung) | Ereignis für die Fidelity-Prüfung | P1 | M1 |
+| [F-07.16](epics/E07-agent-orchestrator.md#f-0716-bedienung-aus-claude-code-über-mcp-und-cli) | Bedienung aus Claude Code über MCP und CLI | P1 | M1 |
+| [F-12.10](epics/E12-metriken-lernen.md#f-1210-benchmark-für-lokale-modelle-quantisierung-und-kontext) | Benchmark für lokale Modelle, Quantisierung und Kontext | P1 | M1 |
+| [F-06.01](epics/E06-strategy-engine.md#f-0601-schema-für-methodendefinitionen) | Schema für Methodendefinitionen | P0 | M2 |
 | [F-10.01](epics/E10-wissensgraph.md#f-1001-objektklassen-und-speicherschema) | Objektklassen und Speicherschema | P0 | M2 |
 | [F-12.01](epics/E12-metriken-lernen.md#f-1201-metrikebenen) | Metrikebenen | P0 | M2 |
-| [F-03.06](epics/E03-problem-engine.md#f-0306-problem-classifier) | Problem Classifier | P1 | M2 |
+| [F-00.06](epics/E00-projektfundament.md#f-0006-fachliche-ci-gates) | Fachliche CI-Gates | P1 | M2 |
+| [F-02.09](epics/E02-event-sourcing-persistenz.md#f-0209-schema-versionierung-und-migration) | Schema-Versionierung und Migration | P1 | M2 |
+| [F-02.10](epics/E02-event-sourcing-persistenz.md#f-0210-ereignisse-für-fortsetzen-und-agentenende) | Ereignisse für Fortsetzen und Agentenende | P1 | M2 |
 | [F-03.04](epics/E03-problem-engine.md#f-0304-autoformalisierung) | Autoformalisierung | P1 | M2 |
-| [F-07.15](epics/E07-agent-orchestrator.md#f-0715-versionierte-agenten--und-modellprofile) | Versionierte Agenten- und Modellprofile | P1 | M2 |
+| [F-03.06](epics/E03-problem-engine.md#f-0306-problem-classifier) | Problem Classifier | P1 | M2 |
+| [F-03.07](epics/E03-problem-engine.md#f-0307-ast-normalisierung-und-fingerprints) | AST-Normalisierung und Fingerprints | P1 | M2 |
+| [F-04.10](epics/E04-formal-verification.md#f-0410-rekonstruktion-externer-ergebnisse) | Rekonstruktion externer Ergebnisse | P1 | M2 |
+| [F-04.12](epics/E04-formal-verification.md#f-0412-kontrolliert-äquivalente-zielform) | Kontrolliert äquivalente Zielform | P1 | M2 |
+| [F-04.13](epics/E04-formal-verification.md#f-0413-von-lean-unabhängiger-kernel-checker) | Von Lean unabhängiger Kernel-Checker | P1 | M2 |
+| [F-04.14](epics/E04-formal-verification.md#f-0414-reproduktion-mit-nachprüfung) | Reproduktion mit Nachprüfung | P1 | M2 |
+| [F-04.15](epics/E04-formal-verification.md#f-0415-revalidierungslauf-nach-versionswechsel) | Revalidierungslauf nach Versionswechsel | P1 | M2 |
+| [F-04.16](epics/E04-formal-verification.md#f-0416-cache-in-der-prüfung-einzelner-beweispflichten) | Cache in der Prüfung einzelner Beweispflichten | P1 | M2 |
+| [F-05.03](epics/E05-symbolik-smt-numerik.md#f-0503-smt-adapter-für-z3-und-cvc5) | SMT-Adapter für Z3 und cvc5 | P1 | M2 |
+| [F-05.04](epics/E05-symbolik-smt-numerik.md#f-0504-simulationsworkflow-mit-seed-und-präzision) | Simulationsworkflow mit Seed und Präzision | P1 | M2 |
+| [F-07.06](epics/E07-agent-orchestrator.md#f-0706-proof-planner) | Proof Planner | P1 | M2 |
 | [F-07.10](epics/E07-agent-orchestrator.md#f-0710-critic-agent-und-unabhängige-review) | Critic Agent und unabhängige Review | P1 | M2 |
+| [F-07.15](epics/E07-agent-orchestrator.md#f-0715-versionierte-agenten--und-modellprofile) | Versionierte Agenten- und Modellprofile | P1 | M2 |
 | [F-08.07](epics/E08-proof-search.md#f-0807-reparatur-und-strategiewechsel) | Reparatur und Strategiewechsel | P1 | M2 |
 | [F-08.08](epics/E08-proof-search.md#f-0808-parallele-kandidaten-und-beam-search) | Parallele Kandidaten und Beam Search | P1 | M2 |
-| [F-04.10](epics/E04-formal-verification.md#f-0410-rekonstruktion-externer-ergebnisse) | Rekonstruktion externer Ergebnisse | P1 | M2 |
-| [F-03.07](epics/E03-problem-engine.md#f-0307-ast-normalisierung-und-fingerprints) | AST-Normalisierung und Fingerprints | P1 | M2 |
-| [F-02.09](epics/E02-event-sourcing-persistenz.md#f-0209-schema-versionierung-und-migration) | Schema-Versionierung und Migration | P1 | M2 |
-| [F-05.04](epics/E05-symbolik-smt-numerik.md#f-0504-simulationsworkflow-mit-seed-und-präzision) | Simulationsworkflow mit Seed und Präzision | P1 | M2 |
-| [F-05.03](epics/E05-symbolik-smt-numerik.md#f-0503-smt-adapter-für-z3-und-cvc5) | SMT-Adapter für Z3 und cvc5 | P1 | M2 |
-| [F-12.08](epics/E12-metriken-lernen.md#f-1208-replay-daten-markieren) | Replay-Daten markieren | P1 | M2 |
+| [F-08.12](epics/E08-proof-search.md#f-0812-frontier-strategien-über-den-searchpolicy-contract) | Frontier-Strategien über den SearchPolicy-Contract | P1 | M2 |
+| [F-08.13](epics/E08-proof-search.md#f-0813-proof-node-events-aus-dem-agentenablauf) | Proof-Node-Events aus dem Agentenablauf | P1 | M2 |
 | [F-09.04](epics/E09-trial-and-error-tracking.md#f-0904-kontextuelle-negative-evidenz) | Kontextuelle negative Evidenz | P1 | M2 |
-| [F-21.07](epics/E21-labs-ui.md#f-2107-metrik-dashboards) | Metrik-Dashboards | P1 | M2 |
-| [F-00.06](epics/E00-projektfundament.md#f-0006-fachliche-ci-gates) | Fachliche CI-Gates | P1 | M2 |
+| [F-09.08](epics/E09-trial-and-error-tracking.md#f-0908-cpu--und-gpu-verbrauch-erfassen) | CPU- und GPU-Verbrauch erfassen | P1 | M2 |
 | [F-11.05](epics/E11-benchmarks-evaluation.md#f-1105-spezialtests) | Spezialtests | P1 | M2 |
 | [F-11.12](epics/E11-benchmarks-evaluation.md#f-1112-seeds-streuung-und-konfidenzintervalle) | Seeds, Streuung und Konfidenzintervalle | P1 | M2 |
-| [F-07.06](epics/E07-agent-orchestrator.md#f-0706-proof-planner) | Proof Planner | P1 | M2 |
-| [F-08.13](epics/E08-proof-search.md#f-0813-proof-node-events-aus-dem-agentenablauf) | Proof-Node-Events aus dem Agentenablauf | P1 | M2 |
+| [F-12.08](epics/E12-metriken-lernen.md#f-1208-replay-daten-markieren) | Replay-Daten markieren | P1 | M2 |
+| [F-14.15](epics/E14-backend-api.md#f-1415-nicht-blockierendes-schreiben-des-orchestrators) | Nicht blockierendes Schreiben des Orchestrators | P1 | M2 |
+| [F-14.17](epics/E14-backend-api.md#f-1417-abstürze-von-hintergrund-runs-protokollieren) | Abstürze von Hintergrund-Runs protokollieren | P1 | M2 |
 | [F-19.10](epics/E19-timeline-replay.md#f-1910-experiment-explorer) | Experiment Explorer | P1 | M2 |
-| [F-13.08](epics/E13-explanation-reports.md#f-1308-graphviz-export) | Graphviz-Export | P2 | M5 |
+| [F-20.05](epics/E20-human-in-the-loop.md#f-2005-mathematischer-hinweis-als-versioniertes-artefakt) | Mathematischer Hinweis als versioniertes Artefakt | P1 | M2 |
+| [F-20.07](epics/E20-human-in-the-loop.md#f-2007-lemma-erneut-prüfen) | Lemma erneut prüfen | P1 | M2 |
+| [F-21.07](epics/E21-labs-ui.md#f-2107-metrik-dashboards) | Metrik-Dashboards | P1 | M2 |
+| [F-14.16](epics/E14-backend-api.md#f-1416-begrenzter-speicher-für-bus-und-run-starter) | Begrenzter Speicher für Bus und Run-Starter | P2 | M2 |
 | [F-05.08](epics/E05-symbolik-smt-numerik.md#f-0508-sagemath-adapter) | SageMath-Adapter | P2 | M5 |
+| [F-13.08](epics/E13-explanation-reports.md#f-1308-graphviz-export) | Graphviz-Export | P2 | M5 |
 | [F-05.09](epics/E05-symbolik-smt-numerik.md#f-0509-atp-adapter-für-vampire) | ATP-Adapter für Vampire | P2 | M6 |
 | [F-14.10](epics/E14-backend-api.md#f-1410-websockets-bei-nachgewiesenem-bedarf) | WebSockets bei nachgewiesenem Bedarf | P2 | M6 |
 
@@ -107,9 +130,9 @@ Alle übrigen Features nach Meilenstein. Die Reihenfolge innerhalb von M1 steht 
 
 | Meilenstein | Übrige offen | davon P0 | davon P1 | davon P2 |
 | --- | --- | --- | --- | --- |
-| [M1](ROADMAP.md#m1) | 45 | 29 | 16 | 0 |
-| [M2](ROADMAP.md#m2) | 65 | 9 | 53 | 3 |
+| [M1](ROADMAP.md#m1) | 36 | 24 | 12 | 0 |
+| [M2](ROADMAP.md#m2) | 51 | 8 | 41 | 2 |
 | [M3](ROADMAP.md#m3) | 14 | 4 | 10 | 0 |
 | [M4](ROADMAP.md#m4) | 13 | 1 | 12 | 0 |
 | [M5](ROADMAP.md#m5) | 16 | 1 | 7 | 8 |
-| [M6](ROADMAP.md#m6) | 24 | 0 | 11 | 13 |
+| [M6](ROADMAP.md#m6) | 23 | 0 | 11 | 12 |

@@ -47,7 +47,7 @@ Kein Agent setzt einen Verifikationsstatus, `VERIFIED` stammt nur aus dem verifi
 | F-07.13 | Conjecture Generator und Counterexample Generator | `todo` | P1 | M2 |
 | F-07.14 | Geometry Agent | `todo` | P2 | M5 |
 | F-07.15 | Versionierte Agenten- und Modellprofile | `ready` | P1 | M2 |
-| F-07.16 | Bedienung aus Claude Code über MCP und CLI | `todo` | P1 | M1 |
+| F-07.16 | Bedienung aus Claude Code über MCP und CLI | `ready` | P1 | M1 |
 
 ## Features
 
@@ -291,7 +291,7 @@ Backend für Provider, Modelle, Prompts, Methoden, Budgets und Rechte als versio
 
 ### F-07.16 Bedienung aus Claude Code über MCP und CLI
 
-- Status: `todo` · Priorität: P1 · Meilenstein: M1
+- Status: `ready` · Priorität: P1 · Meilenstein: M1
 - Abhängigkeiten: F-14.01, F-01.04
 - Quelle: ADR-0003
 - Bearbeiter: offen · Nachweise: offen
